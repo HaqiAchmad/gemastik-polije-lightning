@@ -21,15 +21,15 @@ public final class Application {
      * Informasi-informasi mengenai aplikasi.
      */
     private static final String VERSION = "1.0.0",
-                                APP_NAME = "SPP Payment",
-                                AUTHOR = "Achmad Baihaqi",
+                                APP_NAME = "Gemastik Lightning",
+                                AUTHOR = "Gemastik Team Ligtning",
                                 UKURAN = "3.98 MB",
                                 DIRILIS = "2021-03-29",
                                 DIUPDATE = "2021-07-19",
-                                PEMROGRAMAN = "Java, Python, C++",
+                                PEMROGRAMAN = "Java",
                                 DB_PLATFORM = "MySQL",
                                 TAHUN_AJARAN = "2020-2021",
-                                COMPANY = "SMK Negeri 1 Kertosono",
+                                COMPANY = "Politeknik Negeri Jember",
                                 WINDOW_ICON = "src\\resources\\image\\icons\\logo-smkn1kts.png",
 //                                TOP_ICON = "src\\resources\\image\\icons\\logo-smkn1kts-circle.png",
 //                                BOTTOM_ICON = WINDOW_ICON;
