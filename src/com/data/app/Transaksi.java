@@ -8,6 +8,7 @@ import com.media.Audio;
 import com.manage.Waktu;
 import com.users.Users;
 
+import java.util.Date;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -22,8 +23,7 @@ public class Transaksi extends SPP{
         super.startConnection();
     }
     
-    private final Users.LevelSiswa siswa = Users.levelSiswa();
-    private final Users.LevelPetugas petugas = Users.levelPetugas();
+    private final Users user = new Users();
     
     private final Waktu waktu = new Waktu();
     private final Text txt = new Text();
@@ -69,16 +69,20 @@ public class Transaksi extends SPP{
         return this.getDataPembayaran(idPembayaran, "nis");
     }
     
+    @Deprecated
     public String getNamaSiswa(String idPembayaran){
-        return txt.toCapitalize(this.siswa.getNama(this.getNis(idPembayaran)));
+//        return txt.toCapitalize(this.siswa.getNama(this.getNis(idPembayaran)));
+        return null;
     }
     
     public String getIdPetugas(String idPembayaran){
         return this.getDataPembayaran(idPembayaran, "id_petugas");
     }
     
+    @Deprecated
     public String getNamaPetugas(String idPembayaran){
-        return txt.toCapitalize(this.petugas.getNama(this.getIdPetugas(idPembayaran)));
+//        return txt.toCapitalize(this.petugas.getNama(this.getIdPetugas(idPembayaran)));
+        return null;
     }
     
     public String getBulanBayar(String idPembayaran){
@@ -101,6 +105,7 @@ public class Transaksi extends SPP{
         return this.getDataPembayaran(idPembayaran, "id_spp");
     }
     
+    @Deprecated
     public boolean bayarSpp(int idPetugas, int nis, String bulan, int tahun, int nominal){  
         
         if(Validation.isValidPembayaran(bulan, tahun)){
@@ -110,7 +115,8 @@ public class Transaksi extends SPP{
                     if(nominal <= kekurangan){
                         String query = "INSERT INTO pembayaran VALUES " + 
                                 String.format("('%s', '%d', '%d', '%s', '%d', '%d' , '%s', '%s')", 
-                                        createID(), idPetugas, nis, bulan, tahun, nominal, waktu.getCurrentDate(), siswa.getIdSpp(Integer.toString(nis)));
+//                                        createID(), idPetugas, nis, bulan, tahun, nominal, waktu.getCurrentDate(), siswa.getIdSpp(Integer.toString(nis)));
+                                        createID(), idPetugas, nis, bulan, tahun, nominal, waktu.getCurrentDate(), "19");
                         return this.addData(query);
                     }else{
                         Audio.play(Audio.SOUND_WARNING);
@@ -197,8 +203,7 @@ public class Transaksi extends SPP{
     @Override
     public void closeConnection(){
         super.closeConnection();
-        siswa.closeConnection();
-        petugas.closeConnection();
+        user.closeConnection();
     }
     
     public static void main(String[] args) {
