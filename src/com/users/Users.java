@@ -10,7 +10,6 @@ import com.manage.FileManager;
 import com.manage.Message;
 import com.manage.Text;
 import com.manage.Validation;
-import com.manage.Waktu;
 import com.media.Gambar;
 
 import java.io.BufferedReader;
@@ -23,8 +22,11 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 
@@ -72,6 +74,8 @@ import javax.swing.ImageIcon;
  */
 public class Users extends Database{
     
+    private Date date;
+    
     /**
      * Direktori dari file yang digunakan untuk menyimpan data dari akun yang sedang digunakan untuk login.
      */
@@ -106,49 +110,6 @@ public class Users extends Database{
         if(!new File(this.LOGIN_DATA_FILE).exists()){
             new FileManager().createFile(this.LOGIN_DATA_FILE);
         }
-        
-        // jika folder user storage dari akun yang sedang login tidak ditemukan maka folder akan dibuat
-        if(this.isLogin()){
-            if(!this.isExistUserStorage(getCurrentLogin())){
-                createUserStorage(getCurrentLogin());
-            }
-        }
-    }
-    
-    /**
-     * Method ini akan mengembalikan object dari inner class {@code LevelPetugas}. Pertama-tama method akan membuat 
-     * sebuah object dari class {@code Users} terlebih dahulu. Setelah object dari class {@code Users} berhasil dibuat
-     * maka selanjutnya method akan membuat object dari inner class {@code LevelPetgas} dengan keyword {@code new}. 
-     * Tujuan dibuatnya method ini adalah agar semua method yang ada didalam class {@code Users} maupun inner class 
-     * {@code LevelPetugas} dapat diakses secara bersamaan dalam satu object yang sama.
-     * <br><br>
-     * Sehingga baris kode pada aplikasi menjadi lebih ringkas karena hanya perlu untuk membuat satu object saja.
-     * User dapat menanipulasi atau menadapatkan data yang ada didalam class {@code Users} maupun yang ada 
-     * didalam class {@code LevelPetugas}. User juga dapat melakukan Login maupun Logout melalui object dari class
-     * {@code LevelPetugas} ini.
-     * 
-     * @return object dari inner class LevelPetugas. 
-     */
-    public static LevelPetugas levelPetugas(){
-        return new Users().new LevelPetugas();
-    }
-    
-    /**
-     * Method ini akan mengembalikan object dari inner class {@code LevelSiswa}. Pertama-tama method akan membuat 
-     * sebuah object dari class {@code Users} terlebih dahulu. Setelah object dari class {@code Users} berhasil dibuat
-     * maka selanjutnya method akan membuat object dari inner class {@code LevelSiswa} dengan keyword {@code new}. 
-     * Tujuan dibuatnya method ini adalah agar semua method yang ada didalam class {@code Users} maupun inner class 
-     * {@code LevelSiswa} dapat diakses secara bersamaan.
-     * <br><br>
-     * Sehingga baris kode pada aplikasi menjadi lebih ringkas karena hanya perlu untuk membuat satu object saja.
-     * User dapat menanipulasi atau menadapatkan data yang ada didalam class {@code Users} maupun yang ada 
-     * didalam class {@code LevelSiswa}. User juga dapat melakukan Login maupun Logout melalui object dari class
-     * {@code LevelSiswa} ini.
-     * 
-     * @return object dari inner class LevelSiswa. 
-     */
-    public static LevelSiswa levelSiswa() {
-        return new Users().new LevelSiswa();
     }
     
     /**
@@ -243,7 +204,7 @@ public class Users extends Database{
         
         // mengecek apakah id user valid atau tidak
         if(new Text().isNumber(idUser)){
-            if(Validation.isIdUser(Integer.parseInt(idUser))){
+            if(Validation.isIdUser(idUser)){
                 if(!this.isExistUser(idUser)){
                     vIdUser = true;
                 }else{
@@ -267,17 +228,6 @@ public class Users extends Database{
             throw new InValidUserDataException("'" + noHp + "' Nomor Hp terebut tidak valid.");
         }
         
-        // mengecek apakah email valid atau tidak
-        if(Validation.isEmail(email)){
-            if(!this.isExistEmail(email)){
-                vEmail = true;
-            }else{
-                throw new InValidUserDataException("'" + email + "' Email tersebut sudah terpakai.");
-            }
-        }else{
-            throw new InValidUserDataException("'" + email + "' Email tersebut tidak valid.");
-        }
-        
         // mengecek apakah password valid atau tidak
         if(Validation.isPassword(password)){
             vPassword = true;
@@ -285,7 +235,7 @@ public class Users extends Database{
             throw new InValidUserDataException("'" + password + "' Password tersebut tidak valid.");
         }
         
-        return vIdUser && vNoHp && vEmail && vPassword;
+        return vIdUser && vNoHp && vPassword;
     }
     
     /**
@@ -309,11 +259,8 @@ public class Users extends Database{
      * Storage. Method membaca data yang ada didalam file <code>login_data.haqi</code> dengan melalui 
      * class {@code BufferedReader}. 
      * <br><br>
-     * Jika file <code>login_data.haqi</code> yang digunakan untuk menyimpan login data tidak ditemukan 
-     * maka akan menyebabkan force close pada Aplikasi.Data yang ada didalam login data sangatlah simple 
-     * karena hanya berisi id login dan id dari user saja.
      * <br><br>
-     * <b>Contoh Login Data : </b> Ju09pzi4/6156 (id login / id user).
+     * <b>Contoh Login Data = ID User
      * 
      * @return akan mengembalikan data akun yang sedang digunakan untuk login (login data).
      */
@@ -335,19 +282,6 @@ public class Users extends Database{
      * kosong atau tidak. Jika login data kosong maka user akan dianggap belum melakukan login. Jika login data tidak 
      * kosong maka method akan mengambil data id login dan id user yang ada didalam login data melalui object dari 
      * class {@code StringTokenizer}.
-     * <br><br>
-     * Sebelum mengambil data id login dan id user yang ada didalam login data method akan mengecek apakah token yang ada
-     * didalam object {@code StringTokenizer} berjumlah dua token atau tidak. Jika jumlah tokennya != 2 maka login data 
-     * dinyatakan tidak valid dan method akan mengembalikan nilai <code>False</code>. Jika jumlah tokenya sama dengan 
-     * dua maka method akan mendapatkan data id login dan id user yang ada di dalam login data. 
-     * <br><br>
-     * Selanjutnya method akan mengecek id login dan id user yang dari login data apakah ada atau tidak didalam <b>Database</b>. 
-     * Jika id login atau id user tidak ada didalam <b>Database</b> maka login data dianggap tidak valid dan user juga akan 
-     * dianggap belum melakukan login. Tetapi jika id login dan id user ada didalam <b>Database</b> maka method akan mengecek 
-     * apakah id user dari id login yang ada didalam login data apakah match/sama dengan id user yang ada didalam <b>Database</b>.
-     * <br><br>
-     * Jika id user dari id login yang ada didalam login data match/sama dengan id user yang ada didalam <b>Database</b>
-     * maka user dianggap sudah melalukan login dan method akan mengembalikan nilai <code>True</code>.
      * 
      * @return <strong>True</strong> jika user sudah melakukan login. <br>
      *         <strong>False</strong> jika user belum melakukan login.
@@ -355,25 +289,15 @@ public class Users extends Database{
     public final boolean isLogin(){
         
         // object dan variabel digunakan untuk mengecek 
-        String idLogin, idUser, loginData = this.getLoginData();
-        StringTokenizer token;
+        String idUser = this.getLoginData();
         
         // jika login data tidak kosong
-        if(loginData != null){
-            // menginputkan login data kedalam StringTokenizer
-            token = new StringTokenizer(loginData, "/");
-            // mengecek apakah jumlah token sama dengan 2 atau tidak
-            if(token.countTokens() == 2){
-                // mendapatkan data dari loginData
-                idLogin = token.nextToken();
-                idUser = token.nextToken();
-                // mengecek apakah idLogin dan idUser dari loginData exist atatu tidak
-                if(isExistIdLogin(idLogin) && this.isExistUser(idUser)){
-                    // mengecek apakah id user yg ada didalam login data apakah sama dgn yg ada didalam DB
-                    return isMatchLogin(idLogin, idUser);
-                }
-            }            
-        }
+        if(idUser != null){
+            // mengecek apakah idUser yang dibuat untuk login exist atau tidak
+            if(this.isExistUser(idUser)){
+                return true;
+            }
+        }            
         return false;
     }
     
@@ -411,55 +335,41 @@ public class Users extends Database{
         String idLogin, newLoginData;
         
         // mengecek apakah user sudah login atau belum
-        if(this.isLogin()){
-            throw new AuthenticationException("Anda sudah login dengan akun '" + this.getCurrentLogin() + "'");
-        } 
+//        if(this.isLogin()){
+//            throw new AuthenticationException("Anda sudah login dengan akun '" + this.getCurrentLogin() + "'");
+//        } 
         
         // mengecek apakah idUser dan password valid atau tidak
         if(this.validateLogin(idUser, password)){
             // membuat sebuah id login baru 
-            idLogin = this.createIdLogin();
+//            idLogin = this.createIdLogin();
             // membuat login data baru
-            newLoginData = idLogin + "/" + idUser;
-            Log.addLog("Melakukan Login dengan ID Login : '" + idLogin + "' dan dengan ID User : '"+ idUser +"'");
+//            newLoginData = idLogin + "/" + idUser;
+            Log.addLog("Melakukan Login dengan ID Login : '" + idUser + "' dan dengan ID User : '"+ idUser +"'");
             
             // menyimpan login data kedalam file
             BufferedWriter save = new BufferedWriter(new FileWriter(this.LOGIN_DATA_FILE));
-            save.write(newLoginData);
+            save.write(idUser);
             save.flush();
             save.close();
             
             // menyimpan login data ke dalam tabel login yang ada didalam Database
-            pst = this.conn.prepareStatement("INSERT INTO login VALUES (?, ?, ?)");
-            pst.setString(1, idLogin);
-            pst.setString(2, idUser);
-            pst.setString(3, new Waktu().getCurrentDateTime());
+//            pst = this.conn.prepareStatement("INSERT INTO login VALUES (?, ?, ?)");
+//            pst.setString(1, idLogin);
+//            pst.setString(2, idUser);
+//            pst.setString(3, new Waktu().getCurrentDateTime());
             
             // true jika login data berhasil ditambahkan dan user storage berhasil dibuat
-            return pst.executeUpdate() > 0 && this.createUserStorage(idUser);
+//            return pst.executeUpdate() > 0 && this.createUserStorage(idUser);
+            return true;
         }
         return false;
     }
     
-    /**
-     * Digunakan untuk mengecek apakah id user dan password valid atau tidak. Jika salah satu data dari id user 
-     * atau password ada yang tidak valid maka semua data akan dianggap tidak valid dan method akan mengembalikan 
-     * nilai <code>False</code>. Method akan mengembalikan nilai <code>True</code> jika id user dan password valid.
-     * 
-     * @param idUser ID dari user yang akan dicek.
-     * @param password password dari user yang akan dicek.
-     * 
-     * @return <strong>True</strong> jika id user dan password valid. <br>
-     *         <strong>False</strong> jika id user atau password tidak valid.
-     * 
-     * @throws AuthenticationException jika id user atau password tidak valid.
-     */
     private boolean validateLogin(String idUser, String password) throws AuthenticationException{
 
         // mengecek apakah id user valid atau tidak
-        if(!new Text().isNumber(idUser)){
-            throw new AuthenticationException("ID User harus berupa Angka.");
-        }else if(!Validation.isIdUser(Integer.parseInt(idUser))){
+        if(!Validation.isIdUser(idUser)){
             throw new AuthenticationException("'" +idUser + "' ID User tersebut tidak valid.");
         }else if(!this.isExistUser(idUser)){
             throw new AuthenticationException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");
@@ -472,60 +382,6 @@ public class Users extends Database{
         }else{
             return true;
         }
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah direktori storage dari user exist atu tidak. Pertama-tama method 
-     * akan mendapatkan direktori dari storage user melalui method {@code getUserStorage()}. Setelah 
-     * direktori dari storage user berhasil didapatkan selanjutnya method akan mengecek apakah direktori 
-     * tersebut exist atau tidak dengan menggunakan method {@code exists()} yang ada didalam class {@code File}
-     * 
-     * @param idUser id user yang akan dicek.
-     * @return <strong>True</strong> jika storage dari user exist. <br>
-     *         <strong>False</strong> jika storage dari user tidak exist.
-     */
-    public final boolean isExistUserStorage(String idUser){
-        return new File(this.getUserStorage(idUser)).exists();
-    }
-    
-    /**
-     * Method ini digunakan untuk membuat folder storage dari user. Pertama-tama method akan mengecek apakah 
-     * direktori dari storage user sudah exist atau belum. Jika sebelumnya direktori storage dari user sudah 
-     * exist maka method akan mengembalikan nilai <code>True</code>. Tetapi sebelumnya direktori dari user
-     * belum exist maka storage dari user akan dibuat melalui method {@code createFolders()} yang ada didalam
-     * class {@code FileManager}. Jika storage dari user berhasil dibuat maka method akan mengembalikan nilai 
-     * <code>True</code>.
-     * 
-     * @param idUser id user yang akan dicek.
-     * @return <strong>True</strong> jika storage berhasil dibuat. <br>
-     *         <strong>False</strong> jika storage tidak berhasil dibuat.
-     */
-    public final boolean createUserStorage(String idUser){
-        Log.addLog("Membuat user storage dari '" + idUser + "'.");
-        if(this.isExistUserStorage(idUser)){
-            return true;
-        }else{
-            return new FileManager().createFolders(this.getUserStorage(idUser));
-        }
-    }
-    
-    /**
-     * Method ini digunakan untuk memdapatakan direktori storage dari id user yang diinputkan. Kegunaan 
-     * direktori storage dari user adalah untuk menyimpan data-data dari user. Pertama-tama method akan 
-     * mendapatkan direktori dari Storage melalui method {@code getUsersDirectory()} yang ada didalam class
-     * {@code Storage}. 
-     * <br><br>
-     * Selanjutnya method akan mendapatakan nama dari user melalui method {@code getNameOfIdUser()}. Jika nama dari 
-     * user sudah didapatkan selanjutnya method akan mengabungkan direktori dari Storage, id user dan nama dari user 
-     * untuk mendapatkan direktori dari user storage.
-     * <br><br>
-     * <b>Contoh Direktori : </b> C:\Users\Infinite World\AppData\Local\Punya Haqi\SPP Payment 1.0.0\Users\6156_achmad_baihaqi.
-     * 
-     * @param idUser id dari user.
-     * @return akan mengembalikan direktori storage dari id user yang diinputkan.
-     */
-    public final String getUserStorage(String idUser){
-        return new Storage().getUsersDir() + idUser + ("_" + getNameOfIdUser(idUser).replaceAll(" ", "_").toLowerCase());
     }
     
     /**
@@ -569,7 +425,8 @@ public class Users extends Database{
     private boolean isExistIdLogin(String IdLogin){
         // mengecek apakah id login valid atau tidak
         if(Validation.isIdLogin(IdLogin)){
-            return this.isExistData(DatabaseTables.LOGIN.name(), UserData.ID_LOGIN.name(), IdLogin);
+//            return this.isExistData(DatabaseTables.LOGIN.name(), UserData.ID_LOGIN.name(), IdLogin);
+            return true;
         }
         // akan menghasilkan error jika id login tidak valid
         throw new InValidUserDataException("'" + IdLogin + "' ID Login tersebut tidak valid");
@@ -601,55 +458,26 @@ public class Users extends Database{
      * Method ini digunakan untuk mendapatkan ID User dari akun yang sedang digunakan untuk Login.
      * Pertama-tama method akan mengecek apakah user sudah melakukan Login atau belum. Jika user belum 
      * melakukan Login maka method akan mengembalikan nilai <code>null</code>. Tetapi jika user sudah 
-     * melakukan login method akan mendapatkan ID User yang berada didalam login data. ID User yang 
-     * ada didalam login data akan didapatkan melalui method {@code nextToken()} yang ada didalam 
-     * class {@code StringTokenizer()}.
+     * melakukan login method akan mendapatkan ID User yang berada didalam login data. 
+     * 
      * <br><br>
-     * <b>Example : </b> 6156
+     * <b>Example : </b> KY001
      * 
      * @return ID User dari akun yang sedang digunakan untuk Login.
      */
     public final String getCurrentLogin(){
         // mengecek apakah user sudah login atau belum
         if(this.isLogin()){
-            // membaca data yang ada dialam variabel loginData
-            StringTokenizer token = new StringTokenizer(getLoginData(), "/");
-            // membuang data dari ID Login
-            token.nextToken(); 
-            // mengembalikan data ID User dari akun yang sedang digunakan untuk Login
-            return token.nextToken();
+            // mengembalikan id user
+            return this.getLoginData();
         }            
         return null;
     }
     
     /**
-     * Method ini digunakan untuk mengecek apkah ID User dari ID Login yang ada didalam login data apakah 
-     * cocok/match dengan ID User dari ID Login yang ada didalam <b>Database</b>. Method akan mendapatkan 
-     * ID user dari ID Login yang ada didalam <b>Database</b> berdasarkan ID Login yang diinputkan. 
-     * Jika ID User yang ada didalam <b>Database</b> sudah didapatkan maka selanjutnya method akan mengecek 
-     * apakah ID user yang ada didalam login data cocok/match dengan ID User yang ada didalam 
-     * <b>Database</b> atau tidak.
-     * 
-     * @param idLogin ID Login yang ada didalam <b>Database</b>.
-     * @param idUser ID User yang akan dicek.
-     * @return <strong>True</strong> jika cocok. <br>
-     *         <strong>False</strong> jika tidak cocok.
-     */
-    private boolean isMatchLogin(String idLogin, String idUser){
-        return
-        // mendapatkan data dari id_user yang ada didalam database        
-        this.getData(DatabaseTables.LOGIN.name(), UserData.ID_USER.name(), "WHERE " + UserData.ID_LOGIN + " = '" + idLogin +"'")
-            // mengecek apakah idUser yang ada didalam login data apakah cocok dengan yang ada didalam database    
-            .equals(idUser);
-    }
-    
-    /**
      * Method ini digunakan untuk melakukan Logout pada Aplikasi. Sebelum melogout akun method akan mengecek apakah 
      * user sudah melakukan Login atau belum. Jika user belum melakukan Login maka method akan menghasilkan 
-     * exception {@code AuthenticationException}. Method akan melogout akun dengan cara menhapus login data yang 
-     * ada didalam <b>Database</b> dengan menggunakan method {@code deleteData()} yang ada didalam class 
-     * {@code Database}. Jika login data yang ada didalam <b>Database</b> berhasil dihapus maka Logout akan 
-     * dinyatakan berhasil dan method akan mengembalikan nilai <code>True</code>.
+     * exception {@code AuthenticationException}. 
      * 
      * @return <strong>True</strong> jika Logout berhasil. <br>
      *         <strong>False</strong> jika Logout tidak berhasil.
@@ -657,13 +485,20 @@ public class Users extends Database{
      * @throws AuthenticationException jika user belum melakukan login.
      */
     public final boolean logout() throws AuthenticationException{
-        // mengecek apakah user sudah melakukan login atau belum
-        if(isLogin()){
-            Log.addLog("Melakukan Logout pada Akun dengan ID User : " + this.getCurrentLogin() + "'");
-            // menghapus login data yang ada didalam database
-            return this.deleteData(DatabaseTables.LOGIN.name(), UserData.ID_LOGIN.name(), this.getCurrentIdLogin());         
+        try{
+            // mengecek apakah user sudah melakukan login atau belum
+            if(isLogin()){
+                Log.addLog("Melakukan Logout pada Akun dengan ID User : " + this.getCurrentLogin() + "'");
+                // menghapus login data yang ada didalam database
+                BufferedWriter buff = new BufferedWriter(new FileWriter(new Storage().getUsersDir()));
+                buff.write("");
+                buff.flush();
+                return true;
+            }            
+        }catch(IOException ex){
+            Message.showException(null, ex, true);
         }
-        throw new AuthenticationException("Gagal melogout akun dikarenakan Anda belum Login.");
+            throw new AuthenticationException("Gagal melogout akun!");
     }
     
     /**
@@ -681,12 +516,9 @@ public class Users extends Database{
      *         <strong>False</strong> jika ID User tidak exist.
      */
     public final boolean isExistUser(String idUser){
-        // mengecek apakah id user yang diinputkan merupakah sebuah number atau tidak
-        if(new Text().isNumber(idUser)){
-            // mengecek apakah id user valid atau tidak
-            if(Validation.isIdUser(Integer.parseInt(idUser))){
+        // mengecek apakah id user yang diinputkan valid atau tidak
+        if(Validation.isIdUser(idUser)){
                 return this.isExistData(DatabaseTables.USERS.name(), UserData.ID_USER.name(), idUser);
-            }
         }
         // akan menghasilkan error jika id user tidak valid
         throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak valid.");
@@ -716,29 +548,6 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mengecek apakah sebuah Email sudah exist atau belum didalam <b>Database</b>.
-     * Pertama-tama method akan mengecek apakah Email valid atau tidak dengan menggunakan method 
-     * {@code isNoHp()} yang ada didalam class {@code Validation}. Jika Email tidak valid maka method 
-     * akan menghasilkan exception {@code InValidUserDataException}.
-     * <br><br>
-     * Method akan mengecek apakah sebuah Email sudah exist atau belum didalam <b>Database</b> dengan 
-     * menggunakan method {@code isExistData()} yang ada didalam class {@code Database}. Jika output dari 
-     * method tersebut adalah <code>True</code> maka Email dinyatakan exist.
-     * 
-     * @param email email yang akan dicek.
-     * @return <strong>True</strong> jika Email exist. <br>
-     *         <strong>False</strong> jika Email HP tidak exist.
-     */
-    public final boolean isExistEmail(String email){
-        // mengecek apakah email valid atau tidak
-        if(Validation.isEmail(email)){
-            return this.isExistData(DatabaseTables.USERS.name(), UserData.EMAIL.name(), email);
-        }
-        // akan menghasilkan error jika email tidak valid
-        throw new InValidUserDataException("'" + email + "' Email tersebut tidak valid.");
-    }
-    
-    /**
      * Method ini akan mengembalikan data dari user berdasarkan ID User yang diinputkan. Pertama-tama method 
      * akan mengecek apakah ID User exist atau tidak. Jika ID User tidak exist maka akan menghasilkan exception 
      * {@code InValidUserDataException}. Tetapi jika ID User exist maka data dari user akan didapatkan dengan 
@@ -753,7 +562,7 @@ public class Users extends Database{
         // mengecek apakah id user exist atau tidak
         if(this.isExistUser(idUser)){
             // mendapatkan data dari user
-            return this.getData(DatabaseTables.USERS.name(), data.name(), " WHERE "+ UserData.ID_USER.name() +" = " + idUser);
+            return this.getData(DatabaseTables.USERS.name(), data.name(), " WHERE "+ UserData.ID_USER.name() +" = '" + idUser +"'");
         }
         // akan menghasilkan error jika id user tidak ditemukan
         throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");            
@@ -785,90 +594,6 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mendapatkan data last online dari user berdasarkan ID User yang diinputkan.
-     * Sebelum mendapatkan data method akan mengecek apakah ID User yang inputkan exist atau tidak dengan menggunakan 
-     * method {@code isExistUser()}. Jika output dari method tersebut adalah <code>False</code> maka ID User dinyatakan 
-     * tidak valid dan method akan menghasilkan exception {@code InValidUserDataException}.
-     * <br><br>
-     * Method akan mendapatkan data last online dari user dengan menggunakan method {@code getData()} yang ada didalam
-     * class {@code Database}.
-     * 
-     * @param idUser ID User yang ingin didapatkan datanya.
-     * @return data last online dari user.
-     */
-    public String getLastOnline(String idUser){
-        // mengecek apakah id user exist atau tidak
-        if(this.isExistUser(idUser)){
-            // mendapatkan data last online dari user
-            return this.getData(DatabaseTables.LOGIN.name(), UserData.LAST_ON.name()," WHERE "+ UserData.ID_USER.name() +" = " + idUser);
-        }
-        // akan menghasilkan error jika id user tidak ditemukan
-        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");            
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data last online berdasarkan ID User dari akun yang sedang digunakan 
-     * untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-     * 
-     * @return data last online dari user yang sedang login.
-     */
-    public String getLastOnline(){
-        return this.getLastOnline(getCurrentLogin());
-    }
-    
-    /**
-     * Method ini digunakan untuk mengedit data last online berdaskarkan ID User dan Date Time yang diinputkan.
-     * Sebelum mengedit data method akan mengecek apakah ID User exist atau tidak. Jika ID User tidak exist maka 
-     * akan menghasilkan exception {@code InValidUserDataException}. Tetapi jika ID User exist maka method akan 
-     * mengedit data dengan menggunakan method {@code setData()} yang ada didalam class {@code Database}. Jika data 
-     * last online berhasil diedit maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang ingin diedit datanya.
-     * @param dateTime Date time dari last online.
-     * 
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean updateLastOnline(String idUser, String dateTime){
-        // mengecek apakah id user exist atau tidak
-        if(this.isExistUser(idUser)){
-            // mengedit data last online dari user
-            return this.setData(DatabaseTables.LOGIN.name(), UserData.LAST_ON.name(), UserData.ID_USER.name(), idUser, dateTime);
-        }
-        // akan menghasilkan error jika id user tidak ditemukan
-        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");          
-    }
-    
-    /**
-     * Method ini digunakan untuk mengedit data last online berdasarkan ID User yang diinputkan. Data last 
-     * online akan diset pada date time saat ini. Method akan mengedit data last online dari user dengan 
-     * menggunakan method {@code updateLastOnline(String idUser, String dateTime)}. Jika data last online 
-     * berhasil diedit maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang ingin diedit datanya.
-     * 
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean updateLastOnline(String idUser){
-        // mengedit data last online dengan tanggal dan waktu saat ini
-        return this.updateLastOnline(idUser, new Waktu().getCurrentDateTime());
-    }
-    
-    /**
-     * Method ini digunakan untuk mengedit data last online berdasarkan ID User dari akun yang sedang digunakan 
-     * untuk Login. Data last online akan diset pada date time saat ini. Method akan mengedit data last online 
-     * dari user dengan menggunakan method {@code updateLastOnline(String idUser)}. Jika data last online 
-     * berhasil diedit maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean updateLastOnline(){
-        return this.updateLastOnline(getCurrentLogin());
-    }
-    
-    /**
      * Method ini digunakan untuk mendapatkan data dari nama user berdasarkan ID User yang diinputakan.
      * Pertama-tama method akan mengecek apakah user memiliki level Admin atau Petugas. Jika user memiliki 
      * level Admin atau Petugas maka data dari nama user akan diambil dari tabel petugas yang ada didalam 
@@ -878,18 +603,18 @@ public class Users extends Database{
      * @param idUser ID User yang dinggin diambil namanya.
      * @return akan mengembalikan nama dari ID User yang diinputkan.
      */
-    private String getNameOfIdUser(String idUser){
-        String name = "";
-        // mengecek apakah user memiliki level admin atau petugas
-        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
-            // mendapatkan data dari nama user yang ada didalam tabel petugas
-            name = this.getData(DatabaseTables.PETUGAS.name(), PetugasData.NAMA_PETUGAS.name(), "WHERE " + PetugasData.ID_PETUGAS + " = " + idUser);
-        }else if(this.isSiswa(idUser)){
-            // mendapatkan data dari nama user yang ada didalam tabel siswa
-            name = this.getData(DatabaseTables.SISWA.name(), SiswaData.NAMA_SISWA.name(), "WHERE " + SiswaData.NIS + " = " + idUser);
-        }
-        return name;
-    }
+//    private String getNameOfIdUser(String idUser){
+//        String name = "";
+//        // mengecek apakah user memiliki level admin atau petugas
+//        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
+//            // mendapatkan data dari nama user yang ada didalam tabel petugas
+//            name = this.getData(DatabaseTables.PETUGAS.name(), PetugasData.NAMA_PETUGAS.name(), "WHERE " + PetugasData.ID_PETUGAS + " = " + idUser);
+//        }else if(this.isSiswa(idUser)){
+//            // mendapatkan data dari nama user yang ada didalam tabel siswa
+//            name = this.getData(DatabaseTables.SISWA.name(), SiswaData.NAMA_SISWA.name(), "WHERE " + SiswaData.NIS + " = " + idUser);
+//        }
+//        return name;
+//    }
     
     /**
      * Method ini digunakan untuk mendapatkan data Nomor HP dari user berdasarkan ID User yang diinputkan. 
@@ -963,80 +688,6 @@ public class Users extends Database{
      */
     public boolean setNoHp(String newNoHp){
         return this.setNoHp(getCurrentLogin(), newNoHp);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data Email dari user berdasarkan ID User yang diinputkan. 
-     * ID User yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User yang diinputkan ternyata 
-     * tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception {@code InValidUserDataException}. 
-     * Method hanya akan mendapatkan data Email dari user jika ID User yang diinputkan terdaftar didalam <b>Database</b>.
-     * 
-     * @param idUser ID User yang ingin didapatkan datanya.
-     * @return data Email dari ID User yang diinputkan.
-     */
-    public String getEmail(String idUser){
-        return this.getUserData(idUser, UserData.EMAIL);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data Email dari user berdasarkan ID User dari akun yang sedang 
-     * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-     * Selanjutnya method akan mendapatkan data Email dari user melalui method {@code getEmail(String idUser)}.
-     * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-     * 
-     * @return data Email dari akun yang sedang Login.
-     */
-    public String getEmail(){
-        return this.getEmail(getCurrentLogin());
-    }
-    
-    /**
-     * Digunakan untuk mengedit data Email dari user berdasarkan ID User yang diinputkan. Sebelum mengedit 
-     * data Email method akan mengecek apakah Email yang diinputkan valid atau tidak dengan menggunakan 
-     * method {@code idEmail(String email)} yang ada didalam class {@code Validation}. Jika Email tidak valid
-     * maka method akan menghasilkan exception {@code InValidUserDataException}.
-     * <br><br>
-     * Jika Email valid maka selanjutnya method akan mengecek apakah Email sudah terpakai atau belum dengan 
-     * menggunakan method {@code isExistEmail}. Jika Email sudah ada yang memakai maka method akan menghasilkan 
-     * exception {@code InValidUserDataException}. 
-     * <br><br>
-     * Tetapi jika Email belum ada yang memakai maka data Email dari user akan diedit. 
-     * Jika data dari Email berhasil diedit maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang ingin diedit datanya.
-     * @param newEmail data Email yang baru.
-     * 
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean setEmail(String idUser, String newEmail){
-        // mengecek apakah email valid atau tidak
-        if(Validation.isEmail(newEmail)){
-            // mengecek apakah email sudah dipakai atau belum
-            if(!this.isExistEmail(newEmail)){
-                // mengedit data email dari user
-                return this.setUserData(idUser, UserData.EMAIL, newEmail);
-            }else{
-                // akan menghasilkan error jika email sudah dipakai
-                throw new InValidUserDataException("'" + newEmail + "' Email tersebut sudah dipakai.");
-            }
-        }
-        // akan menghasilkan error jika email tidak valid
-        throw new InValidUserDataException("'" + newEmail + "' Email tersebut tidak valid.");
-    }
-    
-    /**
-     * Digunakan untuk mengedit data Email dari user berdasarkan ID User dari akun yang sedang digunakan untuk Login. 
-     * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-     * akan mengedit data Email dari user melalui method {@code setEmail(String idUser, String newEmail)}. Jika
-     * output dari method tersebut adalah <code>True</code> maka data Email dari user berhasil diedit.
-     * 
-     * @param newEmail data Email yang baru.
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean setEmail(String newEmail){
-        return this.setEmail(getCurrentLogin(), newEmail);
     }
     
     /**
@@ -1263,9 +914,11 @@ public class Users extends Database{
      * @param idUser ID User yang akan didapatkan nama fotonya.
      * @return nama dari foto user.
      */
+    @Deprecated
     private String getNameOfPhoto(String idUser){
         // mendapatkan nama file dari foto berdasarkan id user
-        String name = this.getNameOfIdUser(idUser);
+        String name = "";
+//        String name = this.getNameOfIdUser(idUser);
         // mengembalikan nama dari file foto
         return idUser + "_" + name.replaceAll(" ", "_").toLowerCase() + ".png";
     }
@@ -1667,1503 +1320,14 @@ public class Users extends Database{
         }
     }
     
-    /**
-     * Class ini digunakan untuk segala sesuatu yang berhubungan dengan akun dari user yang memiliki level <i>ADMIN</i> atau  
-     * <i>PETUGAS</i> seperti memanipulasi atau mendapatkan data dari akun. Class ini merupakah inheritance dan sekaliguas 
-     * inner class dari class {@code Users}. Oleh karena itu object dari class ini juga dapat memanggil method-method yang 
-     * ada didalam class {@code Users}.
-     * <br><br>
-     * Class ini berfokus untuk menangani segala sesuatu yang berhubungan dengan akun dari user yang memiliki level <i>ADMIN</i> 
-     * atau <i>PETUGAS</i> saja. Method-method yang ada didalam class ini juga hampir sama dengan method-method yang ada didalam 
-     * class {@code Users}. Cara class memanipulasi atau mendapatkan data dari akun yang memiliki level <i>ADMIN</i> atau 
-     * <i>PETUGAS</i> juga hapir sama dengan cara yang dilakukan oleh class {@code Users}.
-     * <br><br>
-     * Yaitu class akan memanfaatkan method-method yang ada didalam claas {@code Database}. Kita hanya perlu menginputkan 
-     * id user / id petugas dari akun user untuk memanipulasi atau mendapatkan data dari akun user yang memiliki level 
-     * <i>ADMIN</i> atau <i>PETUGAS</i>. Class juga  akan mengecek apakah data yang diinputkan valid atau tidak.
-     * <br><br>
-     * Class ini juga dapat digunakan untuk menambahkan atau menghapus sebuah akun yang memiliki level <i>ADMIN</i> 
-     * atau <i>PETUGAS</i> dari <b>Database</b> aplikasi. Cara kerja class untuk menambahkan atau menghapus sebuah akun 
-     * dari <b>Database</b> hapir sama dengan cara kerja menambahkan atau menghapus sebuah akun pada class {@code User}.
-     * <br><br>
-     * Selama menggunakan class ini mungkin akan akan sering menemui runtime/checked exception. Salah-satu exception yang 
-     * mungkin nantinya akan sering anda jumpai adalah {@code InValidUserDataException}. Exception tersebut akan sering dijumpai 
-     * saat sedang memanipulasi atau mendapatkan data dari akun user yang memiliki level <i>ADMIN</i> atau <i>PETUGAS</i>. 
-     * <br><br>
-     * Exception {@code InValidUserDataException} merupakan sebuah runtime exception. Oleh karena itu disaat akan memanipulasi 
-     * atau mendapkan data dari user yang memiliki level <i>ADMIN</i> atau <i>PETUGAS</i> disarankan untuk membuat 
-     * block try catch untuk menangkap pesan error dari exception. Jika tidak ditangkap menggunakan block try catch maka ada 
-     * kemungkinan aplikasi akan force close.
-     * 
-     * @author Achmad Baihaqi
-     * @since 2021-06-14
-     */
-    public class LevelPetugas extends Users{  
-        
-        /**
-         * Method ini digunakan untuk menambahkan data dari User dan Petugas yang diinputkan kedalam <b>Database MySQL</b>.
-         * Method akan mengembalikan nilai <code>True</code> jika data dari User dan Petugas berhasil ditambahkan kedalam 
-         * <b>Database</b>. Jika ada salah satu data yang gagal ditambahkan kedalam <b>Database</b> maka method akan 
-         * mengembalikan nilai <code>False</code>
-         * <br><br>
-         * Pertama-tama method akan menambahkan data dari User kedalam <b>Database</b>. Data dari User akan ditambahkan ke 
-         * dalam <b>Database</b> dengan melalui method {@code addUser()} yang ada didalam class {@code Users}. Jika data 
-         * dari User berhasil ditambahkan kedalam <b>Database</b> maka selanjutnya method akan menambahkan data Petugas 
-         * kedalam <b>Database</b>
-         * <br><br>
-         * Sebelum menambahkan data Petugas kedalam <b>Database</b> method akan mengecek apakah semua data dari Petugas
-         * yang diinputkan valid atau tidak. Jika ada salah satu data dari Petugas yang tidak valid maka data Petugas tidak akan 
-         * ditambahkan kedalam <b>Database</b> dan data User yang sebelumnya sudah ditambahkan akan dihapus melalui method 
-         * {@code deleteUser} yang ada didalam class {@code} Users. 
-         * <br><br>
-         * Jika semua data dari Petugas valid maka method akan membuat sebuah object {@code PreparedStatement} yang digunakan 
-         * untuk menambahkan data Petugas kedalam <b>Database</b>. Setelah object dari class {@code PreparedStatement} berhasil 
-         * dibuat selanjutnya method akan menambahkan semua data dari Petugas kedalam object {@code PreparedStatement}. 
-         * <br><br>
-         * Jika semua data dari Petugas sudah ditambahkan kedalam object {@code PreparedStatement} maka data dari Petugas tersebut 
-         * akan ditambahkan kedalam <b>Database</b> melalui method {@code executeUpdate()} yang ada didalam class 
-         * {@code PreparedStatement}. Jika data Petugas berhasil ditambahkan kedalam <b>Database</b> maka method akan megembalikan 
-         * nilai <code>True</code>.
-         * 
-         * @param idUser id user dari user atau petugas.
-         * @param noHP no hp dari user atau petugas.
-         * @param email email dari user atau petugas.
-         * @param profile foto dari user atau petugas.
-         * @param password passworddari user atau petugas.
-         * @param level level dari user atau petugas.
-         * @param nama nama dari user atau petugas.
-         * @param gender gender dari user atau petugas.
-         * @param tempatLahir tampat lahir dari user atau petugas.
-         * @param tanggalLahir tanggal lahirdari user atau petugas.
-         * @param alamat alamat dari user atau petugas.
-         * 
-         * @return <strong>True</strong> jika data berhasil ditambahkan. <br>
-         *         <strong>False</strong> jika data tidak berhasil ditambahkan. 
-         * 
-         * @throws FileNotFoundException jika terjadi kegagalan saat menkonversi foto kedalam byte stream / Blob.
-         * @throws SQLException jika terjadi kegagalan saat menambahkan data kedalam <b>Database</b>.
-         * @throws InValidUserDataException jika data dari petugas tidak valid.
-         */
-        public final boolean addPetugas(String idUser, String noHP, String email, File profile, String password, UserLevels level, String nama, String gender, String tempatLahir, String tanggalLahir, String alamat) 
-                throws FileNotFoundException, SQLException, InValidUserDataException
-        {
-            // digunakan untuk menambahkan data petugas kedalam database
-            PreparedStatement pst;
-            boolean addUser, addPetugas = false;
-            
-            // menambahkan data user kedalam database
-            addUser = Users.this.addUser(idUser, noHP, email, profile, password, level);
-            
-            // jika data user berhasil ditambahkan maka data petugas akan ditambahkan kedalam database
-            if(addUser){
-                Log.addLog("Akun dengan ID User '" + idUser + "' berhasil ditambahkan.");
-                Log.addLog("Menambahkan data Petugas dengan ID User '"+ idUser + "' ke Database.");
-                // mengecek apakah data petugas valid atau tidak
-                if(this.validateAddPetugas(idUser, level, nama, gender, tempatLahir, tanggalLahir, alamat)){
-                    Log.addLog("Data Petugas dengan ID User '" + idUser + "' dinyatakan valid.");
-                    // menambahkan data petugas kedalam database
-                    pst = Users.this.conn.prepareStatement("INSERT INTO petugas VALUES (?, ?, ?, ?, ?, ?)");
-                    pst.setString(1, idUser);
-                    pst.setString(2, nama);
-                    pst.setString(3, gender);
-                    pst.setString(4, tempatLahir);
-                    pst.setString(5, tanggalLahir);
-                    pst.setString(6, alamat);
-                    // mengeksekusi query
-                    addPetugas = pst.executeUpdate() > 0;
-                    System.out.println("ADD PETUGAS : " + addPetugas);
-                }
-            }
-            
-            // jika data petugas berhasil ditambahkan maka method akan mengembalikan nilai true
-            if(addPetugas){
-                Log.addLog("Data Petugas dengan ID User '"+idUser+"' ditambahkan ke Database.");
-                return true;
-            }else{
-                // jika data petugas gagal ditambahkan maka data user akan dihapus melalui mehtod deleteUser()
-                Users.this.deleteUser(idUser);
-                return false;
-            }
+    public static void main(String[] args) {
+        Log.createLog();
+        Users user = new Users();
+        try {
+            user.logout();
+        } catch (AuthenticationException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        /**
-         * Method ini digunakan untuk mengecek apakah semua data dari Petugas yang diinputkan valid atau tidak.
-         * Method akan mengecek satu persatu data dari Petugas. Jika ada salah satu data saja yang tidak valid maka 
-         * semua data dari Petugas yang di inputkan akan dianggap tidak valid dan method akan mengembalikan nilai 
-         * <code>False</code>. Method hanya akan mengembalikan nilai <code>True</code> jika semua data dari 
-         * Petugas yang diinputkan valid.
-         * 
-         * @param idPetugas id id petugas yang akan dicek.
-         * @param level level yang akan dicek.
-         * @param nama nama level yang akan dicek.
-         * @param gender gender level yang akan dicek.
-         * @param tempatLahir tempat lahir level yang akan dicek.
-         * @param tanggalLahir tanggal lahir level yang akan dicek.
-         * @param alamat alamat level yang akan dicek.
-         * 
-         * @return <strong>True</strong> jika semua data dari Petugas valid. <br>
-         *         <strong>False</strong> jika ada salah satu data dari Petugas yang tidak valid.
-         */
-        private boolean validateAddPetugas(String idPetugas, UserLevels level, String nama, String gender, String tempatLahir, String tanggalLahir, String alamat){
-            
-            boolean vPetugas, vLevel, vNama, vGender, vTmpLhr, vTglLhr, vAlamat;
-            
-            Log.addLog("Mengecek apakah data Petugas dengan ID User '" + idPetugas + "' valid atau tidak.");
-            
-            // mengecek id peugas valid atau tidak
-            if(Validation.isIdPetugas(Integer.parseInt(idPetugas))){
-                // mengecek apakah id petugas exist atau tidak
-                if(!this.isExistPetugas(idPetugas)){
-                    vPetugas = true;
-                }else{
-                    throw new InValidUserDataException("'" + idPetugas + "' ID Petugas tersebut sudah terpakai.");
-                }
-            }else{
-                throw new InValidUserDataException("'" + idPetugas + "' ID Petugas tersebut tidak valid.");
-            }
-            
-            // mengecek level valid atau tidak
-            if(level.name().equalsIgnoreCase("ADMIN") || level.name().equalsIgnoreCase("PETUGAS")){
-                vLevel = true;
-            }else{
-                throw new InValidUserDataException("Level dari Petugas harus diantara 'ADMIN' dan 'PETUGAS'.");
-            }
-            
-            // mengecek nama petugas valid atau tidak
-            if(Validation.isNamaOrang(nama)){
-                vNama = true;
-            }else{
-                throw new InValidUserDataException("'" + nama + "' Nama tersebut tidak valid.");
-            }                
-            
-            // mengecek gender valid atau tidak
-            if(Validation.isGender(gender)){
-                vGender = true;
-            }else{
-                throw new InValidUserDataException("Gender harus diantara 'L' atau 'P'");
-            }
-            
-            // mengecek tempat lahir valid atau tidak            
-            if(Validation.isNamaTempat(tempatLahir)){
-                vTmpLhr = true;
-            }else{
-                throw new InValidUserDataException("Tempat Lahir tidak valid.");
-            }
-            
-            // mengecek tanggal lahir valid atau tidak
-            if(Validation.isTanggalLahir(tanggalLahir)){
-                vTglLhr = true;
-            }else{
-                throw new InValidUserDataException("Tanggal Lahir tidak valid.");
-            }
-
-            // megecek apakah alamat valid atau tidak
-            if(Validation.isNamaTempat(alamat)){
-                vAlamat = true;
-            }else{
-                throw new InValidUserDataException("Alamat tidak valid.");
-            }
-            return vPetugas && vLevel && vNama && vGender && vTmpLhr && vTglLhr && vAlamat;
-        }
-        
-        /**
-         * Method ini digunakan untuk menghapus sebuah akun Petugas yang tersimpan didalam tabel <code>users</code> dan 
-         * tabel <code>petugas</code> yang ada didalam <b>Database</b> berdasarkan id user yang diinputkan. Method akan menghapus 
-         * data akun Petugas yang ada didalam tabel <code>users</code> dengan melalui method {@code deleteUser()} yang ada 
-         * didalam class {@code Users}.
-         * <br><br>
-         * Method akan menghapus data akun Petugas yang ada didalam tabel <code>petugas</code> dengan menggunakan method
-         * {@code deleteData()} yang ada didalam class {@code Database}. Jika kedua data Petugas yang ada didalam tabel 
-         * <code>users</code> dan tabel <code>petugas</code> berhasil dihapus maka method akan mengembalikan nilai <code>True</code>s
-         * 
-         * @param idUser id dari user yang ingin dihapus.
-         * @return <strong>True</strong> jika akun berhasil dihapus. <br>
-         *         <strong>False</strong> jiak akun tidak berhasil dihapus.
-         */
-        public final boolean deletePetugas(String idUser){
-            return Users.this.deleteUser(idUser) && 
-                   Users.this.deleteData(DatabaseTables.PETUGAS.name(), PetugasData.ID_PETUGAS.name(), idUser);
-        }
-        
-        /**
-         * Method ini digunakan untuk mengecek apakah ID Petugas yang diinputkan exist atau tidak didalam tabel petugas 
-         * yang ada didalam <code>Database</code>. Method akan mengembalikan nilai <code>True</code> jika ID Petugas 
-         * yang diinputkan exist. Pertama-tama method akan mengecek apakah ID User dari Petugas yang diinputkan valid atau tidak
-         * jika ID User dari Petugas tidak valid maka akan mengembalikan nilai <code>False</code>. Tetapi jika ID User dari Petugas valid maka 
-         * method akan mengecek exist atau tidanya ID User dari Petugas yang diinputkan dengan melalui method <code>isExistData()</code>
-         * yang ada didalam class {@code Database}.
-         * 
-         * @param idUser ID User dari Petugas yang akan dicek.
-         * @return <strong>True</strong> jika ID User dari Petugas exist. <br>
-         *         <strong>False</strong> jika ID User dari Petugas tidak exist.
-         */
-        public final boolean isExistPetugas(String idUser){
-            // mengecek apakah id petugas valid atau tidak
-            if(Validation.isIdPetugas(Integer.parseInt(idUser))){
-                // mengecek apakah id petugas exist atau tidak
-                return super.isExistData(DatabaseTables.PETUGAS.name(), PetugasData.ID_PETUGAS.name(), idUser);
-            }
-            return false;
-        }
-    
-        /**
-         * Method ini akan mengembalikan data dari Petugas berdasarkan ID Petugas yang diinputkan. Pertama-tama method 
-         * akan mengecek apakah ID Petugas exist atau tidak. Jika ID Petugas tidak exist maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Tetapi jika ID Petugas exist maka data dari Petugas akan didapatkan dengan 
-         * melalui method {@code getData()} yang ada didalam class {@code Database}.
-         * 
-         * @param idPetugas ID Petugas yang ingin diambil datanya.
-         * @param data data yang ingin diambil.
-         * @return akan mengembalikan data dari Petugas berdasarkan ID Petugas yang diinputkan.
-         */
-        private String getPetugasData(String idPetugas, PetugasData data){
-            // mengecek apakah id petugas exist atau tidak
-            if(this.isExistPetugas(idPetugas)){
-                // mendapatkan data dari petugas
-                return this.getData(DatabaseTables.PETUGAS.name(), data.name(), " WHERE "+ PetugasData.ID_PETUGAS +" = " + idPetugas);
-            }
-            // akan menghasilkan error jika id petugas tidak ditemukan
-            throw new InValidUserDataException("'" +idPetugas + "' ID Petugas tersebut tidak dapat ditemukan.");
-        }
-
-        /**
-         * Method ini digunakan untuk megedit data dari Petugas berdasarkan ID Petugas yang diinputkan. Sebelum mengedit data
-         * method akan mengecek apakah ID Petugas exist atau tidak. Jika ID Petugas tidak exist maka method akan menghasilkan 
-         * exception {@code InValidUserDataException}. Tetapi jika ID Petugas exist maka method akan mengedit data dari Petugas
-         * dengan menggunakan method {@code setData()} yang ada didalam class {@code Database}. Jika data dari Petugas berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idPetugas ID Petugas yang ingin diedit datanya.
-         * @param data data dari ID Petugas yang ingin diedit.
-         * @param newValue nilai baru dari data yang ingin diedit.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        private boolean setPetugasData(String idPetugas, PetugasData data, String newValue){
-            Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari Petugas dengan ID User '" + idPetugas + "'.");
-            // mengecek apakah id petugas exist atau tidak
-            if(this.isExistPetugas(idPetugas)){
-                // mengedit data dari user
-                return this.setData(DatabaseTables.PETUGAS.name(), data.name(), PetugasData.ID_PETUGAS.name(), idPetugas, newValue);
-            }
-            // akan menghasilkan error jika id petugas tidak ditemukan
-            throw new InValidUserDataException("'" +idPetugas + "' ID Petugas tersebut tidak dapat ditemukan.");
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Petugas berdasarkan ID User dari Petugas yang diinputkan. 
-         * ID User dari Petugas yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Petugas yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Nama Petugas jika ID User dari Petugas 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Petugas yang ingin didapatkan datanya.
-         * @return data Nama dari Petugas.
-         */
-        public String getNama(String idUser) {
-            return this.getPetugasData(idUser, PetugasData.NAMA_PETUGAS);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Petugas berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Nama Petugas melalui method {@code getNama(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Nama dari akun yang sedang Login.
-         */
-        public String getNama(){
-            return this.getNama(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Nama Petugas berdasarkan ID User dari Petugas yang diinputkan. Sebelum mengedit 
-         * data Nama method akan mengecek apakah Nama yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNama(String nama)} yang ada didalam class {@code Validation}. Jika Nama tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Nama valid maka data Nama dari Petugas akan diedit. Jika data dari Nama berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newNama data Nama yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNama(String idUser, String newNama) {
-            // mengecek nama valid atau tidak
-            if(Validation.isNamaOrang(newNama)){
-                return this.setPetugasData(idUser, PetugasData.NAMA_PETUGAS, newNama);
-            }
-            throw new InValidUserDataException("'" + newNama + "' Nama tersebut tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Nama Petugas berdasarkan ID User dari Petugas yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Nama Petugas melalui method {@code setNama(String idUser, String newNama)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newNama data Nama yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNama(String newNama){
-            return this.setNama(Users.this.getCurrentLogin(), newNama);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Gender Petugas berdasarkan ID User dari Petugas yang diinputkan. 
-         * ID User dari Petugas yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Petugas yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Gender Petugas jika ID User dari Petugas 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Petugas yang ingin didapatkan datanya.
-         * @return data Gender dari Petugas.
-         */
-        public String getGender(String idUser) {
-            return this.getPetugasData(idUser, PetugasData.GENDER);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Gender Petugas berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Gender Petugas melalui method {@code getGender(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Gender dari akun yang sedang Login.
-         */
-        public String getGender(){
-            return this.getGender(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Gender Petugas berdasarkan ID User dari Petugas yang diinputkan. Sebelum mengedit 
-         * data Gender method akan mengecek apakah Gender yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isGender(String gender)} yang ada didalam class {@code Validation}. Jika Gender tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Gender valid maka data Gender dari Petugas akan diedit. Jika data dari Gender berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newGender data Gender yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setGender(String idUser, String newGender) {
-            // mengecek apakah gender valid atau tidak
-            if(Validation.isGender(newGender)){
-                return this.setPetugasData(idUser, PetugasData.GENDER, newGender);
-            }
-            throw new InValidUserDataException("Gender harus diantara 'L' atau 'P'.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Gender Petugas berdasarkan ID User dari Petugas yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Gender Petugas melalui method {@code setGender(String idUser, String newGender)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Gender dari user berhasil diedit.
-         * 
-         * @param newGender data Gender yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setGender(String newGender){
-            return this.setGender(Users.this.getCurrentLogin(), newGender);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Tempat Lahir Petugas berdasarkan ID User dari Petugas yang diinputkan. 
-         * ID User dari Petugas yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Petugas yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Tempat Lahir Petugas jika ID User dari Petugas 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Petugas yang ingin didapatkan datanya.
-         * @return data Tempat Lahir dari Petugas.
-         */
-        public String getTempatLahir(String idUser) {
-            return this.getPetugasData(idUser, PetugasData.TEMPAT_LHR);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Tempat Lahir Petugas berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Tempat Lahir Petugas melalui method {@code getTempatLahir(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Tempat Lahir dari akun yang sedang Login.
-         */
-        public String getTempatLahir(){
-            return this.getTempatLahir(Users.this.getCurrentLogin());
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Tempat Lahir Petugas berdasarkan ID User dari Petugas yang diinputkan. Sebelum mengedit 
-         * data Tempat Lahir method akan mengecek apakah Tempat Lahir yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNamaTempat(String namaTempat)} yang ada didalam class {@code Validation}. Jika Tempat Lahir tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Tempat Lahir valid maka data Tempat Lahir dari Petugas akan diedit. Jika data dari Tempat Lahir berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newTempatLahir data Tempat Lahir yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTempatLahir(String idUser, String newTempatLahir) {
-            // mengecek tempat lahir valid atau tidak
-            if(Validation.isNamaTempat(newTempatLahir)){
-                return this.setPetugasData(idUser, PetugasData.TEMPAT_LHR, newTempatLahir);
-            }
-            throw new InValidUserDataException("Tempat Lahir yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Tempat Lahir Petugas berdasarkan ID User dari Petugas yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Tempat Lahir Petugas melalui method {@code setTempatLahir(String idUser, String newTempatLahir)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data TempatLahir dari user berhasil diedit.
-         * 
-         * @param newTempatLahir data Tempat Lahir yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTempatLahir(String newTempatLahir){
-            return this.setTempatLahir(Users.this.getCurrentLogin(), newTempatLahir);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Tanggal Lahir Petugas berdasarkan ID User dari Petugas yang diinputkan. 
-         * ID User dari Petugas yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Petugas yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Tanggal Lahir Petugas jika ID User dari Petugas 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Petugas yang ingin didapatkan datanya.
-         * @return data Tanggal Lahir dari Petugas.
-         */
-        public String getTanggalLahir(String idUser) {
-            return this.getPetugasData(idUser, PetugasData.TANGGAL_LHR);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Tanggal Lahir Petugas berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Tanggal Lahir Petugas melalui method {@code getTanggalLahir(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Tanggal Lahir dari akun yang sedang Login.
-         */
-        public String getTanggalLahir(){
-            return this.getTanggalLahir(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Tanggal Lahir Petugas berdasarkan ID User dari Petugas yang diinputkan. Sebelum mengedit 
-         * data Tanggal Lahir method akan mengecek apakah Tanggal Lahir yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isTanggalLahir(String tanggalLahir)} yang ada didalam class {@code Validation}. Jika Tanggal Lahir tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Tanggal Lahir valid maka data Tanggal Lahir dari Petugas akan diedit. Jika data dari Tanggal Lahir berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newTanggalLahir data Tanggal Lahir yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTanggalLahir(String idUser, String newTanggalLahir) {
-            // mengecek tanggal lahir valid atau tidak
-            if(Validation.isTanggalLahir(newTanggalLahir)){
-                return this.setPetugasData(idUser, PetugasData.TANGGAL_LHR, newTanggalLahir);
-            }
-            throw new InValidUserDataException("Tanggal Lahir yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Tanggal Lahir Petugas berdasarkan ID User dari Petugas yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Tanggal Lahir Petugas melalui method {@code setTanggalLahir(String idUser, String newTanggalLahir)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Tanggal Lahir dari user berhasil diedit.
-         * 
-         * @param newTanggalLahir data Tanggal Lahir yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTanggalLahir(String newTanggalLahir){
-            return this.setTanggalLahir(Users.this.getCurrentLogin(), newTanggalLahir);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Alamat Petugas berdasarkan ID User dari Petugas yang diinputkan. 
-         * ID User dari Petugas yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Petugas yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Alamat Petugas jika ID User dari Petugas 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Petugas yang ingin didapatkan datanya.
-         * @return data Alamat dari Petugas.
-         */
-        public String getAlamat(String idUser) {
-            return this.getPetugasData(idUser, PetugasData.ALAMAT);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Alamat Petugas berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Alamat Petugas melalui method {@code getAlamat(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Alamat dari akun yang sedang Login.
-         */
-        public String getAlamat(){
-            return this.getAlamat(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Alamat Petugas berdasarkan ID User dari Petugas yang diinputkan. Sebelum mengedit 
-         * data Alamat method akan mengecek apakah Alamat yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNamaTempat(String isNamaTempat)} yang ada didalam class {@code Validation}. Jika Alamat tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Alamat valid maka data Alamat dari Petugas akan diedit. Jika data dari Alamat berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newAlamat data Alamat yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setAlamat(String idUser, String newAlamat) {
-            // mengecek apakah alamat valid atau tidak
-            if(Validation.isNamaTempat(newAlamat)){
-                return this.setPetugasData(idUser, PetugasData.ALAMAT, newAlamat);
-            }
-            throw new InValidUserDataException("Alamat yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Alamat Petugas berdasarkan ID User dari Petugas yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Alamat Petugas melalui method {@code setAlamat(String idUser, String newAlamat)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Alamat dari user berhasil diedit.
-         * 
-         * @param newAlamat data Alamat yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setAlamat(String newAlamat){
-            return this.setAlamat(Users.this.getCurrentLogin(), newAlamat);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan total transaksi yang dilakukan oleh admin/petugas berdasarkan ID User yang 
-         * diinputkan. Method akan mendapatkan total transaksi yang dilakukan oleh admin/petugas dengan melalui method 
-         * {@code getJumlahData()} yang ada didalam class {@code Database}.
-         * 
-         * @param idUser ID User yang akan didapatkan total transaksinya.
-         * @return total transaksi dari admin/petugas.
-         */
-        public int getTotalTransaksi(String idUser){
-            return super.getJumlahData(DatabaseTables.PEMBAYARAN.name(), "WHERE " + PetugasData.ID_PETUGAS + " = '" + idUser + "'");
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan total transaksi yang dilakukan oleh admin/petugas berdasarkan ID User yang 
-         * sedang digunakan untuk Login. Method akan mendapatkan ID User yang sedang digunakan untuk login dengan menggunakan method 
-         * {@getCurrentLogin()}. Setelah ID User didapatkan maka method akan mendapatkan total transaksi dari admin/petugas dengan
-         * melalui method {@code getTotalTransaksi(String idUser)}.
-         * 
-         * @return total transaksi dari admin/petugas.
-         */
-        public int getTotalTransaksi(){
-            return getTotalTransaksi(this.getCurrentLogin());
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan total user yang memiliki level <b>ADMIN</b> yang terdaftar di <b>Database</b> 
-         * aplikasi. Method akan mendapatkan data total user dengan melalui method {@code getJumlahData()} yang ada didalam 
-         * class {@code Database}.
-         * 
-         * @return total user yang memiliki level admin.
-         */
-        public int getTotalAdmin(){
-            return super.getJumlahData(DatabaseTables.USERS.name(), "WHERE " + UserData.LEVEL + " = '" + UserLevels.ADMIN + "'");
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan total user yang memiliki level <b>PETUGAS</b> yang terdaftar di <b>Database</b> 
-         * aplikasi. Method akan mendapatkan data total user dengan melalui method {@code getJumlahData()} yang ada didalam 
-         * class {@code Database}.
-         * 
-         * @return total user yang memiliki level petugas.
-         */
-        public int getTotalPetugas(){
-            return super.getJumlahData(DatabaseTables.USERS.name(), "WHERE " + UserData.LEVEL + " = '" + UserLevels.PETUGAS + "'");
-        }
-        
-        /**
-         * Digunakan untuk menutup koneksi dari <B>Database</B> MySQL. Koneksi dari <B>Database</B> perlu ditutup jika sudah 
-         * tidak digunakan lagi. Sebelum menutup koneksi dari <B>Database</B> method akan mengecek apakah object {@code Connection},
-         * {@code Statement} dan {@code ResultSet} kosong atau tidak. Jika tidak maka koneksi dari <B>Database</B> akan ditutup. 
-         * Jika tidak dicek kosong atau tidaknya object maka saat objek kosong lalu dipaksa untuk menutup koneksi dari <B>Database</B>
-         * maka akan menimbulkan exception {@code NullPointerException}.
-         */
-        @Override
-        public void closeConnection(){
-            // menutup koneksi dari object Users
-            Users.this.closeConnection();
-            // menutup koneksi dari object Level Petugas
-            Users.this.closeConnection();
-        }
-
     }
     
-    /**
-     * Class ini digunakan untuk segala sesuatu yang berhubungan dengan akun dari user yang memiliki level <i>SISWA</i> 
-     * seperti memanipulasi atau mendapatkan data dari akun. Class ini merupakah inheritance dan sekaliguas inner class dari 
-     * class {@code Users}. Oleh karena itu object dari class ini juga dapat memanggil method-method yang ada didalam class 
-     * {@code Users}.
-     * <br><br>
-     * Class ini berfokus untuk menangani segala sesuatu yang berhubungan dengan akun dari user yang memiliki level <i>SISWA</i> 
-     * saja. Method-method yang ada didalam class ini juga hampir sama dengan method-method yang ada didalam class {@code Users}.
-     * Cara class memanipulasi atau mendapatkan data dari akun yang memiliki level <i>SISWA</i> juga hapir sama dengan cara 
-     * yang dilakukan oleh class {@code Users}.
-     * <br><br>
-     * Yaitu class akan memanfaatkan method-method yang ada didalam claas {@code Database}. Kita hanya perlu menginputkan 
-     * id user / nis dari akun user untuk memanipulasi atau mendapatkan data dari akun user yang memiliki level 
-     * <i>SISWA</i>. Class juga akan mengecek apakah data yang diinputkan valid atau tidak.
-     * <br><br>
-     * Class ini juga dapat digunakan untuk menambahkan atau menghapus sebuah akun yang memiliki level <i>SISWA</i> dari 
-     * <b>Database</b> aplikasi. Cara kerja class untuk menambahkan atau menghapus sebuah akun dari <b>Database</b> hapir sama 
-     * dengan cara kerja menambahkan atau menghapus sebuah akun pada class {@code User}.
-     * <br><br>
-     * Selama menggunakan class ini mungkin akan akan sering menemui runtime/checked exception. Salah-satu exception yang 
-     * mungkin nantinya akan sering anda jumpai adalah {@code InValidUserDataException}. Exception tersebut akan sering dijumpai 
-     * saat sedang memanipulasi atau mendapatkan data dari akun user yang memiliki level <i>SISWA</i>. 
-     * <br><br>
-     * Exception {@code InValidUserDataException} merupakan sebuah runtime exception. Oleh karena itu disaat akan memanipulasi 
-     * atau mendapkan data dari user yang memiliki level <i>SISWA</i> disarankan untuk membuat block try catch untuk menangkap 
-     * pesan error dari exception. Jika tidak ditangkap menggunakan block try catch maka ada kemungkinan aplikasi akan force close.
-     * 
-     * @author Achmad Baihaqi
-     * @since 2021-06-14
-     */
-    public class LevelSiswa extends Users{
-        
-        /**
-         * Method ini digunakan untuk menambahkan data dari User dan Siswa yang diinputkan kedalam <b>Database MySQL</b>.
-         * Method akan mengembalikan nilai <code>True</code> jika data dari User dan Siswa berhasil ditambahkan kedalam 
-         * <b>Database</b>. Jika ada salah satu data yang gagal ditambahkan kedalam <b>Database</b> maka method akan 
-         * mengembalikan nilai <code>False</code>
-         * <br><br>
-         * Pertama-tama method akan menambahkan data dari User kedalam <b>Database</b>. Data dari User akan ditambahkan ke 
-         * dalam <b>Database</b> dengan melalui method {@code addUser()} yang ada didalam class {@code Users}. Jika data 
-         * dari User berhasil ditambahkan kedalam <b>Database</b> maka selanjutnya method akan menambahkan data Siswa 
-         * kedalam <b>Database</b>
-         * <br><br>
-         * Sebelum menambahkan data Siswa kedalam <b>Database</b> method akan mengecek apakah semua data dari Siswa
-         * yang diinputkan valid atau tidak. Jika ada salah satu data dari Siswa yang tidak valid maka data Siswa tidak akan 
-         * ditambahkan kedalam <b>Database</b> dan data User yang sebelumnya sudah ditambahkan akan dihapus melalui method 
-         * {@code deleteUser} yang ada didalam class {@code} Users. 
-         * <br><br>
-         * Jika semua data dari Siswa valid maka method akan membuat sebuah object {@code PreparedStatement} yang digunakan 
-         * untuk menambahkan data Siswa kedalam <b>Database</b>. Setelah object dari class {@code PreparedStatement} berhasil 
-         * dibuat selanjutnya method akan menambahkan semua data dari Siswa kedalam object {@code PreparedStatement}. 
-         * <br><br>
-         * Jika semua data dari Siswa sudah ditambahkan kedalam object {@code PreparedStatement} maka data dari Siswa tersebut 
-         * akan ditambahkan kedalam <b>Database</b> melalui method {@code executeUpdate()} yang ada didalam class 
-         * {@code PreparedStatement}. Jika data Siswa berhasil ditambahkan kedalam <b>Database</b> maka method akan megembalikan 
-         * nilai <code>True</code>.
-         * 
-         * @param idUser id user dari user atau siswa.
-         * @param noHP no hp dari user atau siswa.
-         * @param email email dari user atau siswa.
-         * @param profile foto dari user atau siswa.
-         * @param nama nama dari user atau siswa.
-         * @param gender gender dari user atau siswa.
-         * @param tempatLahir tampat lahir dari user atau siswa.
-         * @param tanggalLahir tanggal lahirdari user atau siswa.
-         * @param alamat alamat dari user atau siswa.
-         * @param idKelas id kelas dari user atau siswa.
-         * @param namaWali id kelas dari user atau siswa.
-         * @param idSpp id spp dari user atau siswa.
-         * 
-         * @return <strong>True</strong> jika data berhasil ditambahkan. <br>
-         *         <strong>False</strong> jika data tidak berhasil ditambahkan. 
-         * 
-         * @throws FileNotFoundException jika terjadi kegagalan saat menkonversi foto kedalam byte stream / Blob.
-         * @throws SQLException jika terjadi kegagalan saat menambahkan data kedalam <b>Database</b>.
-         * @throws InValidUserDataException jika data dari siswa tidak valid.
-         */
-        public final boolean addSiswa(String idUser, String noHP, String email, File profile, 
-                                      String nama, String gender, String tempatLahir, String tanggalLahir, String alamat, String idKelas, String namaWali, int idSpp) 
-                throws FileNotFoundException, SQLException, InValidUserDataException
-        {
-            PreparedStatement pst;
-            boolean addUser, addSiswa = false;
-            
-            // menambahkan data user ke database
-            addUser = Users.this.addUser(idUser, noHP, email, profile, "Siswa"+idUser, UserLevels.SISWA);
-            
-            // jika data user berhasil ditambahkan maka data siswa akan ditambahkan kedalam database
-            if(addUser){
-                Log.addLog("Akun dengan ID User '" + idUser + "' berhasil ditambahkan.");
-                Log.addLog("Menambahkan data Siswa dengan ID User '"+ idUser + "' ke Database.");
-                // mengecek apakah data siswa valid atau tidak
-                if(this.validateDataSiswa(idUser, nama, gender, tempatLahir, tanggalLahir, alamat, idKelas, namaWali, idSpp)){
-                    Log.addLog("Data Siswa dengan ID User '" + idUser + "' dinyatakan valid.");
-                    // menambahkan data siswa kedalam database
-                    pst = Users.this.conn.prepareStatement("INSERT INTO siswa VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    pst.setString(1, idUser);
-                    pst.setString(2, nama);
-                    pst.setString(3, gender);
-                    pst.setString(4, tempatLahir);
-                    pst.setString(5, tanggalLahir);
-                    pst.setString(6, alamat);
-                    pst.setString(7, idKelas);
-                    pst.setString(8, namaWali);
-                    pst.setInt(9, idSpp);
-                    // mengeksekusi query
-                    addSiswa = pst.executeUpdate() > 0;
-                }
-            }
-            
-            // jika data siswa berhasil ditambahakan maka method akan mengembalikan nilai true
-            if(addSiswa){
-                Log.addLog("Data Siswa dengan ID User '"+idUser+"' ditambahkan ke Database.");
-                return true;
-            }else{
-                // jika data siswa tidak berhasil ditambahkan maka data user akan dihapus
-                Users.this.deleteUser(idUser);
-                return false;
-            }
-        }
-        
-        /**
-         * Method ini digunakan untuk mengecek apakah semua data dari Siswa yang diinputkan valid atau tidak.
-         * Method akan mengecek satu persatu data dari Petugas. Jika ada salah satu data saja yang tidak valid maka 
-         * semua data dari Siswa yang di inputkan akan dianggap tidak valid dan method akan mengembalikan nilai 
-         * <code>False</code>. Method hanya akan mengembalikan nilai <code>True</code> jika semua data dari 
-         * Siswa yang diinputkan valid.
-         * 
-         * @param level level yang akan dicek.
-         * @param nama nama level yang akan dicek.
-         * @param gender gender level yang akan dicek.
-         * @param tempatLahir tempat lahir level yang akan dicek.
-         * @param tanggalLahir tanggal lahir level yang akan dicek.
-         * @param alamat alamat level yang akan dicek.
-         * @param idKelas id kelas yang akan dicek.
-         * @param namaWali nama wali yang akan dicek.
-         * @param idSpp id spp yang akan dicek.
-         * 
-         * @return <strong>True</strong> jika semua data dari Siswa valid. <br>
-         *         <strong>False</strong> jika ada salah satu data dari Siswa yang tidak valid.
-         */
-        private boolean validateDataSiswa(String nis, String nama, String gender, String tempatLahir, String tanggalLahir, String alamat, String idKelas, String namaWali, int idSpp){
-            
-            boolean vNis, vNama, vGender, vTmpLhr, vTglLhr, vAlamat, vIdKelas, vNamaWali, vIdSpp;
-            
-            Log.addLog("Mengecek apakah data Siswa dengan ID User '" + nis + "' valid atau tidak.");
-            
-            // mengecek nis valid atau tidak
-            if(Validation.isNis(Integer.parseInt(nis))){
-                // mengecek nis sudah terpakai atau belulm
-                if(!this.isExistSiswa(nis)){
-                    vNis = true;
-                }else{
-                    throw new InValidUserDataException("'" + nis + "' NIS tersebut sudah terpakai.");
-                }
-            }else{
-                throw new InValidUserDataException("'" + nis + "' NIS tersebut tidak valid.");
-            }
-            
-            // mengecek nama petugas valid atau tidak
-            if(Validation.isNamaOrang(nama)){
-                vNama = true;
-            }else{
-                throw new InValidUserDataException("'" + nama + "' Nama tersebut tidak valid.");
-            }                
-            
-            // mengecek gender valid atau tidak
-            if(Validation.isGender(gender)){
-                vGender = true;
-            }else{
-                throw new InValidUserDataException("Gender harus diantara 'L' atau 'P'");
-            }
-            
-            // mengecek tempat lahir valid atau tidak            
-            if(Validation.isNamaTempat(tempatLahir)){
-                vTmpLhr = true;
-            }else{
-                throw new InValidUserDataException("Tempat Lahir tidak valid.");
-            }
-            
-            // mengecek tanggal lahir valid atau tidak
-            if(Validation.isTanggalLahir(tanggalLahir)){
-                vTglLhr = true;
-            }else{
-                throw new InValidUserDataException("Tanggal Lahir tidak valid.");
-            }
-
-            // megecek apakah alamat valid atau tidak
-            if(Validation.isNamaTempat(alamat)){
-                vAlamat = true;
-            }else{
-                throw new InValidUserDataException("Alamat tidak valid.");
-            }
-            
-            // mengecek apakah id kelas valid atau tidak
-            if(Validation.isIdKelas(idKelas)){
-                vIdKelas = true;
-            }else{
-                throw new InValidUserDataException("ID Kelas tidak valid.");
-            }
-
-            // mengecek apakah nama wali valid atau tidak
-            if(namaWali.length() >= 8){
-                vNamaWali = true;
-            }else{
-                throw new InValidUserDataException("Nama Wali tidak valid.");
-            }
-
-            // mengecek apakah id spp valid atau tidak
-            if(Validation.isIdSpp(idSpp)){
-                vIdSpp = true;
-            }else{
-                throw new InValidUserDataException("ID SPP tidak valid.");
-            }
-            
-            return vNis && vNama && vGender && vTmpLhr && vTglLhr && vAlamat && vIdKelas && vNamaWali && vIdSpp;
-        }
-        
-        /**
-         * Method ini digunakan untuk menghapus sebuah akun Siswa yang tersimpan didalam tabel <code>users</code> dan 
-         * tabel <code>siswa</code> yang ada didalam <b>Database</b> berdasarkan id user yang diinputkan. Method akan menghapus 
-         * data akun Siswa yang ada didalam tabel <code>users</code> dengan melalui method {@code deleteUser()} yang ada 
-         * didalam class {@code Users}.
-         * <br><br>
-         * Method akan menghapus data akun Siswa yang ada didalam tabel <code>siswa</code> dengan menggunakan method
-         * {@code deleteData()} yang ada didalam class {@code Database}. Jika kedua data Siswa yang ada didalam tabel 
-         * <code>users</code> dan tabel <code>siswa</code> berhasil dihapus maka method akan mengembalikan nilai <code>True</code>s
-         * 
-         * @param idUser id dari user yang ingin dihapus.
-         * @return <strong>True</strong> jika akun berhasil dihapus. <br>
-         *         <strong>False</strong> jiak akun tidak berhasil dihapus.
-         */
-        public final boolean deleteSiswa(String idUser){
-            return Users.this.deleteUser(idUser) && 
-                   Users.this.deleteData(DatabaseTables.SISWA.name(), SiswaData.NIS.name(), idUser);
-        }
-        
-        /**
-         * Method ini digunakan untuk mengecek apakah ID User dari Siswa yang diinputkan exist atau tidak didalam tabel siswa 
-         * yang ada didalam <code>Database</code>. Method akan mengembalikan nilai <code>True</code> jika ID User dari Siswa 
-         * yang diinputkan exist. Pertama-tama method akan mengecek apakah ID User dari Siswa yang diinputkan valid atau tidak
-         * jika ID User dari Siswa tidak valid maka akan mengembalikan nilai <code>False</code>. Tetapi jika ID User dari Siswa valid maka 
-         * method akan mengecek exist atau tidanya ID User dari Siswa yang diinputkan dengan melalui method <code>isExistData()</code>
-         * yang ada didalam class {@code Database}.
-         * 
-         * @param idUser ID User dari Siswa yang akan dicek.
-         * @return <strong>True</strong> jika ID User dari Siswa exist. <br>
-         *         <strong>False</strong> jika ID User dari Siswa tidak exist.
-         */
-        public final boolean isExistSiswa(String idUser){
-            // mengecek is siswa valid atau tidak
-            if(Validation.isNis(Integer.parseInt(idUser))){
-                // mengecek apakah id siswa exist atau tidak
-                return super.isExistData(DatabaseTables.SISWA.name(), SiswaData.NIS.name(), idUser);
-            }
-            return false;
-        }
-        
-        /**
-         * Method ini akan mengembalikan data dari Siswa berdasarkan NIS yang diinputkan. Pertama-tama method 
-         * akan mengecek apakah NIS exist atau tidak. Jika NIS tidak exist maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Tetapi jika NIS exist maka data dari Siswa akan didapatkan dengan 
-         * melalui method {@code getData()} yang ada didalam class {@code Database}.
-         * 
-         * @param idPetugas NIS yang ingin diambil datanya.
-         * @param data data yang ingin diambil.
-         * @return akan mengembalikan data dari Siswa berdasarkan NIS yang diinputkan.
-         */
-        private String getSiswaData(String nis, SiswaData data){
-            // mengecek apakah nis exist atau tidak
-            if(this.isExistSiswa(nis)){
-                // mendapatkan data dari siswa
-                return Users.this.getData(DatabaseTables.SISWA.name(), data.name(), " WHERE "+ SiswaData.NIS.name() +" = " + nis);
-            }
-            // akan menghasilkan error jika nis tidak ditemukan
-            throw new InValidUserDataException("'" + nis + "' NIS tersebut tidak dapat ditemukan.");
-        }
-
-        /**
-         * Method ini digunakan untuk megedit data dari Siswa berdasarkan NIS yang diinputkan. Sebelum mengedit data
-         * method akan mengecek apakah NIS exist atau tidak. Jika NIS tidak exist maka method akan menghasilkan 
-         * exception {@code InValidUserDataException}. Tetapi jika NIS exist maka method akan mengedit data dari Siswa
-         * dengan menggunakan method {@code setData()} yang ada didalam class {@code Database}. Jika data dari Siswa berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idPetugas NIS yang ingin diedit datanya.
-         * @param data data dari NIS yang ingin diedit.
-         * @param newValue nilai baru dari data yang ingin diedit.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        private boolean setSiswaData(String nis, SiswaData data, String newValue){
-            Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari Siswa dengan ID User '" + nis + "'.");
-            // mengecek apakah nis exist atau tidak
-            if(this.isExistSiswa(nis)){
-                // mengedit data dari siswa
-                return Users.this.setData(DatabaseTables.SISWA.name(), data.name(), SiswaData.NIS.name(), nis, newValue);
-            }
-            // akan menghasilkan error jika nis tidak ditemukan
-            throw new InValidUserDataException("'" + nis + "' NIS tersebut tidak dapat ditemukan.");
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Nama Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Nama dari Siswa.
-         */
-        public String getNama(String idUser) {
-            return this.getSiswaData(idUser, SiswaData.NAMA_SISWA);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Nama Siswa melalui method {@code getNama(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Nama dari akun yang sedang Login.
-         */
-        public String getNama(){
-            return this.getNama(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Nama Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Nama method akan mengecek apakah Nama yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNama(String nama)} yang ada didalam class {@code Validation}. Jika Nama tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Nama valid maka data Nama dari Siswa akan diedit. Jika data dari Nama berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newNama data Nama yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNama(String idUser, String newNama) {
-            // mengecek nama valid atau tidak
-            if(Validation.isNamaOrang(newNama)){
-                return this.setSiswaData(idUser, SiswaData.NAMA_SISWA, newNama);
-            }
-            throw new InValidUserDataException("'" + newNama + "' Nama tersebut tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Nama Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Nama Siswa melalui method {@code setNama(String idUser, String newNama)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newNama data Nama yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNama(String newNama){
-            return this.setNama(Users.this.getCurrentLogin(), newNama);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Gender Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Gender Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Gender dari Siswa.
-         */
-        public String getGender(String idUser) {
-            return this.getSiswaData(idUser, SiswaData.GENDER);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Gender Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Gender Siswa melalui method {@code getGender(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Gender dari akun yang sedang Login.
-         */
-        public String getGender(){
-            return this.getGender(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Gender Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Gender method akan mengecek apakah Gender yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isGender(String gender)} yang ada didalam class {@code Validation}. Jika Gender tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Gender valid maka data Gender dari Siswa akan diedit. Jika data dari Gender berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newGender data Gender yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setGender(String idUser, String newGender) {
-            // mengecek apakah gender valid atau tidak
-            if(Validation.isGender(newGender)){
-                return this.setSiswaData(idUser, SiswaData.GENDER, newGender);
-            }
-            throw new InValidUserDataException("Gender harus diantara 'L' atau 'P'.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Gender Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Gender Siswa melalui method {@code setGender(String idUser, String newGender)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newGender data Gender yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setGender(String newGender){
-            return this.setGender(Users.this.getCurrentLogin(), newGender);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Tempat Lahir Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Tempat Lahir Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Tempat Lahir dari Siswa.
-         */
-        public String getTempatLahir(String idUser) {
-            return this.getSiswaData(idUser, SiswaData.TEMPAT_LHR);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Tempat Lahir Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data TempatLahir Siswa melalui method {@code getTempatLahir(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Tempat Lahir dari akun yang sedang Login.
-         */
-        public String getTempatLahir(){
-            return this.getTempatLahir(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Tempat Lahir Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Tempat Lahir method akan mengecek apakah Tempat Lahir yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNamaTempat(String namaTempat)} yang ada didalam class {@code Validation}. Jika Tempat Lahir tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Tempat Lahir valid maka data Tempat Lahir dari Siswa akan diedit. Jika data dari Tempat Lahir berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newTempatLahir data Tempat Lahir yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTempatLahir(String idUser, String newTempatLahir) {
-            // mengecek tempat lahir valid atau tidak
-            if(Validation.isNamaTempat(newTempatLahir)){
-                return this.setSiswaData(idUser, SiswaData.TEMPAT_LHR, newTempatLahir);
-            }
-            throw new InValidUserDataException("Tempat Lahir yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Tempat Lahir Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Tempat Lahir Siswa melalui method {@code setTempatLahir(String idUser, String new[TempatLahir)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newTempatLahir data TempatLahir yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTempatLahir(String newTempatLahir){
-            return this.setTempatLahir(Users.this.getCurrentLogin(), newTempatLahir);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Tanggal Lahir Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Tanggal Lahir Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Tanggal Lahir dari Siswa.
-         */
-        public String getTanggalLahir(String idUser) {
-            return this.getSiswaData(idUser, SiswaData.TANGGAL_LHR);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Tanggal Lahir Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Tanggal Lahir Siswa melalui method {@code getTanggalLahir(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Tanggal Lahir dari akun yang sedang Login.
-         */
-        public String getTanggalLahir(){
-            return this.getTanggalLahir(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Tanggal Lahir Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Tanggal Lahir method akan mengecek apakah Tanggal Lahir yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isTanggalLahir(String tanggaLahir)} yang ada didalam class {@code Validation}. Jika Tanggal Lahir tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Tanggal Lahir valid maka data Tanggal Lahir dari Siswa akan diedit. Jika data dari Tanggal Lahir berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newTanggalLahir data TanggalLahir yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTanggalLahir(String idUser, String newTanggalLahir) {
-            // mengecek apakah tanggal lahir valid atau tidak
-            if(Validation.isTanggalLahir(newTanggalLahir)){
-                return this.setSiswaData(idUser, SiswaData.TANGGAL_LHR, newTanggalLahir);
-            }
-            throw new InValidUserDataException("Tanggal Lahir yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Tanggal Lahir Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Tanggal Lahir Siswa melalui method {@code setTanggalLahir](String idUser, String newTanggalLahir)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newTanggalLahir data Tanggal Lahir yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setTanggalLahir(String newTanggalLahir){
-            return this.setTanggalLahir(Users.this.getCurrentLogin(), newTanggalLahir);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Alamat Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Alamat Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Alamat dari Siswa.
-         */
-        public String getAlamat(String idUser) {
-            return this.getSiswaData(idUser, SiswaData.ALAMAT);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data Alamat Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Alamat Siswa melalui method {@code getAlamat(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Alamat dari akun yang sedang Login.
-         */
-        public String getAlamat(){
-            return this.getAlamat(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Alamat Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Alamat method akan mengecek apakah Alamat yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNamaTempat(String namaTempat)} yang ada didalam class {@code Validation}. Jika Alamat tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jikaAlamat valid maka data Alamat dari Siswa akan diedit. Jika data dari Alamat berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newAlamat data Alamat yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setAlamat(String idUser, String newAlamat) {
-            // mengecek alamat valid atau tidak
-            if(Validation.isNamaTempat(newAlamat)){
-                return this.setSiswaData(idUser, SiswaData.ALAMAT, newAlamat);
-            }
-            throw new InValidUserDataException("Alamat yang Anda masukan tidak valid.");
-        }
-        
-        /**
-         * Digunakan untuk mengedit data Alamat Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Alamat Siswa melalui method {@code setAlamat(String idUser, String newAlamat)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newAlamat data Alamat yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setAlamat(String newAlamat){
-            return this.setAlamat(Users.this.getCurrentLogin(), newAlamat);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data ID Kelas Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data ID Kelas Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data ID Kelas dari Siswa.
-         */
-        public String getIdKelas(String idUser){
-            return this.getSiswaData(idUser, SiswaData.ID_KELAS);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan data ID Kelas Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data ID Kelas Siswa melalui method {@code getIdKelas(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data ID Kelas dari akun yang sedang Login.
-         */
-        public String getIdKelas(){
-            return this.getIdKelas(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data ID Kelas Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data ID Kelas method akan mengecek apakah ID Kelas yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isIdKelas(String idKelas)} yang ada didalam class {@code Validation}. Jika ID Kelas tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika ID Kelas valid maka data ID Kelas dari Siswa akan diedit. Jika data dari ID Kelas berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newIdKelas data ID Kelas yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setIdKelas(String idUser, String newIdKelas){
-            // mengecek apakah ID Kelas valid atau tidak
-            if(Validation.isIdKelas(newIdKelas)){
-                return this.setSiswaData(idUser, SiswaData.ID_KELAS, newIdKelas);
-            }
-            throw new InValidUserDataException("'" + newIdKelas +"' ID Kelas tersebut tidak valid.");
-        }
-
-        /**
-         * Digunakan untuk mengedit data ID Kelas Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data ID Kelas Siswa melalui method {@code setIdKelas(String idUser, String newIdKelas)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newIdKelas data ID Kelas yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setIdKelas(String newIdKelas){
-            return this.setIdKelas(Users.this.getCurrentLogin(), newIdKelas);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Wali Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data Nama Wali Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data Nama Wali dari Siswa.
-         */
-        public String getNamaWali(String idUser){
-            return this.getSiswaData(idUser, SiswaData.NAMA_WALI);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data Nama Wali Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data Nama Wali Siswa melalui method {@code getNamaWali(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data Nama Wali dari akun yang sedang Login.
-         */
-        public String getNamaWali(){
-            return this.getNamaWali(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data Nama Wali Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data Nama Wali method akan mengecek apakah Nama Wali yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isNamaOrang(String namaWali)} yang ada didalam class {@code Validation}. Jika Nama Wali tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika Nama Wali valid maka data Nama Wali dari Siswa akan diedit. Jika data dari Nama Wali berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newNama data Nama Wali yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNamaWali(String idUser, String newNama){
-            // mengecek apakah nama valid atau tidak
-            if(Validation.isNamaOrang(newNama)){
-                return this.setSiswaData(idUser, SiswaData.NAMA_WALI, newNama);
-            }
-            throw new InValidUserDataException("'" + newNama + "' Nama tersebut tidak valid.");
-        }
-
-        /**
-         * Digunakan untuk mengedit data Nama Wali Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data Nama Wali Siswa melalui method {@code setNamaWali(String idUser, String newNamaWali)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newNama data Nama Wali yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setNamaWali(String newNama){
-            return this.setNamaWali(Users.this.getCurrentLogin(), newNama);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data ID SPP Siswa berdasarkan ID User dari Siswa yang diinputkan. 
-         * ID User dari Siswa yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User dari Siswa yang 
-         * diinputkan ternyata tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception 
-         * {@code InValidUserDataException}. Method hanya akan mendapatkan data ID SPP Siswa jika ID User dari Siswa 
-         * yang diinputkan terdaftar didalam <b>Database</b>.
-         * 
-         * @param idUser ID User dari Siswa yang ingin didapatkan datanya.
-         * @return data ID SPP dari Siswa.
-         */
-        public String getIdSpp(String idUser){
-            return this.getSiswaData(idUser, SiswaData.ID_SPP);
-        }
-
-        /**
-         * Method ini digunakan untuk mendapatkan data ID SPP Siswa berdasarkan ID User dari Petugas yang sedang 
-         * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-         * Selanjutnya method akan mendapatkan data ID SPP Siswa melalui method {@code getIdSpp(String idUser)}.
-         * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-         * 
-         * @return data ID SPP dari akun yang sedang Login.
-         */
-        public String getIdSpp(){
-            return this.getIdSpp(Users.this.getCurrentLogin());
-        }
-
-        /**
-         * Digunakan untuk mengedit data ID SPP Siswa berdasarkan ID User dari Siswa yang diinputkan. Sebelum mengedit 
-         * data ID SPP method akan mengecek apakah ID SPP yang diinputkan valid atau tidak dengan menggunakan 
-         * method {@code isIdSpp(String idSpp)} yang ada didalam class {@code Validation}. Jika ID SPP tidak valid
-         * maka method akan menghasilkan exception {@code InValidUserDataException}.
-         * <br><br>
-         * Tetapi jika ID SPP valid maka data ID SPP dari Siswa akan diedit. Jika data dari ID SPP berhasil 
-         * diedit maka method akan mengembalikan nilai <code>True</code>.
-         * 
-         * @param idUser ID User yang ingin diedit datanya.
-         * @param newIdSpp data ID SPP yang baru.
-         * 
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setIdSpp(String idUser, String newIdSpp){
-            // mengecek apakah id spp yang diinputkan adalah sebuah number atau tidak
-            if(new Text().isNumber(newIdSpp)){
-                // mengecek apakah id spp valid atau tidak
-                if(Validation.isIdSpp(Integer.parseInt(newIdSpp))){
-                    return this.setSiswaData(idUser, SiswaData.ID_SPP, newIdSpp);
-                }
-            }
-            throw new InValidUserDataException("'" + newIdSpp + "' ID SPP tersebut tidak valid.");
-        }
-
-        /**
-         * Digunakan untuk mengedit data ID SPP Siswa berdasarkan ID User dari Siswa yang sedang digunakan untuk Login. 
-         * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-         * akan mengedit data ID SPP Siswa melalui method {@code setIdSpp(String idUser, String newIdSpp)}. 
-         * Jika output dari method tersebut adalah <code>True</code> maka data Nama dari user berhasil diedit.
-         * 
-         * @param newIdSpp data ID SPP yang baru.
-         * @return <strong>True</strong> jika data berhasil diedit. <br>
-         *         <strong>False</strong> jika data tidak berhasil diedit.
-         */
-        public boolean setIdSpp(String newIdSpp){
-            return this.setIdSpp(Users.this.getCurrentLogin(), newIdSpp);
-        }
-        
-        /**
-         * Method ini digunakan untuk mendapatkan total user yang memiliki level <b>SISWA</b> yang terdaftar di <b>Database</b> 
-         * aplikasi. Method akan mendapatkan data total user dengan melalui method {@code getJumlahData()} yang ada didalam 
-         * class {@code Database}.
-         * 
-         * @return total user yang memiliki level siswa.
-         */
-        public int getTotalSiswa(){
-            return super.getJumlahData(DatabaseTables.USERS.name(), "WHERE " + UserData.LEVEL + " = '" + UserLevels.SISWA + "'");
-        }
-        
-        /**
-         * Digunakan untuk menutup koneksi dari <B>Database</B> MySQL. Koneksi dari <B>Database</B> perlu ditutup jika sudah 
-         * tidak digunakan lagi. Sebelum menutup koneksi dari <B>Database</B> method akan mengecek apakah object {@code Connection},
-         * {@code Statement} dan {@code ResultSet} kosong atau tidak. Jika tidak maka koneksi dari <B>Database</B> akan ditutup. 
-         * Jika tidak dicek kosong atau tidaknya object maka saat objek kosong lalu dipaksa untuk menutup koneksi dari <B>Database</B>
-         * maka akan menimbulkan exception {@code NullPointerException}.
-         */
-        @Override
-        public void closeConnection(){
-            // menutup koneksi dari object Users
-            Users.this.closeConnection();
-            // menutup koneksi dari object Level Siswa
-            Users.this.closeConnection();
-        }
-
-    }
 }

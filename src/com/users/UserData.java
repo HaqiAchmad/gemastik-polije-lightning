@@ -9,11 +9,8 @@ package com.users;
 public enum UserData {
     
     ID_USER,
-    NO_HP,
-    EMAIL,
-    FOTO,
     PASSWORD,
+    NO_HP,
     LEVEL,
-    ID_LOGIN,
-    LAST_ON
+    FOTO
 }
