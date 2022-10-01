@@ -93,8 +93,14 @@ public class Validation {
         return false;
     }
     
-    public static boolean isIdUser(int id){
-        return id < 100000 && id >= 1;
+    /**
+     * id user harus terdiri dari 5 karakter
+     * 
+     * @param text
+     * @return 
+     */
+    public static boolean isIdUser(String text){
+        return text.length() == 5;
     }
     
     /**
@@ -305,7 +311,7 @@ public class Validation {
      * @return 
      */
     public static boolean isPassword(String password){
-        if(password.length() >= 5 && password.length() <= 50){
+        if(password.length() >= 4 && password.length() <= 50){
             return true;
         }else{
 //            JOptionPane.showMessageDialog(null, "Panjang dari Password harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
@@ -381,7 +387,7 @@ public class Validation {
     
     
     public static void main(String[] args) {
-        System.out.println(Validation.isNamaTempat(""));
+        System.out.println(Validation.isIdUser("KY001"));
     }
     
 }

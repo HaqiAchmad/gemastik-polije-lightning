@@ -2,6 +2,7 @@ package com.main;
 
 import com.data.app.Application;
 import com.data.app.Log;
+import com.data.db.Database;
 import com.error.StorageNotFoundException;
 import com.manage.Message;
 
@@ -22,6 +23,10 @@ public class Main {
             Application.startApplication();
         } catch (StorageNotFoundException ex) {
             Message.showException(null, ex);
-        }  
+        }
+//        
+//        Database dbase = new Database();
+//        dbase.startConnection();
+        
     }
 }

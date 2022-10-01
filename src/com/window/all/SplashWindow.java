@@ -90,28 +90,27 @@ public class SplashWindow extends javax.swing.JFrame {
                         user = new Users();
                         // mengecek user sudah login atau belum
                         if(user.isLogin()){
-                            // mengupdate last online
-                            user.updateLastOnline();
+                            JOptionPane.showMessageDialog(null, "Login berhasil");
                             // jika user login dengan level admin atau petugas
-                            if(user.isAdmin() || user.isPetugas()){
-                                // membuka window DashboardPetugas
-                                java.awt.EventQueue.invokeLater(new Runnable(){
-                                    @Override
-                                    public void run(){
-                                        new com.window.petugas.DashboardPetugas().setVisible(true);
-                                    }
-                                });
-                            }
-                            // jika user login login dengan level siswa
-                            else if(user.isSiswa()){
-                                // membuka window DashboardSiswa
-                                java.awt.EventQueue.invokeLater(new Runnable(){
-                                    @Override
-                                    public void run(){
-                                        new com.window.siswa.DashboardSiswa().setVisible(true);
-                                    }
-                                });
-                            }
+//                            if(user.isAdmin() || user.isPetugas()){
+//                                // membuka window DashboardPetugas
+//                                java.awt.EventQueue.invokeLater(new Runnable(){
+//                                    @Override
+//                                    public void run(){
+//                                        new com.window.petugas.DashboardPetugas().setVisible(true);
+//                                    }
+//                                });
+//                            }
+//                            // jika user login login dengan level siswa
+//                            else if(user.isSiswa()){
+//                                // membuka window DashboardSiswa
+//                                java.awt.EventQueue.invokeLater(new Runnable(){
+//                                    @Override
+//                                    public void run(){
+//                                        new com.window.siswa.DashboardSiswa().setVisible(true);
+//                                    }
+//                                });
+//                            }
                         }else{
                             // membuka window login jika user belum melakukan login
                             java.awt.EventQueue.invokeLater(new Runnable(){

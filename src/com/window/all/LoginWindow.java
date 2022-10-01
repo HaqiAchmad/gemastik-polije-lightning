@@ -4,6 +4,7 @@ import com.data.app.Application;
 import com.data.app.Log;
 import com.error.AuthenticationException;
 import com.manage.Message;
+import com.media.Audio;
 import com.media.Gambar;
 import com.users.Users;
 
@@ -11,6 +12,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.io.IOException;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  * Digunakan untuk login bagi admin, petugas dan siswa.
@@ -321,37 +323,42 @@ public class LoginWindow extends javax.swing.JFrame {
             // jika login berhasil
             if(login){
                 // jika user login dengan level akun admin atau petugas
-                if(user.isAdmin() || user.isPetugas()){
-                    // membuka window DashboardPetugas
-                    java.awt.EventQueue.invokeLater(new Runnable(){
-                        
-                        @Override
-                        public void run(){
-                            new com.window.petugas.DashboardPetugas().setVisible(true);
-                        }
-                    });
-                    
-                    // menutup window LoginWindow
-                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    dispose();
-                }
-                // jika user login dengan level akun siswa
-                else if(user.isSiswa()){
-                    // membuka window DashboardSiswa
-                    java.awt.EventQueue.invokeLater(new Runnable(){
-                        
-                        @Override
-                        public void run(){
-                            new com.window.siswa.DashboardSiswa().setVisible(true);
-                        }
-                    });
-                    
-                    // menutup window LoginWindow
-                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    dispose();
-                }else{
-                    Message.showWarning(this, "Level akun Anda tidak valid!", true);
-                }
+                Audio.play(Audio.SOUND_INFO);
+                JOptionPane.showMessageDialog(this, "Login Berhasil!\n\nSelamat datang " + user.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'"));
+                JOptionPane.showMessageDialog(this, "Dah lah gitu aja :)");
+                System.exit(0);
+                
+//                if(user.isAdmin() || user.isPetugas()){
+//                    // membuka window DashboardPetugas
+//                    java.awt.EventQueue.invokeLater(new Runnable(){
+//                        
+//                        @Override
+//                        public void run(){
+//                            new com.window.petugas.DashboardPetugas().setVisible(true);
+//                        }
+//                    });
+//                    
+//                    // menutup window LoginWindow
+//                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//                    dispose();
+//                }
+//                // jika user login dengan level akun siswa
+//                else if(user.isSiswa()){
+//                    // membuka window DashboardSiswa
+//                    java.awt.EventQueue.invokeLater(new Runnable(){
+//                        
+//                        @Override
+//                        public void run(){
+//                            new com.window.siswa.DashboardSiswa().setVisible(true);
+//                        }
+//                    });
+//                    
+//                    // menutup window LoginWindow
+//                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//                    dispose();
+//                }else{
+//                    Message.showWarning(this, "Level akun Anda tidak valid!", true);
+//                }
             }else{
                 this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 // mereset textfield jika login gagal
