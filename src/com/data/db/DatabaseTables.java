@@ -9,11 +9,13 @@ package com.data.db;
 public enum DatabaseTables {
     
     USERS,
-    SISWA,
-    PETUGAS,
-    LOGIN,
-    KELAS,
-    SPP,
-    PEMBAYARAN
+    ADMIN,
+    KARYAWAN,
+    PEMBELI,
+    BARANG,
+    TRANSAKSI_JUAL,
+    TRANSAKSI_BELI,
+    LAPORAN_PENDAPATAN,
+    LAPORAN_PENGELUARAN
     
 }

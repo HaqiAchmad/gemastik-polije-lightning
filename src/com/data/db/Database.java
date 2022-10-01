@@ -16,10 +16,6 @@ import javax.swing.JOptionPane;
  * Kondisi seperti <strong>CRUD</strong> tidak tersedia di class ini. Kondisi <strong>CRUD</strong> tersedia di class <code>Account</code> dan <code>CovidCases</code>.
  * <BR><BR>
  * <strong>Database</strong> pada aplikasi ini sebagian besar menggunakan <strong>MySQL Database</strong> dan sisanya menggunakan <strong>Database Text</strong>.
- * <UL>
- * <LI> <B>MySQL Database</B> digunakan untuk menyimpan data yang berhubungan dengan data Pengguna dan kasus Covid-19 di Indonesia maupun Dunia.
- * <LI> <B>Database Text</B> digunakan untuk menyimpan backup dari data Pengguna dan kasus Covid-19 di Indonesia maupun Dunia dari Database MySQL.
- * </UL>
  * 
  * 
  * @author Achmad Baihaqi
@@ -48,18 +44,13 @@ public class Database {
      * Attribute yang digunakan untuk menhubungkan Aplikasi ke <B>Database MySQL</B>
      */
     private static final String DRIVER = "com.mysql.jdbc.Driver",
-                                DB_NAME = "spp_payment",
+                                DB_NAME = "gemastik",
                                 URL = "jdbc:mysql://localhost/" + DB_NAME,
                                 USER = "root",
                                 PASS = "";
-    /**
-     * Tabel tabel yang ada didalam database
-     */
+    
     public static final String FOTO_PROFILE = "foto_profile", PETUGAS = "petugas", USERS = "users", SISWA = "siswa",
                                PEMBAYARAN = "pembayaran", KELAS = "kelas", SPP = "spp", LOGIN = "login";
-    
-    
-    public static int POOL = 0;
     
     /**
      * Digunakan untuk menghubungkan aplikasi ke <B>Database</B>. 
@@ -91,9 +82,8 @@ public class Database {
             conn = DriverManager.getConnection(URL, USER, PASS);
             // membuat object statement
             stat = conn.createStatement(); 
-            POOL++;
             
-            Log.addLog(String.format("Berhasil terhubung ke Database '%s' / POOL = %d.", DB_NAME, POOL));
+            Log.addLog(String.format("Berhasil terhubung ke Database '%s'.", DB_NAME));
         }catch(ClassNotFoundException | SQLException ex){
             // Menanggani exception yang terjadi dengan cara mendapatkan pesan error dari exception tersebut.
             if(ex.getMessage().contains("com.mysql.jdbc.Driver")){
@@ -133,8 +123,7 @@ public class Database {
                 res.close();
             }
             
-            POOL--;
-        Log.addLog(String.format("Berhasil memutus koneksi dari Database '%s' / POOL = %d.", DB_NAME, POOL));
+        Log.addLog(String.format("Berhasil memutus koneksi dari Database '%s'.", DB_NAME));
         }catch(SQLException ex){
             Audio.play(Audio.SOUND_ERROR);
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan!\n\nError message : "+ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
@@ -161,6 +150,7 @@ public class Database {
     public boolean isExistData(String tabel, String field, String data){
         try{
             String query = "SELECT * FROM " + tabel + " WHERE " + field + " = '" + data + "'";
+            System.out.println(query);
             res = stat.executeQuery(query);
             return res.next();
         }catch(SQLException ex){
@@ -184,6 +174,7 @@ public class Database {
     public String getData(String table, String field, String kondisi){
         try{
             sql = "SELECT "+field+" FROM "+table + " " + kondisi;
+            System.out.println(sql);
             res = stat.executeQuery(sql);
             if(res.next()){
                 return res.getString(field);
@@ -271,4 +262,13 @@ public class Database {
         }
         return false;
     }    
+    
+    public static void main(String[] args) {
+        
+        Log.createLog();
+        Database dbase = new Database();
+        dbase.startConnection();
+        dbase.closeConnection();
+        
+    }
 }
