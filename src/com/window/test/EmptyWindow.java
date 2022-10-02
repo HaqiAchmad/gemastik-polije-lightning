@@ -1,6 +1,9 @@
 package com.window.test;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
@@ -13,7 +16,9 @@ public class EmptyWindow extends javax.swing.JFrame {
     public EmptyWindow() {
         initComponents();
         
+        this.setTitle("Dashboard");
         this.btnDashboard.setForeground(new Color(0,0,0));
+        this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         
         JLabel[] btns = {
             this.btnKaryawan, this.btnSupplier, this.btnPembeli, this.btnBarang,
