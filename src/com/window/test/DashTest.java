@@ -21,12 +21,12 @@ import javax.swing.JButton;
  * @author Achmad Baihaqi
  * @since 2021-03-09
  */
-public class WindowKosong extends javax.swing.JFrame {
+public class DashTest extends javax.swing.JFrame {
     
     private final String name = "Achmad Baihaqi", sekolah = "SMK Negeri 1 Kertosono | Aplikasi Pembayaran SPP";
     private int x, y;
     
-    public WindowKosong() {
+    public DashTest() {
         initComponents();
         
         this.setLocationRelativeTo(null);
@@ -695,13 +695,13 @@ public class WindowKosong extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WindowKosong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new WindowKosong().setVisible(true);
+                new DashTest().setVisible(true);
             }
         });
     }

@@ -4,6 +4,8 @@ import com.data.app.Application;
 import com.data.db.Database;
 import com.media.Gambar;
 import com.users.Users;
+import com.window.test.Dashboard;
+import com.window.test.EmptyWindow;
 import javax.swing.JOptionPane;
 
 
@@ -90,7 +92,12 @@ public class SplashWindow extends javax.swing.JFrame {
                         user = new Users();
                         // mengecek user sudah login atau belum
                         if(user.isLogin()){
-                            JOptionPane.showMessageDialog(null, "Login berhasil");
+                        java.awt.EventQueue.invokeLater(new Runnable(){
+                            @Override
+                            public void run(){
+                                new EmptyWindow().setVisible(true);
+                            }
+                        });
                             // jika user login dengan level admin atau petugas
 //                            if(user.isAdmin() || user.isPetugas()){
 //                                // membuka window DashboardPetugas
