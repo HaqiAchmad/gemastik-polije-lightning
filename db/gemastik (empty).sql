@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Okt 2022 pada 04.22
+-- Waktu pembuatan: 01 Okt 2022 pada 06.25
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -61,15 +61,6 @@ CREATE TABLE `karyawan` (
   `no_telp` varchar(15) NOT NULL,
   `alamat` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `karyawan`
---
-
-INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `no_telp`, `alamat`) VALUES
-('KY001', 'Achmad Baihaqi', '085655864624', 'Jombang, Jawa Timur, Indonesia'),
-('KY002', 'Mohammad Ilham Islamy', '085690313826', 'Nganjuk, Jawa Timur, Indonesia'),
-('KY003', 'Amirzan Fikri Prasetyo', '085739499321', 'Jombang, Jawa Timur, Indonesia');
 
 -- --------------------------------------------------------
 
@@ -169,15 +160,6 @@ CREATE TABLE `users` (
   `password` varchar(30) NOT NULL,
   `level` enum('ADMIN','KARYAWAN','PEMBELI','SUPPLIER') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `users`
---
-
-INSERT INTO `users` (`id_user`, `password`, `level`) VALUES
-('KY001', '1234', 'KARYAWAN'),
-('KY002', '1234', 'KARYAWAN'),
-('KY003', '1234', 'KARYAWAN');
 
 --
 -- Indexes for dumped tables
