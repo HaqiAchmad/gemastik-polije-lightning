@@ -1,18 +1,8 @@
 package com.window.test;
 
-import com.window.petugas.InformasiAkunPetugas;
-import com.window.petugas.TentangAplikasi;
 import com.media.Gambar;
-import com.window.petugas.DashboardPetugas;
-import com.window.petugas.DataPetugas;
-import com.window.petugas.DataSiswa;
-import com.window.petugas.DataSpp;
-import com.window.petugas.DataSpp;
-import com.window.petugas.PembayaranSpp;
-import com.window.petugas.LaporanPembayaran;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
@@ -21,6 +11,7 @@ import javax.swing.JButton;
  * @author Achmad Baihaqi
  * @since 2021-03-09
  */
+@Deprecated
 public class WindowKosong extends javax.swing.JFrame {
     
     private final String name = "Achmad Baihaqi", sekolah = "SMK Negeri 1 Kertosono | Aplikasi Pembayaran SPP";
@@ -525,16 +516,7 @@ public class WindowKosong extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinimazeMouseExited
     
     private void lblNamaUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNamaUserMouseClicked
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        InformasiAkunPetugas infoAkun = new InformasiAkunPetugas();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                infoAkun.setLocation(getX(), getY());
-                infoAkun.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_lblNamaUserMouseClicked
 
     private void lblNamaUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNamaUserMouseEntered
@@ -548,16 +530,7 @@ public class WindowKosong extends javax.swing.JFrame {
     }//GEN-LAST:event_lblNamaUserMouseExited
 
     private void lblPhotoProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhotoProfileMouseClicked
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        InformasiAkunPetugas infoAkun = new InformasiAkunPetugas();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                infoAkun.setLocation(getX(), getY());
-                infoAkun.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_lblPhotoProfileMouseClicked
 
     private void lblPhotoProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhotoProfileMouseEntered
@@ -569,120 +542,39 @@ public class WindowKosong extends javax.swing.JFrame {
     }//GEN-LAST:event_lblPhotoProfileMouseExited
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        DashboardPetugas dashboard = new DashboardPetugas();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                dashboard.setLocation(getX(), getY());
-                dashboard.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnDashboardActionPerformed
 
     private void btnInfoAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoAkunActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        InformasiAkunPetugas infoAkun = new InformasiAkunPetugas();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                infoAkun.setLocation(getX(), getY());
-                infoAkun.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnInfoAkunActionPerformed
 
     private void btnDataPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataPetugasActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        DataPetugas dataPetugas = new DataPetugas();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                dataPetugas.setLocation(getX(), getY());
-                dataPetugas.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnDataPetugasActionPerformed
 
     private void btnDataSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataSiswaActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        DataSiswa dataSiswa = new DataSiswa();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                dataSiswa.setLocation(getX(), getY());
-                dataSiswa.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnDataSiswaActionPerformed
 
     private void btnDataKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataKelasActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        DataSpp dataKelas = new DataSpp();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                dataKelas.setLocation(getX(), getY());
-                dataKelas.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnDataKelasActionPerformed
 
     private void btnDataSppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataSppActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        DataSpp dataSpp = new DataSpp();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                dataSpp.setLocation(getX(), getY());
-                dataSpp.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnDataSppActionPerformed
 
     private void btnPembayaranSppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPembayaranSppActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        PembayaranSpp pembayaranSpp = new PembayaranSpp();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                pembayaranSpp.setLocation(getX(), getY());
-                pembayaranSpp.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnPembayaranSppActionPerformed
 
     private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        LaporanPembayaran laporanSpp = new LaporanPembayaran();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                laporanSpp.setLocation(getX(), getY());
-                laporanSpp.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnLaporanActionPerformed
 
     private void btnTentangAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTentangAppActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        TentangAplikasi tentangApp = new TentangAplikasi();
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                tentangApp.setLocation(getX(), getY());
-                tentangApp.setVisible(true);
-            }
-        });
-        this.dispose();
+
     }//GEN-LAST:event_btnTentangAppActionPerformed
 
     public static void main(String args[]) {
