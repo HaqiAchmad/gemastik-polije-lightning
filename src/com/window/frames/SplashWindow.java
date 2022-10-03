@@ -1,11 +1,11 @@
-package com.window.all;
+package com.window.frames;
 
 import com.data.app.Application;
 import com.data.db.Database;
 import com.media.Gambar;
 import com.users.Users;
 import com.window.test.Dashboard;
-import com.window.test.EmptyWindow;
+import com.window.MainWindow;
 import javax.swing.JOptionPane;
 
 
@@ -95,7 +95,7 @@ public class SplashWindow extends javax.swing.JFrame {
                         java.awt.EventQueue.invokeLater(new Runnable(){
                             @Override
                             public void run(){
-                                new EmptyWindow().setVisible(true);
+                                new MainWindow().setVisible(true);
                             }
                         });
                             // jika user login dengan level admin atau petugas

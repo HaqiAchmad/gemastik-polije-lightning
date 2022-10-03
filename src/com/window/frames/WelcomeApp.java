@@ -1,4 +1,4 @@
-package com.window.all;
+package com.window.frames;
 
 import com.data.app.Application;
 import com.media.Audio;
