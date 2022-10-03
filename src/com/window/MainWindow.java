@@ -1,11 +1,19 @@
 package com.window;
 
+import com.window.panels.DataBarang;
+import com.window.panels.DataKaryawan;
+import com.window.panels.DataPembeli;
+import com.window.panels.DataSupplier;
+import com.window.panels.LaporanBeli;
+import com.window.panels.LaporanJual;
+import com.window.panels.TransaksiBeli;
+import com.window.panels.TransaksiJual;
+import com.window.test.Dashboard;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,19 +21,18 @@ import javax.swing.JLabel;
  */
 public class MainWindow extends javax.swing.JFrame {
     
+    private final Dashboard dashboard = new Dashboard();
+    
     public MainWindow() {
         initComponents();
         
-        System.out.println(pnlMenu.getWidth());
-        System.out.println(pnlMenu.getHeight());
-        
-        this.pnlMenu.removeAll();
-        this.pnlMenu.repaint();
-        this.pnlMenu.revalidate();
-        
-        this.pnlMenu.add(new com.window.panels.Dashboard());
-        this.pnlMenu.repaint();
-        this.pnlMenu.revalidate();
+//        this.pnlMenu.removeAll();
+//        this.pnlMenu.repaint();
+//        this.pnlMenu.revalidate();
+//        
+//        this.pnlMenu.add(new com.window.panels.Dashboard());
+//        this.pnlMenu.repaint();
+//        this.pnlMenu.revalidate();
         
         this.setTitle("Dashboard");
         this.btnDashboard.setForeground(new Color(0,0,0));
@@ -70,6 +77,18 @@ public class MainWindow extends javax.swing.JFrame {
             });
         }
     }
+    
+    private void setMenu(Object menu){
+        // menghapus panel lama
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(dashboard);
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -98,6 +117,17 @@ public class MainWindow extends javax.swing.JFrame {
         pnlMenu = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,6 +166,11 @@ public class MainWindow extends javax.swing.JFrame {
         btnDashboard.setText("Dashboard");
         btnDashboard.setIconTextGap(7);
         btnDashboard.setOpaque(true);
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
 
         btnKaryawan.setBackground(new java.awt.Color(96, 167, 231));
         btnKaryawan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -143,54 +178,99 @@ public class MainWindow extends javax.swing.JFrame {
         btnKaryawan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-karyawan.png"))); // NOI18N
         btnKaryawan.setText("Data Karyawan");
         btnKaryawan.setIconTextGap(7);
+        btnKaryawan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKaryawanMouseClicked(evt);
+            }
+        });
 
         btnSupplier.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnSupplier.setForeground(new java.awt.Color(255, 255, 255));
         btnSupplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-supplier.png"))); // NOI18N
         btnSupplier.setText("Data Supplier");
         btnSupplier.setIconTextGap(7);
+        btnSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSupplierMouseClicked(evt);
+            }
+        });
 
         btnPembeli.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnPembeli.setForeground(new java.awt.Color(255, 255, 255));
         btnPembeli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-pembeli.png"))); // NOI18N
         btnPembeli.setText("Data Pembeli");
         btnPembeli.setIconTextGap(7);
+        btnPembeli.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPembeliMouseClicked(evt);
+            }
+        });
 
         btnBarang.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-barang.png"))); // NOI18N
         btnBarang.setText("Data Barang");
         btnBarang.setIconTextGap(7);
+        btnBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBarangMouseClicked(evt);
+            }
+        });
 
         btnTrJual.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnTrJual.setForeground(new java.awt.Color(255, 255, 255));
         btnTrJual.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-trjual.png"))); // NOI18N
         btnTrJual.setText("Transaksi Jual");
         btnTrJual.setIconTextGap(7);
+        btnTrJual.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTrJualMouseClicked(evt);
+            }
+        });
 
         btnTrBeli.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnTrBeli.setForeground(new java.awt.Color(255, 255, 255));
         btnTrBeli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-trbeli.png"))); // NOI18N
         btnTrBeli.setText("Transaksi Beli");
         btnTrBeli.setIconTextGap(7);
+        btnTrBeli.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTrBeliMouseClicked(evt);
+            }
+        });
 
         btnLpJual.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnLpJual.setForeground(new java.awt.Color(255, 255, 255));
         btnLpJual.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-lpjual.png"))); // NOI18N
         btnLpJual.setText("Laporan Jual");
         btnLpJual.setIconTextGap(7);
+        btnLpJual.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLpJualMouseClicked(evt);
+            }
+        });
 
         btnLpBeli.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnLpBeli.setForeground(new java.awt.Color(255, 255, 255));
         btnLpBeli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-lpbeli.png"))); // NOI18N
         btnLpBeli.setText("Laporan Beli");
         btnLpBeli.setIconTextGap(7);
+        btnLpBeli.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLpBeliMouseClicked(evt);
+            }
+        });
 
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-logout.png"))); // NOI18N
         btnLogout.setText("Logout");
         btnLogout.setIconTextGap(7);
+        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogoutMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout sideMenuLayout = new javax.swing.GroupLayout(sideMenu);
         sideMenu.setLayout(sideMenuLayout);
@@ -315,6 +395,139 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        this.lblMenuName.setText("Dashboard");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new com.window.panels.Dashboard());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
+    private void btnKaryawanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKaryawanMouseClicked
+        this.lblMenuName.setText("Data Karyawan");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new DataKaryawan());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnKaryawanMouseClicked
+
+    private void btnSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupplierMouseClicked
+        this.lblMenuName.setText("Data Supplier");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new DataSupplier());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnSupplierMouseClicked
+
+    private void btnPembeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPembeliMouseClicked
+        this.lblMenuName.setText("Data Pembeli");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new DataPembeli());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnPembeliMouseClicked
+
+    private void btnBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangMouseClicked
+        this.lblMenuName.setText("Data Barang");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new DataBarang());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnBarangMouseClicked
+
+    private void btnTrJualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrJualMouseClicked
+        this.lblMenuName.setText("Transaksi Jual");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new TransaksiJual());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnTrJualMouseClicked
+
+    private void btnTrBeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrBeliMouseClicked
+        this.lblMenuName.setText("Transaksi Beli");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new TransaksiBeli());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnTrBeliMouseClicked
+
+    private void btnLpJualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLpJualMouseClicked
+        this.lblMenuName.setText("Laporan Jual");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new LaporanJual());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnLpJualMouseClicked
+
+    private void btnLpBeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLpBeliMouseClicked
+        this.lblMenuName.setText("Laporan Beli");
+        
+        pnlMenu.removeAll();
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+        
+        // menambahkan panel baru
+        pnlMenu.add(new LaporanBeli());
+        pnlMenu.repaint();
+        pnlMenu.revalidate();
+    }//GEN-LAST:event_btnLpBeliMouseClicked
+
+    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
+        
+    }//GEN-LAST:event_btnLogoutMouseClicked
 
     public static void main(String args[]) {
 

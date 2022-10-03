@@ -8,6 +8,11 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -255,6 +260,9 @@
                     <Property name="iconTextGap" type="int" value="7"/>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDashboardMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnKaryawan">
                   <Properties>
@@ -273,6 +281,9 @@
                     <Property name="text" type="java.lang.String" value="Data Karyawan"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnKaryawanMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnSupplier">
                   <Properties>
@@ -288,6 +299,9 @@
                     <Property name="text" type="java.lang.String" value="Data Supplier"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSupplierMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnPembeli">
                   <Properties>
@@ -303,6 +317,9 @@
                     <Property name="text" type="java.lang.String" value="Data Pembeli"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPembeliMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnBarang">
                   <Properties>
@@ -318,6 +335,9 @@
                     <Property name="text" type="java.lang.String" value="Data Barang"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnBarangMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnTrJual">
                   <Properties>
@@ -333,6 +353,9 @@
                     <Property name="text" type="java.lang.String" value="Transaksi Jual"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnTrJualMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnTrBeli">
                   <Properties>
@@ -348,6 +371,9 @@
                     <Property name="text" type="java.lang.String" value="Transaksi Beli"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnTrBeliMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnLpJual">
                   <Properties>
@@ -363,6 +389,9 @@
                     <Property name="text" type="java.lang.String" value="Laporan Jual"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLpJualMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnLpBeli">
                   <Properties>
@@ -378,6 +407,9 @@
                     <Property name="text" type="java.lang.String" value="Laporan Beli"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLpBeliMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnLogout">
                   <Properties>
@@ -393,6 +425,9 @@
                     <Property name="text" type="java.lang.String" value="Logout"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLogoutMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
