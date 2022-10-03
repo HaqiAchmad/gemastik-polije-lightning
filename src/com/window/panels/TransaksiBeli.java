@@ -9,12 +9,12 @@ package com.window.panels;
  *
  * @author Infinite World
  */
-public class Dashboard extends javax.swing.JPanel {
+public class TransaksiBeli extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    public TransaksiBeli() {
         initComponents();
     }
 
