@@ -4,7 +4,7 @@ import com.error.StorageNotFoundException;
 import com.manage.Message;
 import com.manage.Text;
 import com.manage.Waktu;
-import com.window.all.WelcomeApp;
+import com.window.frames.WelcomeApp;
 import javax.swing.ImageIcon;
 
 /**
@@ -82,7 +82,7 @@ public final class Application {
 
                 @Override
                 public void run(){
-                    new com.window.all.SplashWindow().setVisible(true);
+                    new com.window.frames.SplashWindow().setVisible(true);
                 }
             });
         }
