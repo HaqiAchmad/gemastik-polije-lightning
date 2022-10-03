@@ -7,6 +7,7 @@ import com.manage.Message;
 import com.media.Audio;
 import com.media.Gambar;
 import com.users.Users;
+import com.window.MainWindow;
 import com.window.test.Dashboard;
 
 import java.awt.Color;
@@ -326,10 +327,11 @@ public class LoginWindow extends javax.swing.JFrame {
                 // jika user login dengan level akun admin atau petugas
                 Audio.play(Audio.SOUND_INFO);
                 JOptionPane.showMessageDialog(this, "Login Berhasil!\n\nSelamat datang " + user.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'"));
+                
                 java.awt.EventQueue.invokeLater(new Runnable(){
                     @Override
                     public void run(){
-                        new Dashboard().setVisible(true);
+                        new MainWindow().setVisible(true);
                     }
                 });
                 
