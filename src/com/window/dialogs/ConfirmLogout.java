@@ -1,9 +1,10 @@
-package com.window.all;
+package com.window.dialogs;
 
 import com.error.AuthenticationException;
 import com.manage.Message;
 import com.media.Gambar;
 import com.users.Users;
+import com.window.frames.LoginWindow;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.window.all;
+package com.window.dialogs;
 
 import com.media.Gambar;
 import java.awt.Color;

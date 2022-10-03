@@ -1,4 +1,4 @@
-package com.window.all;
+package com.window.dialogs;
 
 import com.data.app.Log;
 import com.manage.Message;

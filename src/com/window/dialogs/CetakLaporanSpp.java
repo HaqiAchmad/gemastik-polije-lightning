@@ -1,4 +1,4 @@
-package com.window.all;
+package com.window.dialogs;
 
 import com.manage.Message;
 import com.media.Gambar;
