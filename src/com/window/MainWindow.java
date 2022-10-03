@@ -1,4 +1,4 @@
-package com.window.test;
+package com.window;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -11,10 +11,21 @@ import javax.swing.JLabel;
  *
  * @author Gemastik Lightning
  */
-public class EmptyWindow extends javax.swing.JFrame {
+public class MainWindow extends javax.swing.JFrame {
     
-    public EmptyWindow() {
+    public MainWindow() {
         initComponents();
+        
+        System.out.println(pnlMenu.getWidth());
+        System.out.println(pnlMenu.getHeight());
+        
+        this.pnlMenu.removeAll();
+        this.pnlMenu.repaint();
+        this.pnlMenu.revalidate();
+        
+        this.pnlMenu.add(new com.window.panels.Dashboard());
+        this.pnlMenu.repaint();
+        this.pnlMenu.revalidate();
         
         this.setTitle("Dashboard");
         this.btnDashboard.setForeground(new Color(0,0,0));
@@ -65,7 +76,7 @@ public class EmptyWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        pnlMain = new javax.swing.JPanel();
         sideMenu = new keeptoo.KGradientPanel();
         lblNamaApp = new javax.swing.JLabel();
         lineSideMenu = new javax.swing.JSeparator();
@@ -83,10 +94,12 @@ public class EmptyWindow extends javax.swing.JFrame {
         btnLpJual = new javax.swing.JLabel();
         btnLpBeli = new javax.swing.JLabel();
         btnLogout = new javax.swing.JLabel();
+        lblMenuName = new javax.swing.JLabel();
+        pnlMenu = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
         sideMenu.setkEndColor(new java.awt.Color(28, 181, 224));
         sideMenu.setkGradientFocus(-20);
@@ -253,20 +266,41 @@ public class EmptyWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lblMenuName.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lblMenuName.setForeground(new java.awt.Color(0, 0, 0));
+        lblMenuName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-dashboard-logo.png"))); // NOI18N
+        lblMenuName.setText("Dashboard");
+        lblMenuName.setIconTextGap(10);
+
+        pnlMenu.setBackground(new java.awt.Color(255, 255, 255));
+        pnlMenu.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
                 .addComponent(sideMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 961, Short.MAX_VALUE))
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 600, Short.MAX_VALUE))
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sideMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblMenuName)
+                .addGap(18, 18, 18)
+                .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setViewportView(jPanel1);
+        jScrollPane1.setViewportView(pnlMain);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -292,14 +326,14 @@ public class EmptyWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EmptyWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new EmptyWindow().setVisible(true);
+                new MainWindow().setVisible(true);
             }
         });
     }
@@ -315,14 +349,16 @@ public class EmptyWindow extends javax.swing.JFrame {
     private javax.swing.JLabel btnSupplier;
     private javax.swing.JLabel btnTrBeli;
     private javax.swing.JLabel btnTrJual;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblMenuName;
     private javax.swing.JLabel lblNamaApp;
     private javax.swing.JLabel lblNamaUser;
     private javax.swing.JLabel lblSideMenu;
     private javax.swing.JLabel lblSideMenuFitur;
     private javax.swing.JLabel lblSideMenuInfo;
     private javax.swing.JSeparator lineSideMenu;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlMenu;
     private keeptoo.KGradientPanel sideMenu;
     // End of variables declaration//GEN-END:variables
 }
