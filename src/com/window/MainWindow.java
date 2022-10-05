@@ -10,6 +10,11 @@ import com.window.panels.TransaksiBeli;
 import com.window.panels.TransaksiJual;
 import com.window.test.Dashboard;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.LayoutManager;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 import javax.swing.JLabel;
@@ -25,14 +30,6 @@ public class MainWindow extends javax.swing.JFrame {
     
     public MainWindow() {
         initComponents();
-        
-//        this.pnlMenu.removeAll();
-//        this.pnlMenu.repaint();
-//        this.pnlMenu.revalidate();
-//        
-//        this.pnlMenu.add(new com.window.panels.Dashboard());
-//        this.pnlMenu.repaint();
-//        this.pnlMenu.revalidate();
         
         this.setTitle("Dashboard");
         this.btnDashboard.setForeground(new Color(0,0,0));
@@ -76,6 +73,14 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             });
         }
+        
+        this.pnlMenu.removeAll();
+        this.pnlMenu.repaint();
+        this.pnlMenu.revalidate();
+        
+        this.pnlMenu.add(new com.window.panels.Dashboard());
+        this.pnlMenu.repaint();
+        this.pnlMenu.revalidate();
     }
     
     private void setMenu(Object menu){
@@ -574,4 +579,55 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMenu;
     private keeptoo.KGradientPanel sideMenu;
     // End of variables declaration//GEN-END:variables
+}
+
+class RoundedPanel extends JPanel{
+    
+    private Color backgroundColor;
+    private int cornerRadius = 15;
+    
+    public RoundedPanel(LayoutManager layout, int radius){
+        super(layout);
+        cornerRadius = radius;
+    }
+    
+    public RoundedPanel(LayoutManager layout, int radius, Color bgColor){
+        super(layout);
+        cornerRadius = radius;
+        backgroundColor = bgColor;
+    }
+    
+    public RoundedPanel(int radius){
+        super();
+        cornerRadius = radius;
+    }
+    
+    public RoundedPanel(int radius, Color bgColor){
+        super();
+        cornerRadius = radius;
+        this.backgroundColor = bgColor;
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        Dimension arcs = new Dimension(cornerRadius, cornerRadius);
+        int width = getWidth();
+        int height = getHeight();
+        Graphics2D graphics = (Graphics2D) g;
+        
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        // mengambar rounded panel with borders
+        if(backgroundColor != null){
+            graphics.setColor(getBackground());
+        }else{
+            graphics.setColor(getBackground());
+        }
+        
+        graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);
+        graphics.setColor(getForeground());
+        graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);
+    }
+    
 }
