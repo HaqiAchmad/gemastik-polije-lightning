@@ -231,9 +231,11 @@ public class Dashboard extends javax.swing.JPanel {
         );
 
         panelLineChart.setBackground(new java.awt.Color(255, 255, 255));
+        panelLineChart.setForeground(new java.awt.Color(255, 2, 9));
         panelLineChart.setLayout(new java.awt.BorderLayout());
 
         lineChart.setBackground(new java.awt.Color(255, 255, 255));
+        lineChart.setForeground(new java.awt.Color(255, 255, 0));
         lineChart.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -309,15 +311,15 @@ public void showPieChart(){
       barDataset.setValue( "ATK" , new Double( 10 ) );  
       
       //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
+      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
        //changing pie chart blocks colors
-       piePlot.setSectionPaint("Makanan", new Color(255,255,102));
-        piePlot.setSectionPaint("Minuman", new Color(102,255,102));
-        piePlot.setSectionPaint("Snack", new Color(255,102,153));
-        piePlot.setSectionPaint("ATK", new Color(0,204,204));
+       piePlot.setSectionPaint("Makanan", new Color(255,255,0));
+       piePlot.setSectionPaint("Minuman", new Color(51,255,0));
+       piePlot.setSectionPaint("Snack", new Color(255,0,255));
+       piePlot.setSectionPaint("ATK", new Color(0,204,204));
       
        
         piePlot.setBackgroundPaint(Color.white);
@@ -333,7 +335,7 @@ public void showPieChart(){
     
     public void showLineChart(){
         //create dataset for the graph
-         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.setValue(200, "Amount", "Kamis");
         dataset.setValue(150, "Amount", "Jumat");
         dataset.setValue(58, "Amount", "Sabtu");
@@ -348,12 +350,12 @@ public void showPieChart(){
         
         //create plot object
          CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
-       // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
-        lineCategoryPlot.setBackgroundPaint(Color.white);
+        lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
+        lineCategoryPlot.setBackgroundPaint(Color.WHITE);
         
         //create render object to change the moficy the line properties like color
         LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
-        Color lineChartColor = new Color(204,0,51);
+        Color lineChartColor = new Color(255,2,9);
         lineRenderer.setSeriesPaint(0, lineChartColor);
         
          //create chartPanel to display chart(graph)
