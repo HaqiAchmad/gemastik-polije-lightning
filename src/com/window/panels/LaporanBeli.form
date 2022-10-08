@@ -29,8 +29,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnlDataPembeli4" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTabbedPane1" min="-2" pref="493" max="-2" attributes="0"/>
+                          <Component id="pnlDataPengeluaran" min="-2" max="-2" attributes="0"/>
+                          <Component id="tabPengeluaran" min="-2" pref="493" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -43,7 +43,7 @@
                           <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lineBottom" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnAdd" min="-2" pref="121" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -63,9 +63,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="pnlDataPembeli4" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlDataPengeluaran" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                      <Component id="tabPengeluaran" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -77,7 +77,7 @@
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="lineBottom" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnAdd" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
@@ -148,7 +148,7 @@
         <Property name="text" type="java.lang.String" value="Cari Pengeluaran :"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="pnlDataPembeli4">
+    <Container class="javax.swing.JPanel" name="pnlDataPengeluaran">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -165,31 +165,31 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="lblDataPembeli4" alignment="1" max="32767" attributes="0"/>
+              <Component id="lblDataPengeluaran" alignment="1" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="lblLast4" alignment="0" pref="151" max="32767" attributes="0"/>
-                      <Component id="lblUang4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblPembelian4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblFavorite4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblAlamat4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblNoTelp4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblNamaPembeli4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblIDPembeli4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblLast5" alignment="0" pref="151" max="32767" attributes="0"/>
+                      <Component id="lblHarga" alignment="0" pref="151" max="32767" attributes="0"/>
+                      <Component id="lblJumlahBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblJenisBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblNamaBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblNamaKaryawan" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblNamaSupplier" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblIDTransaksi" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblIDPengeluaran" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblTanggal" alignment="0" pref="151" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="valIDPembelian4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valNamaPembeli4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valNoTelp4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valAlamat4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valFavorite4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valPembelian4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valUang4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valLast4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="valLast5" alignment="0" pref="320" max="32767" attributes="0"/>
+                      <Component id="valIDPengeluaran" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valIDTransaksi" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valNamaSupplier" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valNamaKaryawan" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valNamaBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valJenisBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valJumlahBrg" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valHarga" alignment="0" max="32767" attributes="0"/>
+                      <Component id="valTanggal" alignment="0" pref="320" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -198,51 +198,51 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="lblDataPembeli4" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="lblDataPengeluaran" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblIDPembeli4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valIDPembelian4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblIDPengeluaran" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valIDPengeluaran" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblNamaPembeli4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valNamaPembeli4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblIDTransaksi" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valIDTransaksi" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblNoTelp4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valNoTelp4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNamaSupplier" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valNamaSupplier" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblAlamat4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valAlamat4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNamaKaryawan" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valNamaKaryawan" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblFavorite4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valFavorite4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNamaBrg" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valNamaBrg" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblPembelian4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valPembelian4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblJenisBrg" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valJenisBrg" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblUang4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valUang4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblJumlahBrg" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valJumlahBrg" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLast4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valLast4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblHarga" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valHarga" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLast5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valLast5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTanggal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valTanggal" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
               </Group>
@@ -250,7 +250,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblDataPembeli4">
+        <Component class="javax.swing.JLabel" name="lblDataPengeluaran">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="39" green="aa" red="5" type="rgb"/>
@@ -265,7 +265,7 @@
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblIDPembeli4">
+        <Component class="javax.swing.JLabel" name="lblIDPengeluaran">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -276,7 +276,7 @@
             <Property name="text" type="java.lang.String" value="ID Pengeluaran"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblNamaPembeli4">
+        <Component class="javax.swing.JLabel" name="lblIDTransaksi">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -287,7 +287,7 @@
             <Property name="text" type="java.lang.String" value="ID Transaksi"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblNoTelp4">
+        <Component class="javax.swing.JLabel" name="lblNamaSupplier">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -298,7 +298,7 @@
             <Property name="text" type="java.lang.String" value="Nama Supplier"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblAlamat4">
+        <Component class="javax.swing.JLabel" name="lblNamaKaryawan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -309,7 +309,7 @@
             <Property name="text" type="java.lang.String" value="Nama Karyawan"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblFavorite4">
+        <Component class="javax.swing.JLabel" name="lblNamaBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -320,7 +320,7 @@
             <Property name="text" type="java.lang.String" value="Nama Barang"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblPembelian4">
+        <Component class="javax.swing.JLabel" name="lblJenisBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -331,7 +331,7 @@
             <Property name="text" type="java.lang.String" value="Jenis Barang"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblLast4">
+        <Component class="javax.swing.JLabel" name="lblHarga">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -342,7 +342,7 @@
             <Property name="text" type="java.lang.String" value="Total Harga"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblUang4">
+        <Component class="javax.swing.JLabel" name="lblJumlahBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -353,7 +353,7 @@
             <Property name="text" type="java.lang.String" value="Jumlah Barang"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valIDPembelian4">
+        <Component class="javax.swing.JLabel" name="valIDPengeluaran">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -364,7 +364,7 @@
             <Property name="text" type="java.lang.String" value=": PB001"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valNamaPembeli4">
+        <Component class="javax.swing.JLabel" name="valIDTransaksi">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -375,7 +375,7 @@
             <Property name="text" type="java.lang.String" value=": TR001"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valNoTelp4">
+        <Component class="javax.swing.JLabel" name="valNamaSupplier">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -386,7 +386,7 @@
             <Property name="text" type="java.lang.String" value=": Ilham Islamy"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valAlamat4">
+        <Component class="javax.swing.JLabel" name="valNamaKaryawan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -397,7 +397,7 @@
             <Property name="text" type="java.lang.String" value=": Amirzan F"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valFavorite4">
+        <Component class="javax.swing.JLabel" name="valNamaBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -408,7 +408,7 @@
             <Property name="text" type="java.lang.String" value=": Teh Pucuk"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valPembelian4">
+        <Component class="javax.swing.JLabel" name="valJenisBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -419,7 +419,7 @@
             <Property name="text" type="java.lang.String" value=": Minuman"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valUang4">
+        <Component class="javax.swing.JLabel" name="valJumlahBrg">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -430,7 +430,7 @@
             <Property name="text" type="java.lang.String" value=": 15"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valLast4">
+        <Component class="javax.swing.JLabel" name="valHarga">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -441,7 +441,7 @@
             <Property name="text" type="java.lang.String" value=": Rp. 15.000"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblLast5">
+        <Component class="javax.swing.JLabel" name="lblTanggal">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -452,7 +452,7 @@
             <Property name="text" type="java.lang.String" value="Tanggal"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valLast5">
+        <Component class="javax.swing.JLabel" name="valTanggal">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -465,11 +465,11 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+    <Container class="javax.swing.JTabbedPane" name="tabPengeluaran">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="chart1">
+        <Container class="javax.swing.JPanel" name="tabChartMinggu">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Minggu Ini">
@@ -480,7 +480,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
         </Container>
-        <Container class="javax.swing.JPanel" name="chart2">
+        <Container class="javax.swing.JPanel" name="tabChartBulan">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Bulan Ini">
@@ -493,7 +493,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    <Component class="javax.swing.JSeparator" name="lineBottom">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
