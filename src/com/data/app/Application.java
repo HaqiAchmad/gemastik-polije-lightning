@@ -30,7 +30,7 @@ public final class Application {
                                 DB_PLATFORM = "MySQL",
                                 TAHUN_AJARAN = "2020-2021",
                                 COMPANY = "Politeknik Negeri Jember",
-                                WINDOW_ICON = "src\\resources\\image\\icons\\logo-smkn1kts.png",
+                                WINDOW_ICON = "src\\resources\\image\\icons\\app-logo.png",
 //                                TOP_ICON = "src\\resources\\image\\icons\\logo-smkn1kts-circle.png",
 //                                BOTTOM_ICON = WINDOW_ICON;
                                 TOP_ICON = "src\\resources\\image\\icons\\logo-smkn1kts-circle_35x35.png",

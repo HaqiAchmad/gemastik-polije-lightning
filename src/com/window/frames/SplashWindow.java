@@ -1,6 +1,7 @@
 package com.window.frames;
 
 import com.data.app.Application;
+import com.data.app.Log;
 import com.data.db.Database;
 import com.media.Gambar;
 import com.users.Users;
@@ -24,6 +25,7 @@ public class SplashWindow extends javax.swing.JFrame {
         initComponents();
         
         this.lblTop.setText(Application.getNama());
+        this.lblSekolah.setText(Application.getCompany());
         this.setLocationRelativeTo(null);
         this.setIconImage(Gambar.getWindowIcon());
         
@@ -39,8 +41,10 @@ public class SplashWindow extends javax.swing.JFrame {
                 int val = 0, delay = 50;
                 try{
                     // CHANGE THIS ( SKIP SPLASH WINDOW )
-//                    val = 100;
-                    // melakukan loading dari 0% sampai 100%
+                    val = 100;
+//                     melakukan loading dari 0% sampai 100%
+                    Log.addLog("SPLASH WINDOW SKIPPED");
+                    Thread.sleep(500);
                     while(val <= 100){
                         if(val >= 0 && val < 9){
                             delay = 50;
@@ -163,10 +167,10 @@ public class SplashWindow extends javax.swing.JFrame {
         lblTop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTop.setForeground(new java.awt.Color(10, 223, 121));
         lblTop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTop.setText("SPP Payment");
+        lblTop.setText("Gemastik Lightning");
 
         lblLogoSmk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-splashwindow-logosmkn1kts.png"))); // NOI18N
+        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
 
         lblLoadVal.setForeground(new java.awt.Color(255, 255, 255));
         lblLoadVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -179,7 +183,7 @@ public class SplashWindow extends javax.swing.JFrame {
         lblSekolah.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblSekolah.setForeground(new java.awt.Color(226, 39, 39));
         lblSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSekolah.setText("SMK Negeri 1 Kertosono");
+        lblSekolah.setText("Polije");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -187,10 +191,10 @@ public class SplashWindow extends javax.swing.JFrame {
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(proLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblLogoSmk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblLogoSmk, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblLoadVal, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(lblSekolah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );

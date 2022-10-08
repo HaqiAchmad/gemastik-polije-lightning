@@ -46,10 +46,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="proLoad" max="32767" attributes="0"/>
               <Component id="lblTop" alignment="0" max="32767" attributes="0"/>
-              <Component id="lblLogoSmk" alignment="0" max="32767" attributes="0"/>
+              <Component id="lblLogoSmk" alignment="0" min="-2" pref="552" max="-2" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
                   <Component id="lblMessage" min="-2" pref="287" max="-2" attributes="0"/>
-                  <EmptySpace pref="147" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblLoadVal" min="-2" pref="118" max="-2" attributes="0"/>
               </Group>
               <Component id="lblSekolah" alignment="0" max="32767" attributes="0"/>
@@ -97,14 +97,14 @@
               <Color blue="79" green="df" red="a" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SPP Payment"/>
+            <Property name="text" type="java.lang.String" value="Gemastik Lightning"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLogoSmk">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/image/icons/ic-splashwindow-logosmkn1kts.png"/>
+              <Image iconType="3" name="/resources/image/icons/ic-app-splashwindow.png"/>
             </Property>
           </Properties>
         </Component>
@@ -137,7 +137,7 @@
               <Color blue="27" green="27" red="e2" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SMK Negeri 1 Kertosono"/>
+            <Property name="text" type="java.lang.String" value="Polije"/>
           </Properties>
         </Component>
       </SubComponents>

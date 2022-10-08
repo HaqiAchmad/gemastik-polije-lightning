@@ -1,6 +1,8 @@
 package com.window;
 
 import com.media.Audio;
+import com.media.Gambar;
+import com.users.Users;
 import com.window.dialogs.ConfirmLogout;
 import com.window.panels.DataBarang;
 import com.window.panels.DataKaryawan;
@@ -29,6 +31,8 @@ import javax.swing.JPanel;
  */
 public class MainWindow extends javax.swing.JFrame {
     
+    private final Users user = new Users();
+    
     private final Dashboard dashboard = new Dashboard();
     
     private JLabel activated;
@@ -44,6 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
         };
         
         this.setTitle("Dashboard");
+        this.setIconImage(Gambar.getWindowIcon());
 //        this.btnDashboard.setForeground(new Color(0,0,0));
         this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         
