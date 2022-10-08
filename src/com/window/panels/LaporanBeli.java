@@ -251,9 +251,9 @@ public class LaporanBeli extends javax.swing.JPanel {
         lblCari.setText("Cari Pengeluaran :");
 
         pnlDataPembeli4.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDataPembeli4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 121, 173), 3));
+        pnlDataPembeli4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
 
-        lblDataPembeli4.setBackground(new java.awt.Color(11, 114, 238));
+        lblDataPembeli4.setBackground(new java.awt.Color(5, 170, 57));
         lblDataPembeli4.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblDataPembeli4.setForeground(new java.awt.Color(255, 255, 255));
         lblDataPembeli4.setText("  Detail Pengeluaran");
@@ -416,7 +416,7 @@ public class LaporanBeli extends javax.swing.JPanel {
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
-        btnAdd.setText("Tambah Data");
+        btnAdd.setText("Print Data");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
@@ -454,9 +454,9 @@ public class LaporanBeli extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEdit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -503,99 +503,27 @@ public class LaporanBeli extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblAlamat;
-    private javax.swing.JLabel lblAlamat1;
-    private javax.swing.JLabel lblAlamat2;
-    private javax.swing.JLabel lblAlamat3;
     private javax.swing.JLabel lblAlamat4;
     private javax.swing.JLabel lblCari;
-    private javax.swing.JLabel lblDataPembeli;
-    private javax.swing.JLabel lblDataPembeli1;
-    private javax.swing.JLabel lblDataPembeli2;
-    private javax.swing.JLabel lblDataPembeli3;
     private javax.swing.JLabel lblDataPembeli4;
-    private javax.swing.JLabel lblFavorite;
-    private javax.swing.JLabel lblFavorite1;
-    private javax.swing.JLabel lblFavorite2;
-    private javax.swing.JLabel lblFavorite3;
     private javax.swing.JLabel lblFavorite4;
-    private javax.swing.JLabel lblIDPembeli;
-    private javax.swing.JLabel lblIDPembeli1;
-    private javax.swing.JLabel lblIDPembeli2;
-    private javax.swing.JLabel lblIDPembeli3;
     private javax.swing.JLabel lblIDPembeli4;
-    private javax.swing.JLabel lblLast;
-    private javax.swing.JLabel lblLast1;
-    private javax.swing.JLabel lblLast2;
-    private javax.swing.JLabel lblLast3;
     private javax.swing.JLabel lblLast4;
     private javax.swing.JLabel lblLast5;
-    private javax.swing.JLabel lblNamaPembeli;
-    private javax.swing.JLabel lblNamaPembeli1;
-    private javax.swing.JLabel lblNamaPembeli2;
-    private javax.swing.JLabel lblNamaPembeli3;
     private javax.swing.JLabel lblNamaPembeli4;
-    private javax.swing.JLabel lblNoTelp;
-    private javax.swing.JLabel lblNoTelp1;
-    private javax.swing.JLabel lblNoTelp2;
-    private javax.swing.JLabel lblNoTelp3;
     private javax.swing.JLabel lblNoTelp4;
-    private javax.swing.JLabel lblPembelian;
-    private javax.swing.JLabel lblPembelian1;
-    private javax.swing.JLabel lblPembelian2;
-    private javax.swing.JLabel lblPembelian3;
     private javax.swing.JLabel lblPembelian4;
-    private javax.swing.JLabel lblUang;
-    private javax.swing.JLabel lblUang1;
-    private javax.swing.JLabel lblUang2;
-    private javax.swing.JLabel lblUang3;
     private javax.swing.JLabel lblUang4;
-    private javax.swing.JPanel pnlDataPembeli;
-    private javax.swing.JPanel pnlDataPembeli1;
-    private javax.swing.JPanel pnlDataPembeli2;
-    private javax.swing.JPanel pnlDataPembeli3;
     private javax.swing.JPanel pnlDataPembeli4;
     private javax.swing.JTable tabelData;
-    private javax.swing.JLabel valAlamat;
-    private javax.swing.JLabel valAlamat1;
-    private javax.swing.JLabel valAlamat2;
-    private javax.swing.JLabel valAlamat3;
     private javax.swing.JLabel valAlamat4;
-    private javax.swing.JLabel valFavorite;
-    private javax.swing.JLabel valFavorite1;
-    private javax.swing.JLabel valFavorite2;
-    private javax.swing.JLabel valFavorite3;
     private javax.swing.JLabel valFavorite4;
-    private javax.swing.JLabel valIDPembelian;
-    private javax.swing.JLabel valIDPembelian1;
-    private javax.swing.JLabel valIDPembelian2;
-    private javax.swing.JLabel valIDPembelian3;
     private javax.swing.JLabel valIDPembelian4;
-    private javax.swing.JLabel valLast;
-    private javax.swing.JLabel valLast1;
-    private javax.swing.JLabel valLast2;
-    private javax.swing.JLabel valLast3;
     private javax.swing.JLabel valLast4;
     private javax.swing.JLabel valLast5;
-    private javax.swing.JLabel valNamaPembeli;
-    private javax.swing.JLabel valNamaPembeli1;
-    private javax.swing.JLabel valNamaPembeli2;
-    private javax.swing.JLabel valNamaPembeli3;
     private javax.swing.JLabel valNamaPembeli4;
-    private javax.swing.JLabel valNoTelp;
-    private javax.swing.JLabel valNoTelp1;
-    private javax.swing.JLabel valNoTelp2;
-    private javax.swing.JLabel valNoTelp3;
     private javax.swing.JLabel valNoTelp4;
-    private javax.swing.JLabel valPembelian;
-    private javax.swing.JLabel valPembelian1;
-    private javax.swing.JLabel valPembelian2;
-    private javax.swing.JLabel valPembelian3;
     private javax.swing.JLabel valPembelian4;
-    private javax.swing.JLabel valUang;
-    private javax.swing.JLabel valUang1;
-    private javax.swing.JLabel valUang2;
-    private javax.swing.JLabel valUang3;
     private javax.swing.JLabel valUang4;
     // End of variables declaration//GEN-END:variables
 }
