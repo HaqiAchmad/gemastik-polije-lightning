@@ -5,7 +5,7 @@ import com.media.Gambar;
 import com.users.Users;
 import com.window.dialogs.ConfirmLogout;
 import com.window.panels.DataBarang;
-import com.window.panels.DataKaryawan;
+import com.window.panels.DataPetugas;
 import com.window.panels.DataPembeli;
 import com.window.panels.DataSupplier;
 import com.window.panels.LaporanBeli;
@@ -43,7 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         
         btns = new JLabel[]{
-            this.btnDashboard, this.btnKaryawan, this.btnSupplier, this.btnPembeli, this.btnBarang,
+            this.btnDashboard, this.btnPetugas, this.btnSupplier, this.btnPembeli, this.btnBarang,
             this.btnTrJual, this.btnTrBeli, this.btnLpJual, this.btnLpBeli, this.btnLogout
         };
         
@@ -178,7 +178,7 @@ public class MainWindow extends javax.swing.JFrame {
         lblSideMenuFitur = new javax.swing.JLabel();
         lblSideMenuInfo = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JLabel();
-        btnKaryawan = new javax.swing.JLabel();
+        btnPetugas = new javax.swing.JLabel();
         btnSupplier = new javax.swing.JLabel();
         btnPembeli = new javax.swing.JLabel();
         btnBarang = new javax.swing.JLabel();
@@ -246,15 +246,15 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        btnKaryawan.setBackground(new java.awt.Color(96, 167, 231));
-        btnKaryawan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnKaryawan.setForeground(new java.awt.Color(255, 255, 255));
-        btnKaryawan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-karyawan.png"))); // NOI18N
-        btnKaryawan.setText("Data Karyawan");
-        btnKaryawan.setIconTextGap(7);
-        btnKaryawan.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnPetugas.setBackground(new java.awt.Color(96, 167, 231));
+        btnPetugas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnPetugas.setForeground(new java.awt.Color(255, 255, 255));
+        btnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-karyawan.png"))); // NOI18N
+        btnPetugas.setText("Data Petugas");
+        btnPetugas.setIconTextGap(7);
+        btnPetugas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnKaryawanMouseClicked(evt);
+                btnPetugasMouseClicked(evt);
             }
         });
 
@@ -372,7 +372,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(sideMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKaryawan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPetugas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPembeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -396,7 +396,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPetugas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -498,9 +498,9 @@ public class MainWindow extends javax.swing.JFrame {
         pnlMenu.revalidate();
     }//GEN-LAST:event_btnDashboardMouseClicked
 
-    private void btnKaryawanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKaryawanMouseClicked
-        this.lblMenuName.setText("Data Karyawan");
-        this.setActivatedButton(this.btnKaryawan);
+    private void btnPetugasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPetugasMouseClicked
+        this.lblMenuName.setText("Data Petugas");
+        this.setActivatedButton(this.btnPetugas);
 //        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
@@ -509,10 +509,10 @@ public class MainWindow extends javax.swing.JFrame {
         pnlMenu.revalidate();
         
         // menambahkan panel baru
-        pnlMenu.add(new DataKaryawan());
+        pnlMenu.add(new DataPetugas());
         pnlMenu.repaint();
         pnlMenu.revalidate();
-    }//GEN-LAST:event_btnKaryawanMouseClicked
+    }//GEN-LAST:event_btnPetugasMouseClicked
 
     private void btnSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupplierMouseClicked
         this.lblMenuName.setText("Data Supplier");
@@ -659,11 +659,11 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBarang;
     private javax.swing.JLabel btnDashboard;
-    private javax.swing.JLabel btnKaryawan;
     private javax.swing.JLabel btnLogout;
     private javax.swing.JLabel btnLpBeli;
     private javax.swing.JLabel btnLpJual;
     private javax.swing.JLabel btnPembeli;
+    private javax.swing.JLabel btnPetugas;
     private javax.swing.JLabel btnSupplier;
     private javax.swing.JLabel btnTrBeli;
     private javax.swing.JLabel btnTrJual;

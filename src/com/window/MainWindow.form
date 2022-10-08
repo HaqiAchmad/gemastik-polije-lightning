@@ -124,7 +124,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnDashboard" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
-                              <Component id="btnKaryawan" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
+                              <Component id="btnPetugas" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
                               <Component id="btnSupplier" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
                               <Component id="btnPembeli" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
                               <Component id="btnBarang" alignment="1" min="-2" pref="221" max="-2" attributes="0"/>
@@ -151,7 +151,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnDashboard" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnKaryawan" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnPetugas" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnSupplier" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -264,7 +264,7 @@
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDashboardMouseClicked"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="btnKaryawan">
+                <Component class="javax.swing.JLabel" name="btnPetugas">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="e7" green="a7" red="60" type="rgb"/>
@@ -278,11 +278,11 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-karyawan.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Data Karyawan"/>
+                    <Property name="text" type="java.lang.String" value="Data Petugas"/>
                     <Property name="iconTextGap" type="int" value="7"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnKaryawanMouseClicked"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPetugasMouseClicked"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btnSupplier">
