@@ -25,6 +25,7 @@ public class Dashboard extends javax.swing.JPanel {
         initComponents();
         
         this.showPieChart();
+//        this.showBarChart();
         this.showLineChart();
     }
 
@@ -301,7 +302,7 @@ public class Dashboard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-public void showPieChart(){
+    public void showPieChart(){
         
         //create dataset
       DefaultPieDataset barDataset = new DefaultPieDataset( );
@@ -331,8 +332,6 @@ public void showPieChart(){
         pnlPieChart.validate();
     }
 
-    /*=============================================================================*/
-    
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -365,8 +364,6 @@ public void showPieChart(){
         pnlLineChart.validate();
     }
 
-    /*========================================================================================*/
-    
     public void showHistogram(){
         
          double[] values = { 95, 49, 14, 59, 50, 66, 47, 40, 1, 67,
@@ -392,8 +389,6 @@ public void showPieChart(){
         pnlLineChart.validate();
     }
 
-    /*========================================================================================*/
-    
     public void showBarChart(){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.setValue(200, "Amount", "january");
