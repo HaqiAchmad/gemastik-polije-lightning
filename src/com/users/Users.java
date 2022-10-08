@@ -490,7 +490,9 @@ public class Users extends Database{
             if(isLogin()){
                 Log.addLog("Melakukan Logout pada Akun dengan ID User : " + this.getCurrentLogin() + "'");
                 // menghapus login data yang ada didalam database
-                BufferedWriter buff = new BufferedWriter(new FileWriter(new Storage().getUsersDir()));
+                BufferedWriter buff = new BufferedWriter(
+                        new FileWriter(
+                                new Storage().getUsersDir()));
                 buff.write("");
                 buff.flush();
                 return true;
