@@ -61,9 +61,9 @@ public class LaporanBeli extends javax.swing.JPanel {
         
         //create chartPanel to display chart(graph)
         ChartPanel barChartPanel = new ChartPanel(piechart);
-        chartPane.removeAll();
-        chartPane.add(barChartPanel, BorderLayout.CENTER);
-        chartPane.validate();
+//        chartPane.removeAll();
+//        chartPane.add(barChartPanel, BorderLayout.CENTER);
+//        chartPane.validate();
     }
 
     public void showLineChart1(){
@@ -173,10 +173,10 @@ public class LaporanBeli extends javax.swing.JPanel {
         renderer.setSeriesPaint(0, clr3);
         
         ChartPanel barpChartPanel = new ChartPanel(chart);
-        chartPane.removeAll();
-        chartPane.add(barpChartPanel, BorderLayout.CENTER);
-        chartPane.validate();
-        
+//        chartPane.removeAll();
+//        chartPane.add(barpChartPanel, BorderLayout.CENTER);
+//        chartPane.validate();
+//        
         
     }
 
