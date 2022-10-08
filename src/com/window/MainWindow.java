@@ -42,15 +42,14 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         
-        btns = new JLabel[]{
+        this.setTitle("Dashboard");
+        this.setIconImage(Gambar.getWindowIcon());
+        this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.btns = new JLabel[]{
             this.btnDashboard, this.btnPetugas, this.btnSupplier, this.btnPembeli, this.btnBarang,
             this.btnTrJual, this.btnTrBeli, this.btnLpJual, this.btnLpBeli, this.btnLogout
         };
-        
-        this.setTitle("Dashboard");
-        this.setIconImage(Gambar.getWindowIcon());
-//        this.btnDashboard.setForeground(new Color(0,0,0));
-        this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.activated = this.btnDashboard;
         
         // reset window
         this.pnlMenu.removeAll();
@@ -62,68 +61,28 @@ public class MainWindow extends javax.swing.JFrame {
         this.pnlMenu.revalidate();
         
         this.setActivatedButton(btnDashboard);
-//        this.hoverButton(btns, btnKaryawan);
+        this.hoverButton(btns);
     }
     
     private void setActivatedButton(JLabel activated){
+        this.activated = activated;
         // set menjadi activated
        activated.setOpaque(true);
        activated.setBackground(new Color(166,203,227));
        activated.setForeground(new Color(0,0,0));
        
         // mereset warna button/label
-        for(JLabel btn : this.btns){
-            if(btn != activated){
+        for(JLabel btn : btns){
+            if(btn != this.activated){
                 btn.setOpaque(false);
                 btn.setBackground(new Color(0,0,0,0));
                 btn.setForeground(new Color(255,255,255));
             }
             
         }
-        
-//        for(JLabel btn : btns){
-//            btn.addMouseListener(new java.awt.event.MouseListener() {
-//
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-////                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//                }
-//
-//                @Override
-//                public void mousePressed(MouseEvent e) {
-////                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//                }
-//
-//                @Override
-//                public void mouseReleased(MouseEvent e) {
-////                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//                }
-//
-//                @Override
-//                public void mouseEntered(MouseEvent e) {
-//                    if(btn != activated){
-//                        btn.setOpaque(true);
-//                        btn.setForeground(new Color(0,0,0));
-//                        btn.setBackground(new Color(96,167,231));                        
-//                    }else{
-//                        JOptionPane.showMessageDialog(null, "skfjlsdfj");
-//                    }
-//                }
-//
-//                @Override
-//                public void mouseExited(MouseEvent e) {
-//                    if(btn != activated){
-//                        btn.setOpaque(false);
-//                        btn.setForeground(new Color(255,255,255));
-//                        btn.setBackground(new Color(0,0,0,0));                                            
-//                    }
-//                }
-//            });
-        
-        
     }
     
-    private void hoverButton(JLabel[] btns, JLabel activated){
+    private void hoverButton(JLabel[] btns){
         
         for(JLabel btn : btns){
             btn.addMouseListener(new java.awt.event.MouseListener() {
@@ -145,7 +104,7 @@ public class MainWindow extends javax.swing.JFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if(!btn.equals(activated)){
+                    if(btn != activated){
                         btn.setOpaque(true);
                         btn.setForeground(new Color(0,0,0));
                         btn.setBackground(new Color(96,167,231));                        
@@ -154,10 +113,10 @@ public class MainWindow extends javax.swing.JFrame {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if(!btn.equals(activated)){
+                    if(btn != activated){
                         btn.setOpaque(false);
                         btn.setForeground(new Color(255,255,255));
-                        btn.setBackground(new Color(0,0,0,0));                                            
+                        btn.setBackground(new Color(0,0,0,0));                        
                     }
                 }
             });
@@ -484,8 +443,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
         this.lblMenuName.setText("Dashboard");
+        this.setTitle("Dashboard");
         this.setActivatedButton(this.btnDashboard);
-//        this.hoverButton(this.btns, this.btnDashboard);
         
         // menghaspus panel lama
         pnlMenu.removeAll();
@@ -500,8 +459,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnPetugasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPetugasMouseClicked
         this.lblMenuName.setText("Data Petugas");
+        this.setTitle("Data Petugas");
         this.setActivatedButton(this.btnPetugas);
-//        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -516,8 +475,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupplierMouseClicked
         this.lblMenuName.setText("Data Supplier");
+        this.setTitle("Data Supplier");
         this.setActivatedButton(this.btnSupplier);
-//        this.hoverButton(this.btns, this.btnSupplier);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -532,8 +491,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnPembeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPembeliMouseClicked
         this.lblMenuName.setText("Data Pembeli");
+        this.setTitle("Data Pembeli");
         this.setActivatedButton(this.btnPembeli);
-//        this.hoverButton(this.btns, this.btnPembeli);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -548,8 +507,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBarangMouseClicked
         this.lblMenuName.setText("Data Barang");
+        this.setTitle("Data Barang");
         this.setActivatedButton(this.btnBarang);
-//        this.hoverButton(this.btns, this.btnBarang);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -564,8 +523,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnTrJualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrJualMouseClicked
         this.lblMenuName.setText("Transaksi Jual");
+        this.setTitle("Transaksi Jual");
         this.setActivatedButton(this.btnTrJual);
-//        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -580,8 +539,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnTrBeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrBeliMouseClicked
         this.lblMenuName.setText("Transaksi Beli");
+        this.setTitle("Transaksi Beli");
         this.setActivatedButton(this.btnTrBeli);
-//        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -596,8 +555,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnLpJualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLpJualMouseClicked
         this.lblMenuName.setText("Laporan Jual");
+        this.setTitle("Laporan Jual");
         this.setActivatedButton(this.btnLpJual);
-//        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -612,8 +571,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnLpBeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLpBeliMouseClicked
         this.lblMenuName.setText("Laporan Beli");
+        this.setTitle("Laporan Beli");
         this.setActivatedButton(this.btnLpBeli);
-//        this.hoverButton(this.btns, this.btnKaryawan);
         
         // menghapus panel lama
         pnlMenu.removeAll();
@@ -627,8 +586,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLpBeliMouseClicked
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
-        this.setActivatedButton(this.btnLogout);
-//        this.hoverButton(this.btns, this.btnKaryawan);
+//        this.setActivatedButton(this.btnLogout);
         
         Audio.play(Audio.SOUND_WARNING);
         new ConfirmLogout(this, true).setVisible(true);
