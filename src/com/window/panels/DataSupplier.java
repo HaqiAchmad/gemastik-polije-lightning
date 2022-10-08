@@ -229,13 +229,13 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID Pembeli", "Nama Pembeli"
+                "ID Supplier", "Nama Supplier", "Alamat"
             }
         ));
         tabelSupplier.setSelectionBackground(new java.awt.Color(26, 164, 250));
