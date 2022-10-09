@@ -29,10 +29,10 @@
 <!--       <ul> -->
 <!--         <li><a href=#mendownload-data-aplikasi->Mendownload data aplikasi</a></li> -->
 <!--         <li><a href="#menjalankan-aplikasi-di-ide-">Menjalankan Aplikasi di IDE</a></li> -->
-<!--         <li><a href="#default-akun-">Default Akun</a></li> -->
 <!--       </ul> -->
 <!--     </li> -->
 <!--     <li><a href="#persyaratan-sistem-minimal">Persyaratan Sistem Minimal</a></li> -->
+    <li><a href="#default-akun">Default Akun</a></li>
     <li><a href="#contributor">Contributor</a></li>
 <!--     <li><a href="#catatan">Catatan</a></li> -->
   </ol>
@@ -47,6 +47,9 @@ Project Lomba Pagelaran Mahasiswa Nasional Bidang Teknologi Informasi dan Komuni
 ### Dashboard Petugas : 
 ![Dashboard Petugas](images/main/dashboard.png)
 
+## Default Akun
+ - username : KY001
+ - password : 1234
 
 ## Contributor
  - <a href="https://github.com/HaqiAchmad">Achmad Baihaqi</a>
