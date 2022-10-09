@@ -92,7 +92,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/resources/image/icons/ic-login-logosmkn1kts.png"/>
+                  <Image iconType="3" name="/resources/image/icons/ic-app-splashwindow.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="verticalAlignment" type="int" value="3"/>
@@ -107,7 +107,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="SMK Negeri 1 Kertosono"/>
+                <Property name="text" type="java.lang.String" value="Gemastik Lightning"/>
                 <Property name="verticalAlignment" type="int" value="1"/>
               </Properties>
             </Component>
@@ -234,7 +234,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="ID Petugas / NIS"/>
+            <Property name="text" type="java.lang.String" value="ID Admin / Karyawan"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

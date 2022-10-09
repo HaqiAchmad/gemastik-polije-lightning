@@ -87,14 +87,14 @@ public class LoginWindow extends javax.swing.JFrame {
         pnlLeft.setBackground(new java.awt.Color(33, 33, 37));
 
         lblLogoSmk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-login-logosmkn1kts.png"))); // NOI18N
+        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
         lblLogoSmk.setToolTipText("");
         lblLogoSmk.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         lblSekolah.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
         lblSekolah.setForeground(new java.awt.Color(255, 255, 255));
         lblSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSekolah.setText("SMK Negeri 1 Kertosono");
+        lblSekolah.setText("Gemastik Lightning");
         lblSekolah.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout pnlLeftLayout = new javax.swing.GroupLayout(pnlLeft);
@@ -175,7 +175,7 @@ public class LoginWindow extends javax.swing.JFrame {
         lblUsername.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUsername.setForeground(new java.awt.Color(255, 255, 255));
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUsername.setText("ID Petugas / NIS");
+        lblUsername.setText("ID Admin / Karyawan");
         pnlMain.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 384, 23));
 
         lblKembali.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
