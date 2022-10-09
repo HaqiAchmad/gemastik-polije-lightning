@@ -20,7 +20,7 @@
       <a href="#contoh-tampilan-aplikasi">Tampilan Aplikasi</a>
       <ul>
 <!--         <li><a href="#tampilan-login-">Tampilan Login</a></li> -->
-        <li><a href="#dashboard-petugas-">Dashboard Petugas</a></li>
+        <li><a href="#dashboard-">Dashboard</a></li>
 <!--         <li><a href=#dashboard-siswa->Dashboard Siswa</a></li>         -->
       </ul>
     </li>
@@ -44,7 +44,7 @@ Project Lomba Pagelaran Mahasiswa Nasional Bidang Teknologi Informasi dan Komuni
 ## Contoh Tampilan Aplikasi
 <!-- ### Tampilan Login :
 ![Tampilan Login](images/main/window-login.png) -->
-### Dashboard Petugas : 
+### Dashboard : 
 ![Dashboard Petugas](images/main/dashboard.png)
 
 ## Default Akun
