@@ -40,11 +40,13 @@ public class SplashWindow extends javax.swing.JFrame {
                 int val = 0, delay = 50;
                 try{
                     // CHANGE THIS ( SKIP SPLASH WINDOW )
-                    val = 100;
+//                    val = 100;
+                    // mereset loading value menjadi 0
+                    proLoad.setValue(0);
 //                     melakukan loading dari 0% sampai 100%
                     Log.addLog("SPLASH WINDOW SKIPPED");
                     Thread.sleep(500);
-                    while(val <= 100){
+                    while(val <= 99){
                         if(val >= 0 && val < 9){
                             delay = 50;
                             lblMessage.setText("  Menyiapkan Aplikasi...");
@@ -91,7 +93,7 @@ public class SplashWindow extends javax.swing.JFrame {
                     }
                     
                     // jika proses loading sudah selesai
-                    if(val >= 100){
+                    if(val >= 99){
                         user = new Users();
                         // mengecek user sudah login atau belum
                         if(user.isLogin()){
@@ -161,7 +163,7 @@ public class SplashWindow extends javax.swing.JFrame {
 
         proLoad.setBackground(new java.awt.Color(255, 255, 255));
         proLoad.setForeground(new java.awt.Color(0, 125, 255));
-        proLoad.setValue(85);
+        proLoad.setValue(10);
 
         lblTop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTop.setForeground(new java.awt.Color(10, 223, 121));

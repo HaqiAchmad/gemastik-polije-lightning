@@ -85,7 +85,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="7d" red="0" type="rgb"/>
             </Property>
-            <Property name="value" type="int" value="85"/>
+            <Property name="value" type="int" value="10"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTop">
