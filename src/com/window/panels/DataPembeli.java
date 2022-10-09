@@ -1,7 +1,7 @@
 package com.window.panels;
 
-import com.data.db.Database;
 import com.manage.Message;
+import com.users.Users;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,9 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class DataPembeli extends javax.swing.JPanel {
     
-    private final Database dbase = new Database();
+    private String keyword = "";
+    
+    private final Users user = new Users();
     
     public DataPembeli() {
         initComponents();
@@ -64,27 +66,25 @@ public class DataPembeli extends javax.swing.JPanel {
 
     private Object[][] getData(){
         try{
-            dbase.startConnection();
             Object[][] obj;
             int rows = 0;
-            String sql = "SELECT id_karyawan, nama_karyawan, no_telp, alamat FROM karyawan", id;
+            String sql = "SELECT id_pembeli, nama_pembeli, no_telp, alamat FROM pembeli " + keyword;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[dbase.getJumlahData("karyawan")][4];
+            obj = new Object[user.getJumlahData("pembeli", keyword)][4];
             // mengeksekusi query
-            dbase.res = dbase.stat.executeQuery(sql);
+            user.res = user.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
-            while(dbase.res.next()){
+            while(user.res.next()){
                 // menyimpan data dari tabel ke object
-                id = dbase.res.getString("id_karyawan");
-                obj[rows][0] = id;
-                obj[rows][1] = dbase.res.getString("nama_karyawan");
-                obj[rows][2] = dbase.res.getString("no_telp");
-                obj[rows][3] = dbase.res.getString("alamat");
+                obj[rows][0] = user.res.getString("id_pembeli");
+                obj[rows][1] = user.res.getString("nama_pembeli");
+                obj[rows][2] = user.res.getString("no_telp");
+                obj[rows][3] = user.res.getString("alamat");
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             return obj;
         }catch(SQLException ex){
-            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n", ex, true);
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
         }
         return null;
     }
@@ -93,7 +93,7 @@ public class DataPembeli extends javax.swing.JPanel {
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
             new String [] {
-                "ID Karyawan", "Nama Karyawan", "No Telp", "Alamat"
+                "ID Pembeli", "Nama Pembeli", "No Telephone", "Alamat"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -309,6 +309,11 @@ public class DataPembeli extends javax.swing.JPanel {
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -392,6 +397,12 @@ public class DataPembeli extends javax.swing.JPanel {
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDelActionPerformed
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

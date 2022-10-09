@@ -1,13 +1,70 @@
 package com.window.panels;
 
+import com.manage.Message;
+import com.users.Users;
+import java.sql.SQLException;
+
 /**
  *
  * @author Gemastik Lightning
  */
 public class TransaksiJual extends javax.swing.JPanel {
 
+    private final Users user = new Users();
+    
+    private String keywordPembeli = "";
+    
     public TransaksiJual() {
         initComponents();
+        
+        this.tabelDataPembeli.setRowHeight(29);
+        this.tabelDataPembeli.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelDataPembeli.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        this.updateTabel();
+    }
+    
+    private Object[][] getData(){
+        try{
+            Object[][] obj;
+            int rows = 0;
+            String sql = "SELECT id_pembeli, nama_pembeli, no_telp, alamat FROM pembeli " + keywordPembeli;
+            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+            obj = new Object[user.getJumlahData("pembeli", keywordPembeli)][4];
+            // mengeksekusi query
+            user.res = user.stat.executeQuery(sql);
+            // mendapatkan semua data yang ada didalam tabel
+            while(user.res.next()){
+                // menyimpan data dari tabel ke object
+                obj[rows][0] = user.res.getString("id_pembeli");
+                obj[rows][1] = user.res.getString("nama_pembeli");
+                obj[rows][2] = user.res.getString("no_telp");
+                obj[rows][3] = user.res.getString("alamat");
+                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+            }
+            return obj;
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    private void updateTabel(){
+        this.tabelDataPembeli.setModel(new javax.swing.table.DefaultTableModel(
+            getData(),
+            new String [] {
+                "ID Pembeli", "Nama Pembeli", "No Telephone", "Alamat"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -83,6 +140,11 @@ public class TransaksiJual extends javax.swing.JPanel {
         inpCariPembeli.setBackground(new java.awt.Color(255, 255, 255));
         inpCariPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariPembeli.setForeground(new java.awt.Color(0, 0, 0));
+        inpCariPembeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariPembeliKeyTyped(evt);
+            }
+        });
 
         tabelDataPembeli.setBackground(new java.awt.Color(255, 255, 255));
         tabelDataPembeli.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
@@ -367,6 +429,12 @@ public class TransaksiJual extends javax.swing.JPanel {
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void inpCariPembeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariPembeliKeyTyped
+        String key = this.inpCariPembeli.getText();
+        this.keywordPembeli = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariPembeliKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
