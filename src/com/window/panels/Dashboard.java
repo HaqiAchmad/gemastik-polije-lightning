@@ -11,6 +11,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.HistogramDataset;
@@ -77,7 +78,7 @@ public class Dashboard extends javax.swing.JPanel {
         icTotalPenjualan.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         icTotalPenjualan.setForeground(new java.awt.Color(255, 255, 255));
         icTotalPenjualan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        icTotalPenjualan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-petugas-kelas.png"))); // NOI18N
+        icTotalPenjualan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-dashboard-penjualan-1.png"))); // NOI18N
         icTotalPenjualan.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout pnlTotalPenjualanLayout = new javax.swing.GroupLayout(pnlTotalPenjualan);
@@ -124,7 +125,7 @@ public class Dashboard extends javax.swing.JPanel {
         icTotalPembelian.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         icTotalPembelian.setForeground(new java.awt.Color(255, 255, 255));
         icTotalPembelian.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        icTotalPembelian.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-barang.png"))); // NOI18N
+        icTotalPembelian.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-dashboard-pembelian-1.png"))); // NOI18N
         icTotalPembelian.setToolTipText("IC");
         icTotalPembelian.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
@@ -172,7 +173,7 @@ public class Dashboard extends javax.swing.JPanel {
         icStokBarang.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         icStokBarang.setForeground(new java.awt.Color(255, 255, 255));
         icStokBarang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        icStokBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-lpbeli.png"))); // NOI18N
+        icStokBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-dashboard-barang-1.png"))); // NOI18N
         icStokBarang.setToolTipText("IC");
         icStokBarang.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
@@ -232,7 +233,7 @@ public class Dashboard extends javax.swing.JPanel {
         );
 
         pnlLineChart.setBackground(new java.awt.Color(255, 255, 255));
-        pnlLineChart.setForeground(new java.awt.Color(255, 2, 9));
+        pnlLineChart.setForeground(new java.awt.Color(226, 226, 0));
         pnlLineChart.setLayout(new java.awt.BorderLayout());
 
         pnlPieChart.setBackground(new java.awt.Color(255, 255, 255));
@@ -313,14 +314,15 @@ public class Dashboard extends javax.swing.JPanel {
       
       //create chart
       JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
+      piechart.setTitle(new TextTitle("Pie Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
        //changing pie chart blocks colors
-       piePlot.setSectionPaint("Makanan", new Color(255,255,0));
-       piePlot.setSectionPaint("Minuman", new Color(51,255,0));
-       piePlot.setSectionPaint("Snack", new Color(255,0,255));
-       piePlot.setSectionPaint("ATK", new Color(0,204,204));
+       piePlot.setSectionPaint("Makanan", new Color(226,226,0));
+       piePlot.setSectionPaint("Minuman", new Color(52,200,38));
+       piePlot.setSectionPaint("Snack", new Color(255,43,237));
+       piePlot.setSectionPaint("ATK", new Color(49,165,192));
       
        
         piePlot.setBackgroundPaint(Color.white);
@@ -344,8 +346,9 @@ public class Dashboard extends javax.swing.JPanel {
         dataset.setValue(250, "Amount", "Rabu");
         
         //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("Total Penjualan Barang","Hari","Jumlah", 
+        JFreeChart linechart = ChartFactory.createLineChart("Penjualan Seminggu Terakhir","Hari","Jumlah", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
+        linechart.setTitle(new TextTitle("Line Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
         
         //create plot object
          CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();

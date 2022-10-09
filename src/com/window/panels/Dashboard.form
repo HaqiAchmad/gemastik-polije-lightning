@@ -144,7 +144,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-petugas-kelas.png"/>
+              <Image iconType="3" name="/resources/image/icons/ic-dashboard-penjualan-1.png"/>
             </Property>
             <Property name="verticalAlignment" type="int" value="3"/>
           </Properties>
@@ -226,7 +226,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-barang.png"/>
+              <Image iconType="3" name="/resources/image/icons/ic-dashboard-pembelian-1.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="IC"/>
             <Property name="verticalAlignment" type="int" value="3"/>
@@ -309,7 +309,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-lpbeli.png"/>
+              <Image iconType="3" name="/resources/image/icons/ic-dashboard-barang-1.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="IC"/>
             <Property name="verticalAlignment" type="int" value="3"/>
@@ -428,7 +428,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="9" green="2" red="ff" type="rgb"/>
+              <Color blue="0" green="e2" red="e2" type="rgb"/>
             </Property>
           </Properties>
 
