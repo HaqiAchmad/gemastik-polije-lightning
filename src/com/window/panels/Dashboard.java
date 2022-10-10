@@ -1,5 +1,7 @@
 package com.window.panels;
 
+import com.manage.Message;
+import com.manage.Waktu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import org.jfree.chart.ChartFactory;
@@ -22,12 +24,31 @@ import org.jfree.data.statistics.HistogramDataset;
  */
 public class Dashboard extends javax.swing.JPanel {
 
+    private final Waktu waktu = new Waktu();
+    
     public Dashboard() {
         initComponents();
         
         this.showPieChart();
 //        this.showBarChart();
         this.showLineChart();
+        
+        // mengupdate waktu
+        new Thread(new Runnable(){
+            
+            @Override
+            public void run(){
+                try{
+                    while(isVisible()){
+                        System.out.println("update");
+                        lblDate.setText(waktu.getUpdateWaktu() + "  ");
+                        Thread.sleep(100);
+                    }
+                }catch(InterruptedException ex){
+                    Message.showException(this, "Terjadi Kesalahan Saat Mengupdate Tanggal!\n" + ex.getMessage(), ex, true);
+                }
+            }
+        }).start();
     }
 
     @SuppressWarnings("unchecked")
