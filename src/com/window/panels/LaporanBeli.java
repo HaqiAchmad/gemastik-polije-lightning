@@ -310,7 +310,7 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valIDPengeluaran.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPengeluaran.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPengeluaran.setText(": PB0005");
+        valIDPengeluaran.setText(": PG0005");
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
@@ -334,11 +334,11 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valJumlahBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJumlahBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valJumlahBrg.setText(": 20");
+        valJumlahBrg.setText(": 15");
 
         valHarga.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valHarga.setForeground(new java.awt.Color(0, 0, 0));
-        valHarga.setText(": Rp. 60.000.00");
+        valHarga.setText(": Rp. 48.000.00");
 
         lblTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));

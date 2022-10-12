@@ -252,7 +252,7 @@ public class Validation {
      * @return 
      */
     public static boolean isValidPembayaran(String bulan, int tahun){
-       String tahunAjaran = Application.getTahunAjaran();
+       String tahunAjaran = "2022-2023";
        int tahunAwal = Integer.parseInt(tahunAjaran.substring(0, tahunAjaran.indexOf("-"))),
            tahunAkhir = Integer.parseInt(tahunAjaran.substring(tahunAjaran.indexOf("-")+1));
        if(tahun == tahunAwal){
