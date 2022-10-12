@@ -27,6 +27,10 @@ public class DataPembeli extends javax.swing.JPanel {
         initComponents();
         this.showPieChart();
         
+        this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnDel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
