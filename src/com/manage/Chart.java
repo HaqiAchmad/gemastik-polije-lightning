@@ -35,7 +35,7 @@ public class Chart {
     
     private final Font F_PRODUK = new Font("Ebrima", 1, 22);
     
-    public void showPieChart(JPanel panel, String title, double makanan, double minuman, double snack, double atk){
+    public void showPieChart(JPanel panel, String title, Font font, double makanan, double minuman, double snack, double atk){
         
         //create dataset
         DefaultPieDataset barDataset = new DefaultPieDataset( );
@@ -46,7 +46,7 @@ public class Chart {
 
         //create chart
         JFreeChart piechart = ChartFactory.createPieChart("Penjualan Produk",barDataset, false,true,false);//explain
-        piechart.setTitle(new TextTitle(title, F_PRODUK));
+        piechart.setTitle(new TextTitle(title, font));
 
         //changing pie chart blocks colors
         PiePlot piePlot =(PiePlot) piechart.getPlot();
@@ -63,6 +63,10 @@ public class Chart {
         panel.validate();
     }
 
+    public void showPieChart(JPanel panel, String title, double makanan, double minuman, double snack, double atk){
+        this.showPieChart(panel, title, F_PRODUK, makanan, minuman, snack, atk);
+    }
+    
     public void pieChartProduk(){
         
     }
