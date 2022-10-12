@@ -221,15 +221,35 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"PG0001", "Aqua 1L", "25", "Rp. 125.000.00", "1 Oktober 2022"},
+                {"PG0002", "Coca Cola", "20", "Rp. 80.000.00", "1 Oktober 2022"},
+                {"PG0003", "Aqua 500ml", "30", "Rp. 100.000.00", "1 Oktober 2022"},
+                {"PG0004", "Pulpen Snowman", "30", "Rp. 75.000.00", "1 Oktober 2022"},
+                {"PG0005", "Sprite", "15", "Rp. 48.000.00", "1 Oktober 2022"},
+                {"PG0006", "Indomilk", "5", "Rp. 40.000.00", "1 Oktober 2022"},
+                {"PG0007", "Nabati Wafer", "15", "Rp. 52.000.00", "1 Oktober 2022"},
+                {"PG0008", "Ichi Ocha 350ml", "15", "Rp. 30.000.00", "1 Oktober 2022"},
+                {"PG0009", "Oreo", "15", "Rp. 30.000.00", "1 Oktober 2022"},
+                {"PG0010", "Kertas HVS", "800", "Rp. 200.000.00", "1 Oktober 2022"},
+                {"PG0011", "Kertas Folio", "900", "Rp. 237.000.00", "1 Oktober 2022"},
+                {"PG0012", "Spidol Hitam", "15", "Rp. 30.000.00", "9 Oktober 2022"},
+                {"PG0013", "Spidol Merah", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0014", "Spidol Biru", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0015", "Nabati Wafer", "15", "Rp. 52.500.00", "9 Oktober 2022"},
+                {"PG0016", "Roti", "20", "Rp. 20.000.00", "9 Oktober 2022"},
+                {"PG0017", "Sprite", "20", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0018", "Yupi", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0019", "Teh Pucuk", "15", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0020", "Coca Cola", "15", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0021", "Ichi Ocha 350ml", "15", "Rp. 30.000.00", "9 Oktober 2022"},
+                {"PG0022", "Yupi", "10", "Rp. 25.000.00", "9 Oktober 2022"},
+                {"PG0023", "Aqua 500ml", "15", "Rp. 75.000.00", "9 Oktober 2022"}
             },
             new String [] {
-                "ID Pengeluaran", "Nama Barang", "Total Pengeluaran", "Tanggal"
+                "ID Pengeluaran", "Nama Barang", "Jumlah Barang", "Total Pengeluaran", "Tanggal"
             }
         ));
         tabelData.setGridColor(new java.awt.Color(0, 0, 0));
@@ -248,9 +268,9 @@ public class LaporanBeli extends javax.swing.JPanel {
         lblCari.setText("Cari ID Pengeluaran :");
 
         pnlDataPengeluaran.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDataPengeluaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
+        pnlDataPengeluaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(11, 114, 238), 3));
 
-        lblDataPengeluaran.setBackground(new java.awt.Color(5, 170, 57));
+        lblDataPengeluaran.setBackground(new java.awt.Color(11, 114, 238));
         lblDataPengeluaran.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblDataPengeluaran.setForeground(new java.awt.Color(255, 255, 255));
         lblDataPengeluaran.setText("  Detail Pengeluaran");

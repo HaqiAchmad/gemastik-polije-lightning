@@ -104,12 +104,136 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ebrima" size="14" style="1"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="ID Pengeluaran" type="java.lang.Object"/>
-                <Column editable="true" title="Nama Barang" type="java.lang.Object"/>
-                <Column editable="true" title="Total Pengeluaran" type="java.lang.Object"/>
-                <Column editable="true" title="Tanggal" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="23">
+                <Column editable="true" title="ID Pengeluaran" type="java.lang.Object">
+                  <Data value="PG0001"/>
+                  <Data value="PG0002"/>
+                  <Data value="PG0003"/>
+                  <Data value="PG0004"/>
+                  <Data value="PG0005"/>
+                  <Data value="PG0006"/>
+                  <Data value="PG0007"/>
+                  <Data value="PG0008"/>
+                  <Data value="PG0009"/>
+                  <Data value="PG0010"/>
+                  <Data value="PG0011"/>
+                  <Data value="PG0012"/>
+                  <Data value="PG0013"/>
+                  <Data value="PG0014"/>
+                  <Data value="PG0015"/>
+                  <Data value="PG0016"/>
+                  <Data value="PG0017"/>
+                  <Data value="PG0018"/>
+                  <Data value="PG0019"/>
+                  <Data value="PG0020"/>
+                  <Data value="PG0021"/>
+                  <Data value="PG0022"/>
+                  <Data value="PG0023"/>
+                </Column>
+                <Column editable="true" title="Nama Barang" type="java.lang.Object">
+                  <Data value="Aqua 1L"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Pulpen Snowman"/>
+                  <Data value="Sprite"/>
+                  <Data value="Indomilk"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Ichi Ocha 350ml"/>
+                  <Data value="Oreo"/>
+                  <Data value="Kertas HVS"/>
+                  <Data value="Kertas Folio"/>
+                  <Data value="Spidol Hitam"/>
+                  <Data value="Spidol Merah"/>
+                  <Data value="Spidol Biru"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Roti"/>
+                  <Data value="Sprite"/>
+                  <Data value="Yupi"/>
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Ichi Ocha 350ml"/>
+                  <Data value="Yupi"/>
+                  <Data value="Aqua 500ml"/>
+                </Column>
+                <Column editable="true" title="Jumlah Barang" type="java.lang.Object">
+                  <Data value="25"/>
+                  <Data value="20"/>
+                  <Data value="30"/>
+                  <Data value="30"/>
+                  <Data value="15"/>
+                  <Data value="5"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="800"/>
+                  <Data value="900"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="20"/>
+                  <Data value="20"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="15"/>
+                  <Data value="10"/>
+                  <Data value="15"/>
+                </Column>
+                <Column editable="true" title="Total Pengeluaran" type="java.lang.Object">
+                  <Data value="Rp. 125.000.00"/>
+                  <Data value="Rp. 80.000.00"/>
+                  <Data value="Rp. 100.000.00"/>
+                  <Data value="Rp. 75.000.00"/>
+                  <Data value="Rp. 48.000.00"/>
+                  <Data value="Rp. 40.000.00"/>
+                  <Data value="Rp. 52.000.00"/>
+                  <Data value="Rp. 30.000.00"/>
+                  <Data value="Rp. 30.000.00"/>
+                  <Data value="Rp. 200.000.00"/>
+                  <Data value="Rp. 237.000.00"/>
+                  <Data value="Rp. 30.000.00"/>
+                  <Data value="Rp. 37.500.00"/>
+                  <Data value="Rp. 37.500.00"/>
+                  <Data value="Rp. 52.500.00"/>
+                  <Data value="Rp. 20.000.00"/>
+                  <Data value="Rp. 60.000.00"/>
+                  <Data value="Rp. 37.500.00"/>
+                  <Data value="Rp. 60.000.00"/>
+                  <Data value="Rp. 60.000.00"/>
+                  <Data value="Rp. 30.000.00"/>
+                  <Data value="Rp. 25.000.00"/>
+                  <Data value="Rp. 75.000.00"/>
+                </Column>
+                <Column editable="true" title="Tanggal" type="java.lang.Object">
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="1 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                  <Data value="9 Oktober 2022"/>
+                </Column>
               </Table>
             </Property>
             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -161,7 +285,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder thickness="3">
-              <Color PropertyName="color" blue="39" green="aa" red="5" type="rgb"/>
+              <Color PropertyName="color" blue="ee" green="72" red="b" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -258,7 +382,7 @@
         <Component class="javax.swing.JLabel" name="lblDataPengeluaran">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="39" green="aa" red="5" type="rgb"/>
+              <Color blue="ee" green="72" red="b" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="16" style="1"/>
