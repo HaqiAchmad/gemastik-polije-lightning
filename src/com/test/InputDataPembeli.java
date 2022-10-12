@@ -116,8 +116,8 @@ public class InputDataPembeli {
     
     public static void main(String[] args) {
         // jangan dijalankan lagi jika data pembeli sudah ada di mysql
-//        InputDataPembeli input = new InputDataPembeli();
-//        input.insertToMySQL();
+        InputDataPembeli input = new InputDataPembeli();
+        input.insertToMySQL();
         
     }
 }
