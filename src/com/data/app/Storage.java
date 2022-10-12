@@ -7,10 +7,14 @@ import java.io.File;
  * Class ini digunakan untuk memanajemen penyimpanan pada aplikasi. Penyimpanan yang akan 
  * dimanage adalah penyimpanan data seperti cache, log, user dan backup. 
  * 
- * @author Infinite World
+ * @author Achmad Baihaqi
  * @since 2021-06-04
  */
 public final class Storage {
+    
+//    public Storage(){
+//        System.setProperty("os.name", "MacOS");
+//    }
     
     /**
      * Digunakan untuk melakukan manipulasi terhadap folder atau file
@@ -20,7 +24,8 @@ public final class Storage {
     /**
      * Direktori dari storage aplikasi.
      */
-    private final String DIRECTORY = String.format("%s\\AppData\\Local\\Punya Haqi\\%s %s\\", System.getProperty("user.home"), Application.getNama(), Application.getVersi());
+    private final String WIN_DIR = String.format("%s\\AppData\\Local\\%s\\%s %s\\", System.getProperty("user.home"), Application.getCompany(), Application.getNama(), Application.getVersi()),
+                         MAC_DIR = String.format("%s\\Library\\Application Support\\%s\\%s %s\\", System.getProperty("user.home"), Application.getCompany(), Application.getNama(), Application.getVersi());
     
     /**
      * Digunakan untuk mendapatkan direktori dari storage aplikasi.
@@ -28,7 +33,11 @@ public final class Storage {
      * @return direktori storage aplikasi.
      */
     private String getDirectory(){
-        return this.DIRECTORY;
+        if(System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+            return this.WIN_DIR;
+        }else{
+            return this.MAC_DIR;
+        }
     }
     
     /**
@@ -304,6 +313,16 @@ public final class Storage {
     public boolean isExistUsersDir(){
         return new File(this.getUsersDir()).exists() &&
                new File(this.getUsersDir()+"login_data.haqi").exists();
+    }
+    
+    
+    public static void main(String[] args) {
+        
+        Storage str = new Storage();
+        System.setProperty("os.name", "Macos");
+        System.out.println(System.getProperty("os.name"));
+        System.out.println(str.getDirectory());
+        
     }
     
 }
