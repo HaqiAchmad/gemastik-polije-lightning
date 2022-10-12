@@ -19,6 +19,10 @@ public class LaporanJual extends javax.swing.JPanel {
     public LaporanJual() {
         initComponents();
         
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
         this.showLineChart1();
     }
     
@@ -106,6 +110,7 @@ public class LaporanJual extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -117,18 +122,20 @@ public class LaporanJual extends javax.swing.JPanel {
                 "ID Pendapatan", "Nama Barang", "Total Pendapatan", "Tanggal"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Pendapatan :");
+        lblCari.setText("Cari ID Pendapatan :");
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
@@ -424,11 +431,10 @@ public class LaporanJual extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 39, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)

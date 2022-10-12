@@ -231,7 +231,7 @@ public class Dashboard extends javax.swing.JPanel {
 
         lblData.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblData.setForeground(new java.awt.Color(255, 255, 255));
-        lblData.setText(" Laporan Penjualan");
+        lblData.setText("  Laporan Penjualan Minggu Ini");
 
         lblDate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblDate.setForeground(new java.awt.Color(255, 255, 255));
@@ -335,7 +335,7 @@ public class Dashboard extends javax.swing.JPanel {
       
       //create chart
       JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
-      piechart.setTitle(new TextTitle("Pie Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
+      piechart.setTitle(new TextTitle("Pie Chart", new java.awt.Font("Ebrima", 1, 22)));
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
@@ -369,7 +369,7 @@ public class Dashboard extends javax.swing.JPanel {
         //create chart
         JFreeChart linechart = ChartFactory.createLineChart("Penjualan Seminggu Terakhir","Hari","Jumlah", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        linechart.setTitle(new TextTitle("Line Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
+        linechart.setTitle(new TextTitle("Line Chart", new java.awt.Font("Ebrima", 1, 22)));
         
         //create plot object
          CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();

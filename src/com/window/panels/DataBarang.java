@@ -22,6 +22,10 @@ public class DataBarang extends javax.swing.JPanel {
     public DataBarang() {
         initComponents();
         
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
         this.showLineChart();
     }
     
@@ -96,9 +100,10 @@ public class DataBarang extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
+                {"BG001", "Beng Beng", "Snack", "12"},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
@@ -107,8 +112,10 @@ public class DataBarang extends javax.swing.JPanel {
                 "ID Barang", "Nama Barang", "Jenis", "Stok"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         lineBottom.setBackground(new java.awt.Color(0, 0, 0));
@@ -296,10 +303,10 @@ public class DataBarang extends javax.swing.JPanel {
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Barang :");
+        lblCari.setText("Cari ID / Nama Barang :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -326,8 +333,7 @@ public class DataBarang extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())

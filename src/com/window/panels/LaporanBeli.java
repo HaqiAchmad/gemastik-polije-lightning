@@ -28,6 +28,10 @@ public class LaporanBeli extends javax.swing.JPanel {
     public LaporanBeli() {
         initComponents();
         
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
         this.showLineChart1();
         this.showLineChart2();
     }
@@ -228,18 +232,20 @@ public class LaporanBeli extends javax.swing.JPanel {
                 "ID Pengeluaran", "Nama Barang", "Total Pengeluaran", "Tanggal"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Pengeluaran :");
+        lblCari.setText("Cari ID Pengeluaran :");
 
         pnlDataPengeluaran.setBackground(new java.awt.Color(255, 255, 255));
         pnlDataPengeluaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
@@ -438,11 +444,10 @@ public class LaporanBeli extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 39, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)

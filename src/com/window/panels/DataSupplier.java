@@ -8,6 +8,14 @@ public class DataSupplier extends javax.swing.JPanel {
 
     public DataSupplier() {
         initComponents();
+        
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        this.tabelHistori.setRowHeight(29);
+        this.tabelHistori.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelHistori.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +48,7 @@ public class DataSupplier extends javax.swing.JPanel {
         valLast = new javax.swing.JLabel();
         lblHistori = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tabelSupplier = new javax.swing.JTable();
+        tabelData = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
@@ -62,18 +70,20 @@ public class DataSupplier extends javax.swing.JPanel {
                 "ID Pengeluaran", "Nama Barang", "Jumlah", "Total Harga"
             }
         ));
+        tabelHistori.setGridColor(new java.awt.Color(0, 0, 0));
         tabelHistori.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelHistori.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelHistori.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelHistori);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Supplier :");
+        lblCari.setText("Cari ID / Nama Supplier :");
 
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -225,9 +235,10 @@ public class DataSupplier extends javax.swing.JPanel {
         lblHistori.setForeground(new java.awt.Color(237, 12, 12));
         lblHistori.setText("Histori Supplier");
 
-        tabelSupplier.setBackground(new java.awt.Color(255, 255, 255));
-        tabelSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
+        tabelData.setBackground(new java.awt.Color(255, 255, 255));
+        tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
+        tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -238,9 +249,11 @@ public class DataSupplier extends javax.swing.JPanel {
                 "ID Supplier", "Nama Supplier", "Alamat"
             }
         ));
-        tabelSupplier.setSelectionBackground(new java.awt.Color(26, 164, 250));
-        tabelSupplier.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        jScrollPane3.setViewportView(tabelSupplier);
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
+        tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabelData);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -265,8 +278,7 @@ public class DataSupplier extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -325,8 +337,8 @@ public class DataSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel lblNamaSupplier;
     private javax.swing.JLabel lblNoTelp;
     private javax.swing.JLabel lblUang;
+    private javax.swing.JTable tabelData;
     private javax.swing.JTable tabelHistori;
-    private javax.swing.JTable tabelSupplier;
     private javax.swing.JLabel valAlamat;
     private javax.swing.JLabel valBrgSupplier;
     private javax.swing.JPanel valDataSupplier;

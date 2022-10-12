@@ -291,19 +291,23 @@ public class DataPembeli extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Pembeli", "Nama Pembeli"
+                "ID Pembeli", "Nama Pembeli", "No Telp", "Alamat"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
@@ -320,10 +324,10 @@ public class DataPembeli extends javax.swing.JPanel {
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Pembeli :");
+        lblCari.setText("Cari ID / Nama Pembeli :");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
@@ -355,8 +359,7 @@ public class DataPembeli extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
