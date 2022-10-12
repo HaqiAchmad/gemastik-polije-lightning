@@ -269,7 +269,7 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
-        valIDTransaksi.setText(": TR002");
+        valIDTransaksi.setText(": TR0002");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));

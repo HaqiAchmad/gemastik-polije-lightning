@@ -144,7 +144,7 @@ public class DataSupplier extends javax.swing.JPanel {
 
         valIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valIDSupplier.setText(": SP001");
+        valIDSupplier.setText(": SP002");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));

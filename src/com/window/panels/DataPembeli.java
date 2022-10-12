@@ -199,7 +199,7 @@ public class DataPembeli extends javax.swing.JPanel {
 
         valIDPembelian.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPembelian.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPembelian.setText(": PB001");
+        valIDPembelian.setText(": PB289");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
