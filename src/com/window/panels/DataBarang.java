@@ -103,13 +103,26 @@ public class DataBarang extends javax.swing.JPanel {
         tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"BG001", "Beng Beng", "Snack", "12"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"BG001", "Sprite", "Minuman", "12", "Rp. 4.000.00"},
+                {"BG002", "Coca Cola", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG003", "Teh Pucuk", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG004", "Aqua 500ml", "Minuman", "5", "Rp. 5.000.00"},
+                {"BG005", "Aqua 1L", "Minuman", "9", "Rp. 5.000.00"},
+                {"BG006", "Indomilk", "Minuman", "11", "Rp. 8.000.00"},
+                {"BG007", "Kertas Folio", "ATK", "250", "Rp. 250.00"},
+                {"BG008", "Kertas HVS", "ATK", "420", "Rp. 250.00"},
+                {"BG009", "Pulpen Snowman", "ATK", "23", "Rp. 2.500.00"},
+                {"BG010", "Spidol Hitam", "ATK", "19", "Rp. 2.000.00"},
+                {"BG011", "Spidol Merah", "ATK", "26", "Rp. 2.500.00"},
+                {"BG012", "Spidol Biru", "ATK", "24", "Rp. 2.500.00"},
+                {"BG013", "Yupi", "Snack", "45", "Rp. 2.500.00"},
+                {"BG014", "Nabati Wafer", "Snack", "30", "Rp. 3.500.00"},
+                {"BG015", "Oreo", "Snack", "60", "Rp. 2.000.00"},
+                {"BG016", "Roti", "Snack", "27", "Rp. 1.000.00"},
+                {"BG017", "Ichi Ocha 350ml", "Minuman", "18", "Rp. 2.000.00"}
             },
             new String [] {
-                "ID Barang", "Nama Barang", "Jenis", "Stok"
+                "ID Barang", "Nama Barang", "Jenis", "Stok", "Harga Jual"
             }
         ));
         tabelData.setGridColor(new java.awt.Color(0, 0, 0));

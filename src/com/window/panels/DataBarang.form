@@ -111,30 +111,101 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="5" rowCount="17">
                 <Column editable="true" title="ID Barang" type="java.lang.Object">
                   <Data value="BG001"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
+                  <Data value="BG002"/>
+                  <Data value="BG003"/>
+                  <Data value="BG004"/>
+                  <Data value="BG005"/>
+                  <Data value="BG006"/>
+                  <Data value="BG007"/>
+                  <Data value="BG008"/>
+                  <Data value="BG009"/>
+                  <Data value="BG010"/>
+                  <Data value="BG011"/>
+                  <Data value="BG012"/>
+                  <Data value="BG013"/>
+                  <Data value="BG014"/>
+                  <Data value="BG015"/>
+                  <Data value="BG016"/>
+                  <Data value="BG017"/>
                 </Column>
                 <Column editable="true" title="Nama Barang" type="java.lang.Object">
-                  <Data value="Beng Beng"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
+                  <Data value="Sprite"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Aqua 1L"/>
+                  <Data value="Indomilk"/>
+                  <Data value="Kertas Folio"/>
+                  <Data value="Kertas HVS"/>
+                  <Data value="Pulpen Snowman"/>
+                  <Data value="Spidol Hitam"/>
+                  <Data value="Spidol Merah"/>
+                  <Data value="Spidol Biru"/>
+                  <Data value="Yupi"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Oreo"/>
+                  <Data value="Roti"/>
+                  <Data value="Ichi Ocha 350ml"/>
                 </Column>
                 <Column editable="true" title="Jenis" type="java.lang.Object">
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
                   <Data value="Snack"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
+                  <Data value="Snack"/>
+                  <Data value="Snack"/>
+                  <Data value="Snack"/>
+                  <Data value="Minuman"/>
                 </Column>
                 <Column editable="true" title="Stok" type="java.lang.Object">
                   <Data value="12"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
+                  <Data value="10"/>
+                  <Data value="10"/>
+                  <Data value="5"/>
+                  <Data value="9"/>
+                  <Data value="11"/>
+                  <Data value="250"/>
+                  <Data value="420"/>
+                  <Data value="23"/>
+                  <Data value="19"/>
+                  <Data value="26"/>
+                  <Data value="24"/>
+                  <Data value="45"/>
+                  <Data value="30"/>
+                  <Data value="60"/>
+                  <Data value="27"/>
+                  <Data value="18"/>
+                </Column>
+                <Column editable="true" title="Harga Jual" type="java.lang.Object">
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 250.00"/>
+                  <Data value="Rp. 250.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 3.500.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 1.000.00"/>
+                  <Data value="Rp. 2.000.00"/>
                 </Column>
               </Table>
             </Property>
