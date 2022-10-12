@@ -50,7 +50,7 @@
                   <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="lblSelamat" max="32767" attributes="0"/>
-                      <Component id="lblNamaSekolah" max="32767" attributes="0"/>
+                      <Component id="lblAppDes" max="32767" attributes="0"/>
                       <Component id="lblIconSekolah" alignment="0" max="32767" attributes="0"/>
                       <Component id="lblNamaAplikasi" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
@@ -77,7 +77,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblIconSekolah" min="-2" pref="199" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblNamaSekolah" min="-2" pref="42" max="-2" attributes="0"/>
+                  <Component id="lblAppDes" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="line" min="-2" pref="7" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -143,18 +143,18 @@
               <Color blue="79" green="df" red="a" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SPP Payment"/>
+            <Property name="text" type="java.lang.String" value="Simple Buy"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblIconSekolah">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/image/icons/ic-splashwindow-logosmkn1kts.png"/>
+              <Image iconType="3" name="/resources/image/icons/ic-app-splashwindow.png"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblNamaSekolah">
+        <Component class="javax.swing.JLabel" name="lblAppDes">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="27" style="1"/>
@@ -163,7 +163,7 @@
               <Color blue="27" green="27" red="e2" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SMK Negeri 1 Kertosono"/>
+            <Property name="text" type="java.lang.String" value="Aplikasi Manajemen Bisnis"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblVersi">
@@ -179,7 +179,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fd" green="e2" red="de" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Copyright &#xa9; 2021. Achmad Baihaqi. All Rights Reserved."/>
+            <Property name="text" type="java.lang.String" value="Copyright &#xa9; 2021. Gemastik. All Rights Reserved."/>
           </Properties>
         </Component>
       </SubComponents>
