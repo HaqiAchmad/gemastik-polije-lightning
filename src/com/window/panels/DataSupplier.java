@@ -61,10 +61,10 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelHistori.setForeground(new java.awt.Color(0, 0, 0));
         tabelHistori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"PG0001", "Aqua 1 L", "5", "Rp. 15.000"},
-                {"PG0002", "Nabati Wafer", "7", "Rp. 17.500"},
-                {"PG0003", "Pulpen Snowman", "14", "Rp. 35.000"},
-                {null, null, null, null}
+                {"PG0002", "Aqua 1 L", "5", "Rp. 15.000.00"},
+                {"PG0012", "Nabati Wafer", "7", "Rp. 17.500.00"},
+                {"PG0018", "Pulpen Snowman", "14", "Rp. 35.000.00"},
+                {"PG0019", "Nabati Wafer", "20", "Rp. 60.000.00"}
             },
             new String [] {
                 "ID Pengeluaran", "Nama Barang", "Jumlah", "Total Harga"
@@ -240,13 +240,32 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {"SP001", "Asrul Achmad Asrofi", "086653837718", "Nganjuk, Indonesia"},
+                {"SP002", "Dimas Abimanyu", "084884582640", "Nganjuk, Indonesia"},
+                {"SP003", "Farel Kurniawan", "080548653287", "Nganjuk, Indonesia"},
+                {"SP004", "Feby Ayu Dyah Pitaloka", "082203072218", "Jombang, Indonesia"},
+                {"SP005", "Afif Fitra Nugroho", "087676072232", "Kediri, Indonesia"},
+                {"SP006", "Abdulloh Kafabi", "086134471867", "Nganjuk, Indonesia"},
+                {"SP007", "Deni Yuda Mahendra", "083851907614", "Kediri, Indonesia"},
+                {"SP008", "Hendro Wawan Setiyo", "085790836149", "Nganjuk, Indonesia"},
+                {"SP009", "Mahendra Putra Pratama", "085775502026", "Nganjuk, Indonesia"},
+                {"SP010", "Mohamad Rodzikul Hidayatulloh", "0895395057931", "Nganjuk, Indonesia"},
+                {"SP011", "Arfan Ardiansyah", "085706595022", "Jombang, Indonesia"},
+                {"SP012", "Flavia Reiska Januari Putri", "0881026542584", "Nganjuk, Indonesia"},
+                {"SP013", "Kartika Dewi Claudia", "087824060309", "Kediri, Indonesia"},
+                {"SP014", "Tegar Pratama Alfianto", "085816555034", "Kediri, Indonesia"},
+                {"SP015", "Sultan Yorgi Praba Mahendra", "081336252154", "Nganjuk, Indonesia"},
+                {"SP016", "Renaldi Gilang Prasetyo", "087779212229", "Jombang, Indonesia"},
+                {"SP017", "Rahmat Aji Wibowo", "082333174750", "Kediri, Indonesia"},
+                {"SP018", "Nyofrizal Teguh Santoso", "083440455377", "Nganjuk, Indonesia"},
+                {"SP019", "Mohammad Bagas Pratama", "082887145367", "Nganjuk, Indonesia"},
+                {"SP020", "Kurniawan Adi Candra", "088404705857", "Nganjuk, Indonesia"},
+                {"SP021", "Amanda Rahmawati", "086460356514", "Nganjuk, Indonesia"},
+                {"SP022", "Esly Reeka Augustinyo", "085232007805", "Nganjuk, Indonesia"},
+                {"SP023", "Mokhammad Mansor Kornianto", "089654770601", "Jombang, Indonesia"}
             },
             new String [] {
-                "ID Supplier", "Nama Supplier", "Alamat"
+                "ID Supplier", "Nama Supplier", "No Telp", "Alamat"
             }
         ));
         tabelData.setGridColor(new java.awt.Color(0, 0, 0));
