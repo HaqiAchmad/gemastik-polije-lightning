@@ -241,7 +241,7 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"SP001", "Asrul Achmad Asrofi", "086653837718", "Nganjuk, Indonesia"},
-                {"SP002", "Dimas Abimanyu", "084884582640", "Nganjuk, Indonesia"},
+                {"SP002", "Achmad Baihaqi", "084884582640", "Nganjuk, Indonesia"},
                 {"SP003", "Farel Kurniawan", "080548653287", "Nganjuk, Indonesia"},
                 {"SP004", "Feby Ayu Dyah Pitaloka", "082203072218", "Jombang, Indonesia"},
                 {"SP005", "Afif Fitra Nugroho", "087676072232", "Kediri, Indonesia"},

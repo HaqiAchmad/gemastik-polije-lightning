@@ -294,7 +294,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": PB001"/>
+            <Property name="text" type="java.lang.String" value=": KY003"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valNamaPetugas">
@@ -316,7 +316,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 085655864624"/>
+            <Property name="text" type="java.lang.String" value=": 085739499321"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valAlamat">
@@ -360,7 +360,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 02 Oktober 2022"/>
+            <Property name="text" type="java.lang.String" value=": Selasa, 11 Oktober 2022"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valLevel">

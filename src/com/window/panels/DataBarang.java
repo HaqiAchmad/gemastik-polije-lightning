@@ -197,31 +197,31 @@ public class DataBarang extends javax.swing.JPanel {
 
         valIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDBarang.setForeground(new java.awt.Color(0, 0, 0));
-        valIDBarang.setText(": BG0001");
+        valIDBarang.setText(": BG001");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaBarang.setText(": Ichi Ocha Jasmine Tea");
+        valNamaBarang.setText(": Nabati Wafer");
 
         valJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJenis.setForeground(new java.awt.Color(0, 0, 0));
-        valJenis.setText(": Minuman");
+        valJenis.setText(": Snack");
 
         valStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valStok.setForeground(new java.awt.Color(0, 0, 0));
-        valStok.setText(": 3 Stok");
+        valStok.setText(": 30 Stok");
 
         valHargaBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valHargaBeli.setForeground(new java.awt.Color(0, 0, 0));
-        valHargaBeli.setText(": Rp. 3.000");
+        valHargaBeli.setText(": Rp. 3.000.00");
 
         valHargaJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valHargaJual.setForeground(new java.awt.Color(0, 0, 0));
-        valHargaJual.setText(": Rp. 3.500");
+        valHargaJual.setText(": Rp. 3.500.00");
 
         valPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valPjln.setForeground(new java.awt.Color(0, 0, 0));
-        valPjln.setText(": 45 Penjualan");
+        valPjln.setText(": 80 Penjualan");
 
         lblPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
@@ -229,7 +229,7 @@ public class DataBarang extends javax.swing.JPanel {
 
         valPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
-        valPjlnMinggu.setText(": 3 Penjualan");
+        valPjlnMinggu.setText(": 13 Penjualan");
 
         lblPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
@@ -237,7 +237,7 @@ public class DataBarang extends javax.swing.JPanel {
 
         valPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
-        valPenghasilan.setText(": Rp. 157.500");
+        valPenghasilan.setText(": Rp. 280.000.00");
 
         javax.swing.GroupLayout pnlDataBarangLayout = new javax.swing.GroupLayout(pnlDataBarang);
         pnlDataBarang.setLayout(pnlDataBarangLayout);

@@ -1,10 +1,12 @@
 package com.window.panels;
 
+import com.manage.Chart;
 import com.manage.Message;
 import com.users.Users;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.SQLException;
 
 import org.jfree.chart.ChartFactory;
@@ -23,9 +25,13 @@ public class DataPembeli extends javax.swing.JPanel {
     
     private final Users user = new Users();
     
+    private final Chart chart = new Chart();
+    
     public DataPembeli() {
         initComponents();
-        this.showPieChart();
+//        this.showPieChart();
+        
+        this.chart.showPieChart(this.pieChart, "Produk yang dibeli Achmad Baihaqi", new Font("Ebrima", 1, 20), 15, 20, 60, 0);
         
         this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());

@@ -496,7 +496,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": BG0001"/>
+            <Property name="text" type="java.lang.String" value=": BG001"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valNamaBarang">
@@ -507,7 +507,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Ichi Ocha Jasmine Tea"/>
+            <Property name="text" type="java.lang.String" value=": Nabati Wafer"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valJenis">
@@ -518,7 +518,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Minuman"/>
+            <Property name="text" type="java.lang.String" value=": Snack"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valStok">
@@ -529,7 +529,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 3 Stok"/>
+            <Property name="text" type="java.lang.String" value=": 30 Stok"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valHargaBeli">
@@ -540,7 +540,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Rp. 3.000"/>
+            <Property name="text" type="java.lang.String" value=": Rp. 3.000.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valHargaJual">
@@ -551,7 +551,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Rp. 3.500"/>
+            <Property name="text" type="java.lang.String" value=": Rp. 3.500.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valPjln">
@@ -562,7 +562,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 45 Penjualan"/>
+            <Property name="text" type="java.lang.String" value=": 80 Penjualan"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblPjlnMinggu">
@@ -584,7 +584,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 3 Penjualan"/>
+            <Property name="text" type="java.lang.String" value=": 13 Penjualan"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblPenghasilan">
@@ -606,7 +606,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Rp. 157.500"/>
+            <Property name="text" type="java.lang.String" value=": Rp. 280.000.00"/>
           </Properties>
         </Component>
       </SubComponents>

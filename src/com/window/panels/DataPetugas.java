@@ -77,10 +77,10 @@ public class DataPetugas extends javax.swing.JPanel {
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.setValue(170, "Amount", "Minggu 1");
-        dataset.setValue(200, "Amount", "Minggu 2");
-        dataset.setValue(118, "Amount", "Minggu 3");
-        dataset.setValue(167, "Amount", "Minggu 4");
-//        dataset.setValue(180, "Amount", "Senin");
+        dataset.setValue(80, "Amount", "Minggu 2");
+        dataset.setValue(100, "Amount", "Minggu 3");
+        dataset.setValue(190, "Amount", "Minggu 4");
+        dataset.setValue(180, "Amount", "Minggu 5");
 //        dataset.setValue(200, "Amount", "Selasa");
 //        dataset.setValue(150, "Amount", "Rabu");
         
@@ -230,7 +230,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valIDPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPetugas.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPetugas.setText(": PB001");
+        valIDPetugas.setText(": KY003");
 
         valNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
@@ -238,7 +238,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
-        valNoTelp.setText(": 085655864624");
+        valNoTelp.setText(": 085739499321");
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
@@ -254,7 +254,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valLastTr.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLastTr.setForeground(new java.awt.Color(0, 0, 0));
-        valLastTr.setText(": 02 Oktober 2022");
+        valLastTr.setText(": Selasa, 11 Oktober 2022");
 
         valLevel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLevel.setForeground(new java.awt.Color(0, 0, 0));

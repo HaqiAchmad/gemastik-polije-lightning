@@ -32,9 +32,9 @@ public class Dashboard extends javax.swing.JPanel {
     public Dashboard() {
         initComponents();
         
-        this.chart.showPieChart(this.pnlPieChart, "Presentase Pembelian Produk", 40, 20, 15, 25);
-        this.chart.lineChartPenjualan(this.pnlLineChart);
-//        this.showLineChart();
+        this.chart.showPieChart(this.pnlPieChart, "Presentase Penjualan Produk", 40, 20, 15, 25);
+//        this.chart.lineChartPenjualan(this.pnlLineChart);
+        this.showLineChart();
         
         // mengupdate waktu
         new Thread(new Runnable(){
@@ -234,7 +234,7 @@ public class Dashboard extends javax.swing.JPanel {
 
         lblData.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblData.setForeground(new java.awt.Color(255, 255, 255));
-        lblData.setText("  Laporan Penjualan Minggu Ini");
+        lblData.setText("  Laporan Penjualan ");
 
         lblDate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblDate.setForeground(new java.awt.Color(255, 255, 255));
@@ -361,18 +361,18 @@ public class Dashboard extends javax.swing.JPanel {
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "Kamis");
+        dataset.setValue(170, "Amount", "Kamis");
         dataset.setValue(150, "Amount", "Jumat");
-        dataset.setValue(58, "Amount", "Sabtu");
-        dataset.setValue(30, "Amount", "Minggu");
+        dataset.setValue(80, "Amount", "Sabtu");
+        dataset.setValue(50, "Amount", "Minggu");
         dataset.setValue(180, "Amount", "Senin");
-        dataset.setValue(250, "Amount", "Selasa");
-        dataset.setValue(250, "Amount", "Rabu");
+        dataset.setValue(200, "Amount", "Selasa");
+        dataset.setValue(200, "Amount", "Rabu");
         
         //create chart
         JFreeChart linechart = ChartFactory.createLineChart("Penjualan Produk","Hari","Jumlah", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        linechart.setTitle(new TextTitle("Line Chart", new java.awt.Font("Ebrima", 1, 22)));
+        linechart.setTitle(new TextTitle("Penjualan Produk Minggu Ini", new java.awt.Font("Ebrima", 1, 21)));
         
         //create plot object
          CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
