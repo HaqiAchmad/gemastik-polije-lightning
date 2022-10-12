@@ -1,5 +1,6 @@
 package com.window.panels;
 
+import com.manage.Chart;
 import com.manage.Message;
 import com.manage.Waktu;
 import java.awt.BorderLayout;
@@ -24,14 +25,16 @@ import org.jfree.data.statistics.HistogramDataset;
  */
 public class Dashboard extends javax.swing.JPanel {
 
+    private final Chart chart = new Chart();
+    
     private final Waktu waktu = new Waktu();
     
     public Dashboard() {
         initComponents();
         
-        this.showPieChart();
-//        this.showBarChart();
-        this.showLineChart();
+        this.chart.showPieChart(this.pnlPieChart, "Presentase Pembelian Produk", 40, 20, 15, 25);
+        this.chart.lineChartPenjualan(this.pnlLineChart);
+//        this.showLineChart();
         
         // mengupdate waktu
         new Thread(new Runnable(){
@@ -40,7 +43,7 @@ public class Dashboard extends javax.swing.JPanel {
             public void run(){
                 try{
                     while(isVisible()){
-                        System.out.println("update");
+//                        System.out.println("update");
                         lblDate.setText(waktu.getUpdateWaktu() + "  ");
                         Thread.sleep(100);
                     }
@@ -334,7 +337,7 @@ public class Dashboard extends javax.swing.JPanel {
       barDataset.setValue( "ATK" , new Double( 10 ) );  
       
       //create chart
-      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
+      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Produk",barDataset, false,true,false);//explain
       piechart.setTitle(new TextTitle("Pie Chart", new java.awt.Font("Ebrima", 1, 22)));
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
@@ -354,7 +357,7 @@ public class Dashboard extends javax.swing.JPanel {
         pnlPieChart.add(barChartPanel, BorderLayout.CENTER);
         pnlPieChart.validate();
     }
-
+    
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -367,7 +370,7 @@ public class Dashboard extends javax.swing.JPanel {
         dataset.setValue(250, "Amount", "Rabu");
         
         //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("Penjualan Seminggu Terakhir","Hari","Jumlah", 
+        JFreeChart linechart = ChartFactory.createLineChart("Penjualan Produk","Hari","Jumlah", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
         linechart.setTitle(new TextTitle("Line Chart", new java.awt.Font("Ebrima", 1, 22)));
         
