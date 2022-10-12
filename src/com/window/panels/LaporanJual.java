@@ -113,13 +113,32 @@ public class LaporanJual extends javax.swing.JPanel {
         tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"PD0001", "Teh Pucuk", "3", "Rp. 9.000.00", "01 Oktober 2022"},
+                {"PD0002", "Aqua 500ml", "2", "Rp. 10.000.00", "01 Oktober 2022"},
+                {"PD0003", "Indomilk", "1", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0004", "Nabati Wafer", "5", "Rp. 17.500.00", "01 Oktober 2022"},
+                {"PD0005", "Coca Cola", "4", "Rp. 16.000.00", "01 Oktober 2022"},
+                {"PD0006", "Oreo", "4", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0007", "Teh Pucuk", "2", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0008", "Coca Cola", "1", "Rp. 4.000.00", "02 Oktober 2022"},
+                {"PD0009", "Oreo", "6", "Rp. 12.000.00", "02 Oktober 2022"},
+                {"PD0010", "Ichi Ocha 350ml", "1", "Rp. 2.000.00", "02 Oktober 2022"},
+                {"PD0011", "Aqua 500ml", "1", "Rp. 5.000.00", "02 Oktober 2022"},
+                {"PD0012", "Coca Cola", "1", "Rp. 4.000.00", "02 Oktober 2022"},
+                {"PD0013", "Spidol Merah", "2", "Rp. 5.000.00", "02 Oktober 2022"},
+                {"PD0014", "Kertas Folio", "50", "Rp. 12.500.00", "03 Oktober 2022"},
+                {"PD0015", "Yupi", "12", "Rp. 30.000.00", "03 Oktober 2022"},
+                {"PD0016", "Nabati Wafer", "8", "Rp. 28.000.00", "03 Oktober 2022"},
+                {"PD0017", "Nabati Wafer", "3", "Rp. 10.500.00", "03 Oktober 2022"},
+                {"PD0018", "Coca Cola", "1", "Rp. 4.000.00", "03 Oktober 2022"},
+                {"PD0019", "Ichi Ocha 350ml", "1", "Rp. 2.000.00", "03 Oktober 2022"},
+                {"PD0020", "Indomilk", "1", "Rp. 8.000.00", "04 Oktober 2022"},
+                {"PD0021", "Aqua 500ml", "3", "Rp. 15.000.00", "04 Oktober 2022"},
+                {"PD0022", "Teh Pucuk", "2", "Rp. 8.000.00", "04 Oktober 2022"},
+                {"PD0023", "Indomilk", "4", "Rp. 36.000.00", "04 Oktober 2022"}
             },
             new String [] {
-                "ID Pendapatan", "Nama Barang", "Total Pendapatan", "Tanggal"
+                "ID Pendapatan", "Nama Barang", "Jumlah Barang", "Total Pendapatan", "Tanggal"
             }
         ));
         tabelData.setGridColor(new java.awt.Color(0, 0, 0));
@@ -161,9 +180,9 @@ public class LaporanJual extends javax.swing.JPanel {
         });
 
         pnlDataPendapatan.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDataPendapatan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
+        pnlDataPendapatan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(11, 114, 238), 3));
 
-        lblDataPendapatan.setBackground(new java.awt.Color(5, 170, 57));
+        lblDataPendapatan.setBackground(new java.awt.Color(11, 114, 238));
         lblDataPendapatan.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblDataPendapatan.setForeground(new java.awt.Color(255, 255, 255));
         lblDataPendapatan.setText("  Detail Pendapatan");
