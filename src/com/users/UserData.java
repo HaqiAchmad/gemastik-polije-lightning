@@ -10,7 +10,11 @@ public enum UserData {
     
     ID_USER,
     PASSWORD,
-    NO_HP,
     LEVEL,
-    FOTO
+    NAMA_ADMIN,
+    NAMA_PETUGAS,
+    NAMA_SUPPLIER,
+    NAMA_PEMBELI,
+    NO_HP,
+    ALAMAT
 }

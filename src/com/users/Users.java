@@ -24,10 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.StringTokenizer;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 
 /**
@@ -384,53 +380,6 @@ public class Users extends Database{
         }
     }
     
-    /**
-     * Digunakan untuk membuat sebuah ID Login baru. Method akan membuat sebuah ID Login dengan menggunakan 
-     * method {@code randomUUID()} yang ada didalam class {@code UUID}. Output dari method tersebut adalah 
-     * sebuah String dengan nilai random. Mehotd akan mengambil delapan karakter pertama dari String tersebut.
-     * <br><br>
-     * Setelah ID Login didapatkan method akan mengecek apakah ID Login tersebut sudah exist atau belum. Jika 
-     * ID Login belum exist maka method akan mengembalikan ID Login tersebut dalam bentuk string. Tetapi jika
-     * ID Login sudah exist maka method akan membuat ID Login baru.
-     * <br><br>
-     * <b>Contoh ID Login : </b> Zq0P38Dk
-     * 
-     * @return ID Login baru dalam bentuk String.
-     */
-    private String createIdLogin(){
-        Log.addLog("Membuat ID Login baru.");
-        // membuat id login dengan bantuan dari class UUID
-        String idLogin = UUID.randomUUID().toString().substring(0, 8).replaceAll("-", "");
-        
-        // jika id login belum exist maka method akan mengebalikan id login
-        if(!this.isExistIdLogin(idLogin)){
-            return idLogin;
-        }
-        // membuat id login baru jika id login sudah exist
-        return createIdLogin();
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah sebuah ID Login sudah exist atau belum. Pertama-tama method
-     * akan mengecek apakah ID Login yang diinputkan sudah valid atau tidak dengan menggunakan 
-     * method {@code isIdLogin()} yang ada didalam class {@code Validation}. Jika ID Login tidak 
-     * valid maka method akan menghasilkan error {@code InValidUserDataException}. Tetapi jika 
-     * ID Login valid maka method akan mengecek apakah ID Login sudah exist atau belum dengan 
-     * menggunakan method {@code isExistData()} yang ada didalam class {@code Database}.
-     * 
-     * @param IdLogin ID Login yang akan dicek.
-     * @return <strong>True</strong> jika ID Login exist. <br>
-     *         <strong>False</strong> jika ID Login belum exist.
-     */
-    private boolean isExistIdLogin(String IdLogin){
-        // mengecek apakah id login valid atau tidak
-        if(Validation.isIdLogin(IdLogin)){
-//            return this.isExistData(DatabaseTables.LOGIN.name(), UserData.ID_LOGIN.name(), IdLogin);
-            return true;
-        }
-        // akan menghasilkan error jika id login tidak valid
-        throw new InValidUserDataException("'" + IdLogin + "' ID Login tersebut tidak valid");
-    }
     
     /**
      * Method ini digunakan untuk mendapatkan ID Login dari akun yang sedang digunakan untuk Login.
@@ -594,29 +543,6 @@ public class Users extends Database{
         // akan menghasilkan error jika id user tidak ditemukan
         throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");
     }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data dari nama user berdasarkan ID User yang diinputakan.
-     * Pertama-tama method akan mengecek apakah user memiliki level Admin atau Petugas. Jika user memiliki 
-     * level Admin atau Petugas maka data dari nama user akan diambil dari tabel petugas yang ada didalam 
-     * <b>Database</b>. Tetpai jika user memiliki level Siswa maka data dari nama user akan diambil dari 
-     * tabel siswa yang ada didalam <b>Database</b>.
-     * 
-     * @param idUser ID User yang dinggin diambil namanya.
-     * @return akan mengembalikan nama dari ID User yang diinputkan.
-     */
-//    private String getNameOfIdUser(String idUser){
-//        String name = "";
-//        // mengecek apakah user memiliki level admin atau petugas
-//        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
-//            // mendapatkan data dari nama user yang ada didalam tabel petugas
-//            name = this.getData(DatabaseTables.PETUGAS.name(), PetugasData.NAMA_PETUGAS.name(), "WHERE " + PetugasData.ID_PETUGAS + " = " + idUser);
-//        }else if(this.isSiswa(idUser)){
-//            // mendapatkan data dari nama user yang ada didalam tabel siswa
-//            name = this.getData(DatabaseTables.SISWA.name(), SiswaData.NAMA_SISWA.name(), "WHERE " + SiswaData.NIS + " = " + idUser);
-//        }
-//        return name;
-//    }
     
     /**
      * Method ini digunakan untuk mendapatkan data Nomor HP dari user berdasarkan ID User yang diinputkan. 
@@ -789,7 +715,6 @@ public class Users extends Database{
         
         return "I Dont Know";
     }
-        
     
     /**
      * Method ini digunakan untuk mendapatkan data Level dari user berdasarkan ID User yang diinputkan. 
@@ -1082,246 +1007,6 @@ public class Users extends Database{
         return null;
     }
     
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code File} berdasarkan ID User yang diinputkan. Method akan mendapatkan direktori dari Foto User dengan melalui 
-     * method {@code downloadPhoto()}. Jika terjadi kesalahan/error saat memanggil method {@code downloadPhoto()} maka method 
-     * akan mengembalikan direktori dari default Foto User. Direktori dari default Foto User akan didapatkan melalui 
-     * method {@code getDefaultPhoto()}.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @return Direktori dari Foto User.
-     */
-    private File getPhoto(String idUser){
-        try {
-            return this.downloadPhoto(idUser);
-        } catch (SQLException | IOException ex) {
-            Message.showException(this, "Gagal mendapatkan Foto dari User!", ex, true);
-        }
-        return this.getDefaultPhoto();
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang diinputkan dan dengan ukuran dari Foto User yang telah diubah. Method akan 
-     * mendapatkan direktori dari Foto user dengan menggunakan method {@code getPhoto(String idUser)}. Setelah direktori didapatkan 
-     * maka selanjutnya method akan mengubah ukuran lebar dan tinggi dari Foto berdasarkan lebar dan tinggi yang diinputkan pada 
-     * parameter method. 
-     * <br><br>
-     * Ukuran lebar dan tinggi dari Foto User akan diubah dengan melalui method {@code resizeImage()} yang ada didalam class 
-     * {@code Gambar}. Setelah ukuran lebar dan tinggi dari Foto User berhasil diubah maka method akan mengembalikan direktori
-     * dari Foto User yang telah diubah ukuranya tersebut.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @param width lebar dari Foto User.
-     * @param height tinggi dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(String idUser, int width, int height){
-        return new ImageIcon(Gambar.resizeImage(this.getPhoto(idUser), width, height).toString());
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang sedang digunakan untuk login dan dengan ukuran dari Foto User yang telah diubah. 
-     * Method akan mendapatkan ID User yang sedang digunakan untuk login dengan menggunakan methot {@code getCurrentLogin()}. 
-     * Sedangkan ukuran dari Foto User akan diubah dengan melalui method {@code getPhoto(String idUser, int width, int height)}.
-     * 
-     * @param width lebar dari Foto User.
-     * @param height tinggi dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(int width, int height){
-        return this.getPhoto(this.getCurrentLogin(), width, height);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang diinputkan dan dengan ukuran dari Foto User yang telah diubah. Method akan 
-     * mendapatkan direktori dari Foto user dengan menggunakan method {@code getPhoto(String idUser)}. Setelah direktori didapatkan 
-     * maka selanjutnya method akan mengubah ukuran lebar berdasarkan parameter <code>size</code> pada method.
-     * <br><br>
-     * Parameter <code>size</code> pada method ini adalah sebuah class {@code UserPhotoSize} yang merupakan class untuk 
-     * meyimpan ukuran tinggi dan lebar dari Foto User dalam bentuk <code>enum</code>. Method akan mendapatkan ukuran lebar 
-     * dan tinggi dari enum dengan menggunakan method {@code getWidth()} dan {@code getHeight()} yang ada didalam 
-     * class {@code UserPhotoSize}.
-     * <br><br>
-     * Ukuran lebar dan tinggi dari Foto User akan diubah dengan melalui method {@code resizeImage()} yang ada didalam class 
-     * {@code Gambar}. Setelah ukuran lebar dan tinggi dari Foto User berhasil diubah maka method akan mengembalikan direktori
-     * dari Foto User yang telah diubah ukuranya tersebut.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @param size ukuran dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(String idUser, UserPhotoSize size){
-        return this.getPhoto(idUser, UserPhotoSize.getWidth(size), UserPhotoSize.getHeight(size));
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang sedang digunakan untuk login dan dengan ukuran dari Foto User yang telah diubah. 
-     * Method akan mendapatkan ID User yang sedang digunakan untuk login dengan menggunakan methot {@code getCurrentLogin()}. 
-     * Sedangkan ukuran dari Foto User akan diubah dengan melalui method {@code getPhoto(String idUser, UserPhotoSize size)}.
-     * 
-     * @param size ukuran dari foto user.
-     * @return Direktori dari Foto User yang telah diubah ukuranya. 
-     */
-    public final ImageIcon getPhoto(UserPhotoSize size){
-        return this.getPhoto(this.getCurrentLogin(), size);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan Foto Profile dari User berdasarkan ID User yang diinputkan. Method akan 
-     * mendapatkan Foto Profile dari User dengan menggunakan method {@code getPhoto()} dengan ukuran yang disesuaikan dengan 
-     * ukuran Foto Profile. Ukuran dari Foto Profile dibagi menjadi dua yaitu <code>FOTO_PROFILE_PETUGAS</code> yang digunakan 
-     * untuk User dengan level <b>ADMIN</b> atau <b>PETUGAS</b>. Dan <code>FOTO_PROFILE_SISWA</code> yang digunakan untuk user dengan 
-     * level <b>SISWA</b>.
-     * <br><br>
-     * Sebelum mendapatkan Foto Profile dari User method akan mengecek apakah user memiliki level <b>ADMIN</b> atau <b>PETUGAS</b>
-     * atau tidak. Jika User memiliki level <b>ADMIN</b> atau <b>PETUGAS</b> maka Foto Profile akan didapatkan dengan melalui 
-     * method {@code getPhoto()} dengan ukuran <code>FOTO_PROFILE_PETUGAS</code>.
-     * <br><br>
-     * Tetapi jika User tidak memiliki level <b>ADMIN</b> atau <b>PETUGAS</b> maka method akan mengecek apakah User tersebut 
-     * memiliki level <b>SISWA</b> atau tidak. Jika User memiliki level <b>SISWA</b> maka Foto Profile akan didapatkan dengan melalui 
-     * method {@code getPhoto()} dengan ukuran <code>FOTO_PROFILE_SISWA</code>.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @return Direktori dari Foto Profile User.
-     */
-    public final ImageIcon getPhotoProfile(String idUser){
-        // jika user memiliki level admin atau petugas
-        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
-            // mendapatkan foto profile dari user
-            return this.getPhoto(idUser, UserPhotoSize.FOTO_PROFILE_PETUGAS);
-        }
-        // jika user memiliki level siswa
-        else if(this.isSiswa(idUser)){
-            // mendapatkan foto profile dari user
-            return this.getPhoto(idUser, UserPhotoSize.FOTO_PROFILE_SISWA);
-        }
-        return new ImageIcon(getPhoto(idUser).toString());
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan Foto Profile dari User bedasarkan ID User yang sedang digunakan untuk login 
-     * saat ini dalam bentuk object dari class {@code ImageIcon}. Method akan mendapatkan ID User yang sedang digunakan untuk login 
-     * dengan menggunakan method {@code getCurrentLogin()}. Sedangakan Foto Profile akan didapatkan dengan melalui method 
-     * {@code getPhotoProfile()}.
-     * 
-     * @return Direktori dari Foto Profile User.
-     */
-    public final ImageIcon getPhotoProfile(){
-        return this.getPhotoProfile(getCurrentLogin());
-    }
-    
-    /**
-     * Method ini digunakan untuk mengedit sebuah Foto dari User. Method akan mengedit Foto dari User dengan menggunakan 
-     * class {@code PreparedStatement}. Sebelum mengedit Foto dari User method akan mengecek apakah parameter newImg yang
-     * digunakan untuk menampung file Foto User yang baru apakah parameter tersebut kosong atau tidak. Jika parameter kosong 
-     * maka Foto User akan diset ke default Foto User.
-     * <br><br>
-     * Jika Foto User tidak kosong maka selanjutnya method akan mengkonversi file Foto User yang baru tersebut kedalam bentuk 
-     * blob/byte stream dengan menggunakan method {@code fileToBlob()} yang ada didalam class {@code FileManager()}. Setelah 
-     * file berhasil dikoversi kedalam bentuk blob/byte stream maka selanjutnya method akan mengedit Foto User dengan menggunakan 
-     * method {@code executeUpdate()} yang ada didalam class {@code PreparedStatement}.
-     * <br><br>
-     * Jika proses pengeditan Foto User berhasil maka selanjutnya method akan menghapus cache dari Foto User lama yang ada didalam 
-     * folder cache didalam storage aplikasi. Setelah cache dari Foto User yang lama berhasil dihapus maka proses pengeditan 
-     * Foto User dinyatakan berhasil dan method akan mengembalikan nilai <code>true</code>
-     * 
-     * @param idUser ID User yang ingin diedit fotonya.
-     * @param newImg Foto User yang baru.
-     * 
-     * @return <strong>True</strong> jika proses pengeditan berhasil. <br>
-     *         <strong>False</strong> jika proses pengeditan gagal.
-     */
-    public final boolean setPhoto(String idUser, File newImg){
-        PreparedStatement pst;
-        boolean result;
-        
-        try {
-            // mengedit foto yang ada didalam database
-            pst = super.conn.prepareStatement("UPDATE users SET foto = ? WHERE id_user = " + idUser);
-            // jika file newImg tidak kosong maka foto akan diedit
-            if(newImg != null){
-                // mengkonversi file menjadi blob
-                pst.setBlob(1, new FileManager().fileToBlob(newImg));
-            }else{
-                pst.setString(1, null);
-            }
-            
-            // mengedit foto
-            result = pst.executeUpdate() > 0;
-            
-            // jika foto yang ada didalam database berhasil diedit maka cache foto akan dihapus
-            if(result){
-                // menghapus cache foto
-                this.removeCachePhoto(idUser);
-                // mengembalikan nilai true
-                return true;
-            }
-        } catch (IOException | SQLException ex) {
-            Message.showException(this, "Gagal mengedit Foto dari User!", ex, true);
-        }
-        return false;
-    }
-    
-    /**
-     * Method ini digunakan untuk menghapus sebuah Foto User yang sebelumnya diunggah/diupload ke dalam <b>Database</b>.
-     * Foto User sebenarnya tidak akan benar-benar dihapus melainkan Foto User akan diatur ke default Foto User. 
-     * Method akan menghapus Foto User dengan menggunakan method {@code setPhoto()} dengan paremeter file foto diisi 
-     * dengan nilai <code>null</code>.
-     * 
-     * @param idUser ID User yang ingin dihapus fotonya.
-     * @return <strong>True</strong> jika foto berhasil dihapus. <br>
-     *         <strong>False</strong> jika foto gagal dihapus.
-     */
-    public final boolean removePhoto(String idUser){
-        return this.setPhoto(idUser, null);
-    }
-    
-    /**
-     * Method ini digunakan untuk menghapus cache-cache dari Foto User berdasarkan ID User yang diinputakn. Cache
-     * dari Foto User perlu dihapus saat user mengedit Foto mereka. Jika cache tidak dihapus maka cache dari Foto User yang 
-     * baru tidak akan dibuat dan hal ini akan menyebabkan bug pada aplikasi. Pertama-tama method akan mendapatkan data semua 
-     * file cache yang didalam folder cache\\pictures\\resized pada storage aplikasi dengan menggunakan method 
-     * {@code getListFile()} yang ada didalam class {@code FileManager} untuk dihapus.
-     * <br><br>
-     * Sebelum menghapus file cahce yang ada didalam folder cache\\pictures\\resized method akan menghapus cache file foto 
-     * original yang ada didalam folder cache\\pictures dengan menggunakan method {@code deleteFile()} yang ada didalam class
-     * {@code FileManager()}. Selanjutnya method akan menghapus semua file cache dari foto yang nama filenya diawali dengan 
-     * id user yang diinputkan.
-     * 
-     * @param idUser ID User yang ingin dihapus cachenya.
-     * @throws IOException akan terjadi error jika direktori dari folder cache tidak ditemukan.
-     */
-    private void removeCachePhoto(String idUser) throws IOException{
-        
-        String file;
-        FileManager fm = new FileManager();
-        // mendapatkan semua direktori dari file cache untuk dihapus
-        Object[] dirs = fm.getListFile(new Storage().getCacheDir()+"\\pictures\\resized");
-        
-        // menghapus foto original
-        fm.deleteFile(this.getPhotoDir(idUser));
-        
-        // membaca direktori dari foto resized yang ada didalam array files
-        for(Object o : dirs){
-            // mendapatkan nama dari file
-            file = fm.getNamaFile(o.toString());
-            // jika nama dari file id_user-nya sama dengan id user yg diinputkan maka file akan dihapus
-            if(file.substring(0, file.indexOf("_")).equalsIgnoreCase(idUser)){
-                // menghapus file cache
-                Log.addLog("Menghapus file cache " + file);
-                fm.deleteFile(o.toString());
-            }
-        }
-    }
-    
     public String getName(String idUser){
         if(this.getLevel(idUser).name().equalsIgnoreCase("KARYAWAN")){
             return this.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'");
@@ -1329,10 +1014,22 @@ public class Users extends Database{
         return null;
     }
     
+    private String getNama(String idUser){
+                    switch(kode){
+                case "1" : tgs.matriks("+"); break;
+                case "2" : tgs.matriks("-"); break;
+                case "3" : System.out.println("Not Supported Yet!"); break;
+                case "4" : System.exit(0); break;
+            }   
+        return null;
+    }
+    
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        System.out.println(user.getName("KY003"));
+        
+        System.out.println(user.getCurrentIdLogin());
+        System.out.println(user.getCurrentIdLogin());
     }
     
 }

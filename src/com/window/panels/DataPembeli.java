@@ -107,7 +107,7 @@ public class DataPembeli extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, true, true, true
             };
 
             @Override
@@ -408,7 +408,8 @@ public class DataPembeli extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        this.tabelData.setValueAt("testing", this.tabelData.getSelectedRow(), this.tabelData.getSelectedColumn());
+//        this.tabelData.addRowSelectionInterval(1, WIDTH);
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
