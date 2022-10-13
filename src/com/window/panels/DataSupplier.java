@@ -16,18 +16,7 @@ public class DataSupplier extends javax.swing.JPanel {
     
     public DataSupplier() {
         initComponents();
-<<<<<<< HEAD
         this.updateTabel();
-=======
-        
-        this.tabelData.setRowHeight(29);
-        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
-        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
-        
-        this.tabelHistori.setRowHeight(29);
-        this.tabelHistori.getTableHeader().setBackground(new java.awt.Color(255,255,255));
-        this.tabelHistori.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
->>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
     }
 
     private Object[][] getData(){
@@ -102,7 +91,7 @@ public class DataSupplier extends javax.swing.JPanel {
         valLast = new javax.swing.JLabel();
         lblHistori = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tabelData = new javax.swing.JTable();
+        tabelSupplier = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
@@ -113,27 +102,25 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelHistori.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         tabelHistori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"PG0002", "Aqua 1 L", "5", "Rp. 15.000.00"},
-                {"PG0012", "Nabati Wafer", "7", "Rp. 17.500.00"},
-                {"PG0018", "Pulpen Snowman", "14", "Rp. 35.000.00"},
-                {"PG0019", "Nabati Wafer", "20", "Rp. 60.000.00"}
+                {"PG0001", "Aqua 1 L", "5", "Rp. 15.000"},
+                {"PG0002", "Nabati Wafer", "7", "Rp. 17.500"},
+                {"PG0003", "Pulpen Snowman", "14", "Rp. 35.000"},
+                {null, null, null, null}
             },
             new String [] {
                 "ID Pengeluaran", "Nama Barang", "Jumlah", "Total Harga"
             }
         ));
-        tabelHistori.setGridColor(new java.awt.Color(0, 0, 0));
         tabelHistori.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelHistori.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        tabelHistori.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelHistori);
 
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari ID / Nama Supplier :");
+        lblCari.setText("Cari Supplier :");
 
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -186,12 +173,7 @@ public class DataSupplier extends javax.swing.JPanel {
         lblLast.setText("Pembelian Terakhir");
 
         valIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-<<<<<<< HEAD
         valIDSupplier.setText(": SP001");
-=======
-        valIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valIDSupplier.setText(": SP002");
->>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaSupplier.setText(": Achmad Baihaqi");
@@ -276,49 +258,21 @@ public class DataSupplier extends javax.swing.JPanel {
         lblHistori.setForeground(new java.awt.Color(237, 12, 12));
         lblHistori.setText("Histori Supplier");
 
-<<<<<<< HEAD
         tabelSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
-=======
-        tabelData.setBackground(new java.awt.Color(255, 255, 255));
-        tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelData.setForeground(new java.awt.Color(0, 0, 0));
-        tabelData.setModel(new javax.swing.table.DefaultTableModel(
->>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
             new Object [][] {
-                {"SP001", "Asrul Achmad Asrofi", "086653837718", "Nganjuk, Indonesia"},
-                {"SP002", "Achmad Baihaqi", "084884582640", "Nganjuk, Indonesia"},
-                {"SP003", "Farel Kurniawan", "080548653287", "Nganjuk, Indonesia"},
-                {"SP004", "Feby Ayu Dyah Pitaloka", "082203072218", "Jombang, Indonesia"},
-                {"SP005", "Afif Fitra Nugroho", "087676072232", "Kediri, Indonesia"},
-                {"SP006", "Abdulloh Kafabi", "086134471867", "Nganjuk, Indonesia"},
-                {"SP007", "Deni Yuda Mahendra", "083851907614", "Kediri, Indonesia"},
-                {"SP008", "Hendro Wawan Setiyo", "085790836149", "Nganjuk, Indonesia"},
-                {"SP009", "Mahendra Putra Pratama", "085775502026", "Nganjuk, Indonesia"},
-                {"SP010", "Mohamad Rodzikul Hidayatulloh", "0895395057931", "Nganjuk, Indonesia"},
-                {"SP011", "Arfan Ardiansyah", "085706595022", "Jombang, Indonesia"},
-                {"SP012", "Flavia Reiska Januari Putri", "0881026542584", "Nganjuk, Indonesia"},
-                {"SP013", "Kartika Dewi Claudia", "087824060309", "Kediri, Indonesia"},
-                {"SP014", "Tegar Pratama Alfianto", "085816555034", "Kediri, Indonesia"},
-                {"SP015", "Sultan Yorgi Praba Mahendra", "081336252154", "Nganjuk, Indonesia"},
-                {"SP016", "Renaldi Gilang Prasetyo", "087779212229", "Jombang, Indonesia"},
-                {"SP017", "Rahmat Aji Wibowo", "082333174750", "Kediri, Indonesia"},
-                {"SP018", "Nyofrizal Teguh Santoso", "083440455377", "Nganjuk, Indonesia"},
-                {"SP019", "Mohammad Bagas Pratama", "082887145367", "Nganjuk, Indonesia"},
-                {"SP020", "Kurniawan Adi Candra", "088404705857", "Nganjuk, Indonesia"},
-                {"SP021", "Amanda Rahmawati", "086460356514", "Nganjuk, Indonesia"},
-                {"SP022", "Esly Reeka Augustinyo", "085232007805", "Nganjuk, Indonesia"},
-                {"SP023", "Mokhammad Mansor Kornianto", "089654770601", "Jombang, Indonesia"}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID Supplier", "Nama Supplier", "No Telp", "Alamat"
+                "ID Supplier", "Nama Supplier", "Alamat"
             }
         ));
-        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
-        tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
-        tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        tabelData.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tabelData);
+        tabelSupplier.setSelectionBackground(new java.awt.Color(26, 164, 250));
+        tabelSupplier.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        jScrollPane3.setViewportView(tabelSupplier);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -343,7 +297,8 @@ public class DataSupplier extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -402,8 +357,8 @@ public class DataSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel lblNamaSupplier;
     private javax.swing.JLabel lblNoTelp;
     private javax.swing.JLabel lblUang;
-    private javax.swing.JTable tabelData;
     private javax.swing.JTable tabelHistori;
+    private javax.swing.JTable tabelSupplier;
     private javax.swing.JLabel valAlamat;
     private javax.swing.JLabel valBrgSupplier;
     private javax.swing.JPanel valDataSupplier;
