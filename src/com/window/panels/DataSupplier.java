@@ -1,15 +1,66 @@
 package com.window.panels;
 
+import com.manage.Message;
+import com.users.Users;
+import java.sql.SQLException;
+
 /**
  *
  * @author Gemastik Lightning
  */
 public class DataSupplier extends javax.swing.JPanel {
 
+    private String keyword = "";
+    
+    private final Users user = new Users();
+    
     public DataSupplier() {
         initComponents();
+        this.updateTabel();
     }
 
+    private Object[][] getData(){
+        try{
+            Object[][] obj;
+            int rows = 0;
+            String sql = "SELECT id_supplier, nama_supplier, no_telp, alamat FROM supplier " + keyword;
+            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+            obj = new Object[user.getJumlahData("supplier", keyword)][4];
+            // mengeksekusi query
+            user.res = user.stat.executeQuery(sql);
+            // mendapatkan semua data yang ada didalam tabel
+            while(user.res.next()){
+                // menyimpan data dari tabel ke object
+                obj[rows][0] = user.res.getString("id_supplier");
+                obj[rows][1] = user.res.getString("nama_supplier");
+                obj[rows][2] = user.res.getString("no_telp");
+                obj[rows][3] = user.res.getString("alamat");
+                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+            }
+            return obj;
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    private void updateTabel(){
+        this.tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
+            getData(),
+            new String [] {
+                "ID Supplier", "Nama Supplier", "No Telephone", "Alamat"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -48,9 +99,7 @@ public class DataSupplier extends javax.swing.JPanel {
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
-        tabelHistori.setBackground(new java.awt.Color(255, 255, 255));
         tabelHistori.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelHistori.setForeground(new java.awt.Color(0, 0, 0));
         tabelHistori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"PG0001", "Aqua 1 L", "5", "Rp. 15.000"},
@@ -66,9 +115,7 @@ public class DataSupplier extends javax.swing.JPanel {
         tabelHistori.setSelectionForeground(new java.awt.Color(250, 246, 246));
         jScrollPane2.setViewportView(tabelHistori);
 
-        inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -105,59 +152,45 @@ public class DataSupplier extends javax.swing.JPanel {
         lblDataSupplier.setOpaque(true);
 
         lblIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblIDSupplier.setText("ID Supplier");
 
         lblNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaSupplier.setText("Nama Supplier");
 
         lblNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         lblNoTelp.setText("No Telepon");
 
         lblAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblAlamat.setForeground(new java.awt.Color(0, 0, 0));
         lblAlamat.setText("Alamat");
 
         lblBrgSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblBrgSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblBrgSupplier.setText("Barang Dari Supplier");
 
         lblUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblUang.setForeground(new java.awt.Color(0, 0, 0));
         lblUang.setText("Uang Dikeluarkan");
 
         lblLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblLast.setForeground(new java.awt.Color(0, 0, 0));
         lblLast.setText("Pembelian Terakhir");
 
         valIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valIDSupplier.setText(": SP001");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valNamaSupplier.setText(": Achmad Baihaqi");
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         valNoTelp.setText(": 085655864624");
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valAlamat.setForeground(new java.awt.Color(0, 0, 0));
         valAlamat.setText(": Jombang, Jawa Timur, Indonesia");
 
         valBrgSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valBrgSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valBrgSupplier.setText(": 341 Barang");
 
         valUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valUang.setForeground(new java.awt.Color(0, 0, 0));
         valUang.setText(": Rp. 1.390.000");
 
         valLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valLast.setForeground(new java.awt.Color(0, 0, 0));
         valLast.setText(": 07 Oktober 2022");
 
         javax.swing.GroupLayout valDataSupplierLayout = new javax.swing.GroupLayout(valDataSupplier);
@@ -225,7 +258,6 @@ public class DataSupplier extends javax.swing.JPanel {
         lblHistori.setForeground(new java.awt.Color(237, 12, 12));
         lblHistori.setText("Histori Supplier");
 
-        tabelSupplier.setBackground(new java.awt.Color(255, 255, 255));
         tabelSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         tabelSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
