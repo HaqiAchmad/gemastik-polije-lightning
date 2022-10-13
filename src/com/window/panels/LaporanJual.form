@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -35,12 +35,11 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
-                              <Component id="lblCari" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="lblCari" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="inpCari" min="-2" pref="237" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="432" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
@@ -105,19 +104,149 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ebrima" size="14" style="1"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="ID Pendapatan" type="java.lang.Object"/>
-                <Column editable="true" title="Nama Barang" type="java.lang.Object"/>
-                <Column editable="true" title="Total Pendapatan" type="java.lang.Object"/>
-                <Column editable="true" title="Tanggal" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="23">
+                <Column editable="true" title="ID Pendapatan" type="java.lang.Object">
+                  <Data value="PD0001"/>
+                  <Data value="PD0002"/>
+                  <Data value="PD0003"/>
+                  <Data value="PD0004"/>
+                  <Data value="PD0005"/>
+                  <Data value="PD0006"/>
+                  <Data value="PD0007"/>
+                  <Data value="PD0008"/>
+                  <Data value="PD0009"/>
+                  <Data value="PD0010"/>
+                  <Data value="PD0011"/>
+                  <Data value="PD0012"/>
+                  <Data value="PD0013"/>
+                  <Data value="PD0014"/>
+                  <Data value="PD0015"/>
+                  <Data value="PD0016"/>
+                  <Data value="PD0017"/>
+                  <Data value="PD0018"/>
+                  <Data value="PD0019"/>
+                  <Data value="PD0020"/>
+                  <Data value="PD0021"/>
+                  <Data value="PD0022"/>
+                  <Data value="PD0023"/>
+                </Column>
+                <Column editable="true" title="Nama Barang" type="java.lang.Object">
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Indomilk"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Oreo"/>
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Oreo"/>
+                  <Data value="Ichi Ocha 350ml"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Spidol Merah"/>
+                  <Data value="Kertas Folio"/>
+                  <Data value="Yupi"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Ichi Ocha 350ml"/>
+                  <Data value="Indomilk"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Indomilk"/>
+                </Column>
+                <Column editable="true" title="Jumlah Barang" type="java.lang.Object">
+                  <Data value="3"/>
+                  <Data value="2"/>
+                  <Data value="1"/>
+                  <Data value="5"/>
+                  <Data value="4"/>
+                  <Data value="4"/>
+                  <Data value="2"/>
+                  <Data value="1"/>
+                  <Data value="6"/>
+                  <Data value="1"/>
+                  <Data value="1"/>
+                  <Data value="1"/>
+                  <Data value="2"/>
+                  <Data value="50"/>
+                  <Data value="12"/>
+                  <Data value="8"/>
+                  <Data value="3"/>
+                  <Data value="1"/>
+                  <Data value="1"/>
+                  <Data value="1"/>
+                  <Data value="3"/>
+                  <Data value="2"/>
+                  <Data value="4"/>
+                </Column>
+                <Column editable="true" title="Total Pendapatan" type="java.lang.Object">
+                  <Data value="Rp. 9.000.00"/>
+                  <Data value="Rp. 10.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 17.500.00"/>
+                  <Data value="Rp. 16.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 12.000.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 12.500.00"/>
+                  <Data value="Rp. 30.000.00"/>
+                  <Data value="Rp. 28.000.00"/>
+                  <Data value="Rp. 10.500.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 15.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 36.000.00"/>
+                </Column>
+                <Column editable="true" title="Tanggal" type="java.lang.Object">
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="01 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="02 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="03 Oktober 2022"/>
+                  <Data value="04 Oktober 2022"/>
+                  <Data value="04 Oktober 2022"/>
+                  <Data value="04 Oktober 2022"/>
+                  <Data value="04 Oktober 2022"/>
+                </Column>
               </Table>
+            </Property>
+            <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fa" green="a4" red="1a" type="rgb"/>
             </Property>
             <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f6" green="f6" red="fa" type="rgb"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
         </Component>
@@ -139,13 +268,13 @@
     <Component class="javax.swing.JLabel" name="lblCari">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="16" style="1"/>
+          <Font name="Dialog" size="15" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="c" green="c" red="ed" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Cari Pendapatan :"/>
+        <Property name="text" type="java.lang.String" value="Cari ID Pendapatan :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -211,7 +340,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder thickness="3">
-              <Color PropertyName="color" blue="39" green="aa" red="5" type="rgb"/>
+              <Color PropertyName="color" blue="ee" green="72" red="b" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -308,7 +437,7 @@
         <Component class="javax.swing.JLabel" name="lblDataPendapatan">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="39" green="aa" red="5" type="rgb"/>
+              <Color blue="ee" green="72" red="b" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="16" style="1"/>
@@ -416,7 +545,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": PB001"/>
+            <Property name="text" type="java.lang.String" value=": PB0002"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valIDTransaksi">
@@ -427,7 +556,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": TR001"/>
+            <Property name="text" type="java.lang.String" value=": TR0002"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="valNamaPembeli">
@@ -493,7 +622,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Rp. 3.000"/>
+            <Property name="text" type="java.lang.String" value=": Rp. 10.000.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTanggal">
@@ -515,7 +644,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": 02 Oktober 2022"/>
+            <Property name="text" type="java.lang.String" value=": Sabtu, 01 Oktober 2022"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -730,6 +859,25 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Grafik Pendapatan">
                 <Property name="tabTitle" type="java.lang.String" value="Grafik Pendapatan"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+        </Container>
+        <Container class="javax.swing.JPanel" name="paneProduk">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="66" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Produk Terlaris">
+                <Property name="tabTitle" type="java.lang.String" value="Produk Terlaris"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

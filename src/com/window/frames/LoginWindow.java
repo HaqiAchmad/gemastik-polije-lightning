@@ -8,7 +8,6 @@ import com.media.Audio;
 import com.media.Gambar;
 import com.users.Users;
 import com.window.MainWindow;
-import com.window.test.Dashboard;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -34,6 +33,8 @@ public class LoginWindow extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setIconImage(Gambar.getWindowIcon());
         this.lblKembali.setVisible(false);
+        this.lblNamaTeam.setText(Application.getAuthor());
+        this.lblLogoApp.setIcon(Gambar.scaleImage(new java.io.File("src\\resources\\image\\icons\\app-logo.png"), 160, 160));
         this.btnLogin.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     }
 
@@ -43,8 +44,8 @@ public class LoginWindow extends javax.swing.JFrame {
 
         pnlMain = new javax.swing.JPanel();
         pnlLeft = new javax.swing.JPanel();
-        lblLogoSmk = new javax.swing.JLabel();
-        lblSekolah = new javax.swing.JLabel();
+        lblLogoApp = new javax.swing.JLabel();
+        lblNamaTeam = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         lblEye = new javax.swing.JLabel();
         inpPassword = new javax.swing.JPasswordField();
@@ -86,30 +87,30 @@ public class LoginWindow extends javax.swing.JFrame {
 
         pnlLeft.setBackground(new java.awt.Color(33, 33, 37));
 
-        lblLogoSmk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
-        lblLogoSmk.setToolTipText("");
-        lblLogoSmk.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lblLogoApp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogoApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
+        lblLogoApp.setToolTipText("");
+        lblLogoApp.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        lblSekolah.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
-        lblSekolah.setForeground(new java.awt.Color(255, 255, 255));
-        lblSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSekolah.setText("Gemastik Lightning");
-        lblSekolah.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblNamaTeam.setFont(new java.awt.Font("Dialog", 1, 17)); // NOI18N
+        lblNamaTeam.setForeground(new java.awt.Color(255, 255, 255));
+        lblNamaTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNamaTeam.setText("Gemastik Lightning");
+        lblNamaTeam.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout pnlLeftLayout = new javax.swing.GroupLayout(pnlLeft);
         pnlLeft.setLayout(pnlLeftLayout);
         pnlLeftLayout.setHorizontalGroup(
             pnlLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblLogoSmk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblSekolah, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+            .addComponent(lblLogoApp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblNamaTeam, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
         );
         pnlLeftLayout.setVerticalGroup(
             pnlLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLeftLayout.createSequentialGroup()
-                .addComponent(lblLogoSmk, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblLogoApp, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblSekolah, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblNamaTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -437,10 +438,10 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblClose;
     private javax.swing.JLabel lblEye;
     private javax.swing.JLabel lblKembali;
-    private javax.swing.JLabel lblLogoSmk;
+    private javax.swing.JLabel lblLogoApp;
     private javax.swing.JLabel lblMinimaze;
+    private javax.swing.JLabel lblNamaTeam;
     private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblSekolah;
     private javax.swing.JLabel lblTop;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel pnlLeft;

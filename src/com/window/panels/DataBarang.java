@@ -37,6 +37,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
      */
     public DataBarang() {
         initComponents();
+<<<<<<< HEAD
         //this.showLineChart();
         this.updateTabel();
     }
@@ -151,6 +152,14 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
 //                return true;
             }
         });
+=======
+        
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        this.showLineChart();
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
     }
     public void showLineChart(){
         //create dataset for the graph
@@ -244,24 +253,43 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         setPreferredSize(new java.awt.Dimension(957, 650));
 
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"BG001", "Sprite", "Minuman", "12", "Rp. 4.000.00"},
+                {"BG002", "Coca Cola", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG003", "Teh Pucuk", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG004", "Aqua 500ml", "Minuman", "5", "Rp. 5.000.00"},
+                {"BG005", "Aqua 1L", "Minuman", "9", "Rp. 5.000.00"},
+                {"BG006", "Indomilk", "Minuman", "11", "Rp. 8.000.00"},
+                {"BG007", "Kertas Folio", "ATK", "250", "Rp. 250.00"},
+                {"BG008", "Kertas HVS", "ATK", "420", "Rp. 250.00"},
+                {"BG009", "Pulpen Snowman", "ATK", "23", "Rp. 2.500.00"},
+                {"BG010", "Spidol Hitam", "ATK", "19", "Rp. 2.000.00"},
+                {"BG011", "Spidol Merah", "ATK", "26", "Rp. 2.500.00"},
+                {"BG012", "Spidol Biru", "ATK", "24", "Rp. 2.500.00"},
+                {"BG013", "Yupi", "Snack", "45", "Rp. 2.500.00"},
+                {"BG014", "Nabati Wafer", "Snack", "30", "Rp. 3.500.00"},
+                {"BG015", "Oreo", "Snack", "60", "Rp. 2.000.00"},
+                {"BG016", "Roti", "Snack", "27", "Rp. 1.000.00"},
+                {"BG017", "Ichi Ocha 350ml", "Minuman", "18", "Rp. 2.000.00"}
             },
             new String [] {
-                "ID Barang", "Nama Barang", "Jenis", "Stok"
+                "ID Barang", "Nama Barang", "Jenis", "Stok", "Harga Jual"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+<<<<<<< HEAD
         tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelDataMouseClicked(evt);
             }
         });
+=======
+        tabelData.getTableHeader().setReorderingAllowed(false);
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
         jScrollPane2.setViewportView(tabelData);
 
         lineBottom.setBackground(new java.awt.Color(0, 0, 0));
@@ -322,6 +350,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         lblPjln.setText("Total Penjualan");
 
         valIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+<<<<<<< HEAD
         valIDBarang.setText(": BG0001");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -341,18 +370,56 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
 
         valPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valPjln.setText(": 45 Penjualan");
+=======
+        valIDBarang.setForeground(new java.awt.Color(0, 0, 0));
+        valIDBarang.setText(": BG001");
+
+        valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
+        valNamaBarang.setText(": Nabati Wafer");
+
+        valJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valJenis.setForeground(new java.awt.Color(0, 0, 0));
+        valJenis.setText(": Snack");
+
+        valStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valStok.setForeground(new java.awt.Color(0, 0, 0));
+        valStok.setText(": 30 Stok");
+
+        valHargaBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaBeli.setForeground(new java.awt.Color(0, 0, 0));
+        valHargaBeli.setText(": Rp. 3.000.00");
+
+        valHargaJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaJual.setForeground(new java.awt.Color(0, 0, 0));
+        valHargaJual.setText(": Rp. 3.500.00");
+
+        valPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPjln.setForeground(new java.awt.Color(0, 0, 0));
+        valPjln.setText(": 80 Penjualan");
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
 
         lblPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblPjlnMinggu.setText("Penjualan Minggu Ini");
 
         valPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+<<<<<<< HEAD
         valPjlnMinggu.setText(": 3 Penjualan");
+=======
+        valPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
+        valPjlnMinggu.setText(": 13 Penjualan");
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
 
         lblPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblPenghasilan.setText("Penghasilah Didapat");
 
         valPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+<<<<<<< HEAD
         valPenghasilan.setText(": Rp. 157.500");
+=======
+        valPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
+        valPenghasilan.setText(": Rp. 280.000.00");
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
 
         javax.swing.GroupLayout pnlDataBarangLayout = new javax.swing.GroupLayout(pnlDataBarang);
         pnlDataBarang.setLayout(pnlDataBarangLayout);
@@ -429,10 +496,10 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
 
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Barang :");
+        lblCari.setText("Cari ID / Nama Barang :");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
@@ -470,8 +537,12 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+<<<<<<< HEAD
                                 .addGap(0, 23, Short.MAX_VALUE)
                                 .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+=======
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+>>>>>>> cba6783a95f9b2eda01bfc3e37c22749d7403ab5
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())

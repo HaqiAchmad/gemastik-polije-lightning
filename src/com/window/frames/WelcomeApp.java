@@ -19,10 +19,9 @@ public class WelcomeApp extends javax.swing.JFrame {
         
         // menampilkan data-data aplikasi
         this.lblNamaAplikasi.setText(Application.getNama());
-        this.lblNamaSekolah.setText(Application.getCompany());
         this.lblVersi.setText("Versi " + Application.getVersi());
         this.lblCopyright.setText(Application.getRightReserved());
-        this.lblIconSekolah.setIcon(Gambar.scaleImage(new java.io.File("src\\resources\\image\\icons\\logo-smkn1kts.png"), 148, 180));
+        this.lblIconSekolah.setIcon(Gambar.scaleImage(new java.io.File("src\\resources\\image\\icons\\app-logo.png"), 180, 180));
         
         // mengatur iu button
         this.btnLanjut.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -38,7 +37,7 @@ public class WelcomeApp extends javax.swing.JFrame {
         line = new javax.swing.JSeparator();
         lblNamaAplikasi = new javax.swing.JLabel();
         lblIconSekolah = new javax.swing.JLabel();
-        lblNamaSekolah = new javax.swing.JLabel();
+        lblAppDes = new javax.swing.JLabel();
         lblVersi = new javax.swing.JLabel();
         lblCopyright = new javax.swing.JLabel();
 
@@ -78,21 +77,21 @@ public class WelcomeApp extends javax.swing.JFrame {
         lblNamaAplikasi.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lblNamaAplikasi.setForeground(new java.awt.Color(10, 223, 121));
         lblNamaAplikasi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNamaAplikasi.setText("SPP Payment");
+        lblNamaAplikasi.setText("Simple Buy");
 
         lblIconSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIconSekolah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-splashwindow-logosmkn1kts.png"))); // NOI18N
+        lblIconSekolah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
 
-        lblNamaSekolah.setFont(new java.awt.Font("Dialog", 1, 27)); // NOI18N
-        lblNamaSekolah.setForeground(new java.awt.Color(226, 39, 39));
-        lblNamaSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNamaSekolah.setText("SMK Negeri 1 Kertosono");
+        lblAppDes.setFont(new java.awt.Font("Dialog", 1, 27)); // NOI18N
+        lblAppDes.setForeground(new java.awt.Color(226, 39, 39));
+        lblAppDes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAppDes.setText("Aplikasi Manajemen Bisnis");
 
         lblVersi.setForeground(new java.awt.Color(222, 226, 253));
         lblVersi.setText("Versi 1.0.0");
 
         lblCopyright.setForeground(new java.awt.Color(222, 226, 253));
-        lblCopyright.setText("Copyright © 2021. Achmad Baihaqi. All Rights Reserved.");
+        lblCopyright.setText("Copyright © 2021. Gemastik. All Rights Reserved.");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -102,7 +101,7 @@ public class WelcomeApp extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lblSelamat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNamaSekolah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAppDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblIconSekolah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblNamaAplikasi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlMainLayout.createSequentialGroup()
@@ -124,7 +123,7 @@ public class WelcomeApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIconSekolah, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNamaSekolah, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAppDes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -177,15 +176,8 @@ public class WelcomeApp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLanjutMouseExited
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -196,9 +188,6 @@ public class WelcomeApp extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(WelcomeApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -211,10 +200,10 @@ public class WelcomeApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLanjut;
+    private javax.swing.JLabel lblAppDes;
     private javax.swing.JLabel lblCopyright;
     private javax.swing.JLabel lblIconSekolah;
     private javax.swing.JLabel lblNamaAplikasi;
-    private javax.swing.JLabel lblNamaSekolah;
     private javax.swing.JLabel lblSelamat;
     private javax.swing.JLabel lblVersi;
     private javax.swing.JSeparator line;

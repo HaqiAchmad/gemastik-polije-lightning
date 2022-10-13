@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -29,23 +29,18 @@
               <Component id="pnlTransaksi" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane4" alignment="0" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblCariBarang" min="-2" pref="144" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="inpCariBarang" min="-2" pref="237" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblCariSupplier" min="-2" pref="144" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="inpCariSupplier" min="-2" pref="237" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="lblCariSupplier" pref="177" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="inpCariSupplier" min="-2" pref="237" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblCariBarang" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="inpCariBarang" min="-2" pref="237" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane2" pref="426" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" pref="426" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -66,14 +61,14 @@
                           <Component id="lblCariBarang" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="255" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="261" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="inpCariSupplier" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblCariSupplier" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -85,13 +80,13 @@
     <Component class="javax.swing.JLabel" name="lblCariBarang">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="16" style="1"/>
+          <Font name="Dialog" size="15" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="c" green="c" red="ed" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Cari Barang :"/>
+        <Property name="text" type="java.lang.String" value="Cari ID / Nama Barang :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="inpCariBarang">
@@ -107,49 +102,16 @@
         </Property>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="tabelDataBarang">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Ebrima" size="14" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="Nama Barang" type="java.lang.Object"/>
-                <Column editable="true" title="Jenis Barang" type="java.lang.Object"/>
-                <Column editable="true" title="Harga" type="java.lang.Object"/>
-                <Column editable="true" title="Stok" type="java.lang.Object"/>
-              </Table>
-            </Property>
-            <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="fa" green="a4" red="1a" type="rgb"/>
-            </Property>
-            <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f6" green="f6" red="fa" type="rgb"/>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JLabel" name="lblCariSupplier">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="16" style="1"/>
+          <Font name="Dialog" size="15" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="c" green="c" red="ed" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Cari Supplier :"/>
+        <Property name="text" type="java.lang.String" value="Cari ID / Nama Supplier :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="inpCariSupplier">
@@ -165,38 +127,6 @@
         </Property>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane4">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="tabelDataSupplier">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Ebrima" size="14" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
-                <Column editable="true" title="ID Supplier" type="java.lang.Object"/>
-                <Column editable="true" title="Nama Supplier" type="java.lang.Object"/>
-                <Column editable="true" title="Alamat" type="java.lang.Object"/>
-              </Table>
-            </Property>
-            <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="fa" green="a4" red="1a" type="rgb"/>
-            </Property>
-            <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f6" green="f6" red="fa" type="rgb"/>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JPanel" name="pnlTransaksi">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -634,6 +564,277 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBatalActionPerformed"/>
           </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tabelDataBarang">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Ebrima" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="5" rowCount="17">
+                <Column editable="true" title="ID Barang" type="java.lang.Object">
+                  <Data value="BG001"/>
+                  <Data value="BG002"/>
+                  <Data value="BG003"/>
+                  <Data value="BG004"/>
+                  <Data value="BG005"/>
+                  <Data value="BG006"/>
+                  <Data value="BG007"/>
+                  <Data value="BG008"/>
+                  <Data value="BG009"/>
+                  <Data value="BG010"/>
+                  <Data value="BG011"/>
+                  <Data value="BG012"/>
+                  <Data value="BG013"/>
+                  <Data value="BG014"/>
+                  <Data value="BG015"/>
+                  <Data value="BG016"/>
+                  <Data value="BG017"/>
+                </Column>
+                <Column editable="true" title="Nama Barang" type="java.lang.Object">
+                  <Data value="Sprite"/>
+                  <Data value="Coca Cola"/>
+                  <Data value="Teh Pucuk"/>
+                  <Data value="Aqua 500ml"/>
+                  <Data value="Aqua 1L"/>
+                  <Data value="Indomilk"/>
+                  <Data value="Kertas Folio"/>
+                  <Data value="Kertas HVS"/>
+                  <Data value="Pulpen Snowman"/>
+                  <Data value="Spidol Hitam"/>
+                  <Data value="Spidol Merah"/>
+                  <Data value="Spidol Biru"/>
+                  <Data value="Yupi"/>
+                  <Data value="Nabati Wafer"/>
+                  <Data value="Oreo"/>
+                  <Data value="Roti"/>
+                  <Data value="Ichi Ocha 350ml"/>
+                </Column>
+                <Column editable="true" title="Jenis" type="java.lang.Object">
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="Minuman"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="ATK"/>
+                  <Data value="Snack"/>
+                  <Data value="Snack"/>
+                  <Data value="Snack"/>
+                  <Data value="Snack"/>
+                  <Data value="Minuman"/>
+                </Column>
+                <Column editable="true" title="Stok" type="java.lang.Object">
+                  <Data value="12"/>
+                  <Data value="10"/>
+                  <Data value="10"/>
+                  <Data value="5"/>
+                  <Data value="9"/>
+                  <Data value="11"/>
+                  <Data value="250"/>
+                  <Data value="420"/>
+                  <Data value="23"/>
+                  <Data value="19"/>
+                  <Data value="26"/>
+                  <Data value="24"/>
+                  <Data value="45"/>
+                  <Data value="30"/>
+                  <Data value="60"/>
+                  <Data value="27"/>
+                  <Data value="18"/>
+                </Column>
+                <Column editable="true" title="Harga Jual" type="java.lang.Object">
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 4.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 5.000.00"/>
+                  <Data value="Rp. 8.000.00"/>
+                  <Data value="Rp. 250.00"/>
+                  <Data value="Rp. 250.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 2.500.00"/>
+                  <Data value="Rp. 3.500.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                  <Data value="Rp. 1.000.00"/>
+                  <Data value="Rp. 2.000.00"/>
+                </Column>
+              </Table>
+            </Property>
+            <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="fa" green="a4" red="1a" type="rgb"/>
+            </Property>
+            <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f6" green="f6" red="fa" type="rgb"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tabelDataSupplier">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Ebrima" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="23">
+                <Column editable="true" title="ID Supplier" type="java.lang.Object">
+                  <Data value="SP001"/>
+                  <Data value="SP002"/>
+                  <Data value="SP003"/>
+                  <Data value="SP004"/>
+                  <Data value="SP005"/>
+                  <Data value="SP006"/>
+                  <Data value="SP007"/>
+                  <Data value="SP008"/>
+                  <Data value="SP009"/>
+                  <Data value="SP010"/>
+                  <Data value="SP011"/>
+                  <Data value="SP012"/>
+                  <Data value="SP013"/>
+                  <Data value="SP014"/>
+                  <Data value="SP015"/>
+                  <Data value="SP016"/>
+                  <Data value="SP017"/>
+                  <Data value="SP018"/>
+                  <Data value="SP019"/>
+                  <Data value="SP020"/>
+                  <Data value="SP021"/>
+                  <Data value="SP022"/>
+                  <Data value="SP023"/>
+                </Column>
+                <Column editable="true" title="Nama Supplier" type="java.lang.Object">
+                  <Data value="Asrul Achmad Asrofi"/>
+                  <Data value="Dimas Abimanyu"/>
+                  <Data value="Farel Kurniawan"/>
+                  <Data value="Feby Ayu Dyah Pitaloka"/>
+                  <Data value="Afif Fitra Nugroho"/>
+                  <Data value="Abdulloh Kafabi"/>
+                  <Data value="Deni Yuda Mahendra"/>
+                  <Data value="Hendro Wawan Setiyo"/>
+                  <Data value="Mahendra Putra Pratama"/>
+                  <Data value="Mohamad Rodzikul Hidayatulloh"/>
+                  <Data value="Arfan Ardiansyah"/>
+                  <Data value="Flavia Reiska Januari Putri"/>
+                  <Data value="Kartika Dewi Claudia"/>
+                  <Data value="Tegar Pratama Alfianto"/>
+                  <Data value="Sultan Yorgi Praba Mahendra"/>
+                  <Data value="Renaldi Gilang Prasetyo"/>
+                  <Data value="Rahmat Aji Wibowo"/>
+                  <Data value="Nyofrizal Teguh Santoso"/>
+                  <Data value="Mohammad Bagas Pratama"/>
+                  <Data value="Kurniawan Adi Candra"/>
+                  <Data value="Amanda Rahmawati"/>
+                  <Data value="Esly Reeka Augustinyo"/>
+                  <Data value="Mokhammad Mansor Kornianto"/>
+                </Column>
+                <Column editable="true" title="No Telp" type="java.lang.Object">
+                  <Data value="086653837718"/>
+                  <Data value="084884582640"/>
+                  <Data value="080548653287"/>
+                  <Data value="082203072218"/>
+                  <Data value="087676072232"/>
+                  <Data value="086134471867"/>
+                  <Data value="083851907614"/>
+                  <Data value="085790836149"/>
+                  <Data value="085775502026"/>
+                  <Data value="0895395057931"/>
+                  <Data value="085706595022"/>
+                  <Data value="0881026542584"/>
+                  <Data value="087824060309"/>
+                  <Data value="085816555034"/>
+                  <Data value="081336252154"/>
+                  <Data value="087779212229"/>
+                  <Data value="082333174750"/>
+                  <Data value="083440455377"/>
+                  <Data value="082887145367"/>
+                  <Data value="088404705857"/>
+                  <Data value="086460356514"/>
+                  <Data value="085232007805"/>
+                  <Data value="089654770601"/>
+                </Column>
+                <Column editable="true" title="Alamat" type="java.lang.Object">
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Jombang, Indonesia"/>
+                  <Data value="Kediri, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Kediri, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Jombang, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Kediri, Indonesia"/>
+                  <Data value="Kediri, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Jombang, Indonesia"/>
+                  <Data value="Kediri, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Nganjuk, Indonesia"/>
+                  <Data value="Jombang, Indonesia"/>
+                </Column>
+              </Table>
+            </Property>
+            <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="fa" green="a4" red="1a" type="rgb"/>
+            </Property>
+            <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f6" green="f6" red="fa" type="rgb"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

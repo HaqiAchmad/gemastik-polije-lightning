@@ -29,58 +29,6 @@ public class Gambar {
         return icWindow.getImage();
     }
     
-    public static ImageIcon getTopIcon(){
-        // mendapatkan file top icon
-        File fileIcon = new File(Application.getTopIcon().toString()),
-             // file cache dari top icon 
-             fileCache = new File(new Storage().getCacheDir() + "pictures\\resized\\logo-top-icon.png");
-        
-        // jika file top icon exist
-        if(fileIcon.exists()){
-            // mengecek apakah ukuran dari file top icon adalah 35x35
-            if(Gambar.getWidth(fileIcon) == 35 && Gambar.getHeight(fileIcon) == 35){
-                return Application.getTopIcon();
-            }else{
-                // mengecek apakah file dari file top icon dengan ukuran 35x35 ada dicache atau tidak
-                if(fileCache.exists()){
-                    System.out.println("get this top");
-                    return new ImageIcon(fileCache.toString());
-                }else{
-                    // meresize file top icon ke ukuran 35x35
-                    return new ImageIcon(Gambar.resizeImage(fileIcon, 35, 35, "logo-top-icon").toString());
-                }                
-            }
-        }
-        // jika file top icon tidak exist 
-        return null;
-    }
-    
-    public static ImageIcon getBottomIcon(){
-        // mendapatkan file bottom icon
-        File fileIcon = new File(Application.getBottomIcon().toString()),
-             // file cache dari bottom icon 
-             fileCache = new File(new Storage().getCacheDir() + "pictures\\resized\\logo-bottom-icon.png");
-        
-        // jika file bottom icon exist
-        if(fileIcon.exists()){
-            // mengecek apakah ukuran dari file bottom icon adalah 30x37
-            if(Gambar.getWidth(fileIcon) == 30 && Gambar.getHeight(fileIcon) == 37){
-                return Application.getBottomIcon();
-            }else{
-                // mengecek apakah file dari file bottom icon dengan ukuran 30x37 ada dicache atau tidak
-                if(fileCache.exists()){
-                    System.out.println("get this bottom");
-                    return new ImageIcon(fileCache.toString());
-                }else{
-                    // meresize file bottom icon ke ukuran 30x37
-                    return new ImageIcon(Gambar.resizeImage(fileIcon, 30, 37, "logo-bottom-icon").toString());
-                }                
-            }
-        }
-        // jika file bottom icon tidak exist 
-        return null;
-    }
-    
     private static int getWidth(File file){
         return new ImageIcon(file.toString()).getIconWidth();
     }

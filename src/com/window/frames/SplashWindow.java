@@ -24,7 +24,7 @@ public class SplashWindow extends javax.swing.JFrame {
         initComponents();
         
         this.lblTop.setText(Application.getNama());
-        this.lblSekolah.setText(Application.getCompany());
+        this.lblLogoApp.setIcon(Gambar.scaleImage(new java.io.File("src\\resources\\image\\icons\\app-logo.png"), 160, 160));
         this.setLocationRelativeTo(null);
         this.setIconImage(Gambar.getWindowIcon());
         
@@ -151,7 +151,7 @@ public class SplashWindow extends javax.swing.JFrame {
         pnlMain = new javax.swing.JPanel();
         proLoad = new javax.swing.JProgressBar();
         lblTop = new javax.swing.JLabel();
-        lblLogoSmk = new javax.swing.JLabel();
+        lblLogoApp = new javax.swing.JLabel();
         lblLoadVal = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
         lblSekolah = new javax.swing.JLabel();
@@ -165,13 +165,13 @@ public class SplashWindow extends javax.swing.JFrame {
         proLoad.setForeground(new java.awt.Color(0, 125, 255));
         proLoad.setValue(10);
 
-        lblTop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTop.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblTop.setForeground(new java.awt.Color(10, 223, 121));
         lblTop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTop.setText("Gemastik Lightning");
+        lblTop.setText("Simple Buy");
 
-        lblLogoSmk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogoSmk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
+        lblLogoApp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogoApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-app-splashwindow.png"))); // NOI18N
 
         lblLoadVal.setForeground(new java.awt.Color(255, 255, 255));
         lblLoadVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -181,10 +181,10 @@ public class SplashWindow extends javax.swing.JFrame {
         lblMessage.setForeground(new java.awt.Color(255, 255, 255));
         lblMessage.setText("  Membuka Aplikasi...");
 
-        lblSekolah.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblSekolah.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         lblSekolah.setForeground(new java.awt.Color(226, 39, 39));
         lblSekolah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSekolah.setText("Polije");
+        lblSekolah.setText("Aplikasi Manajemen Bisnis");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -192,7 +192,7 @@ public class SplashWindow extends javax.swing.JFrame {
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(proLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblLogoSmk, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblLogoApp, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -205,7 +205,7 @@ public class SplashWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblTop, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblLogoSmk, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblLogoApp, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSekolah, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,7 +254,7 @@ public class SplashWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblLoadVal;
-    private javax.swing.JLabel lblLogoSmk;
+    private javax.swing.JLabel lblLogoApp;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblSekolah;
     private javax.swing.JLabel lblTop;

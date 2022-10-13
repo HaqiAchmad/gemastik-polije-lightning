@@ -8,6 +8,15 @@ public class TransaksiBeli extends javax.swing.JPanel {
 
     public TransaksiBeli() {
         initComponents();
+        
+        this.tabelDataBarang.setRowHeight(29);
+        this.tabelDataBarang.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelDataBarang.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        this.tabelDataSupplier.setRowHeight(29);
+        this.tabelDataSupplier.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelDataSupplier.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -16,12 +25,8 @@ public class TransaksiBeli extends javax.swing.JPanel {
 
         lblCariBarang = new javax.swing.JLabel();
         inpCariBarang = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelDataBarang = new javax.swing.JTable();
         lblCariSupplier = new javax.swing.JLabel();
         inpCariSupplier = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tabelDataSupplier = new javax.swing.JTable();
         pnlTransaksi = new javax.swing.JPanel();
         lblTransaksiBeli = new javax.swing.JLabel();
         lblIDTransaksi = new javax.swing.JLabel();
@@ -45,61 +50,31 @@ public class TransaksiBeli extends javax.swing.JPanel {
         lineBottom = new javax.swing.JSeparator();
         btnBeli = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelDataBarang = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabelDataSupplier = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
 
-        lblCariBarang.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCariBarang.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCariBarang.setForeground(new java.awt.Color(237, 12, 12));
         lblCariBarang.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCariBarang.setText("Cari Barang :");
+        lblCariBarang.setText("Cari ID / Nama Barang :");
 
         inpCariBarang.setBackground(new java.awt.Color(255, 255, 255));
         inpCariBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariBarang.setForeground(new java.awt.Color(0, 0, 0));
 
-        tabelDataBarang.setBackground(new java.awt.Color(255, 255, 255));
-        tabelDataBarang.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelDataBarang.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nama Barang", "Jenis Barang", "Harga", "Stok"
-            }
-        ));
-        tabelDataBarang.setSelectionBackground(new java.awt.Color(26, 164, 250));
-        tabelDataBarang.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        jScrollPane2.setViewportView(tabelDataBarang);
-
-        lblCariSupplier.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCariSupplier.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCariSupplier.setForeground(new java.awt.Color(237, 12, 12));
         lblCariSupplier.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCariSupplier.setText("Cari Supplier :");
+        lblCariSupplier.setText("Cari ID / Nama Supplier :");
 
         inpCariSupplier.setBackground(new java.awt.Color(255, 255, 255));
         inpCariSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariSupplier.setForeground(new java.awt.Color(0, 0, 0));
-
-        tabelDataSupplier.setBackground(new java.awt.Color(255, 255, 255));
-        tabelDataSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelDataSupplier.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "ID Supplier", "Nama Supplier", "Alamat"
-            }
-        ));
-        tabelDataSupplier.setSelectionBackground(new java.awt.Color(26, 164, 250));
-        tabelDataSupplier.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        jScrollPane4.setViewportView(tabelDataSupplier);
 
         pnlTransaksi.setBackground(new java.awt.Color(255, 255, 255));
         pnlTransaksi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(11, 114, 238), 3));
@@ -316,6 +291,78 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
+        tabelDataBarang.setBackground(new java.awt.Color(255, 255, 255));
+        tabelDataBarang.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelDataBarang.setForeground(new java.awt.Color(0, 0, 0));
+        tabelDataBarang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"BG001", "Sprite", "Minuman", "12", "Rp. 4.000.00"},
+                {"BG002", "Coca Cola", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG003", "Teh Pucuk", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG004", "Aqua 500ml", "Minuman", "5", "Rp. 5.000.00"},
+                {"BG005", "Aqua 1L", "Minuman", "9", "Rp. 5.000.00"},
+                {"BG006", "Indomilk", "Minuman", "11", "Rp. 8.000.00"},
+                {"BG007", "Kertas Folio", "ATK", "250", "Rp. 250.00"},
+                {"BG008", "Kertas HVS", "ATK", "420", "Rp. 250.00"},
+                {"BG009", "Pulpen Snowman", "ATK", "23", "Rp. 2.500.00"},
+                {"BG010", "Spidol Hitam", "ATK", "19", "Rp. 2.000.00"},
+                {"BG011", "Spidol Merah", "ATK", "26", "Rp. 2.500.00"},
+                {"BG012", "Spidol Biru", "ATK", "24", "Rp. 2.500.00"},
+                {"BG013", "Yupi", "Snack", "45", "Rp. 2.500.00"},
+                {"BG014", "Nabati Wafer", "Snack", "30", "Rp. 3.500.00"},
+                {"BG015", "Oreo", "Snack", "60", "Rp. 2.000.00"},
+                {"BG016", "Roti", "Snack", "27", "Rp. 1.000.00"},
+                {"BG017", "Ichi Ocha 350ml", "Minuman", "18", "Rp. 2.000.00"}
+            },
+            new String [] {
+                "ID Barang", "Nama Barang", "Jenis", "Stok", "Harga Jual"
+            }
+        ));
+        tabelDataBarang.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelDataBarang.setSelectionBackground(new java.awt.Color(26, 164, 250));
+        tabelDataBarang.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelDataBarang.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabelDataBarang);
+
+        tabelDataSupplier.setBackground(new java.awt.Color(255, 255, 255));
+        tabelDataSupplier.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelDataSupplier.setForeground(new java.awt.Color(0, 0, 0));
+        tabelDataSupplier.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"SP001", "Asrul Achmad Asrofi", "086653837718", "Nganjuk, Indonesia"},
+                {"SP002", "Dimas Abimanyu", "084884582640", "Nganjuk, Indonesia"},
+                {"SP003", "Farel Kurniawan", "080548653287", "Nganjuk, Indonesia"},
+                {"SP004", "Feby Ayu Dyah Pitaloka", "082203072218", "Jombang, Indonesia"},
+                {"SP005", "Afif Fitra Nugroho", "087676072232", "Kediri, Indonesia"},
+                {"SP006", "Abdulloh Kafabi", "086134471867", "Nganjuk, Indonesia"},
+                {"SP007", "Deni Yuda Mahendra", "083851907614", "Kediri, Indonesia"},
+                {"SP008", "Hendro Wawan Setiyo", "085790836149", "Nganjuk, Indonesia"},
+                {"SP009", "Mahendra Putra Pratama", "085775502026", "Nganjuk, Indonesia"},
+                {"SP010", "Mohamad Rodzikul Hidayatulloh", "0895395057931", "Nganjuk, Indonesia"},
+                {"SP011", "Arfan Ardiansyah", "085706595022", "Jombang, Indonesia"},
+                {"SP012", "Flavia Reiska Januari Putri", "0881026542584", "Nganjuk, Indonesia"},
+                {"SP013", "Kartika Dewi Claudia", "087824060309", "Kediri, Indonesia"},
+                {"SP014", "Tegar Pratama Alfianto", "085816555034", "Kediri, Indonesia"},
+                {"SP015", "Sultan Yorgi Praba Mahendra", "081336252154", "Nganjuk, Indonesia"},
+                {"SP016", "Renaldi Gilang Prasetyo", "087779212229", "Jombang, Indonesia"},
+                {"SP017", "Rahmat Aji Wibowo", "082333174750", "Kediri, Indonesia"},
+                {"SP018", "Nyofrizal Teguh Santoso", "083440455377", "Nganjuk, Indonesia"},
+                {"SP019", "Mohammad Bagas Pratama", "082887145367", "Nganjuk, Indonesia"},
+                {"SP020", "Kurniawan Adi Candra", "088404705857", "Nganjuk, Indonesia"},
+                {"SP021", "Amanda Rahmawati", "086460356514", "Nganjuk, Indonesia"},
+                {"SP022", "Esly Reeka Augustinyo", "085232007805", "Nganjuk, Indonesia"},
+                {"SP023", "Mokhammad Mansor Kornianto", "089654770601", "Jombang, Indonesia"}
+            },
+            new String [] {
+                "ID Supplier", "Nama Supplier", "No Telp", "Alamat"
+            }
+        ));
+        tabelDataSupplier.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelDataSupplier.setSelectionBackground(new java.awt.Color(26, 164, 250));
+        tabelDataSupplier.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelDataSupplier.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabelDataSupplier);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -325,19 +372,16 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 .addComponent(pnlTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 33, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(inpCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblCariSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(inpCariSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(lblCariSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inpCariSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inpCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -353,13 +397,13 @@ public class TransaksiBeli extends javax.swing.JPanel {
                             .addComponent(inpCariBarang)
                             .addComponent(lblCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(inpCariSupplier)
                             .addComponent(lblCariSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -385,7 +429,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
     private javax.swing.JTextField inpTanggal;
     private javax.swing.JTextField inpTotalHarga;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCariBarang;
     private javax.swing.JLabel lblCariSupplier;
     private javax.swing.JLabel lblIDTransaksi;

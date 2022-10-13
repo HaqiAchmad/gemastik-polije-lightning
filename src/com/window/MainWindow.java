@@ -45,6 +45,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.setTitle("Dashboard");
         this.setIconImage(Gambar.getWindowIcon());
         this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.lblNamaUser.setText(this.user.getName(user.getCurrentLogin()));
         this.btns = new JLabel[]{
             this.btnDashboard, this.btnPetugas, this.btnSupplier, this.btnPembeli, this.btnBarang,
             this.btnTrJual, this.btnTrBeli, this.btnLpJual, this.btnLpBeli, this.btnLogout

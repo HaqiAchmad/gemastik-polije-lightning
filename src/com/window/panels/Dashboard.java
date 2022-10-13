@@ -1,5 +1,8 @@
 package com.window.panels;
 
+import com.manage.Chart;
+import com.manage.Message;
+import com.manage.Waktu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import org.jfree.chart.ChartFactory;
@@ -22,12 +25,33 @@ import org.jfree.data.statistics.HistogramDataset;
  */
 public class Dashboard extends javax.swing.JPanel {
 
+    private final Chart chart = new Chart();
+    
+    private final Waktu waktu = new Waktu();
+    
     public Dashboard() {
         initComponents();
         
-        this.showPieChart();
-//        this.showBarChart();
+        this.chart.showPieChart(this.pnlPieChart, "Presentase Penjualan Produk", 40, 20, 15, 25);
+//        this.chart.lineChartPenjualan(this.pnlLineChart);
         this.showLineChart();
+        
+        // mengupdate waktu
+        new Thread(new Runnable(){
+            
+            @Override
+            public void run(){
+                try{
+                    while(isVisible()){
+//                        System.out.println("update");
+                        lblDate.setText(waktu.getUpdateWaktu() + "  ");
+                        Thread.sleep(100);
+                    }
+                }catch(InterruptedException ex){
+                    Message.showException(this, "Terjadi Kesalahan Saat Mengupdate Tanggal!\n" + ex.getMessage(), ex, true);
+                }
+            }
+        }).start();
     }
 
     @SuppressWarnings("unchecked")
@@ -210,7 +234,7 @@ public class Dashboard extends javax.swing.JPanel {
 
         lblData.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblData.setForeground(new java.awt.Color(255, 255, 255));
-        lblData.setText(" Laporan Penjualan");
+        lblData.setText("  Laporan Penjualan ");
 
         lblDate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblDate.setForeground(new java.awt.Color(255, 255, 255));
@@ -313,8 +337,8 @@ public class Dashboard extends javax.swing.JPanel {
       barDataset.setValue( "ATK" , new Double( 10 ) );  
       
       //create chart
-      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
-      piechart.setTitle(new TextTitle("Pie Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
+      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Produk",barDataset, false,true,false);//explain
+      piechart.setTitle(new TextTitle("Pie Chart", new java.awt.Font("Ebrima", 1, 22)));
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
@@ -333,22 +357,22 @@ public class Dashboard extends javax.swing.JPanel {
         pnlPieChart.add(barChartPanel, BorderLayout.CENTER);
         pnlPieChart.validate();
     }
-
+    
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "Kamis");
+        dataset.setValue(170, "Amount", "Kamis");
         dataset.setValue(150, "Amount", "Jumat");
-        dataset.setValue(58, "Amount", "Sabtu");
-        dataset.setValue(30, "Amount", "Minggu");
+        dataset.setValue(80, "Amount", "Sabtu");
+        dataset.setValue(50, "Amount", "Minggu");
         dataset.setValue(180, "Amount", "Senin");
-        dataset.setValue(250, "Amount", "Selasa");
-        dataset.setValue(250, "Amount", "Rabu");
+        dataset.setValue(200, "Amount", "Selasa");
+        dataset.setValue(200, "Amount", "Rabu");
         
         //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("Penjualan Seminggu Terakhir","Hari","Jumlah", 
+        JFreeChart linechart = ChartFactory.createLineChart("Penjualan Produk","Hari","Jumlah", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        linechart.setTitle(new TextTitle("Line Chart Minggu Ini", new java.awt.Font("Ebrima", 1, 22)));
+        linechart.setTitle(new TextTitle("Penjualan Produk Minggu Ini", new java.awt.Font("Ebrima", 1, 21)));
         
         //create plot object
          CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();

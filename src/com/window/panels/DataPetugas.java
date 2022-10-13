@@ -27,6 +27,10 @@ public class DataPetugas extends javax.swing.JPanel {
         initComponents();
 //        this.showPieChart();
         
+        this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnDel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
@@ -73,10 +77,10 @@ public class DataPetugas extends javax.swing.JPanel {
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.setValue(170, "Amount", "Minggu 1");
-        dataset.setValue(200, "Amount", "Minggu 2");
-        dataset.setValue(118, "Amount", "Minggu 3");
-        dataset.setValue(167, "Amount", "Minggu 4");
-//        dataset.setValue(180, "Amount", "Senin");
+        dataset.setValue(80, "Amount", "Minggu 2");
+        dataset.setValue(100, "Amount", "Minggu 3");
+        dataset.setValue(190, "Amount", "Minggu 4");
+        dataset.setValue(180, "Amount", "Minggu 5");
 //        dataset.setValue(200, "Amount", "Selasa");
 //        dataset.setValue(150, "Amount", "Rabu");
         
@@ -226,7 +230,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valIDPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPetugas.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPetugas.setText(": PB001");
+        valIDPetugas.setText(": KY003");
 
         valNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
@@ -234,7 +238,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
-        valNoTelp.setText(": 085655864624");
+        valNoTelp.setText(": 085739499321");
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
@@ -250,7 +254,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valLastTr.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLastTr.setForeground(new java.awt.Color(0, 0, 0));
-        valLastTr.setText(": 02 Oktober 2022");
+        valLastTr.setText(": Selasa, 11 Oktober 2022");
 
         valLevel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLevel.setForeground(new java.awt.Color(0, 0, 0));
@@ -328,6 +332,7 @@ public class DataPetugas extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -339,8 +344,10 @@ public class DataPetugas extends javax.swing.JPanel {
                 "ID Petugas", "Nama Petugas", "Level"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
@@ -352,10 +359,10 @@ public class DataPetugas extends javax.swing.JPanel {
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Petugas :");
+        lblCari.setText("Cari ID / Nama Petugas :");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
@@ -395,8 +402,7 @@ public class DataPetugas extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)

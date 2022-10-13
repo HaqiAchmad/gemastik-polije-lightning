@@ -1322,14 +1322,17 @@ public class Users extends Database{
         }
     }
     
+    public String getName(String idUser){
+        if(this.getLevel(idUser).name().equalsIgnoreCase("KARYAWAN")){
+            return this.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'");
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        try {
-            user.logout();
-        } catch (AuthenticationException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println(user.getName("KY003"));
     }
     
 }

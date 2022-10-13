@@ -28,6 +28,10 @@ public class LaporanBeli extends javax.swing.JPanel {
     public LaporanBeli() {
         initComponents();
         
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
         this.showLineChart1();
         this.showLineChart2();
     }
@@ -217,34 +221,56 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"PG0001", "Aqua 1L", "25", "Rp. 125.000.00", "1 Oktober 2022"},
+                {"PG0002", "Coca Cola", "20", "Rp. 80.000.00", "1 Oktober 2022"},
+                {"PG0003", "Aqua 500ml", "30", "Rp. 100.000.00", "1 Oktober 2022"},
+                {"PG0004", "Pulpen Snowman", "30", "Rp. 75.000.00", "1 Oktober 2022"},
+                {"PG0005", "Sprite", "15", "Rp. 48.000.00", "1 Oktober 2022"},
+                {"PG0006", "Indomilk", "5", "Rp. 40.000.00", "1 Oktober 2022"},
+                {"PG0007", "Nabati Wafer", "15", "Rp. 52.000.00", "1 Oktober 2022"},
+                {"PG0008", "Ichi Ocha 350ml", "15", "Rp. 30.000.00", "1 Oktober 2022"},
+                {"PG0009", "Oreo", "15", "Rp. 30.000.00", "1 Oktober 2022"},
+                {"PG0010", "Kertas HVS", "800", "Rp. 200.000.00", "1 Oktober 2022"},
+                {"PG0011", "Kertas Folio", "900", "Rp. 237.000.00", "1 Oktober 2022"},
+                {"PG0012", "Spidol Hitam", "15", "Rp. 30.000.00", "9 Oktober 2022"},
+                {"PG0013", "Spidol Merah", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0014", "Spidol Biru", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0015", "Nabati Wafer", "15", "Rp. 52.500.00", "9 Oktober 2022"},
+                {"PG0016", "Roti", "20", "Rp. 20.000.00", "9 Oktober 2022"},
+                {"PG0017", "Sprite", "20", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0018", "Yupi", "15", "Rp. 37.500.00", "9 Oktober 2022"},
+                {"PG0019", "Teh Pucuk", "15", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0020", "Coca Cola", "15", "Rp. 60.000.00", "9 Oktober 2022"},
+                {"PG0021", "Ichi Ocha 350ml", "15", "Rp. 30.000.00", "9 Oktober 2022"},
+                {"PG0022", "Yupi", "10", "Rp. 25.000.00", "9 Oktober 2022"},
+                {"PG0023", "Aqua 500ml", "15", "Rp. 75.000.00", "9 Oktober 2022"}
             },
             new String [] {
-                "ID Pengeluaran", "Nama Barang", "Total Pengeluaran", "Tanggal"
+                "ID Pengeluaran", "Nama Barang", "Jumlah Barang", "Total Pengeluaran", "Tanggal"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Pengeluaran :");
+        lblCari.setText("Cari ID Pengeluaran :");
 
         pnlDataPengeluaran.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDataPengeluaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
+        pnlDataPengeluaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(11, 114, 238), 3));
 
-        lblDataPengeluaran.setBackground(new java.awt.Color(5, 170, 57));
+        lblDataPengeluaran.setBackground(new java.awt.Color(11, 114, 238));
         lblDataPengeluaran.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblDataPengeluaran.setForeground(new java.awt.Color(255, 255, 255));
         lblDataPengeluaran.setText("  Detail Pengeluaran");
@@ -284,11 +310,11 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valIDPengeluaran.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPengeluaran.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPengeluaran.setText(": PB001");
+        valIDPengeluaran.setText(": PB0005");
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
-        valIDTransaksi.setText(": TR001");
+        valIDTransaksi.setText(": TR0005");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
@@ -300,7 +326,7 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valNamaBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaBrg.setText(": Teh Pucuk");
+        valNamaBrg.setText(": Sprite");
 
         valJenisBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJenisBrg.setForeground(new java.awt.Color(0, 0, 0));
@@ -308,11 +334,11 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valJumlahBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJumlahBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valJumlahBrg.setText(": 15");
+        valJumlahBrg.setText(": 20");
 
         valHarga.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valHarga.setForeground(new java.awt.Color(0, 0, 0));
-        valHarga.setText(": Rp. 15.000");
+        valHarga.setText(": Rp. 60.000.00");
 
         lblTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));
@@ -320,7 +346,7 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTanggal.setForeground(new java.awt.Color(0, 0, 0));
-        valTanggal.setText(": 02 Oktober 2022");
+        valTanggal.setText(": Minggu, 02 Oktober 2022");
 
         javax.swing.GroupLayout pnlDataPengeluaranLayout = new javax.swing.GroupLayout(pnlDataPengeluaran);
         pnlDataPengeluaran.setLayout(pnlDataPengeluaranLayout);
@@ -438,11 +464,10 @@ public class LaporanBeli extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 39, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)

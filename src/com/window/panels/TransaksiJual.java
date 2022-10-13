@@ -17,6 +17,10 @@ public class TransaksiJual extends javax.swing.JPanel {
     public TransaksiJual() {
         initComponents();
         
+        this.tabelDataBarang.setRowHeight(29);
+        this.tabelDataBarang.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelDataBarang.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+
         this.tabelDataPembeli.setRowHeight(29);
         this.tabelDataPembeli.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelDataPembeli.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
@@ -73,8 +77,6 @@ public class TransaksiJual extends javax.swing.JPanel {
 
         lblCariBarang = new javax.swing.JLabel();
         inpCariBarang = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelDataBarang = new javax.swing.JTable();
         lblCariPembeli = new javax.swing.JLabel();
         inpCariPembeli = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -102,40 +104,25 @@ public class TransaksiJual extends javax.swing.JPanel {
         lineBottom = new javax.swing.JSeparator();
         btnBayar = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelDataBarang = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
 
-        lblCariBarang.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCariBarang.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCariBarang.setForeground(new java.awt.Color(237, 12, 12));
         lblCariBarang.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCariBarang.setText("Cari Barang :");
+        lblCariBarang.setText("Cari ID / Nama Barang :");
 
         inpCariBarang.setBackground(new java.awt.Color(255, 255, 255));
         inpCariBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariBarang.setForeground(new java.awt.Color(0, 0, 0));
 
-        tabelDataBarang.setBackground(new java.awt.Color(255, 255, 255));
-        tabelDataBarang.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        tabelDataBarang.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nama Barang", "Jenis Barang", "Harga", "Stok"
-            }
-        ));
-        tabelDataBarang.setSelectionBackground(new java.awt.Color(26, 164, 250));
-        tabelDataBarang.setSelectionForeground(new java.awt.Color(250, 246, 246));
-        jScrollPane2.setViewportView(tabelDataBarang);
-
-        lblCariPembeli.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCariPembeli.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCariPembeli.setForeground(new java.awt.Color(237, 12, 12));
         lblCariPembeli.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCariPembeli.setText("Cari Pembeli :");
+        lblCariPembeli.setText("Cari ID / Nama Pembeli :");
 
         inpCariPembeli.setBackground(new java.awt.Color(255, 255, 255));
         inpCariPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -148,6 +135,7 @@ public class TransaksiJual extends javax.swing.JPanel {
 
         tabelDataPembeli.setBackground(new java.awt.Color(255, 255, 255));
         tabelDataPembeli.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelDataPembeli.setForeground(new java.awt.Color(0, 0, 0));
         tabelDataPembeli.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -159,8 +147,10 @@ public class TransaksiJual extends javax.swing.JPanel {
                 "ID Pembeli", "Nama Pembeli", "Alamat"
             }
         ));
+        tabelDataPembeli.setGridColor(new java.awt.Color(0, 0, 0));
         tabelDataPembeli.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelDataPembeli.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelDataPembeli.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(tabelDataPembeli);
 
         pnlTransaksi.setBackground(new java.awt.Color(255, 255, 255));
@@ -378,6 +368,39 @@ public class TransaksiJual extends javax.swing.JPanel {
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
+        tabelDataBarang.setBackground(new java.awt.Color(255, 255, 255));
+        tabelDataBarang.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelDataBarang.setForeground(new java.awt.Color(0, 0, 0));
+        tabelDataBarang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"BG001", "Sprite", "Minuman", "12", "Rp. 4.000.00"},
+                {"BG002", "Coca Cola", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG003", "Teh Pucuk", "Minuman", "10", "Rp. 4.000.00"},
+                {"BG004", "Aqua 500ml", "Minuman", "5", "Rp. 5.000.00"},
+                {"BG005", "Aqua 1L", "Minuman", "9", "Rp. 5.000.00"},
+                {"BG006", "Indomilk", "Minuman", "11", "Rp. 8.000.00"},
+                {"BG007", "Kertas Folio", "ATK", "250", "Rp. 250.00"},
+                {"BG008", "Kertas HVS", "ATK", "420", "Rp. 250.00"},
+                {"BG009", "Pulpen Snowman", "ATK", "23", "Rp. 2.500.00"},
+                {"BG010", "Spidol Hitam", "ATK", "19", "Rp. 2.000.00"},
+                {"BG011", "Spidol Merah", "ATK", "26", "Rp. 2.500.00"},
+                {"BG012", "Spidol Biru", "ATK", "24", "Rp. 2.500.00"},
+                {"BG013", "Yupi", "Snack", "45", "Rp. 2.500.00"},
+                {"BG014", "Nabati Wafer", "Snack", "30", "Rp. 3.500.00"},
+                {"BG015", "Oreo", "Snack", "60", "Rp. 2.000.00"},
+                {"BG016", "Roti", "Snack", "27", "Rp. 1.000.00"},
+                {"BG017", "Ichi Ocha 350ml", "Minuman", "18", "Rp. 2.000.00"}
+            },
+            new String [] {
+                "ID Barang", "Nama Barang", "Jenis", "Stok", "Harga Jual"
+            }
+        ));
+        tabelDataBarang.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelDataBarang.setSelectionBackground(new java.awt.Color(26, 164, 250));
+        tabelDataBarang.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelDataBarang.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabelDataBarang);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -387,19 +410,16 @@ public class TransaksiJual extends javax.swing.JPanel {
                 .addComponent(pnlTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 33, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(inpCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblCariPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(inpCariPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(lblCariPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inpCariPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inpCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -415,8 +435,8 @@ public class TransaksiJual extends javax.swing.JPanel {
                             .addComponent(inpCariBarang)
                             .addComponent(lblCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(inpCariPembeli)
                             .addComponent(lblCariPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))

@@ -6,9 +6,12 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -19,20 +22,63 @@ public class LaporanJual extends javax.swing.JPanel {
     public LaporanJual() {
         initComponents();
         
+        this.tabelData.setRowHeight(29);
+        this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
+        this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
         this.showLineChart1();
+        this.showPieChart();
     }
     
+    public void showPieChart(){
+        
+        //create dataset
+      DefaultPieDataset barDataset = new DefaultPieDataset( );
+      barDataset.setValue( "Nabati Wafer" , new Double( 18 ) );  
+      barDataset.setValue( "Aqua 500ml" , new Double( 15 ) );   
+      barDataset.setValue( "Coca Cola" , new Double( 14 ) );    
+      barDataset.setValue( "Oreo" , new Double( 12 ) );  
+      barDataset.setValue( "Ichi Ocha 350ml" , new Double( 10 ) );  
+      barDataset.setValue( "Aqua 1L" , new Double( 10 ) );   
+      barDataset.setValue( "Pulpen Snowman" , new Double( 8 ) );    
+      barDataset.setValue( "Teh Pucuk" , new Double( 7 ) );    
+      barDataset.setValue( "Lainya" , new Double( 6 ) );  
+      
+      //create chart
+      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Produk",barDataset, false,true,false);//explain
+      piechart.setTitle(new TextTitle("Produk Terlaris", new java.awt.Font("Ebrima", 1, 22)));
+      
+        PiePlot piePlot =(PiePlot) piechart.getPlot();
+      
+       //changing pie chart blocks colors
+       piePlot.setSectionPaint("Nabati Wafer", new Color(226,226,0));
+       piePlot.setSectionPaint("Aqua 500ml", new Color(52,200,38));
+       piePlot.setSectionPaint("Coca Cola", new Color(255,43,237));
+       piePlot.setSectionPaint("Oreo", new Color(49,165,192));
+       piePlot.setSectionPaint("Ichi Ocha 350ml", new Color(255,0,153));
+       piePlot.setSectionPaint("Aqua 1L", new Color(51,255,0));
+       piePlot.setSectionPaint("Pulpen Snowman", new Color(255,102,51));
+       piePlot.setSectionPaint("Teh Pucuk", new Color(51,0,204));
+       piePlot.setSectionPaint("Lainya", new Color(0,102,102));
+      
+       
+        piePlot.setBackgroundPaint(Color.white);
+        
+        //create chartPanel to display chart(graph)
+        ChartPanel barChartPanel = new ChartPanel(piechart);
+        paneProduk.removeAll();
+        paneProduk.add(barChartPanel, BorderLayout.CENTER);
+        paneProduk.validate();
+    }
 
     public void showLineChart1(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "Kamis");
-        dataset.setValue(150, "Amount", "Jumat");
-        dataset.setValue(58, "Amount", "Sabtu");
-        dataset.setValue(30, "Amount", "Minggu");
-        dataset.setValue(180, "Amount", "Senin");
-        dataset.setValue(250, "Amount", "Selasa");
-        dataset.setValue(250, "Amount", "Rabu");
+        dataset.setValue(120, "Amount", "Minggu 1");
+        dataset.setValue(70, "Amount", "Minggu 2");
+        dataset.setValue(60, "Amount", "Minggu 3");
+        dataset.setValue(120, "Amount", "Minggu 4");
+        dataset.setValue(120, "Amount", "Minggu 5");
         
         //create chart
         JFreeChart linechart = ChartFactory.createLineChart("Pendapatan Bulan Ini","Hari","Jumlah", 
@@ -100,35 +146,58 @@ public class LaporanJual extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         tabGrafikPendapatan = new javax.swing.JPanel();
+        paneProduk = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
 
         tabelData.setBackground(new java.awt.Color(255, 255, 255));
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"PD0001", "Teh Pucuk", "3", "Rp. 9.000.00", "01 Oktober 2022"},
+                {"PD0002", "Aqua 500ml", "2", "Rp. 10.000.00", "01 Oktober 2022"},
+                {"PD0003", "Indomilk", "1", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0004", "Nabati Wafer", "5", "Rp. 17.500.00", "01 Oktober 2022"},
+                {"PD0005", "Coca Cola", "4", "Rp. 16.000.00", "01 Oktober 2022"},
+                {"PD0006", "Oreo", "4", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0007", "Teh Pucuk", "2", "Rp. 8.000.00", "01 Oktober 2022"},
+                {"PD0008", "Coca Cola", "1", "Rp. 4.000.00", "02 Oktober 2022"},
+                {"PD0009", "Oreo", "6", "Rp. 12.000.00", "02 Oktober 2022"},
+                {"PD0010", "Ichi Ocha 350ml", "1", "Rp. 2.000.00", "02 Oktober 2022"},
+                {"PD0011", "Aqua 500ml", "1", "Rp. 5.000.00", "02 Oktober 2022"},
+                {"PD0012", "Coca Cola", "1", "Rp. 4.000.00", "02 Oktober 2022"},
+                {"PD0013", "Spidol Merah", "2", "Rp. 5.000.00", "02 Oktober 2022"},
+                {"PD0014", "Kertas Folio", "50", "Rp. 12.500.00", "03 Oktober 2022"},
+                {"PD0015", "Yupi", "12", "Rp. 30.000.00", "03 Oktober 2022"},
+                {"PD0016", "Nabati Wafer", "8", "Rp. 28.000.00", "03 Oktober 2022"},
+                {"PD0017", "Nabati Wafer", "3", "Rp. 10.500.00", "03 Oktober 2022"},
+                {"PD0018", "Coca Cola", "1", "Rp. 4.000.00", "03 Oktober 2022"},
+                {"PD0019", "Ichi Ocha 350ml", "1", "Rp. 2.000.00", "03 Oktober 2022"},
+                {"PD0020", "Indomilk", "1", "Rp. 8.000.00", "04 Oktober 2022"},
+                {"PD0021", "Aqua 500ml", "3", "Rp. 15.000.00", "04 Oktober 2022"},
+                {"PD0022", "Teh Pucuk", "2", "Rp. 8.000.00", "04 Oktober 2022"},
+                {"PD0023", "Indomilk", "4", "Rp. 36.000.00", "04 Oktober 2022"}
             },
             new String [] {
-                "ID Pendapatan", "Nama Barang", "Total Pendapatan", "Tanggal"
+                "ID Pendapatan", "Nama Barang", "Jumlah Barang", "Total Pendapatan", "Tanggal"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Pendapatan :");
+        lblCari.setText("Cari ID Pendapatan :");
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
@@ -154,9 +223,9 @@ public class LaporanJual extends javax.swing.JPanel {
         });
 
         pnlDataPendapatan.setBackground(new java.awt.Color(255, 255, 255));
-        pnlDataPendapatan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(5, 170, 57), 3));
+        pnlDataPendapatan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(11, 114, 238), 3));
 
-        lblDataPendapatan.setBackground(new java.awt.Color(5, 170, 57));
+        lblDataPendapatan.setBackground(new java.awt.Color(11, 114, 238));
         lblDataPendapatan.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblDataPendapatan.setForeground(new java.awt.Color(255, 255, 255));
         lblDataPendapatan.setText("  Detail Pendapatan");
@@ -196,11 +265,11 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valIDPendapatan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPendapatan.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPendapatan.setText(": PB001");
+        valIDPendapatan.setText(": PB0002");
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
-        valIDTransaksi.setText(": TR001");
+        valIDTransaksi.setText(": TR0002");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
@@ -224,7 +293,7 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valTotalHarga.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTotalHarga.setForeground(new java.awt.Color(0, 0, 0));
-        valTotalHarga.setText(": Rp. 3.000");
+        valTotalHarga.setText(": Rp. 10.000.00");
 
         lblTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));
@@ -232,7 +301,7 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTanggal.setForeground(new java.awt.Color(0, 0, 0));
-        valTanggal.setText(": 02 Oktober 2022");
+        valTanggal.setText(": Sabtu, 01 Oktober 2022");
 
         javax.swing.GroupLayout pnlDataPendapatanLayout = new javax.swing.GroupLayout(pnlDataPendapatan);
         pnlDataPendapatan.setLayout(pnlDataPendapatanLayout);
@@ -410,6 +479,11 @@ public class LaporanJual extends javax.swing.JPanel {
         tabGrafikPendapatan.setLayout(new java.awt.BorderLayout());
         tabPendapatan.addTab("Grafik Pendapatan", tabGrafikPendapatan);
 
+        paneProduk.setBackground(new java.awt.Color(255, 255, 255));
+        paneProduk.setForeground(new java.awt.Color(255, 102, 51));
+        paneProduk.setLayout(new java.awt.BorderLayout());
+        tabPendapatan.addTab("Produk Terlaris", paneProduk);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -424,11 +498,10 @@ public class LaporanJual extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 39, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,6 +571,7 @@ public class LaporanJual extends javax.swing.JPanel {
     private javax.swing.JLabel lblNamaPembeli;
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalHarga;
+    private javax.swing.JPanel paneProduk;
     private javax.swing.JPanel pnlDataPendapatan;
     private javax.swing.JPanel tabDataPendapatan;
     private javax.swing.JPanel tabGrafikPendapatan;

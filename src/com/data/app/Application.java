@@ -1,8 +1,6 @@
 package com.data.app;
 
 import com.error.StorageNotFoundException;
-import com.manage.Message;
-import com.manage.Text;
 import com.manage.Waktu;
 import com.window.frames.WelcomeApp;
 import javax.swing.ImageIcon;
@@ -21,20 +19,10 @@ public final class Application {
      * Informasi-informasi mengenai aplikasi.
      */
     private static final String VERSION = "1.0.0",
-                                APP_NAME = "Gemastik Lightning",
-                                AUTHOR = "Gemastik Team Ligtning",
-                                UKURAN = "3.98 MB",
-                                DIRILIS = "2021-03-29",
-                                DIUPDATE = "2021-07-19",
-                                PEMROGRAMAN = "Java",
-                                DB_PLATFORM = "MySQL",
-                                TAHUN_AJARAN = "2020-2021",
+                                APP_NAME = "Simple Buy",
+                                AUTHOR = "Gemastik Team Lightning",
                                 COMPANY = "Politeknik Negeri Jember",
-                                WINDOW_ICON = "src\\resources\\image\\icons\\app-logo.png",
-//                                TOP_ICON = "src\\resources\\image\\icons\\logo-smkn1kts-circle.png",
-//                                BOTTOM_ICON = WINDOW_ICON;
-                                TOP_ICON = "src\\resources\\image\\icons\\logo-smkn1kts-circle_35x35.png",
-                                BOTTOM_ICON = "src\\resources\\image\\icons\\logo-smkn1kts_30x37.png";
+                                APP_ICON = "src\\resources\\image\\icons\\app-logo.png";
     /**
      * Method ini digunakan untuk membuka aplikasi. Sebelum membuka aplikasi method akan membuat sebuah log baru dengan menggunakan 
      * method {@code createLog()} yang ada didalam class {@code Log}. Setelah log berhasil dibuat maka selanjutnya method akan 
@@ -143,66 +131,12 @@ public final class Application {
     }
     
     /**
-     * Digunakan untuk mendapatkan informasi mengenai ukuran dari aplikasi.
-     * 
-     * @return ukuran dari aplikasi.
-     */
-    public static String getUkuran(){
-        return UKURAN;
-    }
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai tanggal rilis dari aplikasi.
-     * 
-     * @return tanggal rilis dari aplikasi.
-     */
-    public static String getTanggalRilis(){
-        return new Text().toDateCase(DIRILIS);
-    }
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai tanggal update dari aplikasi.
-     * 
-     * @return tanggal update dari aplikasi.
-     */
-    public static String getTanggalUpdate(){
-        return new Text().toDateCase(DIUPDATE);
-    }
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai bahasa pemrograman dari aplikasi.
-     * 
-     * @return bahasa pemrograaman dari aplikasi.
-     */
-    public static String getBahasaPemrograman(){
-        return PEMROGRAMAN;
-    }
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai database platform dari aplikasi.
-     * 
-     * @return database platform dari aplikasi.
-     */
-    public static String getDatabase(){
-        return DB_PLATFORM;
-    }
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai tahun ajaran dari aplikasi.
-     * 
-     * @return tahun ajaran dari aplikasi.
-     */
-    public static String getTahunAjaran(){
-        return TAHUN_AJARAN;
-    }
-    
-    /**
      * Digunakan untuk mendapatkan informasi mengenai right dari aplikasi.
      * 
      * @return right dari aplikasi.
      */
     public static String getRights(){
-        return String.format("Copyright © 2021 %s.", getAuthor());
+        return String.format("Copyright © 2022 %s.", getAuthor());
     }
     
     /**
@@ -229,25 +163,7 @@ public final class Application {
      * @return window icon dari aplikasi.
      */
     public static ImageIcon getWindowIcon(){
-        return new ImageIcon(WINDOW_ICON);
-    }    
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai top icon dari aplikasi.
-     * 
-     * @return top icon dari aplikasi.
-     */
-    public static ImageIcon getTopIcon(){
-        return new ImageIcon(TOP_ICON);
-    }    
-    
-    /**
-     * Digunakan untuk mendapatkan informasi mengenai bottom icon dari aplikasi.
-     * 
-     * @return bottom icon dari aplikasi.
-     */
-    public static ImageIcon getBottomIcon(){
-        return new ImageIcon(BOTTOM_ICON);
-    }    
+        return new ImageIcon(APP_ICON);
+    }       
     
 }
