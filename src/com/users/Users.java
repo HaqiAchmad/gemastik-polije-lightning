@@ -558,18 +558,6 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mendapatkan data Nomor HP dari user berdasarkan ID User dari akun yang sedang 
-     * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-     * Selanjutnya method akan mendapatkan data Nomor HP dari user melalui method {@code getNoHp(String idUser)}.
-     * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-     * 
-     * @return data Nomor HP dari akun yang sedang Login.
-     */
-    public String getNoHp(){
-        return this.getNoHp(getCurrentLogin());
-    }
-    
-    /**
      * Digunakan untuk mengedit data Nomor HP dari user berdasarkan ID User yang diinputkan. Sebelum mengedit 
      * data Nomor HP method akan mengecek apakah Nomor HP yang diinputkan valid atau tidak dengan menggunakan 
      * method {@code idNoHP(String noHp)} yang ada didalam class {@code Validation}. Jika Nomor HP tidak valid
@@ -680,40 +668,6 @@ public class Users extends Database{
      */
     public boolean setPassword(String newPassword){
         return this.setPassword(getCurrentLogin(), newPassword);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan kekuatan password dari User. Kekuatan dari password akan ditentukan 
-     * berdasarkan panjang karakter dari password. Ada lima level kekuatan password yang ada didalam aplikasi ini 
-     * antara lain.
-     * <br><br>
-     * <ul>
-     *  <li><b>Sangat Lemah : </b> panjang karakter diantara 0 sampai 8.</li>
-     *  <li><b>Lemah : </b> panjang karakter diantara 9 sampai 15.</li>
-     *  <li><b>Medium : </b> panjang karakter diantara 16 sampai 20.</li>
-     *  <li><b>Kuat : </b> panjang karakter diantara 21 sampai 30.</li>
-     *  <li><b>Sangat Kuat : </b> panjang karakter diantara 31 sampai 50.</li>
-     * </ul>
-     * 
-     * @param password password yang akan dicek kekuatanya.
-     * @return kekuatan dari password.
-     */
-    public String getPasswordStrength(String password){
-        int length = password.length();
-        
-        if(length >= 0 && length <= 8){
-            return "Sangat Lemah";
-        }else if(length > 8 && length <= 15){
-            return "Lemah";
-        }else if(length > 15 && length <= 20){
-            return "Sedang";
-        }else if(length > 20 && length <= 30){
-            return "Kuat";
-        }else if(length > 20){
-            return "Sangat Kuat";
-        }
-        
-        return "I Dont Know";
     }
     
     /**
