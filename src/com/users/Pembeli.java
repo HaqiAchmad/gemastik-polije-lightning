@@ -1,6 +1,8 @@
 package com.users;
 
 import com.data.app.Log;
+import com.manage.Text;
+
 
 /**
  *
@@ -8,16 +10,8 @@ import com.data.app.Log;
  */
 public class Pembeli extends Users{
     
-    public String getLastID(){
-        return null;
-    }
-    
     public String createID(){
-        return null;
-    }
-    
-    public boolean isExistPembeli(String idPembeli){
-        return false;
+        return super.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI);
     }
     
     public boolean addPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
@@ -44,16 +38,20 @@ public class Pembeli extends Users{
         return this.getDataPembeli(idPembeli, UserData.ALAMAT);
     }
     
+    private boolean setDataPembeli(String idPembeli, UserData data, String newValue){
+        return super.setUserData(idPembeli, UserLevels.PEMBELI, data, UserData.ID_PEMBELI, newValue);
+    }
+    
     public boolean setNama(String idPembeli, String newNama){
-        return false;
+        return this.setDataPembeli(idPembeli, UserData.NAMA_PEMBELI, newNama);
     }
     
     public boolean setNoTelp(String idPembeli, String newNoTelp){
-        return false;
+        return this.setDataPembeli(idPembeli, UserData.NO_TELP, newNoTelp);
     }
     
     public boolean setAlamat(String idPembeli, String newAlamat){
-        return false;
+        return this.setDataPembeli(idPembeli, UserData.ALAMAT, newAlamat);
     }
     
     
@@ -61,9 +59,16 @@ public class Pembeli extends Users{
         
         Log.createLog();
         Pembeli pembeli = new Pembeli();
-        System.out.println(pembeli.getNama("PB289"));
-        System.out.println(pembeli.getNoTelp("PB289"));
-        System.out.println(pembeli.getAlamat("PB289"));
+//        System.out.println(pembeli.setNama("PB289", "Baihaqi"));
+//        System.out.println(pembeli.setNoTelp("PB289", "088888888888"));
+//        System.out.println(pembeli.setAlamat("PB289", "Nganjuk"));
+//        System.out.println("");
+//        System.out.println(pembeli.getNama("PB289"));
+//        System.out.println(pembeli.getNoTelp("PB289"));
+//        System.out.println(pembeli.getAlamat("PB289"));
+        
+//        System.out.println(pembeli.getLastID());
+        System.out.println(pembeli.createID());
         
     }
 }

@@ -70,6 +70,8 @@ public class Users extends Database{
     
     private Date date;
     
+    private final Text txt = new Text();
+    
     /**
      * Direktori dari file yang digunakan untuk menyimpan data dari akun yang sedang digunakan untuk login.
      */
@@ -461,6 +463,41 @@ public class Users extends Database{
         throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak valid.");
     }
     
+    private String getLastID(UserLevels level, UserData primary){
+        try{
+            String query = String.format("SELECT * FROM %s ORDER BY %s DESC LIMIT 0,1", level.name(), primary.name());
+            res = stat.executeQuery(query);
+            if(res.next()){
+                return res.getString(primary.name());
+            }
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi kesalahan\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    protected boolean isExistID(String id, UserLevels level, UserData primary){
+        return super.isExistData(level.name(), primary.name(), id);
+    }
+    
+    public String createID(UserLevels level, UserData primary){
+        String nomor = this.getLastID(level, primary).substring(2);
+        // mengecek nilai dari nomor adalah number atau tidak
+        if(txt.isNumber(nomor)){
+            // jika id pembayaran belum exist maka id akan 
+            if(!this.isExistID(nomor, level, primary)){
+                switch(level.name()){
+                    case "ADMIN" : return String.format("AD%03d", Integer.parseInt(nomor)+1);
+                    case "KARYAWAN" : return String.format("KY%03d", Integer.parseInt(nomor)+1);
+                    case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
+                    case "PEMBELI" : return String.format("PB%03d", Integer.parseInt(nomor)+1);
+                    default : System.out.println("Error anjing!");
+                }
+            }
+        }
+        return null;
+    }
+    
     /**
      * Method ini akan mengembalikan data dari user berdasarkan ID User yang diinputkan. Pertama-tama method 
      * akan mengecek apakah ID User exist atau tidak. Jika ID User tidak exist maka akan menghasilkan exception 
@@ -495,6 +532,17 @@ public class Users extends Database{
      */
     public String getUserData(String idUser, UserData data){
         return this.getUserData(idUser, UserLevels.USERS, data, UserData.ID_USER);         
+    }
+    
+    protected boolean setUserData(String idUser, UserLevels level, UserData data, UserData primary, String newValue){
+        Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari akun dengan ID User '" + idUser + "'.");
+        // mengecek apakah id user exist atau tidak
+        if(this.isExistUser(idUser)){
+            // mengedit data dari user
+            return super.setData(level.name(), data.name(), primary.name(), idUser, newValue);
+        }
+        // akan menghasilkan error jika id user tidak ditemukan
+        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");
     }
     
     /**
