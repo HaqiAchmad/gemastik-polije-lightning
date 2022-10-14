@@ -47,7 +47,7 @@ public class Database {
                                 DB_NAME = "gemastik",
                                 URL = "jdbc:mysql://localhost/" + DB_NAME,
                                 USER = "root",
-                                PASS = "Amirzanfikri_03052013";
+                                PASS = "";
     
     public static final String FOTO_PROFILE = "foto_profile", PETUGAS = "petugas", USERS = "users", SISWA = "siswa",
                                PEMBAYARAN = "pembayaran", KELAS = "kelas", SPP = "spp", LOGIN = "login";
@@ -150,7 +150,6 @@ public class Database {
     public boolean isExistData(String tabel, String field, String data){
         try{
             String query = "SELECT * FROM " + tabel + " WHERE " + field + " = '" + data + "'";
-            System.out.println(query);
             res = stat.executeQuery(query);
             return res.next();
         }catch(SQLException ex){
@@ -174,7 +173,6 @@ public class Database {
     public String getData(String table, String field, String kondisi){
         try{
             sql = "SELECT "+field+" FROM "+table + " " + kondisi;
-            System.out.println(sql);
             res = stat.executeQuery(sql);
             if(res.next()){
                 return res.getString(field);
