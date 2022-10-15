@@ -1,5 +1,6 @@
 package com.window.panels;
 
+import com.media.Gambar;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -27,6 +28,10 @@ public class LaporanBeli extends javax.swing.JPanel {
      */
     public LaporanBeli() {
         initComponents();
+        
+        this.btnPrint.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnDel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
@@ -212,7 +217,7 @@ public class LaporanBeli extends javax.swing.JPanel {
         tabChartMinggu = new javax.swing.JPanel();
         tabChartBulan = new javax.swing.JPanel();
         lineBottom = new javax.swing.JSeparator();
-        btnAdd = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
 
@@ -430,20 +435,54 @@ public class LaporanBeli extends javax.swing.JPanel {
         lineBottom.setBackground(new java.awt.Color(0, 0, 0));
         lineBottom.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnAdd.setBackground(new java.awt.Color(41, 180, 50));
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
-        btnAdd.setText("Print Data");
+        btnPrint.setBackground(new java.awt.Color(41, 180, 50));
+        btnPrint.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
+        btnPrint.setText("Print Data");
+        btnPrint.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPrintMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPrintMouseExited(evt);
+            }
+        });
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -470,7 +509,7 @@ public class LaporanBeli extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -497,7 +536,7 @@ public class LaporanBeli extends javax.swing.JPanel {
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPrint, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -505,14 +544,46 @@ public class LaporanBeli extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        
+    }//GEN-LAST:event_btnPrintActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPrintMouseEntered
+        this.btnPrint.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnPrintMouseEntered
+
+    private void btnPrintMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPrintMouseExited
+        this.btnPrint.setIcon(Gambar.getIcon("ic-data-tambah.png"));  
+    }//GEN-LAST:event_btnPrintMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JTextField inpCari;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCari;

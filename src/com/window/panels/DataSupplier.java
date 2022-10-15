@@ -1,6 +1,7 @@
 package com.window.panels;
 
 import com.manage.Message;
+import com.media.Gambar;
 import com.users.Users;
 import java.sql.SQLException;
 
@@ -16,6 +17,11 @@ public class DataSupplier extends javax.swing.JPanel {
     
     public DataSupplier() {
         initComponents();
+        
+        this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnDel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        
         this.updateTabel();
     }
 
@@ -126,16 +132,50 @@ public class DataSupplier extends javax.swing.JPanel {
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -152,45 +192,59 @@ public class DataSupplier extends javax.swing.JPanel {
         lblDataSupplier.setOpaque(true);
 
         lblIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblIDSupplier.setText("ID Supplier");
 
         lblNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaSupplier.setText("Nama Supplier");
 
         lblNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         lblNoTelp.setText("No Telepon");
 
         lblAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblAlamat.setForeground(new java.awt.Color(0, 0, 0));
         lblAlamat.setText("Alamat");
 
         lblBrgSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblBrgSupplier.setForeground(new java.awt.Color(0, 0, 0));
         lblBrgSupplier.setText("Barang Dari Supplier");
 
         lblUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblUang.setForeground(new java.awt.Color(0, 0, 0));
         lblUang.setText("Uang Dikeluarkan");
 
         lblLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblLast.setForeground(new java.awt.Color(0, 0, 0));
         lblLast.setText("Pembelian Terakhir");
 
         valIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valIDSupplier.setText(": SP001");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valNamaSupplier.setText(": Achmad Baihaqi");
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         valNoTelp.setText(": 085655864624");
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valAlamat.setForeground(new java.awt.Color(0, 0, 0));
         valAlamat.setText(": Jombang, Jawa Timur, Indonesia");
 
         valBrgSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valBrgSupplier.setForeground(new java.awt.Color(0, 0, 0));
         valBrgSupplier.setText(": 341 Barang");
 
         valUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valUang.setForeground(new java.awt.Color(0, 0, 0));
         valUang.setText(": Rp. 1.390.000");
 
         valLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valLast.setForeground(new java.awt.Color(0, 0, 0));
         valLast.setText(": 07 Oktober 2022");
 
         javax.swing.GroupLayout valDataSupplierLayout = new javax.swing.GroupLayout(valDataSupplier);
@@ -335,8 +389,40 @@ public class DataSupplier extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

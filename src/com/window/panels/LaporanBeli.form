@@ -44,7 +44,7 @@
                   </Group>
                   <Component id="lineBottom" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnAdd" min="-2" pref="121" max="-2" attributes="0"/>
+                      <Component id="btnPrint" min="-2" pref="121" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -79,7 +79,7 @@
               <Component id="lineBottom" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnAdd" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnPrint" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="btnEdit" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="btnDel" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
@@ -632,7 +632,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnAdd">
+    <Component class="javax.swing.JButton" name="btnPrint">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="32" green="b4" red="29" type="rgb"/>
@@ -645,6 +645,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Print Data"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPrintMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPrintMouseExited"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEdit">
       <Properties>
@@ -659,6 +664,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Edit Data"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditMouseExited"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDel">
       <Properties>
@@ -674,6 +684,8 @@
         <Property name="text" type="java.lang.String" value="Hapus Data"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDelMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDelMouseExited"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDelActionPerformed"/>
       </Events>
     </Component>

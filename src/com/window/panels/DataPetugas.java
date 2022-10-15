@@ -2,6 +2,7 @@ package com.window.panels;
 
 import com.data.db.Database;
 import com.manage.Message;
+import com.media.Gambar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -358,6 +359,19 @@ public class DataPetugas extends javax.swing.JPanel {
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -368,11 +382,32 @@ public class DataPetugas extends javax.swing.JPanel {
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -441,8 +476,40 @@ public class DataPetugas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
