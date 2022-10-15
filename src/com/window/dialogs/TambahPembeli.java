@@ -1,11 +1,24 @@
 package com.window.dialogs;
 
+import com.manage.Message;
+import com.media.Audio;
+import com.media.Gambar;
+import com.users.Pembeli;
+import java.awt.Color;
+import java.awt.Cursor;
+
 /**
  *
  * @author Achmad Baihaqi
  */
 public class TambahPembeli extends javax.swing.JDialog {
 
+    private final Pembeli pembeli = new Pembeli();
+    
+    private String idPembeli, namaPembeli, noTelp, alamat;
+    
+    private boolean isUpdated = false;
+    
     /**
      * Creates new form TambahPembeli
      * @param parent
@@ -15,187 +28,201 @@ public class TambahPembeli extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
+        this.idPembeli = this.pembeli.createID();
+        
         this.setTitle("Tambah Data Pembeli");
         this.setLocationRelativeTo(null);
+        this.inpId.setText(idPembeli);
+        this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        
+    }
+    
+    public boolean isUpdated(){
+        return this.isUpdated;
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jSeparator2 = new javax.swing.JSeparator();
-        btnTambah = new javax.swing.JButton();
-        btnBatal = new javax.swing.JButton();
+        pnlMain = new javax.swing.JPanel();
+        lblTop = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        inpId = new javax.swing.JTextField();
+        lblNama = new javax.swing.JLabel();
+        inpNama = new javax.swing.JTextField();
+        lblNoTelp = new javax.swing.JLabel();
+        inpNoTelp = new javax.swing.JTextField();
+        lineTop = new javax.swing.JSeparator();
+        lblAlamat = new javax.swing.JLabel();
+        inpAlamat = new javax.swing.JTextField();
+        lineBottom = new javax.swing.JSeparator();
+        btnAdd = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(246, 247, 248));
+        pnlMain.setBackground(new java.awt.Color(246, 247, 248));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(222, 8, 8));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Tambah Data Pembeli");
+        lblTop.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        lblTop.setForeground(new java.awt.Color(222, 8, 8));
+        lblTop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTop.setText("Tambah Data Pembeli");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("ID Pembeli");
+        lblId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblId.setForeground(new java.awt.Color(28, 115, 196));
+        lblId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblId.setText("ID Pembeli");
 
-        jTextField1.setBackground(new java.awt.Color(247, 247, 247));
-        jTextField1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("PB587");
-        jTextField1.setCaretColor(new java.awt.Color(10, 79, 223));
-        jTextField1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField1.setEnabled(false);
+        inpId.setBackground(new java.awt.Color(201, 220, 249));
+        inpId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpId.setForeground(new java.awt.Color(0, 0, 0));
+        inpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpId.setText("PB587");
+        inpId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpId.setCaretColor(new java.awt.Color(230, 11, 11));
+        inpId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        inpId.setEnabled(false);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Nama Pembeli");
+        lblNama.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNama.setForeground(new java.awt.Color(28, 115, 196));
+        lblNama.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNama.setText("Nama Pembeli");
 
-        jTextField2.setBackground(new java.awt.Color(247, 247, 247));
-        jTextField2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setCaretColor(new java.awt.Color(10, 79, 223));
+        inpNama.setBackground(new java.awt.Color(255, 255, 255));
+        inpNama.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpNama.setForeground(new java.awt.Color(0, 0, 0));
+        inpNama.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpNama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpNama.setCaretColor(new java.awt.Color(230, 11, 11));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("No Telephone");
+        lblNoTelp.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNoTelp.setForeground(new java.awt.Color(28, 115, 196));
+        lblNoTelp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNoTelp.setText("No Telephone");
 
-        jTextField3.setBackground(new java.awt.Color(247, 247, 247));
-        jTextField3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.setCaretColor(new java.awt.Color(10, 79, 223));
+        inpNoTelp.setBackground(new java.awt.Color(255, 255, 255));
+        inpNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpNoTelp.setForeground(new java.awt.Color(0, 0, 0));
+        inpNoTelp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpNoTelp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpNoTelp.setCaretColor(new java.awt.Color(230, 11, 11));
 
-        jSeparator1.setBackground(new java.awt.Color(0, 36, 252));
-        jSeparator1.setForeground(new java.awt.Color(0, 36, 252));
+        lineTop.setBackground(new java.awt.Color(0, 36, 252));
+        lineTop.setForeground(new java.awt.Color(0, 36, 252));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Alamat");
+        lblAlamat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAlamat.setForeground(new java.awt.Color(28, 115, 196));
+        lblAlamat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAlamat.setText("Alamat");
 
-        jTextField4.setBackground(new java.awt.Color(247, 247, 247));
-        jTextField4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField4.setCaretColor(new java.awt.Color(10, 79, 223));
+        inpAlamat.setBackground(new java.awt.Color(255, 255, 255));
+        inpAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpAlamat.setForeground(new java.awt.Color(0, 0, 0));
+        inpAlamat.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpAlamat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpAlamat.setCaretColor(new java.awt.Color(230, 11, 11));
 
-        jSeparator2.setBackground(new java.awt.Color(0, 36, 252));
-        jSeparator2.setForeground(new java.awt.Color(0, 36, 252));
+        lineBottom.setBackground(new java.awt.Color(0, 36, 252));
+        lineBottom.setForeground(new java.awt.Color(0, 36, 252));
 
-        btnTambah.setBackground(new java.awt.Color(34, 119, 237));
-        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
-        btnTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-save.png"))); // NOI18N
-        btnTambah.setText("Tambah");
-        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAdd.setBackground(new java.awt.Color(34, 119, 237));
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-save.png"))); // NOI18N
+        btnAdd.setText("Tambah");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnTambahMouseEntered(evt);
+                btnAddMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnTambahMouseExited(evt);
+                btnAddMouseExited(evt);
             }
         });
-        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
-        btnBatal.setBackground(new java.awt.Color(220, 41, 41));
-        btnBatal.setForeground(new java.awt.Color(255, 255, 255));
-        btnBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-cancel.png"))); // NOI18N
-        btnBatal.setText("Batal");
-        btnBatal.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCancel.setBackground(new java.awt.Color(220, 41, 41));
+        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-cancel.png"))); // NOI18N
+        btnCancel.setText("Batal");
+        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnBatalMouseEntered(evt);
+                btnCancelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnBatalMouseExited(evt);
+                btnCancelMouseExited(evt);
             }
         });
-        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBatalActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlMainLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
+                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inpId)
+                            .addComponent(inpNama, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                            .addComponent(inpNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                            .addComponent(inpAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
                         .addGap(22, 22, 22))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(139, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(pnlMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator2))
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lineTop, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lineBottom))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addComponent(lblTop, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lineTop, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(lblId)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lblNama)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpNama, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(lblNoTelp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpNoTelp, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
+                .addComponent(lblAlamat)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTambah)
-                    .addComponent(btnBatal))
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnCancel))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
 
@@ -203,43 +230,60 @@ public class TambahPembeli extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseEntered
-        this.btnTambah.setBackground(this.btnTambah.getBackground().darker());
-        this.btnTambah.setIcon(Gambar.getIcon("ic-manipulasi-save-entered.png"));
-    }//GEN-LAST:event_btnTambahMouseEntered
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setBackground(this.btnAdd.getBackground().darker());
+        this.btnAdd.setIcon(Gambar.getIcon("ic-manipulasi-save-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
 
-    private void btnTambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseExited
-        this.btnTambah.setBackground(new Color(34,119,237));
-        this.btnTambah.setIcon(Gambar.getIcon("ic-manipulasi-save.png"));
-    }//GEN-LAST:event_btnTambahMouseExited
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setBackground(new Color(34,119,237));
+        this.btnAdd.setIcon(Gambar.getIcon("ic-manipulasi-save.png"));
+    }//GEN-LAST:event_btnAddMouseExited
 
-    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        Message.showInformation(this, "Saat ini belum tersedia!");
-    }//GEN-LAST:event_btnTambahActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mendapatkan data dari input
+        this.namaPembeli = this.inpNama.getText();
+        this.noTelp = this.inpNoTelp.getText();
+        this.alamat = this.inpAlamat.getText();
+        
+        // menambahkan data pembeli ke database
+        boolean save = this.pembeli.addPembeli(namaPembeli, noTelp, alamat);
+        
+        // mengecek data berhasil disimpan atau belum
+        if(save){
+            Message.showInformation(this, "Data berhasil disimpan!");
+            this.isUpdated = true;
+            this.pembeli.closeConnection();
+            this.dispose();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    private void btnBatalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalMouseEntered
-        this.btnBatal.setBackground(this.btnBatal.getBackground().darker());
-        this.btnBatal.setIcon(Gambar.getIcon("ic-manipulasi-cancel-entered.png"));
-    }//GEN-LAST:event_btnBatalMouseEntered
+    private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
+        this.btnCancel.setBackground(this.btnCancel.getBackground().darker());
+        this.btnCancel.setIcon(Gambar.getIcon("ic-manipulasi-cancel-entered.png"));
+    }//GEN-LAST:event_btnCancelMouseEntered
 
-    private void btnBatalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalMouseExited
-        this.btnBatal.setBackground(new Color(220,41,41));
-        this.btnBatal.setIcon(Gambar.getIcon("ic-manipulasi-cancel.png"));
-    }//GEN-LAST:event_btnBatalMouseExited
+    private void btnCancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseExited
+        this.btnCancel.setBackground(new Color(220,41,41));
+        this.btnCancel.setIcon(Gambar.getIcon("ic-manipulasi-cancel.png"));
+    }//GEN-LAST:event_btnCancelMouseExited
 
-    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        pembeli.closeConnection();
         this.dispose();
-    }//GEN-LAST:event_btnBatalActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     public static void main(String args[]) {
 
@@ -270,19 +314,19 @@ public class TambahPembeli extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBatal;
-    private javax.swing.JButton btnTambah;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JTextField inpAlamat;
+    private javax.swing.JTextField inpId;
+    private javax.swing.JTextField inpNama;
+    private javax.swing.JTextField inpNoTelp;
+    private javax.swing.JLabel lblAlamat;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblNoTelp;
+    private javax.swing.JLabel lblTop;
+    private javax.swing.JSeparator lineBottom;
+    private javax.swing.JSeparator lineTop;
+    private javax.swing.JPanel pnlMain;
     // End of variables declaration//GEN-END:variables
 }
