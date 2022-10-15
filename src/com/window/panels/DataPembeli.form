@@ -332,6 +332,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value=": 085655864624"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseExited"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="valAlamat">
           <Properties>

@@ -1,7 +1,9 @@
 package com.window.panels;
 
 import com.manage.Chart;
+import com.manage.Internet;
 import com.manage.Message;
+import com.manage.Text;
 import com.media.Audio;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
@@ -12,7 +14,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
@@ -33,7 +39,7 @@ public class DataPembeli extends javax.swing.JPanel {
     
     private final Chart chart = new Chart();
     
-    private boolean isAdd = false, isEdit = false;
+    private final Text text = new Text();
     
     public DataPembeli() {
         initComponents();
@@ -48,6 +54,43 @@ public class DataPembeli extends javax.swing.JPanel {
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        JLabel[] values = {
+          this.valIDPembeli, this.valNamaPembeli, this.valNoTelp, this.valAlamat, 
+          this.valFavorite, this.valPembelian, this.valLast, this.valUang
+        };
+        
+        for(JLabel lbl : values){
+            lbl.addMouseListener(new java.awt.event.MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    lbl.setForeground(new Color(15,98,230));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    lbl.setForeground(new Color(0,0,0));
+                }
+            });
+        }
         
         this.updateTabel();
     }
@@ -128,13 +171,13 @@ public class DataPembeli extends javax.swing.JPanel {
     private void showData(){
         // mendapatkan data
         this.namaPembeli = pembeli.getNama(this.idSelected);
-        this.noTelp = pembeli.getNoTelp(this.idSelected);
+        this.noTelp = text.toTelephoneCase(pembeli.getNoTelp(this.idSelected));
         this.alamat = pembeli.getAlamat(this.idSelected);
         
         // menampilkan data
         this.valIDPembeli.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
         this.valNamaPembeli.setText("<html><p>:&nbsp;"+namaPembeli+"</p></html>");
-        this.valNoTelp.setText("<html><p>:&nbsp;"+noTelp+"</p></html>");
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
         this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
     }
     
@@ -229,6 +272,17 @@ public class DataPembeli extends javax.swing.JPanel {
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         valNoTelp.setText(": 085655864624");
+        valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseExited(evt);
+            }
+        });
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
@@ -474,12 +528,25 @@ public class DataPembeli extends javax.swing.JPanel {
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         int status;
+        boolean delete;
         Audio.play(Audio.SOUND_INFO);
         if(tabelData.getSelectedRow() > -1){
             status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaPembeli + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             switch(status){
-                case JOptionPane.YES_OPTION : JOptionPane.showMessageDialog(this, "Data berhasil dihapus!"); break;
+                case JOptionPane.YES_OPTION : 
+                    this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                    delete = this.pembeli.deletePembeli(this.idSelected);
+                    if(delete){
+                        Audio.play(Audio.SOUND_INFO);
+                        JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+                        this.updateTabel();
+                    }else{
+                        Audio.play(Audio.SOUND_WARNING);
+                        JOptionPane.showMessageDialog(this, "Data gagal dihapus!");
+                    }
+                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    break;
                 case JOptionPane.NO_OPTION : JOptionPane.showMessageDialog(this, "Batal dihapus!"); break;
             }            
         }else{
@@ -496,12 +563,18 @@ public class DataPembeli extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Audio.play(Audio.SOUND_INFO);
-        new TambahPembeli(null, true).setVisible(true);
+        TambahPembeli tbh = new TambahPembeli(null, true);
+        tbh.setVisible(true);
+        
+        if(tbh.isUpdated()){
+            this.updateTabel();
+            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
+            System.out.println(this.tabelData.getValueAt(this.tabelData.getSelectedRow(), this.tabelData.getSelectedColumn()));
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        this.isEdit = true;
-        this.isAdd = false;
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
@@ -547,6 +620,30 @@ public class DataPembeli extends javax.swing.JPanel {
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void valNoTelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseClicked
+        Internet net = new Internet();
+        String nomor = this.noTelp.substring(1).replaceAll(" ", "").replaceAll("-", "");
+        if(net.isConnectInternet()){
+            try {
+                net.openLink("https://wa.me/"+nomor);
+            } catch (IOException | URISyntaxException ex) {
+                Message.showException(this, ex, true);
+            }
+        }else{
+            Message.showWarning(this, "Tidak terhubung ke Internet!", true);
+        }
+    }//GEN-LAST:event_valNoTelpMouseClicked
+
+    private void valNoTelpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseEntered
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(15,98,230);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseEntered
+
+    private void valNoTelpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseExited
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
