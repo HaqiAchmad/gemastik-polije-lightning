@@ -1,8 +1,12 @@
 package com.users;
 
 import com.data.app.Log;
-import com.manage.Text;
-
+import com.error.InValidUserDataException;
+import com.manage.Validation;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,8 +18,76 @@ public class Pembeli extends Users{
         return super.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI);
     }
     
-    public boolean addPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+    public boolean isExistPembeli(String idPembeli){
+        return super.isExistID(idPembeli, UserLevels.PEMBELI, UserData.ID_PEMBELI);
+    }
+    
+    public final boolean addPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+        boolean isAdd;
+        PreparedStatement pst;
+        try {
+            // menambahkan data user ke tabel user
+            isAdd = super.addUser(this.createID(), "12345", UserLevels.PEMBELI);
+            // mengecek apakah id user sudah ditambahkan ke tabel user
+            if(isAdd){
+                // validasi data sebelum ditambahkan
+                if(this.validateAddPembeli(idPembeli, namaPembeli, noTelp, alamat)){
+                    Log.addLog("Data dari '" + idPembeli + "' dinyatakan valid.");
+                    // menambahkan data kedalam Database
+                    pst = this.conn.prepareStatement("INSERT INTO pembeli VALUES (?, ?, ?, ?)");
+                    pst.setString(1, idPembeli);
+                    pst.setString(2, namaPembeli);
+                    pst.setString(3, noTelp);
+                    pst.setString(4, alamat);
+
+                    // mengekusi query
+                    return pst.executeUpdate() > 0;
+                    
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Message : " + ex.getMessage());
+        }
         return false;
+    }
+    
+    private boolean validateAddPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+        
+        boolean vIdPembeli, vNama, vNoTelp, vAlamat;
+        
+        // mengecek id pembeli valid atau tidak
+        if(Validation.isIdPembeli(idPembeli)){
+            if(this.isExistPembeli(idPembeli)){
+                vIdPembeli = true;
+            }else{
+                throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut sudah terpakai.");
+            }
+        }else{
+            throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut tidak valid.");
+        }
+        
+        // menecek nama valid atau tidak
+        if(Validation.isNamaOrang(namaPembeli)){
+            vNama = true;
+        }else{
+            throw new InValidUserDataException("'" + namaPembeli + "' Nama Pembeli tersebut tidak valid.");
+        }
+                
+        // mengecek apakah no hp valid atau tidak
+        if(Validation.isNoHp(noTelp)){
+            vNoTelp = true;
+        }else{
+            throw new InValidUserDataException("'" + noTelp + "' No Telephone tersebut tidak valid.");
+        }
+                
+        // mengecek apakah alamat valid atau tidak
+        if(Validation.isNamaTempat(alamat)){
+            vAlamat = true;
+        }else{
+            throw new InValidUserDataException("'" + alamat + "' Alamat tersebut tidak valid.");
+        }
+                
+        return vIdPembeli && vNama && vNoTelp && vAlamat;
     }
     
     public boolean deletePembeli(String idPembeli){
@@ -59,16 +131,15 @@ public class Pembeli extends Users{
         
         Log.createLog();
         Pembeli pembeli = new Pembeli();
-//        System.out.println(pembeli.setNama("PB289", "Baihaqi"));
-//        System.out.println(pembeli.setNoTelp("PB289", "088888888888"));
-//        System.out.println(pembeli.setAlamat("PB289", "Nganjuk"));
-//        System.out.println("");
-//        System.out.println(pembeli.getNama("PB289"));
-//        System.out.println(pembeli.getNoTelp("PB289"));
-//        System.out.println(pembeli.getAlamat("PB289"));
         
-//        System.out.println(pembeli.getLastID());
-        System.out.println(pembeli.createID());
+        boolean isValid = pembeli.validateAddPembeli("PB333", "Achmad", "085655864624", "Jombang");
+        System.out.println(isValid);
         
+//        Validation.isIdAdmin("PB222");
+//        
+//        System.out.println(Validation.isIdAdmin("AD333"));
+//        System.out.println(Validation.isIdKaryawan("KY333"));
+//        System.out.println(Validation.isIdSupplier("SP333"));
+//        System.out.println(Validation.isIdPembeli("PB333"));
     }
 }
