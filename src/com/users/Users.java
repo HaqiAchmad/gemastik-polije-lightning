@@ -108,6 +108,56 @@ public class Users extends Database{
         }
     }
     
+    public final boolean addUser(String idUser, String pass, UserLevels level) throws SQLException, InValidUserDataException{
+        Log.addLog("Menambahkan user baru dengan ID User '" + idUser + "' dengan level " + level.name());
+        PreparedStatement pst;
+        // mengecek apakah data yang akan ditambahkan valid atau tidak
+        if(this.validateAddUser(idUser, pass, level)){
+            Log.addLog("Data dari '" + idUser + "' dinyatakan valid.");
+            // menambahkan data kedalam Database
+            pst = this.conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?)");
+            pst.setString(1, idUser);
+            pst.setString(2, pass);
+            pst.setString(3, level.name());
+            
+            // mengekusi query
+            return pst.executeUpdate() > 0;
+            
+        }
+        return false;
+    }
+    
+    private boolean validateAddUser(String idUser, String pass, UserLevels level){
+
+        boolean vIdUser, vPassword, vLevel;
+
+        if(Validation.isIdUser(idUser)){
+            if(!this.isExistUser(idUser)){
+                vIdUser = true;
+            }else{
+                throw new InValidUserDataException("'" + idUser + "' ID User tersebut sudah terpakai.");
+            }
+        }else{
+            throw new InValidUserDataException("'" + idUser + "' ID User tersebut tidak valid.");
+        }
+
+        // mengecek apakah password valid atau tidak
+        if(Validation.isPassword(pass)){
+            vPassword = true;
+        }else{
+            throw new InValidUserDataException("'" + pass + "' Password tersebut tidak valid.");
+        }
+
+        // mengecek apakah user level valid atau tidak
+        if(Validation.isLevel(level)){
+            vLevel = true;
+        }else{
+            throw new InValidUserDataException("'" + level.name() + "' level tersebut tidak valid.");
+        }
+        
+        return vIdUser && vPassword && vLevel;
+    }
+    
     /**
      * Method ini digunakan untuk menambahkan data dari user yang diinputkan kedalam <b>Database MySQL</b>.
      * Data dari user akan ditambahkan ke dalam <b>Database</b> melalui class {@code PreparedStatement} sehingga 
@@ -442,6 +492,24 @@ public class Users extends Database{
     
     /**
      * Method ini digunakan untuk mengecek apakah sebuah ID User sudah exist atau belum didalam <b>Database</b>.
+     * 
+     * @param id ID User yang akan dicek.
+     * @param level level dari user yang akan dicek id-nya
+     * @param primary primary key dari level
+     * @return <strong>True</strong> jika ID User exist. <br>
+     *         <strong>False</strong> jika ID User tidak exist.
+     */
+    protected boolean isExistID(String id, UserLevels level, UserData primary){
+        // mengecek apakah id user yang diinputkan valid atau tidak
+        if(Validation.isIdUser(id)){
+            return super.isExistData(level.name(), primary.name(), id);
+        }
+//         akan menghasilkan error jika id user tidak valid
+        throw new InValidUserDataException("'" +id + "' ID tersebut tidak valid.");
+    }
+    
+    /**
+     * Method ini digunakan untuk mengecek apakah sebuah ID User sudah exist atau belum didalam <b>Database</b>.
      * Pertama-tama method akan mengecek apakah ID User valid atau tidak dengan menggunakan method 
      * {@code isIdUser()} yang ada didalam class {@code Validation}. Jika ID User tidak valid maka method 
      * akan menghasilkan exception {@code InValidUserDataException}.
@@ -455,15 +523,10 @@ public class Users extends Database{
      *         <strong>False</strong> jika ID User tidak exist.
      */
     public final boolean isExistUser(String idUser){
-        // mengecek apakah id user yang diinputkan valid atau tidak
-        if(Validation.isIdUser(idUser)){
-                return this.isExistData(DatabaseTables.USERS.name(), UserData.ID_USER.name(), idUser);
-        }
-        // akan menghasilkan error jika id user tidak valid
-        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak valid.");
+        return this.isExistID(idUser, UserLevels.USERS, UserData.ID_USER);
     }
     
-    private String getLastID(UserLevels level, UserData primary){
+    protected String getLastID(UserLevels level, UserData primary){
         try{
             String query = String.format("SELECT * FROM %s ORDER BY %s DESC LIMIT 0,1", level.name(), primary.name());
             res = stat.executeQuery(query);
@@ -476,23 +539,17 @@ public class Users extends Database{
         return null;
     }
     
-    protected boolean isExistID(String id, UserLevels level, UserData primary){
-        return super.isExistData(level.name(), primary.name(), id);
-    }
-    
     public String createID(UserLevels level, UserData primary){
-        String nomor = this.getLastID(level, primary).substring(2);
+        String lastID = this.getLastID(level, primary), nomor = lastID.substring(2);
         // mengecek nilai dari nomor adalah number atau tidak
         if(txt.isNumber(nomor)){
             // jika id pembayaran belum exist maka id akan 
-            if(!this.isExistID(nomor, level, primary)){
-                switch(level.name()){
-                    case "ADMIN" : return String.format("AD%03d", Integer.parseInt(nomor)+1);
-                    case "KARYAWAN" : return String.format("KY%03d", Integer.parseInt(nomor)+1);
-                    case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
-                    case "PEMBELI" : return String.format("PB%03d", Integer.parseInt(nomor)+1);
-                    default : System.out.println("Error anjing!");
-                }
+            switch(level.name()){
+                case "ADMIN" : return String.format("AD%03d", Integer.parseInt(nomor)+1);
+                case "KARYAWAN" : return String.format("KY%03d", Integer.parseInt(nomor)+1);
+                case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
+                case "PEMBELI" : return String.format("PB%03d", Integer.parseInt(nomor)+1);
+                default : System.out.println("Error!");
             }
         }
         return null;
@@ -694,8 +751,10 @@ public class Users extends Database{
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        
-        System.out.println(user.getLevel("KY001"));
+//        System.out.println(Validation.isIdUser("PB286"));
+//        System.out.println(user.getLastID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
+//        System.out.println(user.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
+        System.out.println(user.validateAddUser("PB888", "1234", UserLevels.ADMIN));
     }
     
 }
