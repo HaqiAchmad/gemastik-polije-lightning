@@ -22,17 +22,19 @@ public class Pembeli extends Users{
         return super.isExistID(idPembeli, UserLevels.PEMBELI, UserData.ID_PEMBELI);
     }
     
-    public final boolean addPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+    public final boolean addPembeli(String namaPembeli, String noTelp, String alamat){
         boolean isAdd;
         PreparedStatement pst;
+        String idPembeli = this.createID();
+        
         try {
             // menambahkan data user ke tabel user
-            isAdd = super.addUser(this.createID(), "12345", UserLevels.PEMBELI);
+            isAdd = super.addUser(idPembeli, "12345", UserLevels.PEMBELI);
             // mengecek apakah id user sudah ditambahkan ke tabel user
             if(isAdd){
                 // validasi data sebelum ditambahkan
                 if(this.validateAddPembeli(idPembeli, namaPembeli, noTelp, alamat)){
-                    Log.addLog("Data dari '" + idPembeli + "' dinyatakan valid.");
+                    Log.addLog("Menambahkan data pembeli dengan nama '" + namaPembeli + "'");
                     // menambahkan data kedalam Database
                     pst = this.conn.prepareStatement("INSERT INTO pembeli VALUES (?, ?, ?, ?)");
                     pst.setString(1, idPembeli);
@@ -57,11 +59,7 @@ public class Pembeli extends Users{
         
         // mengecek id pembeli valid atau tidak
         if(Validation.isIdPembeli(idPembeli)){
-            if(this.isExistPembeli(idPembeli)){
-                vIdPembeli = true;
-            }else{
-                throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut sudah terpakai.");
-            }
+            vIdPembeli = true;
         }else{
             throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut tidak valid.");
         }
@@ -91,7 +89,7 @@ public class Pembeli extends Users{
     }
     
     public boolean deletePembeli(String idPembeli){
-        return false;
+        return super.deleteUser(idPembeli);
     }
     
     private String getDataPembeli(String idPembeli, UserData data){
@@ -131,15 +129,6 @@ public class Pembeli extends Users{
         
         Log.createLog();
         Pembeli pembeli = new Pembeli();
-        
-        boolean isValid = pembeli.validateAddPembeli("PB333", "Achmad", "085655864624", "Jombang");
-        System.out.println(isValid);
-        
-//        Validation.isIdAdmin("PB222");
-//        
-//        System.out.println(Validation.isIdAdmin("AD333"));
-//        System.out.println(Validation.isIdKaryawan("KY333"));
-//        System.out.println(Validation.isIdSupplier("SP333"));
-//        System.out.println(Validation.isIdPembeli("PB333"));
+
     }
 }
