@@ -2,6 +2,7 @@ package com.users;
 
 import com.data.app.Log;
 import com.error.InValidUserDataException;
+import com.manage.Text;
 import com.manage.Validation;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import java.util.logging.Logger;
  * @author Achmad Baihaqi
  */
 public class Pembeli extends Users{
+    
+    private final Text text = new Text();
     
     public String createID(){
         return super.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI);
@@ -38,16 +41,16 @@ public class Pembeli extends Users{
                     // menambahkan data kedalam Database
                     pst = this.conn.prepareStatement("INSERT INTO pembeli VALUES (?, ?, ?, ?)");
                     pst.setString(1, idPembeli);
-                    pst.setString(2, namaPembeli);
+                    pst.setString(2, text.toCapitalize(namaPembeli));
                     pst.setString(3, noTelp);
-                    pst.setString(4, alamat);
+                    pst.setString(4, text.toCapitalize(alamat));
 
                     // mengekusi query
                     return pst.executeUpdate() > 0;
-                    
                 }
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | InValidUserDataException ex) {
+            this.deleteUser(idPembeli);
             System.out.println("Error Message : " + ex.getMessage());
         }
         return false;
