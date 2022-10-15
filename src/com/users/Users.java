@@ -108,6 +108,29 @@ public class Users extends Database{
         }
     }
     
+    /**
+     * Method ini digunakan untuk menambahkan data dari user yang diinputkan kedalam <b>Database MySQL</b>.
+     * Data dari user akan ditambahkan ke dalam <b>Database</b> melalui class {@code PreparedStatement} sehingga 
+     * proses menambahkan data kedalam <b>Database</b> lebih aman. Pertama-tama method akan mengecek apakah 
+     * semua data dari user valid atau tidak. Jika ada salah satu data dari user yang tidak valid maka data 
+     * tidak akan ditambahkan kedalam <b>Database</b> dan method akan mengembalikan nilai <code>false</code>.
+     * <br><br>
+     * Jika semua data dari user valid maka method akan membuat sebuah object {@code PreparedStatement}. Setelah 
+     * object dari class {@code PreparedStatement} berhasil dibuat selanjutnya method akan menambahkan semua data 
+     * dari user kedalam object {@code PreparedStatement}. Jika semua data dari user sudah ditambahkan kedalam 
+     * object {@code PreparedStatement} maka data dari user tersebut akan ditambahka kedalam <b>Database</b> melalui 
+     * method {@code executeUpdate()} yang ada didalam class {@code PreparedStatement}.
+     * 
+     * @param idUser ID dari user
+     * @param pass password dari user
+     * @param level level dari user
+     * 
+     * @return <strong>True</strong> jika data berhasil ditambahkan. <br>
+     *         <strong>False</strong> jika data tidak berhasil ditambahkan. 
+     * 
+     * @throws SQLException jika terjadi kegagalan saat menambahkan data kedalam <b>Database</b>.
+     * @throws InValidUserDataException jika data dari petugas tidak valid.
+     */
     public final boolean addUser(String idUser, String pass, UserLevels level) throws SQLException, InValidUserDataException{
         Log.addLog("Menambahkan user baru dengan ID User '" + idUser + "' dengan level " + level.name());
         PreparedStatement pst;
@@ -127,10 +150,25 @@ public class Users extends Database{
         return false;
     }
     
+    /**
+     * Method ini digunakan untuk mengecek apakah semua data dari user yang diinputkan valid atau tidak.
+     * Method akan mengecek satu persatu data dari user. Jika ada salah satu data saja yang tidak valid maka 
+     * semua data dari user yang di inputkan akan dianggap tidak valid dan method akan mengembalikan nilai 
+     * <code>False</code>. Method hanya akan mengembalikan nilai <code>True</code> jika semua data dari 
+     * user yang diinputkan valid.
+     * 
+     * @param idUser ID dari user
+     * @param pass password dari user
+     * @param level level dari user
+     * 
+     * @return <strong>True</strong> jika semua data dari user valid. <br>
+     *         <strong>False</strong> jika ada salah satu data dari user yang tidak valid.
+     */
     private boolean validateAddUser(String idUser, String pass, UserLevels level){
 
         boolean vIdUser, vPassword, vLevel;
 
+        // mengecek apakah id user valid atau tidak
         if(Validation.isIdUser(idUser)){
             if(!this.isExistUser(idUser)){
                 vIdUser = true;
@@ -159,127 +197,13 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk menambahkan data dari user yang diinputkan kedalam <b>Database MySQL</b>.
-     * Data dari user akan ditambahkan ke dalam <b>Database</b> melalui class {@code PreparedStatement} sehingga 
-     * proses menambahkan data kedalam <b>Database</b> lebih aman. Pertama-tama method akan mengecek apakah 
-     * semua data dari user valid atau tidak. Jika ada salah satu data dari user yang tidak valid maka data 
-     * tidak akan ditambahkan kedalam <b>Database</b> dan method akan mengembalikan nilai <code>false</code>.
-     * <br><br>
-     * Jika semua data dari user valid maka method akan membuat sebuah object {@code PreparedStatement}. Setelah 
-     * object dari class {@code PreparedStatement} berhasil dibuat selanjutnya method akan menambahkan semua data 
-     * dari user kedalam object {@code PreparedStatement}. Jika semua data dari user sudah ditambahkan kedalam 
-     * object {@code PreparedStatement} maka data dari user tersebut akan ditambahka kedalam <b>Database</b> melalui 
-     * method {@code executeUpdate()} yang ada didalam class {@code PreparedStatement}.
-     * <br><br>
-     * Untuk data foto dari user jika foto yang diinputkan <code>null</code> atau foto tersebut tidak exist maka 
-     * data foto dari user akan secara default diset ke <code>NULL</code>. Jika foto dari user exist maka foto 
-     * akan ditambahkan kedalam <b>Database</b> dalam bentuk byte stream / <code>Blob</code>.
-     * 
-     * @param idUser ID dari user.
-     * @param noHp nomor HP dari user.
-     * @param email email dari user.
-     * @param foto foto dari user.
-     * @param password password dari user.
-     * @param level level dari user.
-     * 
-     * @return <strong>True</strong> jika data berhasil ditambahkan. <br>
-     *         <strong>False</strong> jika data tidak berhasil ditambahkan. 
-     * 
-     * @throws FileNotFoundException jika terjadi kegagalan saat menkonversi foto kedalam byte stream / Blob.
-     * @throws SQLException jika terjadi kegagalan saat menambahkan data kedalam <b>Database</b>.
-     * @throws InValidUserDataException jika data dari petugas tidak valid.
-     */
-    public final boolean addUser(String idUser, String noHp, String email, File foto, String password, UserLevels level) 
-            throws FileNotFoundException, SQLException, InValidUserDataException
-    {
-        Log.addLog("Menambahkan akun baru dengan ID User '"+idUser +"' ke Database.");
-        PreparedStatement pst;
-        // mengecek apakah data yang akan ditambahkan valid atau tidak
-        if(this.validateAddUser(idUser, noHp, email, password)){
-            Log.addLog("Data dari '" + idUser + "' dinyatakan valid.");
-            // menambahkan data kedalam Database
-            pst = this.conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)");
-            pst.setInt(1, Integer.parseInt(idUser));
-            pst.setString(2, noHp);
-            pst.setString(3, email);
-            pst.setString(5, password);
-            pst.setString(6, level.name());
-            
-            // jika foto yang diinputkan tidak kosong
-            if(foto != null){
-                // jika foto exist maka foto akan dikonversi kedalam bentuk byte stream
-                if(foto.exists()){
-                    Log.addLog("Menkonversi foto menjadi byte stream.");
-                    // mengkonversi file ke byte stream
-                    pst.setBlob(4, new FileManager().fileToBlob(foto));
-                }else{
-                    // jika foto tidak exist maka foto akan diset ke NULL
-                    pst.setString(4, null);
-                }                
-            }else{
-                // jika foto kosong maka foto akan diset ke NULL
-                pst.setString(4, null);
-            }
-            
-            // mengekusi query
-            return pst.executeUpdate() > 0;
-            
-        }
-        return false;
-    }
-    
-    /**
-     * Method ini digunakan untuk mengecek apakah semua data dari user yang diinputkan valid atau tidak.
-     * Method akan mengecek satu persatu data dari user. Jika ada salah satu data saja yang tidak valid maka 
-     * semua data dari user yang di inputkan akan dianggap tidak valid dan method akan mengembalikan nilai 
-     * <code>False</code>. Method hanya akan mengembalikan nilai <code>True</code> jika semua data dari 
-     * user yang diinputkan valid.
-     * 
-     * @param idUser id user yang akan dicek.
-     * @param noHp no hp yang akan dicek.
-     * @param email email yang akan dicek.
-     * @param password password yang akan dicek.
-     * @return <strong>True</strong> jika semua data dari user valid. <br>
-     *         <strong>False</strong> jika ada salah satu data dari user yang tidak valid.
-     */
-    private boolean validateAddUser(String idUser, String noHp, String email, String password){
-        
-        boolean vIdUser, vNoHp, vEmail, vPassword;
-        
-        Log.addLog("Mengecek data dari '" + idUser + "' valid atau tidak.");
-        
-        // mengecek apakah id user valid atau tidak
-        if(new Text().isNumber(idUser)){
-            if(Validation.isIdUser(idUser)){
-                if(!this.isExistUser(idUser)){
-                    vIdUser = true;
-                }else{
-                    throw new InValidUserDataException("'" + idUser + "' ID User tersebut sudah terpakai.");
-                }
-            }else{
-                throw new InValidUserDataException("'" + idUser + "' ID User tersebut tidak valid.");
-            }
-        }else{
-            throw new InValidUserDataException("ID User harus berupa Integer.");
-        }
-        
-        // mengecek apakah password valid atau tidak
-        if(Validation.isPassword(password)){
-            vPassword = true;
-        }else{
-            throw new InValidUserDataException("'" + password + "' Password tersebut tidak valid.");
-        }
-        
-        return vIdUser &&  vPassword;
-    }
-    
-    /**
      * Method ini digunakan untuk menghapus sebuah akun dari user yang ada didalam <b>Database</b> berdasarkan 
      * id user yang diinputkan. Method akan menghapus akun user dari <b>Database</b> melalui method 
      * {@code deleteData()} yang ada didalam class {@code Database}. Method akan mengembalikan nilai 
      * <code>True</code> jika akun dari user berhasil dihapus.
      * 
      * @param idUser id dari user yang ingin dihapus.
+     * 
      * @return <strong>True</strong> jika akun dari user berhasil dihapus. <br>
      *         <strong>Fale</strong> jiak akun dari user tidak berhasil dihapus.
      */
