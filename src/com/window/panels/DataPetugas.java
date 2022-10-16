@@ -1,6 +1,7 @@
 package com.window.panels;
 
 import com.data.db.Database;
+import com.data.db.DatabaseTables;
 import com.manage.Message;
 import com.media.Gambar;
 
@@ -111,17 +112,17 @@ public class DataPetugas extends javax.swing.JPanel {
             dbase.startConnection();
             Object[][] obj;
             int rows = 0;
-            String sql = "SELECT id_karyawan, nama_karyawan, no_telp, alamat FROM karyawan", id;
+            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas", id;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[dbase.getJumlahData("karyawan")][4];
+            obj = new Object[dbase.getJumlahData(DatabaseTables.PETUGAS.name())][4];
             // mengeksekusi query
             dbase.res = dbase.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
             while(dbase.res.next()){
                 // menyimpan data dari tabel ke object
-                id = dbase.res.getString("id_karyawan");
+                id = dbase.res.getString("id_petugas");
                 obj[rows][0] = id;
-                obj[rows][1] = dbase.res.getString("nama_karyawan");
+                obj[rows][1] = dbase.res.getString("nama_petugas");
                 obj[rows][2] = dbase.res.getString("no_telp");
                 obj[rows][3] = dbase.res.getString("alamat");
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
@@ -137,7 +138,7 @@ public class DataPetugas extends javax.swing.JPanel {
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
             new String [] {
-                "ID Karyawan", "Nama Karyawan", "No Telp", "Alamat"
+                "ID Petugas", "Nama Petugas", "No Telp", "Alamat"
             }
         ) {
             boolean[] canEdit = new boolean [] {
