@@ -1,13 +1,11 @@
 package com.window.dialogs;
 
 import com.manage.Message;
-import com.media.Audio;
 import com.media.Gambar;
 import com.users.Pembeli;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,11 +15,13 @@ public class InputPembeli extends javax.swing.JDialog {
 
     private final Pembeli pembeli = new Pembeli();
     
-    private int option;
+    public int option;
     
     public static final int ADD_OPTION = 1, EDIT_OPTION = 2;
     
-    private String idPembeli, namaPembeli, noTelp, alamat;
+    private final String idPembeli;
+    
+    private String nama, noTelp, alamat, newNama, newNoTelp, newAlamat;
     
     private boolean isUpdated = false;
     
@@ -36,22 +36,88 @@ public class InputPembeli extends javax.swing.JDialog {
         initComponents();
         
         if(idPembeli == null){
+            // menyetting window untuk tambah data
+            this.option = 1;
             this.idPembeli = this.pembeli.createID();
             this.setTitle("Tambah Data Pembeli");
-        }else{
+            this.lblTop.setText("Tambah Data Pembeli");
+            this.btnSimpan.setText("Tambah");
+        } else {
+            // menyetting window untuk edit data
+            this.option = 2;
             this.idPembeli = idPembeli;
-            this.setTitle("Edit Data Pembeli");            
+            this.setTitle("Edit Data Pembeli");
+            this.lblTop.setText("Edit Data Pembeli");
+            this.btnSimpan.setText("Edit");
+
+            // mendapatkan data-data pembeli
+            this.nama = this.pembeli.getNama(this.idPembeli);
+            this.alamat = this.pembeli.getAlamat(this.idPembeli);
+            this.noTelp = this.pembeli.getNoTelp(this.idPembeli);
+            
+            // menampilkan data-data pembeli ke input text
+            this.inpNama.setText(this.nama);
+            this.inpNoTelp.setText(this.noTelp);
+            this.inpAlamat.setText(this.alamat);
         }
-        
+
         this.setLocationRelativeTo(null);
         
         this.inpId.setText(this.idPembeli);
-        this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnSimpan.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     }
     
+    // mengecek apakah user menekan tombol simpan / tambah atau tidak
     public boolean isUpdated(){
         return this.isUpdated;
+    }
+    
+    private void addData(){
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mendapatkan data dari textfield
+        this.nama = this.inpNama.getText();
+        this.noTelp = this.inpNoTelp.getText();
+        this.alamat = this.inpAlamat.getText();
+        
+        // menambahkan data pembeli ke database
+        boolean save = this.pembeli.addPembeli(nama, noTelp, alamat);
+        
+        // mengecek data berhasil disimpan atau belum
+        if(save){
+            Message.showInformation(this, "Data berhasil disimpan!");
+            this.isUpdated = true;
+            this.pembeli.closeConnection();
+            this.dispose();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+    
+    private void editData(){
+        boolean eNama, eNoTelp, eAlamat;
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        
+        // mendapakan data dari textfield
+        this.newNama = this.inpNama.getText();
+        this.newNoTelp = this.inpNoTelp.getText();
+        this.newAlamat = this.inpAlamat.getText();
+        
+        // validasi data
+        if(this.pembeli.validateAddPembeli(this.idPembeli, this.nama, this.noTelp, this.alamat)){
+            // mengedit data
+            eNama = this.pembeli.setNama(this.idPembeli, this.newNama);
+            eNoTelp = this.pembeli.setNoTelp(this.idPembeli, this.newNoTelp);
+            eAlamat = this.pembeli.setAlamat(this.idPembeli, this.newAlamat);
+            
+            // mengecek apa data berhasil disave atau tidak
+            if(eNama && eNoTelp && eAlamat){
+                Message.showInformation(this, "Data berhasil diedit!");
+                this.isUpdated = true;
+                this.pembeli.closeConnection();
+                this.dispose();
+            }
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     @SuppressWarnings("unchecked")
@@ -70,7 +136,7 @@ public class InputPembeli extends javax.swing.JDialog {
         lblAlamat = new javax.swing.JLabel();
         inpAlamat = new javax.swing.JTextField();
         lineBottom = new javax.swing.JSeparator();
-        btnAdd = new javax.swing.JButton();
+        btnSimpan = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -87,7 +153,7 @@ public class InputPembeli extends javax.swing.JDialog {
         lblId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblId.setText("ID Pembeli");
 
-        inpId.setBackground(new java.awt.Color(201, 220, 249));
+        inpId.setBackground(new java.awt.Color(211, 215, 224));
         inpId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpId.setForeground(new java.awt.Color(0, 0, 0));
         inpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -96,6 +162,11 @@ public class InputPembeli extends javax.swing.JDialog {
         inpId.setCaretColor(new java.awt.Color(230, 11, 11));
         inpId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         inpId.setEnabled(false);
+        inpId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inpIdMouseClicked(evt);
+            }
+        });
 
         lblNama.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblNama.setForeground(new java.awt.Color(28, 115, 196));
@@ -107,7 +178,7 @@ public class InputPembeli extends javax.swing.JDialog {
         inpNama.setForeground(new java.awt.Color(0, 0, 0));
         inpNama.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         inpNama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpNama.setCaretColor(new java.awt.Color(230, 11, 11));
+        inpNama.setCaretColor(new java.awt.Color(213, 8, 8));
 
         lblNoTelp.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblNoTelp.setForeground(new java.awt.Color(28, 115, 196));
@@ -119,7 +190,7 @@ public class InputPembeli extends javax.swing.JDialog {
         inpNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         inpNoTelp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         inpNoTelp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpNoTelp.setCaretColor(new java.awt.Color(230, 11, 11));
+        inpNoTelp.setCaretColor(new java.awt.Color(213, 8, 8));
 
         lineTop.setBackground(new java.awt.Color(0, 36, 252));
         lineTop.setForeground(new java.awt.Color(0, 36, 252));
@@ -134,26 +205,26 @@ public class InputPembeli extends javax.swing.JDialog {
         inpAlamat.setForeground(new java.awt.Color(0, 0, 0));
         inpAlamat.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         inpAlamat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpAlamat.setCaretColor(new java.awt.Color(230, 11, 11));
+        inpAlamat.setCaretColor(new java.awt.Color(213, 8, 8));
 
         lineBottom.setBackground(new java.awt.Color(0, 36, 252));
         lineBottom.setForeground(new java.awt.Color(0, 36, 252));
 
-        btnAdd.setBackground(new java.awt.Color(34, 119, 237));
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-save.png"))); // NOI18N
-        btnAdd.setText("Tambah");
-        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSimpan.setBackground(new java.awt.Color(34, 119, 237));
+        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-manipulasi-save.png"))); // NOI18N
+        btnSimpan.setText("Tambah");
+        btnSimpan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnAddMouseEntered(evt);
+                btnSimpanMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnAddMouseExited(evt);
+                btnSimpanMouseExited(evt);
             }
         });
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnSimpanActionPerformed(evt);
             }
         });
 
@@ -196,7 +267,7 @@ public class InputPembeli extends javax.swing.JDialog {
                             .addComponent(inpAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
                         .addGap(22, 22, 22))
                     .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(139, Short.MAX_VALUE))))
@@ -233,7 +304,7 @@ public class InputPembeli extends javax.swing.JDialog {
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
+                    .addComponent(btnSimpan)
                     .addComponent(btnCancel))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
@@ -252,35 +323,23 @@ public class InputPembeli extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
-        this.btnAdd.setBackground(this.btnAdd.getBackground().darker());
-        this.btnAdd.setIcon(Gambar.getIcon("ic-manipulasi-save-entered.png"));
-    }//GEN-LAST:event_btnAddMouseEntered
+    private void btnSimpanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseEntered
+        this.btnSimpan.setBackground(this.btnSimpan.getBackground().darker());
+        this.btnSimpan.setIcon(Gambar.getIcon("ic-manipulasi-save-entered.png"));
+    }//GEN-LAST:event_btnSimpanMouseEntered
 
-    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
-        this.btnAdd.setBackground(new Color(34,119,237));
-        this.btnAdd.setIcon(Gambar.getIcon("ic-manipulasi-save.png"));
-    }//GEN-LAST:event_btnAddMouseExited
+    private void btnSimpanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseExited
+        this.btnSimpan.setBackground(new Color(34,119,237));
+        this.btnSimpan.setIcon(Gambar.getIcon("ic-manipulasi-save.png"));
+    }//GEN-LAST:event_btnSimpanMouseExited
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // mendapatkan data dari input
-        this.namaPembeli = this.inpNama.getText();
-        this.noTelp = this.inpNoTelp.getText();
-        this.alamat = this.inpAlamat.getText();
-        
-        // menambahkan data pembeli ke database
-        boolean save = this.pembeli.addPembeli(namaPembeli, noTelp, alamat);
-        
-        // mengecek data berhasil disimpan atau belum
-        if(save){
-            Message.showInformation(this, "Data berhasil disimpan!");
-            this.isUpdated = true;
-            this.pembeli.closeConnection();
-            this.dispose();
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // action button sesuai opsi tambah atau edit
+        switch(option){
+            case ADD_OPTION : this.addData(); break;
+            case EDIT_OPTION : this.editData(); break;
         }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
         this.btnCancel.setBackground(this.btnCancel.getBackground().darker());
@@ -296,6 +355,10 @@ public class InputPembeli extends javax.swing.JDialog {
         pembeli.closeConnection();
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void inpIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inpIdMouseClicked
+        Message.showWarning(this, "ID Pembeli tidak bisa diedit!");
+    }//GEN-LAST:event_inpIdMouseClicked
 
     public static void main(String args[]) {
 
@@ -326,8 +389,8 @@ public class InputPembeli extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JTextField inpAlamat;
     private javax.swing.JTextField inpId;
     private javax.swing.JTextField inpNama;
