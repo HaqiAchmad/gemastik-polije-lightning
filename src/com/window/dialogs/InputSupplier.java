@@ -48,14 +48,14 @@ public class InputSupplier extends javax.swing.JDialog {
             this.idSupplier = idSupplier;
             this.setTitle("Edit Data Supplier");
             this.lblTop.setText("Edit Data Supplier");
-            this.btnSimpan.setText("Edit");
+            this.btnSimpan.setText("Simpan");
 
-            // mendapatkan data-data pembeli
+            // mendapatkan data-data supplier
             this.nama = this.supplier.getNama(this.idSupplier);
             this.alamat = this.supplier.getAlamat(this.idSupplier);
             this.noTelp = this.supplier.getNoTelp(this.idSupplier);
             
-            // menampilkan data-data pembeli ke input text
+            // menampilkan data-data supplier ke input text
             this.inpNama.setText(this.nama);
             this.inpNoTelp.setText(this.noTelp);
             this.inpAlamat.setText(this.alamat);
@@ -89,7 +89,7 @@ public class InputSupplier extends javax.swing.JDialog {
         this.noTelp = this.inpNoTelp.getText();
         this.alamat = this.inpAlamat.getText();
         
-        // menambahkan data pembeli ke database
+        // menambahkan data supplier supplier ke database
         boolean save = this.supplier.addSupplier(nama, noTelp, alamat);
         
         // mengecek data berhasil disimpan atau belum
