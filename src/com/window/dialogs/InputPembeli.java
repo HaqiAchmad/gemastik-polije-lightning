@@ -6,14 +6,20 @@ import com.media.Gambar;
 import com.users.Pembeli;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Frame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Achmad Baihaqi
  */
-public class TambahPembeli extends javax.swing.JDialog {
+public class InputPembeli extends javax.swing.JDialog {
 
     private final Pembeli pembeli = new Pembeli();
+    
+    private int option;
+    
+    public static final int ADD_OPTION = 1, EDIT_OPTION = 2;
     
     private String idPembeli, namaPembeli, noTelp, alamat;
     
@@ -23,19 +29,25 @@ public class TambahPembeli extends javax.swing.JDialog {
      * Creates new form TambahPembeli
      * @param parent
      * @param modal
+     * @param idPembeli
      */
-    public TambahPembeli(java.awt.Frame parent, boolean modal) {
+    public InputPembeli(Frame parent, boolean modal, String idPembeli) {
         super(parent, modal);
         initComponents();
         
-        this.idPembeli = this.pembeli.createID();
+        if(idPembeli == null){
+            this.idPembeli = this.pembeli.createID();
+            this.setTitle("Tambah Data Pembeli");
+        }else{
+            this.idPembeli = idPembeli;
+            this.setTitle("Edit Data Pembeli");            
+        }
         
-        this.setTitle("Tambah Data Pembeli");
         this.setLocationRelativeTo(null);
-        this.inpId.setText(idPembeli);
+        
+        this.inpId.setText(this.idPembeli);
         this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-        
     }
     
     public boolean isUpdated(){
@@ -295,13 +307,13 @@ public class TambahPembeli extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TambahPembeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputPembeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                TambahPembeli dialog = new TambahPembeli(new javax.swing.JFrame(), true);
+                InputPembeli dialog = new InputPembeli(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
