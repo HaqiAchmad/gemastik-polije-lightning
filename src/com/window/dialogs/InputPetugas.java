@@ -2,7 +2,8 @@ package com.window.dialogs;
 
 import com.manage.Message;
 import com.media.Gambar;
-import com.users.Pembeli;
+import com.users.Petugas;
+import com.users.UserLevels;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -13,57 +14,67 @@ import java.awt.Frame;
  */
 public class InputPetugas extends javax.swing.JDialog {
 
-    private final Pembeli pembeli = new Pembeli();
+    private final Petugas petugas = new Petugas();
     
     public int option;
     
     public static final int ADD_OPTION = 1, EDIT_OPTION = 2;
     
-    private final String idPembeli;
+    private final String idPetugas;
     
-    private String nama, noTelp, alamat, newNama, newNoTelp, newAlamat;
+    private String nama, noTelp, alamat, pass, newNama, newNoTelp, newAlamat, newPass;
+    
+    private UserLevels level, newLevel;
     
     private boolean isUpdated = false;
     
     /**
-     * Creates new form TambahPembeli
+     * Creates new form TambahPetugas
      * @param parent
      * @param modal
-     * @param idPembeli
+     * @param idPetugas
      */
-    public InputPetugas(Frame parent, boolean modal, String idPembeli) {
+    public InputPetugas(Frame parent, boolean modal, String idPetugas) {
         super(parent, modal);
         initComponents();
         
-        if(idPembeli == null){
+        if(idPetugas == null){
             // menyetting window untuk tambah data
             this.option = 1;
-            this.idPembeli = this.pembeli.createID();
-            this.setTitle("Tambah Data Pembeli");
-            this.lblTop.setText("Tambah Data Pembeli");
+            this.idPetugas = this.petugas.createID();
+            this.setTitle("Tambah Data Petugas");
+            this.lblTop.setText("Tambah Data Petugas");
             this.btnSimpan.setText("Tambah");
         } else {
             // menyetting window untuk edit data
             this.option = 2;
-            this.idPembeli = idPembeli;
-            this.setTitle("Edit Data Pembeli");
-            this.lblTop.setText("Edit Data Pembeli");
-            this.btnSimpan.setText("Edit");
+            this.idPetugas = idPetugas;
+            this.setTitle("Edit Data Petugas");
+            this.lblTop.setText("Edit Data Petugas");
+            this.btnSimpan.setText("Simpan");
 
-            // mendapatkan data-data pembeli
-            this.nama = this.pembeli.getNama(this.idPembeli);
-            this.alamat = this.pembeli.getAlamat(this.idPembeli);
-            this.noTelp = this.pembeli.getNoTelp(this.idPembeli);
+            // mendapatkan data-data petugas
+            this.nama = this.petugas.getNama(this.idPetugas);
+            this.alamat = this.petugas.getAlamat(this.idPetugas);
+            this.noTelp = this.petugas.getNoTelp(this.idPetugas);
+            this.pass = this.petugas.getPassword(this.idPetugas);
+            this.level = this.petugas.getLevel(this.idPetugas);
             
-            // menampilkan data-data pembeli ke input text
+            // menampilkan data-data petugas ke input text
             this.inpNama.setText(this.nama);
             this.inpNoTelp.setText(this.noTelp);
             this.inpAlamat.setText(this.alamat);
+            this.inpPassword.setText(this.pass);
+            
+            switch(level.name().toUpperCase()){
+                case "ADMIN" : this.inpLevel.setSelectedIndex(1);  break;
+                case "KARYAWAN" : this.inpLevel.setSelectedIndex(2);  break;
+            }
         }
 
         this.setLocationRelativeTo(null);
         
-        this.inpId.setText(this.idPembeli);
+        this.inpId.setText(this.idPetugas);
         this.btnSimpan.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     }
@@ -88,49 +99,81 @@ public class InputPetugas extends javax.swing.JDialog {
         this.nama = this.inpNama.getText();
         this.noTelp = this.inpNoTelp.getText();
         this.alamat = this.inpAlamat.getText();
+        this.pass = this.inpPassword.getText();
         
-        // menambahkan data pembeli ke database
-        boolean save = this.pembeli.addPembeli(nama, noTelp, alamat);
-        
-        // mengecek data berhasil disimpan atau belum
-        if(save){
-            Message.showInformation(this, "Data berhasil disimpan!");
-            this.isUpdated = true;
-            this.pembeli.closeConnection();
-            this.dispose();
+        // mendapatkan data level
+        switch(this.inpLevel.getSelectedIndex()){
+            case 0 : level = null; break;
+            case 1 : level = UserLevels.ADMIN;
+            case 2 : level = UserLevels.KARYAWAN;
         }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }
+        
+        // cek apakah user sudah memilih level atau belum
+        if(level != null){
+            // menambahkan data petugas ke database
+            boolean save = this.petugas.addPetugas(nama, noTelp, alamat, pass, level);
+
+            // mengecek data berhasil disimpan atau belum
+            if(save){
+                // menutup pop up
+                Message.showInformation(this, "Data berhasil disimpan!");
+                this.isUpdated = true;
+                this.petugas.closeConnection();
+                this.dispose();
+            }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));            
+        }else{
+            Message.showWarning(null, "Silahkan pilih level Petugas terlebih dahulu!");
+        }
+}
     
     /**
      * Digunakan untuk mengedit data dari petugas
      * 
      */
     private void editData(){
-        boolean eNama, eNoTelp, eAlamat;
+        boolean eNama, eNoTelp, eAlamat, ePass, eLevel;
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        
+
         // mendapakan data dari textfield
         this.newNama = this.inpNama.getText();
         this.newNoTelp = this.inpNoTelp.getText();
         this.newAlamat = this.inpAlamat.getText();
-        
-        // validasi data
-        if(this.pembeli.validateAddPembeli(this.idPembeli, this.nama, this.noTelp, this.alamat)){
-            // mengedit data
-            eNama = this.pembeli.setNama(this.idPembeli, this.newNama);
-            eNoTelp = this.pembeli.setNoTelp(this.idPembeli, this.newNoTelp);
-            eAlamat = this.pembeli.setAlamat(this.idPembeli, this.newAlamat);
-            
-            // mengecek apa data berhasil disave atau tidak
-            if(eNama && eNoTelp && eAlamat){
-                Message.showInformation(this, "Data berhasil diedit!");
-                this.isUpdated = true;
-                this.pembeli.closeConnection();
-                this.dispose();
-            }
+        this.newPass = this.inpPassword.getText();
+
+        // mendapatkan data level
+        switch (this.inpLevel.getSelectedIndex()) {
+            case 0: newLevel = null; break;
+            case 1: newLevel = UserLevels.ADMIN; break;
+            case 2: newLevel = UserLevels.KARYAWAN; break;
         }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+        // cek apakah user sudah memilih level atau belum
+        if (this.newLevel != null) {
+            // validasi data
+            if (this.petugas.validateAddPetugas(this.idPetugas, this.newNama, this.newNoTelp, this.newAlamat, this.newPass, this.newLevel)) {
+
+                // mengedit data
+                eNama = this.petugas.setNama(this.idPetugas, this.newNama);
+                eNoTelp = this.petugas.setNoTelp(this.idPetugas, this.newNoTelp);
+                eAlamat = this.petugas.setAlamat(this.idPetugas, this.newAlamat);
+                ePass = this.petugas.setPassword(this.idPetugas, this.newPass);
+                eLevel = this.petugas.setLevel(this.idPetugas, this.newLevel);
+
+                // mengecek apa data berhasil disave atau tidak
+                if (eNama && eNoTelp && eAlamat && ePass && eLevel) {
+                    // menutup pop up
+                    Message.showInformation(this, "Data berhasil diedit!");
+                    this.isUpdated = true;
+                    this.petugas.closeConnection();
+                    this.dispose();
+                }
+            }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else {
+            Message.showWarning(null, "Silahkan pilih level Petugas terlebih dahulu!");
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -151,10 +194,11 @@ public class InputPetugas extends javax.swing.JDialog {
         lineBottom = new javax.swing.JSeparator();
         btnSimpan = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        lblNoTelp1 = new javax.swing.JLabel();
-        inpNoTelp1 = new javax.swing.JTextField();
-        lblAlamat1 = new javax.swing.JLabel();
-        inpAlamat1 = new javax.swing.JTextField();
+        lblPassword = new javax.swing.JLabel();
+        inpPassword = new javax.swing.JPasswordField();
+        lblEye = new javax.swing.JLabel();
+        lblLevel = new javax.swing.JLabel();
+        inpLevel = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -174,7 +218,7 @@ public class InputPetugas extends javax.swing.JDialog {
         inpId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpId.setForeground(new java.awt.Color(0, 0, 0));
         inpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpId.setText("PB587");
+        inpId.setText("PG002");
         inpId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         inpId.setCaretColor(new java.awt.Color(230, 11, 11));
         inpId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -263,29 +307,41 @@ public class InputPetugas extends javax.swing.JDialog {
             }
         });
 
-        lblNoTelp1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblNoTelp1.setForeground(new java.awt.Color(28, 115, 196));
-        lblNoTelp1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNoTelp1.setText("Password");
+        lblPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(28, 115, 196));
+        lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPassword.setText("Password");
 
-        inpNoTelp1.setBackground(new java.awt.Color(255, 255, 255));
-        inpNoTelp1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpNoTelp1.setForeground(new java.awt.Color(0, 0, 0));
-        inpNoTelp1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpNoTelp1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpNoTelp1.setCaretColor(new java.awt.Color(213, 8, 8));
+        inpPassword.setBackground(new java.awt.Color(255, 255, 255));
+        inpPassword.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpPassword.setForeground(new java.awt.Color(0, 0, 0));
+        inpPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpPassword.setCaretColor(new java.awt.Color(213, 8, 8));
 
-        lblAlamat1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblAlamat1.setForeground(new java.awt.Color(28, 115, 196));
-        lblAlamat1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAlamat1.setText("Level");
+        lblEye.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-login-eye-close.png"))); // NOI18N
+        lblEye.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEyeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEyeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEyeMouseExited(evt);
+            }
+        });
 
-        inpAlamat1.setBackground(new java.awt.Color(255, 255, 255));
-        inpAlamat1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpAlamat1.setForeground(new java.awt.Color(0, 0, 0));
-        inpAlamat1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpAlamat1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpAlamat1.setCaretColor(new java.awt.Color(213, 8, 8));
+        lblLevel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblLevel.setForeground(new java.awt.Color(28, 115, 196));
+        lblLevel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLevel.setText("Level");
+
+        inpLevel.setBackground(new java.awt.Color(255, 255, 255));
+        inpLevel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpLevel.setForeground(new java.awt.Color(0, 0, 0));
+        inpLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "                            Pilih Level", "                               Admin", "                             Karyawan" }));
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -297,31 +353,40 @@ public class InputPetugas extends javax.swing.JDialog {
             .addComponent(lblNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(26, 26, 26)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inpId)
-                            .addComponent(inpNama, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(inpNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(inpAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(inpNoTelp1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                            .addComponent(inpAlamat1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
-                        .addGap(22, 22, 22))
-                    .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(139, Short.MAX_VALUE))))
+                    .addComponent(inpId)
+                    .addComponent(inpNama, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                    .addComponent(inpNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                    .addComponent(inpAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
+            .addComponent(lblLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(inpLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lineTop)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(inpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEye, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lineTop, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lineBottom))
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lineBottom, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addComponent(lblNoTelp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblAlamat1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,20 +411,22 @@ public class InputPetugas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(inpAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNoTelp1)
+                .addComponent(lblLevel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(inpNoTelp1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblAlamat1)
+                .addComponent(lblPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(inpAlamat1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inpPassword)
+                    .addComponent(lblEye, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimpan)
                     .addComponent(btnCancel))
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -405,13 +472,29 @@ public class InputPetugas extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelMouseExited
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        pembeli.closeConnection();
+        petugas.closeConnection();
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void inpIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inpIdMouseClicked
-        Message.showWarning(this, "ID Pembeli tidak bisa diedit!");
+        Message.showWarning(this, "ID Petugas tidak bisa diedit!");
     }//GEN-LAST:event_inpIdMouseClicked
+
+    private void lblEyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEyeMouseClicked
+
+    }//GEN-LAST:event_lblEyeMouseClicked
+
+    private void lblEyeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEyeMouseEntered
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        this.lblEye.setIcon(Gambar.getIcon("ic-login-eye-open.png"));
+        this.inpPassword.setEchoChar((char)0);
+    }//GEN-LAST:event_lblEyeMouseEntered
+
+    private void lblEyeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEyeMouseExited
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        this.lblEye.setIcon(Gambar.getIcon("ic-login-eye-close.png"));
+        this.inpPassword.setEchoChar('•');
+    }//GEN-LAST:event_lblEyeMouseExited
 
     public static void main(String args[]) {
 
@@ -445,17 +528,18 @@ public class InputPetugas extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JTextField inpAlamat;
-    private javax.swing.JTextField inpAlamat1;
     private javax.swing.JTextField inpId;
+    private javax.swing.JComboBox inpLevel;
     private javax.swing.JTextField inpNama;
     private javax.swing.JTextField inpNoTelp;
-    private javax.swing.JTextField inpNoTelp1;
+    private javax.swing.JPasswordField inpPassword;
     private javax.swing.JLabel lblAlamat;
-    private javax.swing.JLabel lblAlamat1;
+    private javax.swing.JLabel lblEye;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblLevel;
     private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblNoTelp;
-    private javax.swing.JLabel lblNoTelp1;
+    private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblTop;
     private javax.swing.JSeparator lineBottom;
     private javax.swing.JSeparator lineTop;
