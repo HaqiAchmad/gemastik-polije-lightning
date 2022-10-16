@@ -6,42 +6,39 @@ import com.manage.Text;
 import com.manage.Validation;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Achmad Baihaqi
  */
-public class Pembeli extends Users{
+public class Petugas extends Users{
     
     private final Text text = new Text();
     
     public String createID(){
-        return super.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI);
+        return super.createID(UserLevels.PETUGAS, UserData.ID_PETUGAS);
     }
     
-    public boolean isExistPembeli(String idPembeli){
-        return super.isExistID(idPembeli, UserLevels.PEMBELI, UserData.ID_PEMBELI);
+    public boolean isExistPetugas(String idPetugas){
+        return super.isExistID(idPetugas, UserLevels.PETUGAS, UserData.ID_PETUGAS);
     }
     
-    public final boolean addPembeli(String namaPembeli, String noTelp, String alamat){
+    public final boolean addPetugas(String namaPetugas, String noTelp, String alamat, String pass, UserLevels level){
         boolean isAdd;
         PreparedStatement pst;
-        String idPembeli = this.createID();
-        
+        String idPetugas = this.createID();
         try {
             // menambahkan data user ke tabel user
-            isAdd = super.addUser(idPembeli, "12345", UserLevels.PEMBELI);
+            isAdd = super.addUser(idPetugas, pass, level);
             // mengecek apakah id user sudah ditambahkan ke tabel user
             if(isAdd){
                 // validasi data sebelum ditambahkan
-                if(this.validateAddPembeli(idPembeli, namaPembeli, noTelp, alamat)){
-                    Log.addLog("Menambahkan data pembeli dengan nama '" + namaPembeli + "'");
+                if(this.validateAddPetugas(idPetugas, namaPetugas, noTelp, alamat, pass, level)){
+                    Log.addLog("Menambahkan data petugas dengan nama '" + namaPetugas + "'");
                     // menambahkan data kedalam Database
-                    pst = this.conn.prepareStatement("INSERT INTO pembeli VALUES (?, ?, ?, ?)");
-                    pst.setString(1, idPembeli);
-                    pst.setString(2, text.toCapitalize(namaPembeli));
+                    pst = this.conn.prepareStatement("INSERT INTO petugas VALUES (?, ?, ?, ?)");
+                    pst.setString(1, idPetugas);
+                    pst.setString(2, text.toCapitalize(namaPetugas));
                     pst.setString(3, noTelp);
                     pst.setString(4, text.toCapitalize(alamat));
 
@@ -50,28 +47,28 @@ public class Pembeli extends Users{
                 }
             }
         } catch (SQLException | InValidUserDataException ex) {
-            this.deleteUser(idPembeli);
+            this.deleteUser(idPetugas);
             System.out.println("Error Message : " + ex.getMessage());
         }
         return false;
     }
     
-    public boolean validateAddPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+    public boolean validateAddPetugas(String idPetugas, String namaPetugas, String noTelp, String alamat, String pass, UserLevels level){
         
-        boolean vIdPembeli, vNama, vNoTelp, vAlamat;
+        boolean vIdPetugas, vNama, vNoTelp, vAlamat, vPass, vLevel;
         
-        // mengecek id pembeli valid atau tidak
-        if(Validation.isIdPembeli(idPembeli)){
-            vIdPembeli = true;
+        // mengecek id petugas valid atau tidak
+        if(Validation.isIdPetugas(idPetugas)){
+            vIdPetugas = true;
         }else{
-            throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut tidak valid.");
+            throw new InValidUserDataException("'" + idPetugas + "' ID Petugas tersebut tidak valid.");
         }
         
         // menecek nama valid atau tidak
-        if(Validation.isNamaOrang(namaPembeli)){
+        if(Validation.isNamaOrang(namaPetugas)){
             vNama = true;
         }else{
-            throw new InValidUserDataException("'" + namaPembeli + "' Nama Pembeli tersebut tidak valid.");
+            throw new InValidUserDataException("'" + namaPetugas + "' Nama Petugas tersebut tidak valid.");
         }
                 
         // mengecek apakah no hp valid atau tidak
@@ -87,51 +84,73 @@ public class Pembeli extends Users{
         }else{
             throw new InValidUserDataException("'" + alamat + "' Alamat tersebut tidak valid.");
         }
+        
+        // mengecek apakah password valid atau tidak
+        if(Validation.isPassword(pass)){
+            vPass = true;
+        }else{
+            throw new InValidUserDataException("'" + pass + "' Password tersebut tidak valid.");
+        }
+        
+        // mengecek apakah level valid atau tidak
+        if(Validation.isLevel(level)){
+            vLevel = true;
+        }else{
+            throw new InValidUserDataException("'" + level + "' Level tersebut tidak valid.");
+        }
                 
-        return vIdPembeli && vNama && vNoTelp && vAlamat;
+        return vIdPetugas && vNama && vNoTelp && vAlamat && vPass && vLevel;
     }
     
-    public boolean deletePembeli(String idPembeli){
-        return super.deleteUser(idPembeli);
+    public boolean deletePetugas(String idPetugas){
+        return super.deleteUser(idPetugas);
     }
     
-    private String getDataPembeli(String idPembeli, UserData data){
-        return super.getUserData(idPembeli, UserLevels.PEMBELI, data, UserData.ID_PEMBELI);
+    private String getDataPetugas(String idPetugas, UserData data){
+        return super.getUserData(idPetugas, UserLevels.PETUGAS, data, UserData.ID_PETUGAS);
     }
     
-    public String getNama(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.NAMA_PEMBELI);
+    public String getNama(String idPetugas){
+        return this.getDataPetugas(idPetugas, UserData.NAMA_PETUGAS);
     }
     
-    public String getNoTelp(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.NO_TELP);
+    public String getNoTelp(String idPetugas){
+        return this.getDataPetugas(idPetugas, UserData.NO_TELP);
     }
     
-    public String getAlamat(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.ALAMAT);
+    public String getAlamat(String idPetugas){
+        return this.getDataPetugas(idPetugas, UserData.ALAMAT);
     }
     
-    private boolean setDataPembeli(String idPembeli, UserData data, String newValue){
-        return super.setUserData(idPembeli, UserLevels.PEMBELI, data, UserData.ID_PEMBELI, newValue);
+    private boolean setDataPetugas(String idPetugas, UserData data, String newValue){
+        return super.setUserData(idPetugas, UserLevels.PETUGAS, data, UserData.ID_PETUGAS, newValue);
     }
     
-    public boolean setNama(String idPembeli, String newNama){
-        return this.setDataPembeli(idPembeli, UserData.NAMA_PEMBELI, newNama);
+    public boolean setNama(String idPetugas, String newNama){
+        return this.setDataPetugas(idPetugas, UserData.NAMA_PETUGAS, newNama);
     }
     
-    public boolean setNoTelp(String idPembeli, String newNoTelp){
-        return this.setDataPembeli(idPembeli, UserData.NO_TELP, newNoTelp);
+    public boolean setNoTelp(String idPetugas, String newNoTelp){
+        return this.setDataPetugas(idPetugas, UserData.NO_TELP, newNoTelp);
     }
     
-    public boolean setAlamat(String idPembeli, String newAlamat){
-        return this.setDataPembeli(idPembeli, UserData.ALAMAT, newAlamat);
+    public boolean setAlamat(String idPetugas, String newAlamat){
+        return this.setDataPetugas(idPetugas, UserData.ALAMAT, newAlamat);
     }
     
+
     
     public static void main(String[] args) {
         
         Log.createLog();
-        Pembeli pembeli = new Pembeli();
-
+        Petugas petugas = new Petugas();
+//        System.out.println(petugas.getNama("PG002"));
+//        System.out.println(petugas.getNoTelp("PG002"));
+//        System.out.println(petugas.getAlamat("PG002"));
+//        System.out.println(petugas.getNoTelp("PG002"));
+//        System.out.println("");
+//        System.out.println(petugas.deletePetugas("PG005"));
+   
+        
     }
 }
