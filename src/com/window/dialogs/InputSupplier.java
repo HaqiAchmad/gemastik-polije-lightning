@@ -2,6 +2,7 @@ package com.window.dialogs;
 
 import com.manage.Message;
 import com.media.Gambar;
+import com.users.Supplier;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -12,7 +13,7 @@ import java.awt.Frame;
  */
 public class InputSupplier extends javax.swing.JDialog {
 
-    private final Supplier pembeli = new Supplier();
+    private final Supplier supplier = new Supplier();
     
     public int option;
     
@@ -37,7 +38,7 @@ public class InputSupplier extends javax.swing.JDialog {
         if(idSupplier == null){
             // menyetting window untuk tambah data
             this.option = 1;
-            this.idSupplier = this.pembeli.createID();
+            this.idSupplier = this.supplier.createID();
             this.setTitle("Tambah Data Supplier");
             this.lblTop.setText("Tambah Data Supplier");
             this.btnSimpan.setText("Tambah");
@@ -50,9 +51,9 @@ public class InputSupplier extends javax.swing.JDialog {
             this.btnSimpan.setText("Edit");
 
             // mendapatkan data-data pembeli
-            this.nama = this.pembeli.getNama(this.idSupplier);
-            this.alamat = this.pembeli.getAlamat(this.idSupplier);
-            this.noTelp = this.pembeli.getNoTelp(this.idSupplier);
+            this.nama = this.supplier.getNama(this.idSupplier);
+            this.alamat = this.supplier.getAlamat(this.idSupplier);
+            this.noTelp = this.supplier.getNoTelp(this.idSupplier);
             
             // menampilkan data-data pembeli ke input text
             this.inpNama.setText(this.nama);
@@ -67,11 +68,20 @@ public class InputSupplier extends javax.swing.JDialog {
         this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     }
     
-    // mengecek apakah user menekan tombol simpan / tambah atau tidak
+    /**
+     * Mengecek apakah user menekan tombol simpan / tambah atau tidak
+     * 
+     * @return <strong>True</strong> jika user menekan tombol simpan / tambah. <br>
+     *         <strong>False</strong> jika user menekan tombol kembali / close.
+     */
     public boolean isUpdated(){
         return this.isUpdated;
     }
     
+    /**
+     * Digunakan untuk menambahkan data supplier ke Database.
+     * 
+     */
     private void addData(){
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // mendapatkan data dari textfield
@@ -80,18 +90,22 @@ public class InputSupplier extends javax.swing.JDialog {
         this.alamat = this.inpAlamat.getText();
         
         // menambahkan data pembeli ke database
-        boolean save = this.pembeli.addSupplier(nama, noTelp, alamat);
+        boolean save = this.supplier.addSupplier(nama, noTelp, alamat);
         
         // mengecek data berhasil disimpan atau belum
         if(save){
             Message.showInformation(this, "Data berhasil disimpan!");
             this.isUpdated = true;
-            this.pembeli.closeConnection();
+            this.supplier.closeConnection();
             this.dispose();
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
+    /**
+     * Digunakan untuk mengedit data dari supplier
+     * 
+     */
     private void editData(){
         boolean eNama, eNoTelp, eAlamat;
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -102,17 +116,17 @@ public class InputSupplier extends javax.swing.JDialog {
         this.newAlamat = this.inpAlamat.getText();
         
         // validasi data
-        if(this.pembeli.validateAddSupplier(this.idSupplier, this.nama, this.noTelp, this.alamat)){
+        if(this.supplier.validateAddSupplier(this.idSupplier, this.nama, this.noTelp, this.alamat)){
             // mengedit data
-            eNama = this.pembeli.setNama(this.idSupplier, this.newNama);
-            eNoTelp = this.pembeli.setNoTelp(this.idSupplier, this.newNoTelp);
-            eAlamat = this.pembeli.setAlamat(this.idSupplier, this.newAlamat);
+            eNama = this.supplier.setNama(this.idSupplier, this.newNama);
+            eNoTelp = this.supplier.setNoTelp(this.idSupplier, this.newNoTelp);
+            eAlamat = this.supplier.setAlamat(this.idSupplier, this.newAlamat);
             
             // mengecek apa data berhasil disave atau tidak
             if(eNama && eNoTelp && eAlamat){
                 Message.showInformation(this, "Data berhasil diedit!");
                 this.isUpdated = true;
-                this.pembeli.closeConnection();
+                this.supplier.closeConnection();
                 this.dispose();
             }
         }
@@ -156,7 +170,7 @@ public class InputSupplier extends javax.swing.JDialog {
         inpId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpId.setForeground(new java.awt.Color(0, 0, 0));
         inpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpId.setText("PB587");
+        inpId.setText("SP001");
         inpId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         inpId.setCaretColor(new java.awt.Color(230, 11, 11));
         inpId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -351,7 +365,7 @@ public class InputSupplier extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelMouseExited
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        pembeli.closeConnection();
+        supplier.closeConnection();
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 

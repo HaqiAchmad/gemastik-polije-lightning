@@ -68,11 +68,20 @@ public class InputPetugas extends javax.swing.JDialog {
         this.btnCancel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     }
     
-    // mengecek apakah user menekan tombol simpan / tambah atau tidak
+    /**
+     * Mengecek apakah user menekan tombol simpan / tambah atau tidak
+     * 
+     * @return <strong>True</strong> jika user menekan tombol simpan / tambah. <br>
+     *         <strong>False</strong> jika user menekan tombol kembali / close.
+     */
     public boolean isUpdated(){
         return this.isUpdated;
     }
     
+    /**
+     * Digunakan untuk menambahkan data petugas ke Database.
+     * 
+     */
     private void addData(){
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // mendapatkan data dari textfield
@@ -93,6 +102,10 @@ public class InputPetugas extends javax.swing.JDialog {
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
+    /**
+     * Digunakan untuk mengedit data dari petugas
+     * 
+     */
     private void editData(){
         boolean eNama, eNoTelp, eAlamat;
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
