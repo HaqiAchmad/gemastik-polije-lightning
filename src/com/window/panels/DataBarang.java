@@ -600,7 +600,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             String ID;
             model.removeRow(inputRow);
             for(int i=0;i<sisa;i++){
-                if()
+//                if()
                 model.setValueAt("", i+sisa,0);
             }
             if(inputRow <= maxRow){
