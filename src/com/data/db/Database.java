@@ -83,7 +83,7 @@ public class Database {
             // membuat object statement
             stat = conn.createStatement(); 
             
-            Log.addLog(String.format("Berhasil terhubung ke Database '%s'.", DB_NAME));
+            Log.addLog(String.format("Berhasil terhubung ke Database '%s'", DB_NAME));
         }catch(ClassNotFoundException | SQLException ex){
             // Menanggani exception yang terjadi dengan cara mendapatkan pesan error dari exception tersebut.
             if(ex.getMessage().contains("com.mysql.jdbc.Driver")){
@@ -239,7 +239,6 @@ public class Database {
     public boolean setData(String tabel, String field, String spesifikasi, String oldValue, String newValue){
         try{
             sql = "UPDATE "+tabel+" SET " + field + " = '" + newValue + "' WHERE " + spesifikasi + " = '" + oldValue + "'";
-            System.out.println(sql);
             int result = stat.executeUpdate(sql);
             return result > 0;
         }catch(SQLException ex){
