@@ -212,29 +212,6 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mendapatkan data akun yang sedang digunakan untuk login (login data) 
-     * pada Aplikasi. Login data disimpan pada file <code>login_data.haqi</code> yang ada didalam folder 
-     * Storage. Method membaca data yang ada didalam file <code>login_data.haqi</code> dengan melalui 
-     * class {@code BufferedReader}. 
-     * <br><br>
-     * <br><br>
-     * <b>Contoh Login Data = ID User
-     * 
-     * @return akan mengembalikan data akun yang sedang digunakan untuk login (login data).
-     */
-    private String getLoginData(){        
-        // membaca semua data yang ada didalam file login_data.haqi
-        try(BufferedReader data = new BufferedReader(new FileReader(this.LOGIN_DATA_FILE))){
-            // mengembalikan nilai loginData
-            return data.readLine();
-        }catch(IOException ex){
-            Message.showException(this, "Storage Corrupt!!", ex, true);
-            System.exit(404);
-        }     
-        return null;
-    }
-    
-    /**
      * Digunakan untuk mengecek apakah user sudah melalukan Login pada Aplikasi atau belum. Petama-tama
      * method akan mendapatkan login data dari Aplikasi. Selanjunya method akan mengecek apakah login data 
      * kosong atau tidak. Jika login data kosong maka user akan dianggap belum melakukan login. Jika login data tidak 
@@ -343,24 +320,25 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mendapatkan ID Login dari akun yang sedang digunakan untuk Login.
-     * Pertama-tama method akan mengecek apakah user sudah melakukan Login atau belum. Jika user belum 
-     * melakukan Login maka method akan mengembalikan nilai <code>null</code>. 
+     * Method ini digunakan untuk mendapatkan data akun yang sedang digunakan untuk login (login data) 
+     * pada Aplikasi. Login data disimpan pada file <code>login_data.haqi</code> yang ada didalam folder 
+     * Storage. Method membaca data yang ada didalam file <code>login_data.haqi</code> dengan melalui 
+     * class {@code BufferedReader}. 
      * <br><br>
-     * Tetapi jika user sudah melakukan login method akan mendapatkan ID Login yang berada didalam login data. 
-     * ID Login yang ada didalam login data akan didapatkan melalui method {@code nextToken()} yang ada didalam 
-     * class {@code StringTokenizer()}.
      * <br><br>
-     * <b>Example : </b> P9dz93ig
+     * <b>Contoh Login Data = ID User
      * 
-     * @return ID Login dari akun yang sedang digunakan untuk Login
+     * @return akan mengembalikan data akun yang sedang digunakan untuk login (login data).
      */
-    private String getCurrentIdLogin(){
-        // mengecek apakah user sudah login atau belum
-        if(this.isLogin()){
-            // mengembalikan data ID Login dari akun yang sedang digunakan untuk Login
-            return new StringTokenizer(getLoginData(), "/").nextToken();
-        }
+    private String getLoginData(){        
+        // membaca semua data yang ada didalam file login_data.haqi
+        try(BufferedReader data = new BufferedReader(new FileReader(this.LOGIN_DATA_FILE))){
+            // mengembalikan nilai loginData
+            return data.readLine();
+        }catch(IOException ex){
+            Message.showException(this, "Storage Corrupt!!", ex, true);
+            System.exit(404);
+        }     
         return null;
     }
     
@@ -382,6 +360,15 @@ public class Users extends Database{
             return this.getLoginData();
         }            
         return null;
+    }
+    
+    /**
+     * Digunakan untuk mendapatkan data dari nama akun yang sedang digunakan untuk login
+     * 
+     * @return nama dari akun
+     */
+    public String getCurrentLoginName(){
+        return this.getData(DatabaseTables.PETUGAS.name(), "nama_petugas", "WHERE id_petugas = '" + this.getCurrentLogin() + "'");
     }
     
     /**
@@ -463,13 +450,19 @@ public class Users extends Database{
     }
     
     public String createID(UserLevels level, UserData primary){
-        String lastID = this.getLastID(level, primary), nomor = lastID.substring(2);
+        String lastID = this.getLastID(level, primary), nomor;
+        
+        if(!lastID.equals("")){
+            nomor = lastID.substring(2);
+        }else{
+            nomor = "000";
+        }
+        
         // mengecek nilai dari nomor adalah number atau tidak
         if(txt.isNumber(nomor)){
             // jika id pembayaran belum exist maka id akan 
             switch(level.name()){
-                case "ADMIN" : return String.format("AD%03d", Integer.parseInt(nomor)+1);
-                case "KARYAWAN" : return String.format("KY%03d", Integer.parseInt(nomor)+1);
+                case "PETUGAS" : return String.format("PG%03d", Integer.parseInt(nomor)+1); // level admin dan karyawan
                 case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
                 case "PEMBELI" : return String.format("PB%03d", Integer.parseInt(nomor)+1);
                 default : System.out.println("Error!");
@@ -628,6 +621,25 @@ public class Users extends Database{
     }
     
     /**
+     * Digunakan untuk mengedit data Level dari user berdasarkan ID User yang diinputkan. Sebelum mengedit 
+     * data Level method akan mengecek apakah Level yang diinputkan valid atau tidak dengan menggunakan 
+     * method {@code isLevel(String level)} yang ada didalam class {@code Validation}. Jika Level tidak valid
+     * maka method akan menghasilkan exception {@code InValidUserDataException}.
+     * 
+     * @param idUser ID User yang ingin diedit levelnya
+     * @param newLevel data Password yang baru.
+     * @return <strong>True</strong> jika data berhasil diedit. <br>
+     *         <strong>False</strong> jika data tidak berhasil diedit.
+     */
+    public boolean setLevel(String idUser, UserLevels newLevel){
+        if(Validation.isLevel(newLevel)){
+            return this.setUserData(idUser, UserData.LEVEL, newLevel.name());
+        }
+        // akan menghasilkan error jika password tidak valid
+        throw new InValidUserDataException("'" + newLevel + "' Level tersebut tidak valid.");
+    }
+    
+    /**
      * Digunakan untuk mengecek apakah Level dari ID User yang diinputkan memiliki Level <b>ADMIN</b> atau tidak.
      * Method akan mendapatkan data Level dari ID User dengan menggunakan method {@code getLevel()}. Jika output 
      * dari method tersebut adalah <b>ADMIN</b> maka method akan mengembalikan nilai <code>True</code>.
@@ -664,14 +676,12 @@ public class Users extends Database{
         return super.getJumlahData(DatabaseTables.USERS.name());
     }
     
-    public String getName(String idUser){
-        return this.getData(DatabaseTables.PETUGAS.name(), "nama_petugas", "WHERE id_petugas = '" + idUser + "'");
-    }
+
     
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        System.out.println(user.getName("PG001"));
+        System.out.println(user.getCurrentLoginName());
 //        System.out.println(Validation.isIdUser("PB286"));
 //        System.out.println(user.getLastID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
 //        System.out.println(user.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
