@@ -1,8 +1,6 @@
 package com.manage;
 
-import com.data.app.Application;
 import com.media.Audio;
-import com.manage.Waktu;
 import javax.swing.JOptionPane;
 
 /**
@@ -78,25 +76,13 @@ public class Validation {
         return false;
     }
     
-    public static boolean isIdAdmin(String idAdmin){
-        if(Validation.isIdUser(idAdmin)){
-            if(idAdmin.substring(0, 2).equalsIgnoreCase("AD")){
-                return true;
-            }else{
-                Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "'" + idAdmin + "' Kode ID Admin tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-        return false;
-    }
-    
-    public static boolean isIdKaryawan(String idKaryawan){
+    public static boolean isIdPetugas(String idKaryawan){
         if(Validation.isIdUser(idKaryawan)){
-            if(idKaryawan.substring(0, 2).equalsIgnoreCase("KY")){
+            if(idKaryawan.substring(0, 2).equalsIgnoreCase("PG")){
                 return true;
             }else{
                 Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "'" + idKaryawan + "' Kode ID Karyawan tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "'" + idKaryawan + "' Kode ID Petugas tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
             }
         }
         return false;
@@ -230,10 +216,10 @@ public class Validation {
      * @return 
      */
     public static boolean isPassword(String password){
-        if(password.length() >= 4 && password.length() <= 50){
+        if(password.length() >= 5 && password.length() <= 50){
             return true;
         }else{
-//            JOptionPane.showMessageDialog(null, "Panjang dari Password harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Panjang dari Password harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
