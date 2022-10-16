@@ -56,7 +56,7 @@ public class Pembeli extends Users{
         return false;
     }
     
-    private boolean validateAddPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+    public boolean validateAddPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
         
         boolean vIdPembeli, vNama, vNoTelp, vAlamat;
         
