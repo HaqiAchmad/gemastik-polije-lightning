@@ -8,7 +8,7 @@ import com.media.Audio;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Pembeli;
-import com.window.dialogs.TambahPembeli;
+import com.window.dialogs.InputPembeli;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +29,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
- * @author Baihaqi
+ * @author Achmad Baihaqi
  */
 public class DataPembeli extends javax.swing.JPanel {
     
@@ -158,7 +158,7 @@ public class DataPembeli extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             @Override
@@ -179,6 +179,9 @@ public class DataPembeli extends javax.swing.JPanel {
         this.valNamaPembeli.setText("<html><p>:&nbsp;"+namaPembeli+"</p></html>");
         this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
         this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+        
+        // menampilkan chart
+        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaPembeli, new Font("Ebrima", 1, 18), 15, 20, 60, 0);
     }
     
     @SuppressWarnings("unchecked")
@@ -529,25 +532,30 @@ public class DataPembeli extends javax.swing.JPanel {
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         int status;
         boolean delete;
-        Audio.play(Audio.SOUND_INFO);
+        
+        // mengecek apakah ada data yang dipilih atau tidak
         if(tabelData.getSelectedRow() > -1){
+            // membuka confirm dialog untuk menghapus data
+            Audio.play(Audio.SOUND_INFO);
             status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaPembeli + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
 
+            // mengecek pilihan dari user
             switch(status){
+                // jika yes maka data akan dihapus
                 case JOptionPane.YES_OPTION : 
+                    // menghapus data pembeli
                     this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                     delete = this.pembeli.deletePembeli(this.idSelected);
+                    // mengecek apakah data pembeli berhasil terhapus atau tidak
                     if(delete){
-                        Audio.play(Audio.SOUND_INFO);
-                        JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+                        Message.showInformation(this, "Data berhasil dihapus!");
+                        // mengupdate tabel
                         this.updateTabel();
                     }else{
-                        Audio.play(Audio.SOUND_WARNING);
-                        JOptionPane.showMessageDialog(this, "Data gagal dihapus!");
+                        Message.showInformation(this, "Data gagal dihapus!");
                     }
                     this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     break;
-                case JOptionPane.NO_OPTION : JOptionPane.showMessageDialog(this, "Batal dihapus!"); break;
             }            
         }else{
             Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
@@ -562,19 +570,40 @@ public class DataPembeli extends javax.swing.JPanel {
     }//GEN-LAST:event_inpCariKeyTyped
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // membuka window input pembeli
         Audio.play(Audio.SOUND_INFO);
-        TambahPembeli tbh = new TambahPembeli(null, true);
+        InputPembeli tbh = new InputPembeli(null, true, null);
         tbh.setVisible(true);
         
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mengecek apakah user jadi menambahkan data atau tidak
         if(tbh.isUpdated()){
+            // mengupdate tabel
             this.updateTabel();
             this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
-            System.out.println(this.tabelData.getValueAt(this.tabelData.getSelectedRow(), this.tabelData.getSelectedColumn()));
         }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // mengecek apakah ada data yang dipilih atau tidak
+        if(tabelData.getSelectedRow() > -1){
+            // membuka window input pembeli
+            Audio.play(Audio.SOUND_INFO);
+            InputPembeli tbh = new InputPembeli(null, true, this.idSelected);
+            tbh.setVisible(true);
 
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            // mengecek apakah user jadi mengedit data atau tidak
+            if(tbh.isUpdated()){
+                // mengupdate tabel dan menampilkan ulang data
+                this.updateTabel();
+                this.showData();
+            }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }else{
+                Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+            }  
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
@@ -603,7 +632,7 @@ public class DataPembeli extends javax.swing.JPanel {
 
     private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // menampilkan data kelas
+        // menampilkan data pembeli
         this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
         this.showData();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
