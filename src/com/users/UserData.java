@@ -9,13 +9,11 @@ package com.users;
 public enum UserData {
     
     ID_USER,
-    ID_ADMIN,
-    ID_KARYAWAN,
+    ID_PETUGAS,
     ID_SUPPLIER,
     ID_PEMBELI,
     PASSWORD,
     LEVEL,
-    NAMA_ADMIN,
     NAMA_PETUGAS,
     NAMA_SUPPLIER,
     NAMA_PEMBELI,

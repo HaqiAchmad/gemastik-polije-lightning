@@ -14,7 +14,6 @@ import com.manage.Validation;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -666,19 +665,16 @@ public class Users extends Database{
     }
     
     public String getName(String idUser){
-        if(this.getLevel(idUser).name().equalsIgnoreCase("KARYAWAN")){
-            return this.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'");
-        }
-        return null;
+        return this.getData(DatabaseTables.PETUGAS.name(), "nama_petugas", "WHERE id_petugas = '" + idUser + "'");
     }
     
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
+        System.out.println(user.getName("PG001"));
 //        System.out.println(Validation.isIdUser("PB286"));
 //        System.out.println(user.getLastID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
 //        System.out.println(user.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
-        System.out.println(user.validateAddUser("PB888", "1234", UserLevels.ADMIN));
     }
     
 }
