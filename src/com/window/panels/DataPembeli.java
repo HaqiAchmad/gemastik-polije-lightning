@@ -10,7 +10,6 @@ import com.sun.glass.events.KeyEvent;
 import com.users.Pembeli;
 import com.window.dialogs.InputPembeli;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -21,25 +20,22 @@ import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
-
 /**
  *
  * @author Achmad Baihaqi
  */
 public class DataPembeli extends javax.swing.JPanel {
     
-    private String idSelected = "", keyword = "", namaPembeli, noTelp, alamat;
-    
     private final Pembeli pembeli = new Pembeli();
     
     private final Chart chart = new Chart();
     
+    private final Internet net = new Internet();
+    
     private final Text text = new Text();
+
+    private String idSelected = "", keyword = "", namaPembeli, noTelp, alamat;
+    
     
     public DataPembeli() {
         initComponents();
@@ -93,36 +89,6 @@ public class DataPembeli extends javax.swing.JPanel {
         }
         
         this.updateTabel();
-    }
-    
-    public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "Makanan" , new Double( 15 ) );  
-      barDataset.setValue( "Minuman" , new Double( 20 ) );   
-      barDataset.setValue( "Snack" , new Double( 60 ) );    
-      barDataset.setValue( "ATK" , new Double( 0 ) );  
-      
-      //create chart
-      JFreeChart piechart = ChartFactory.createPieChart("Produk yang dibeli Achmad Baihaqi",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("Makanan", new Color(255,255,0));
-       piePlot.setSectionPaint("Minuman", new Color(51,255,0));
-       piePlot.setSectionPaint("Snack", new Color(255,0,255));
-       piePlot.setSectionPaint("ATK", new Color(0,204,204));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
-        
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        pieChart.removeAll();
-        pieChart.add(barChartPanel, BorderLayout.CENTER);
-        pieChart.validate();
     }
 
     private Object[][] getData(){
@@ -651,7 +617,6 @@ public class DataPembeli extends javax.swing.JPanel {
     }//GEN-LAST:event_tabelDataKeyPressed
 
     private void valNoTelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseClicked
-        Internet net = new Internet();
         String nomor = this.noTelp.substring(1).replaceAll(" ", "").replaceAll("-", "");
         if(net.isConnectInternet()){
             try {
