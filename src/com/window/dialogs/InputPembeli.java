@@ -48,7 +48,7 @@ public class InputPembeli extends javax.swing.JDialog {
             this.idPembeli = idPembeli;
             this.setTitle("Edit Data Pembeli");
             this.lblTop.setText("Edit Data Pembeli");
-            this.btnSimpan.setText("Edit");
+            this.btnSimpan.setText("Simpan");
 
             // mendapatkan data-data pembeli
             this.nama = this.pembeli.getNama(this.idPembeli);
@@ -116,7 +116,7 @@ public class InputPembeli extends javax.swing.JDialog {
         this.newAlamat = this.inpAlamat.getText();
         
         // validasi data
-        if(this.pembeli.validateAddPembeli(this.idPembeli, this.nama, this.noTelp, this.alamat)){
+        if(this.pembeli.validateAddPembeli(this.idPembeli, this.newNama, this.newNoTelp, this.newAlamat)){
             // mengedit data
             eNama = this.pembeli.setNama(this.idPembeli, this.newNama);
             eNoTelp = this.pembeli.setNoTelp(this.idPembeli, this.newNoTelp);
