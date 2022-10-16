@@ -13,35 +13,35 @@ import java.util.logging.Logger;
  *
  * @author Achmad Baihaqi
  */
-public class Pembeli extends Users{
+public class Supplier extends Users{
     
     private final Text text = new Text();
     
     public String createID(){
-        return super.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI);
+        return super.createID(UserLevels.SUPPLIER, UserData.ID_SUPPLIER);
     }
     
-    public boolean isExistPembeli(String idPembeli){
-        return super.isExistID(idPembeli, UserLevels.PEMBELI, UserData.ID_PEMBELI);
+    public boolean isExistSupplier(String idSupplier){
+        return super.isExistID(idSupplier, UserLevels.SUPPLIER, UserData.ID_SUPPLIER);
     }
     
-    public final boolean addPembeli(String namaPembeli, String noTelp, String alamat){
+    public final boolean addSupplier(String namaSupplier, String noTelp, String alamat){
         boolean isAdd;
         PreparedStatement pst;
-        String idPembeli = this.createID();
+        String idSupplier = this.createID();
         
         try {
             // menambahkan data user ke tabel user
-            isAdd = super.addUser(idPembeli, "12345", UserLevels.PEMBELI);
+            isAdd = super.addUser(idSupplier, "12345", UserLevels.SUPPLIER);
             // mengecek apakah id user sudah ditambahkan ke tabel user
             if(isAdd){
                 // validasi data sebelum ditambahkan
-                if(this.validateAddPembeli(idPembeli, namaPembeli, noTelp, alamat)){
-                    Log.addLog("Menambahkan data pembeli dengan nama '" + namaPembeli + "'");
+                if(this.validateAddSupplier(idSupplier, namaSupplier, noTelp, alamat)){
+                    Log.addLog("Menambahkan data supplier dengan nama '" + namaSupplier + "'");
                     // menambahkan data kedalam Database
-                    pst = this.conn.prepareStatement("INSERT INTO pembeli VALUES (?, ?, ?, ?)");
-                    pst.setString(1, idPembeli);
-                    pst.setString(2, text.toCapitalize(namaPembeli));
+                    pst = this.conn.prepareStatement("INSERT INTO supplier VALUES (?, ?, ?, ?)");
+                    pst.setString(1, idSupplier);
+                    pst.setString(2, text.toCapitalize(namaSupplier));
                     pst.setString(3, noTelp);
                     pst.setString(4, text.toCapitalize(alamat));
 
@@ -50,28 +50,28 @@ public class Pembeli extends Users{
                 }
             }
         } catch (SQLException | InValidUserDataException ex) {
-            this.deleteUser(idPembeli);
+            this.deleteUser(idSupplier);
             System.out.println("Error Message : " + ex.getMessage());
         }
         return false;
     }
     
-    private boolean validateAddPembeli(String idPembeli, String namaPembeli, String noTelp, String alamat){
+    public boolean validateAddSupplier(String idSupplier, String namaSupplier, String noTelp, String alamat){
         
-        boolean vIdPembeli, vNama, vNoTelp, vAlamat;
+        boolean vIdSupplier, vNama, vNoTelp, vAlamat;
         
-        // mengecek id pembeli valid atau tidak
-        if(Validation.isIdPembeli(idPembeli)){
-            vIdPembeli = true;
+        // mengecek id supplier valid atau tidak
+        if(Validation.isIdSupplier(idSupplier)){
+            vIdSupplier = true;
         }else{
-            throw new InValidUserDataException("'" + idPembeli + "' ID Pembeli tersebut tidak valid.");
+            throw new InValidUserDataException("'" + idSupplier + "' ID Supplier tersebut tidak valid.");
         }
         
         // menecek nama valid atau tidak
-        if(Validation.isNamaOrang(namaPembeli)){
+        if(Validation.isNamaOrang(namaSupplier)){
             vNama = true;
         }else{
-            throw new InValidUserDataException("'" + namaPembeli + "' Nama Pembeli tersebut tidak valid.");
+            throw new InValidUserDataException("'" + namaSupplier + "' Nama Supplier tersebut tidak valid.");
         }
                 
         // mengecek apakah no hp valid atau tidak
@@ -88,50 +88,69 @@ public class Pembeli extends Users{
             throw new InValidUserDataException("'" + alamat + "' Alamat tersebut tidak valid.");
         }
                 
-        return vIdPembeli && vNama && vNoTelp && vAlamat;
+        return vIdSupplier && vNama && vNoTelp && vAlamat;
     }
     
-    public boolean deletePembeli(String idPembeli){
-        return super.deleteUser(idPembeli);
+    public boolean deleteSupplier(String idSupplier){
+        return super.deleteUser(idSupplier);
     }
     
-    private String getDataPembeli(String idPembeli, UserData data){
-        return super.getUserData(idPembeli, UserLevels.PEMBELI, data, UserData.ID_PEMBELI);
+    private String getDataSupplier(String idSupplier, UserData data){
+        return super.getUserData(idSupplier, UserLevels.SUPPLIER, data, UserData.ID_SUPPLIER);
     }
     
-    public String getNama(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.NAMA_PEMBELI);
+    public String getNama(String idSupplier){
+        return this.getDataSupplier(idSupplier, UserData.NAMA_SUPPLIER);
     }
     
-    public String getNoTelp(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.NO_TELP);
+    public String getNoTelp(String idSupplier){
+        return this.getDataSupplier(idSupplier, UserData.NO_TELP);
     }
     
-    public String getAlamat(String idPembeli){
-        return this.getDataPembeli(idPembeli, UserData.ALAMAT);
+    public String getAlamat(String idSupplier){
+        return this.getDataSupplier(idSupplier, UserData.ALAMAT);
     }
     
-    private boolean setDataPembeli(String idPembeli, UserData data, String newValue){
-        return super.setUserData(idPembeli, UserLevels.PEMBELI, data, UserData.ID_PEMBELI, newValue);
+    private boolean setDataSupplier(String idSupplier, UserData data, String newValue){
+        return super.setUserData(idSupplier, UserLevels.SUPPLIER, data, UserData.ID_SUPPLIER, newValue);
     }
     
-    public boolean setNama(String idPembeli, String newNama){
-        return this.setDataPembeli(idPembeli, UserData.NAMA_PEMBELI, newNama);
+    public boolean setNama(String idSupplier, String newNama){
+        return this.setDataSupplier(idSupplier, UserData.NAMA_SUPPLIER, newNama);
     }
     
-    public boolean setNoTelp(String idPembeli, String newNoTelp){
-        return this.setDataPembeli(idPembeli, UserData.NO_TELP, newNoTelp);
+    public boolean setNoTelp(String idSupplier, String newNoTelp){
+        return this.setDataSupplier(idSupplier, UserData.NO_TELP, newNoTelp);
     }
     
-    public boolean setAlamat(String idPembeli, String newAlamat){
-        return this.setDataPembeli(idPembeli, UserData.ALAMAT, newAlamat);
+    public boolean setAlamat(String idSupplier, String newAlamat){
+        return this.setDataSupplier(idSupplier, UserData.ALAMAT, newAlamat);
     }
     
     
     public static void main(String[] args) {
         
         Log.createLog();
-        Pembeli pembeli = new Pembeli();
-
+        Supplier supplier = new Supplier();
+//        System.out.println(supplier.createID());
+//        System.out.println(supplier.getNama("SP001"));
+//        System.out.println(supplier.getNoTelp("SP001"));
+//        System.out.println(supplier.getAlamat("SP001"));
+//        System.out.println("");
+//        System.out.println(supplier.setNama("SP001", "Amirzan Fikri Prasetyo"));
+//        System.out.println(supplier.setNoTelp("SP001", "085790235810"));
+//        System.out.println(supplier.setAlamat("SP001", "Jombang, Indonesia"));
+//        System.out.println("");
+//        System.out.println(supplier.getNama("SP001"));
+//        System.out.println(supplier.getNoTelp("SP001"));
+//        System.out.println(supplier.getAlamat("SP001"));
+        System.out.println("");
+        System.out.println(supplier.isExistSupplier("SP001"));
+//        System.out.println(supplier.addSupplier("Mohammad Ilham Islamy", "086732905428", "Jombang, Jawa Timur"));
+//        System.out.println(supplier.getNama("SP002"));
+//        System.out.println(supplier.isExistSupplier("SP002"));
+        System.out.println(supplier.deleteSupplier("SP007"));
+//        System.out.println(supplier.addSupplier("Amirzan Fikri Prasetyo", "086732905428", "Jombang, Jawa Timur"));
+//        System.out.println(supplier.getNama("SP002"));
     }
 }
