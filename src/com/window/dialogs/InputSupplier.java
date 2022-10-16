@@ -116,7 +116,7 @@ public class InputSupplier extends javax.swing.JDialog {
         this.newAlamat = this.inpAlamat.getText();
         
         // validasi data
-        if(this.supplier.validateAddSupplier(this.idSupplier, this.nama, this.noTelp, this.alamat)){
+        if(this.supplier.validateAddSupplier(this.idSupplier, this.newNama, this.newNoTelp, this.newAlamat)){
             // mengedit data
             eNama = this.supplier.setNama(this.idSupplier, this.newNama);
             eNoTelp = this.supplier.setNoTelp(this.idSupplier, this.newNoTelp);
