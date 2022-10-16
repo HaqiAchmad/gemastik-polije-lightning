@@ -6,8 +6,6 @@ import com.manage.Text;
 import com.manage.Validation;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -144,13 +142,13 @@ public class Supplier extends Users{
 //        System.out.println(supplier.getNama("SP001"));
 //        System.out.println(supplier.getNoTelp("SP001"));
 //        System.out.println(supplier.getAlamat("SP001"));
-        System.out.println("");
-        System.out.println(supplier.isExistSupplier("SP001"));
+//        System.out.println("");
+//        System.out.println(supplier.isExistSupplier("SP001"));
 //        System.out.println(supplier.addSupplier("Mohammad Ilham Islamy", "086732905428", "Jombang, Jawa Timur"));
 //        System.out.println(supplier.getNama("SP002"));
 //        System.out.println(supplier.isExistSupplier("SP002"));
-        System.out.println(supplier.deleteSupplier("SP007"));
-//        System.out.println(supplier.addSupplier("Amirzan Fikri Prasetyo", "086732905428", "Jombang, Jawa Timur"));
+        System.out.println(supplier.deleteSupplier("SP002"));
+//        System.out.println(supplier.addSupplier("Achmad Baihaqi", "086732905428", "Jombang, Jawa Timur"));
 //        System.out.println(supplier.getNama("SP002"));
     }
 }
