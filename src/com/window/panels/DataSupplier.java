@@ -7,7 +7,6 @@ import com.media.Audio;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Supplier;
-import com.users.Users;
 import com.window.dialogs.InputSupplier;
 import java.awt.Cursor;
 import java.io.IOException;
@@ -20,8 +19,6 @@ import javax.swing.JOptionPane;
  * @author Gemastik Lightning
  */
 public class DataSupplier extends javax.swing.JPanel {
-
-    private final Users user = new Users();
     
     private final Supplier supplier = new Supplier();
     
@@ -56,16 +53,16 @@ public class DataSupplier extends javax.swing.JPanel {
             int rows = 0;
             String sql = "SELECT id_supplier, nama_supplier, no_telp, alamat FROM supplier " + keyword;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[user.getJumlahData("supplier", keyword)][4];
+            obj = new Object[supplier.getJumlahData("supplier", keyword)][4];
             // mengeksekusi query
-            user.res = user.stat.executeQuery(sql);
+            supplier.res = supplier.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
-            while(user.res.next()){
+            while(supplier.res.next()){
                 // menyimpan data dari tabel ke object
-                obj[rows][0] = user.res.getString("id_supplier");
-                obj[rows][1] = user.res.getString("nama_supplier");
-                obj[rows][2] = user.res.getString("no_telp");
-                obj[rows][3] = user.res.getString("alamat");
+                obj[rows][0] = supplier.res.getString("id_supplier");
+                obj[rows][1] = supplier.res.getString("nama_supplier");
+                obj[rows][2] = supplier.res.getString("no_telp");
+                obj[rows][3] = supplier.res.getString("alamat");
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             return obj;
@@ -468,7 +465,7 @@ public class DataSupplier extends javax.swing.JPanel {
             Audio.play(Audio.SOUND_INFO);
             status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaSupplier + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-            // mengecek pilihan dari user
+            // mengecek pilihan dari supplier
             switch(status){
                 // jika yes maka data akan dihapus
                 case JOptionPane.YES_OPTION : 
@@ -498,7 +495,7 @@ public class DataSupplier extends javax.swing.JPanel {
         tbh.setVisible(true);
         
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // mengecek apakah user jadi menambahkan data atau tidak
+        // mengecek apakah supplier jadi menambahkan data atau tidak
         if(tbh.isUpdated()){
             // mengupdate tabel
             this.updateTabel();
@@ -516,7 +513,7 @@ public class DataSupplier extends javax.swing.JPanel {
             tbh.setVisible(true);
 
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            // mengecek apakah user jadi mengedit data atau tidak
+            // mengecek apakah supplier jadi mengedit data atau tidak
             if(tbh.isUpdated()){
                 // mengupdate tabel dan menampilkan ulang data
                 this.updateTabel();
@@ -525,7 +522,7 @@ public class DataSupplier extends javax.swing.JPanel {
             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }else{
                 Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
-            }  
+        }  
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
