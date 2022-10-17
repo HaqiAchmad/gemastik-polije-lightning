@@ -134,7 +134,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="valIDPembelian" max="32767" attributes="0"/>
+                      <Component id="valIDPembeli" max="32767" attributes="0"/>
                       <Component id="valNamaPembeli" max="32767" attributes="0"/>
                       <Component id="valNoTelp" alignment="0" max="32767" attributes="0"/>
                       <Component id="valAlamat" alignment="0" pref="320" max="32767" attributes="0"/>
@@ -154,7 +154,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblIDPembeli" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="valIDPembelian" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="valIDPembeli" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -300,7 +300,7 @@
             <Property name="text" type="java.lang.String" value="Uang Dikeluarkan"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="valIDPembelian">
+        <Component class="javax.swing.JLabel" name="valIDPembeli">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
@@ -332,6 +332,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value=": 085655864624"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="valNoTelpMouseExited"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="valAlamat">
           <Properties>
@@ -439,6 +444,10 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelDataMouseClicked"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tabelDataKeyPressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -471,6 +480,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Tambah Data"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddMouseExited"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblCari">
       <Properties>
@@ -497,6 +511,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Edit Data"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditMouseExited"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDel">
       <Properties>
@@ -512,6 +531,8 @@
         <Property name="text" type="java.lang.String" value="Hapus Data"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDelMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDelMouseExited"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDelActionPerformed"/>
       </Events>
     </Component>

@@ -1,31 +1,41 @@
 package com.window.panels;
 
 import com.manage.Chart;
+import com.manage.Internet;
 import com.manage.Message;
-import com.users.Users;
+import com.manage.Text;
+import com.media.Audio;
+import com.media.Gambar;
+import com.sun.glass.events.KeyEvent;
+import com.users.Pembeli;
+import com.window.dialogs.InputPembeli;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Baihaqi
+ * @author Achmad Baihaqi
  */
 public class DataPembeli extends javax.swing.JPanel {
     
-    private String keyword = "";
-    
-    private final Users user = new Users();
+    private final Pembeli pembeli = new Pembeli();
     
     private final Chart chart = new Chart();
+    
+    private final Internet net = new Internet();
+    
+    private final Text text = new Text();
+
+    private String idSelected = "", keyword = "", namaPembeli, noTelp, alamat;
+    
     
     public DataPembeli() {
         initComponents();
@@ -41,37 +51,44 @@ public class DataPembeli extends javax.swing.JPanel {
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
         
+        JLabel[] values = {
+          this.valIDPembeli, this.valNamaPembeli, this.valNoTelp, this.valAlamat, 
+          this.valFavorite, this.valPembelian, this.valLast, this.valUang
+        };
+        
+        for(JLabel lbl : values){
+            lbl.addMouseListener(new java.awt.event.MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    lbl.setForeground(new Color(15,98,230));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    lbl.setForeground(new Color(0,0,0));
+                }
+            });
+        }
+        
         this.updateTabel();
-    }
-    
-    public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "Makanan" , new Double( 15 ) );  
-      barDataset.setValue( "Minuman" , new Double( 20 ) );   
-      barDataset.setValue( "Snack" , new Double( 60 ) );    
-      barDataset.setValue( "ATK" , new Double( 0 ) );  
-      
-      //create chart
-      JFreeChart piechart = ChartFactory.createPieChart("Produk yang dibeli Achmad Baihaqi",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("Makanan", new Color(255,255,0));
-       piePlot.setSectionPaint("Minuman", new Color(51,255,0));
-       piePlot.setSectionPaint("Snack", new Color(255,0,255));
-       piePlot.setSectionPaint("ATK", new Color(0,204,204));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
-        
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        pieChart.removeAll();
-        pieChart.add(barChartPanel, BorderLayout.CENTER);
-        pieChart.validate();
     }
 
     private Object[][] getData(){
@@ -80,16 +97,16 @@ public class DataPembeli extends javax.swing.JPanel {
             int rows = 0;
             String sql = "SELECT id_pembeli, nama_pembeli, no_telp, alamat FROM pembeli " + keyword;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[user.getJumlahData("pembeli", keyword)][4];
+            obj = new Object[pembeli.getJumlahData("pembeli", keyword)][4];
             // mengeksekusi query
-            user.res = user.stat.executeQuery(sql);
+            pembeli.res = pembeli.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
-            while(user.res.next()){
+            while(pembeli.res.next()){
                 // menyimpan data dari tabel ke object
-                obj[rows][0] = user.res.getString("id_pembeli");
-                obj[rows][1] = user.res.getString("nama_pembeli");
-                obj[rows][2] = user.res.getString("no_telp");
-                obj[rows][3] = user.res.getString("alamat");
+                obj[rows][0] = pembeli.res.getString("id_pembeli");
+                obj[rows][1] = pembeli.res.getString("nama_pembeli");
+                obj[rows][2] = pembeli.res.getString("no_telp");
+                obj[rows][3] = pembeli.res.getString("alamat");
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             return obj;
@@ -117,6 +134,22 @@ public class DataPembeli extends javax.swing.JPanel {
         });
     }
     
+    private void showData(){
+        // mendapatkan data
+        this.namaPembeli = pembeli.getNama(this.idSelected);
+        this.noTelp = text.toTelephoneCase(pembeli.getNoTelp(this.idSelected));
+        this.alamat = pembeli.getAlamat(this.idSelected);
+        
+        // menampilkan data
+        this.valIDPembeli.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
+        this.valNamaPembeli.setText("<html><p>:&nbsp;"+namaPembeli+"</p></html>");
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+        this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+        
+        // menampilkan chart
+        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaPembeli, new Font("Ebrima", 1, 18), 15, 20, 60, 0);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -132,7 +165,7 @@ public class DataPembeli extends javax.swing.JPanel {
         lblPembelian = new javax.swing.JLabel();
         lblLast = new javax.swing.JLabel();
         lblUang = new javax.swing.JLabel();
-        valIDPembelian = new javax.swing.JLabel();
+        valIDPembeli = new javax.swing.JLabel();
         valNamaPembeli = new javax.swing.JLabel();
         valNoTelp = new javax.swing.JLabel();
         valAlamat = new javax.swing.JLabel();
@@ -197,9 +230,9 @@ public class DataPembeli extends javax.swing.JPanel {
         lblUang.setForeground(new java.awt.Color(0, 0, 0));
         lblUang.setText("Uang Dikeluarkan");
 
-        valIDPembelian.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valIDPembelian.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPembelian.setText(": PB289");
+        valIDPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valIDPembeli.setForeground(new java.awt.Color(0, 0, 0));
+        valIDPembeli.setText(": PB289");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
@@ -208,6 +241,17 @@ public class DataPembeli extends javax.swing.JPanel {
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         valNoTelp.setText(": 085655864624");
+        valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseExited(evt);
+            }
+        });
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
@@ -247,7 +291,7 @@ public class DataPembeli extends javax.swing.JPanel {
                     .addComponent(lblIDPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDataPembeliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(valIDPembelian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(valIDPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valNamaPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valNoTelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valAlamat, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
@@ -264,7 +308,7 @@ public class DataPembeli extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(pnlDataPembeliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIDPembeli)
-                    .addComponent(valIDPembelian))
+                    .addComponent(valIDPembeli))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDataPembeliLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaPembeli)
@@ -318,6 +362,16 @@ public class DataPembeli extends javax.swing.JPanel {
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
         tabelData.getTableHeader().setReorderingAllowed(false);
+        tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelDataMouseClicked(evt);
+            }
+        });
+        tabelData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabelDataKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
@@ -333,6 +387,19 @@ public class DataPembeli extends javax.swing.JPanel {
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -343,11 +410,32 @@ public class DataPembeli extends javax.swing.JPanel {
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -408,7 +496,37 @@ public class DataPembeli extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        int status;
+        boolean delete;
+        
+        // mengecek apakah ada data yang dipilih atau tidak
+        if(tabelData.getSelectedRow() > -1){
+            // membuka confirm dialog untuk menghapus data
+            Audio.play(Audio.SOUND_INFO);
+            status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaPembeli + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            // mengecek pilihan dari user
+            switch(status){
+                // jika yes maka data akan dihapus
+                case JOptionPane.YES_OPTION : 
+                    // menghapus data pembeli
+                    this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                    delete = this.pembeli.deletePembeli(this.idSelected);
+                    // mengecek apakah data pembeli berhasil terhapus atau tidak
+                    if(delete){
+                        Message.showInformation(this, "Data berhasil dihapus!");
+                        // mengupdate tabel
+                        this.updateTabel();
+                    }else{
+                        Message.showInformation(this, "Data gagal dihapus!");
+                    }
+                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    break;
+            }            
+        }else{
+            Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+        }
+        
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
@@ -416,6 +534,110 @@ public class DataPembeli extends javax.swing.JPanel {
         this.keyword = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
         this.updateTabel();
     }//GEN-LAST:event_inpCariKeyTyped
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // membuka window input pembeli
+        Audio.play(Audio.SOUND_INFO);
+        InputPembeli tbh = new InputPembeli(null, true, null);
+        tbh.setVisible(true);
+        
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mengecek apakah user jadi menambahkan data atau tidak
+        if(tbh.isUpdated()){
+            // mengupdate tabel
+            this.updateTabel();
+            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // mengecek apakah ada data yang dipilih atau tidak
+        if(tabelData.getSelectedRow() > -1){
+            // membuka window input pembeli
+            Audio.play(Audio.SOUND_INFO);
+            InputPembeli tbh = new InputPembeli(null, true, this.idSelected);
+            tbh.setVisible(true);
+
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            // mengecek apakah user jadi mengedit data atau tidak
+            if(tbh.isUpdated()){
+                // mengupdate tabel dan menampilkan ulang data
+                this.updateTabel();
+                this.showData();
+            }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }else{
+                Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+            }  
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));        
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));        
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
+
+    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // menampilkan data pembeli
+        this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
+        this.showData();
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataMouseClicked
+
+    private void tabelDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelDataKeyPressed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(evt.getKeyCode() == KeyEvent.VK_UP){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() - 1, 0).toString();
+            this.showData();
+        }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() + 1, 0).toString();
+            this.showData();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void valNoTelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseClicked
+        String nomor = this.noTelp.substring(1).replaceAll(" ", "").replaceAll("-", "");
+        if(net.isConnectInternet()){
+            try {
+                net.openLink("https://wa.me/"+nomor);
+            } catch (IOException | URISyntaxException ex) {
+                Message.showException(this, ex, true);
+            }
+        }else{
+            Message.showWarning(this, "Tidak terhubung ke Internet!", true);
+        }
+    }//GEN-LAST:event_valNoTelpMouseClicked
+
+    private void valNoTelpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseEntered
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(15,98,230);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseEntered
+
+    private void valNoTelpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseExited
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -440,7 +662,7 @@ public class DataPembeli extends javax.swing.JPanel {
     private javax.swing.JTable tabelData;
     private javax.swing.JLabel valAlamat;
     private javax.swing.JLabel valFavorite;
-    private javax.swing.JLabel valIDPembelian;
+    private javax.swing.JLabel valIDPembeli;
     private javax.swing.JLabel valLast;
     private javax.swing.JLabel valNamaPembeli;
     private javax.swing.JLabel valNoTelp;

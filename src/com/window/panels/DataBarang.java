@@ -253,6 +253,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         ));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelDataMouseClicked(evt);
@@ -287,57 +288,75 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         lblDataBarang.setOpaque(true);
 
         lblIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblIDBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblIDBarang.setText("ID Bahan");
 
         lblNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaBarang.setText("Nama Barang");
 
         lblJenisBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblJenisBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblJenisBarang.setText("Jenis Barang");
 
         lblStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblStok.setForeground(new java.awt.Color(0, 0, 0));
         lblStok.setText("Stok");
 
         lblHrgBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblHrgBeli.setForeground(new java.awt.Color(0, 0, 0));
         lblHrgBeli.setText("Harga Beli");
 
         lblHrgJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblHrgJual.setForeground(new java.awt.Color(0, 0, 0));
         lblHrgJual.setText("Harga Jual");
 
         lblPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPjln.setForeground(new java.awt.Color(0, 0, 0));
         lblPjln.setText("Total Penjualan");
 
         valIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valIDBarang.setForeground(new java.awt.Color(0, 0, 0));
         valIDBarang.setText(": BG0001");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         valNamaBarang.setText(": Ichi Ocha Jasmine Tea");
 
         valJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valJenis.setForeground(new java.awt.Color(0, 0, 0));
         valJenis.setText(": Minuman");
 
         valStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valStok.setForeground(new java.awt.Color(0, 0, 0));
         valStok.setText(": 3 Stok");
 
         valHargaBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaBeli.setForeground(new java.awt.Color(0, 0, 0));
         valHargaBeli.setText(": Rp. 3.000");
 
         valHargaJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaJual.setForeground(new java.awt.Color(0, 0, 0));
         valHargaJual.setText(": Rp. 3.500");
 
         valPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPjln.setForeground(new java.awt.Color(0, 0, 0));
         valPjln.setText(": 45 Penjualan");
 
         lblPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
         lblPjlnMinggu.setText("Penjualan Minggu Ini");
 
         valPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
         valPjlnMinggu.setText(": 3 Penjualan");
 
         lblPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
         lblPenghasilan.setText("Penghasilah Didapat");
 
         valPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
         valPenghasilan.setText(": Rp. 157.500");
 
         javax.swing.GroupLayout pnlDataBarangLayout = new javax.swing.GroupLayout(pnlDataBarang);
@@ -415,12 +434,13 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
 
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Barang :");
+        lblCari.setText("Cari ID / Nama Barang");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
         btnEdit.setMaximumSize(new java.awt.Dimension(109, 25));
@@ -458,9 +478,15 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+<<<<<<< HEAD
                         .addGap(18, 18, 18)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+=======
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+>>>>>>> 9425a98a8bb57e6d145e2f49f450de5297e3855a
                         .addComponent(btnDel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnOk)
@@ -475,8 +501,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 23, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
@@ -499,6 +524,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
+<<<<<<< HEAD
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnDel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -506,6 +532,12 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                             .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnOk, javax.swing.GroupLayout.Alignment.TRAILING))
+=======
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDel))
+>>>>>>> 9425a98a8bb57e6d145e2f49f450de5297e3855a
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -586,6 +618,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             int sisa = maxRow - inputRow;
             System.out.println(inputRow);
             String ID;
+<<<<<<< HEAD
             if(Table){
 //                model.removeRow(inputRow);
                 System.out.println("remove");
@@ -612,6 +645,17 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     }*/
                 }
                 System.out.println("Tabel dihapus");
+=======
+            model.removeRow(inputRow);
+            for(int i=0;i<sisa;i++){
+//                if()
+                model.setValueAt("", i+sisa,0);
+            }
+            if(inputRow <= maxRow){
+//                for(int i=0;i<sisa;i++){
+//                    //
+//                }
+>>>>>>> 9425a98a8bb57e6d145e2f49f450de5297e3855a
             }
             sql = "DELETE barang WHERE id_barang = '"+row+"'";
             stat = "menghapus";

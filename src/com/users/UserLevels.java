@@ -7,6 +7,8 @@ package com.users;
  * @since 2021-06-10
  */
 public enum UserLevels {
+    USERS,
+    PETUGAS,
     ADMIN,
     KARYAWAN,
     PEMBELI,

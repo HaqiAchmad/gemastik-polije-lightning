@@ -10,24 +10,17 @@ import com.manage.FileManager;
 import com.manage.Message;
 import com.manage.Text;
 import com.manage.Validation;
-import com.media.Gambar;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.StringTokenizer;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 
 /**
@@ -75,6 +68,8 @@ import javax.swing.ImageIcon;
 public class Users extends Database{
     
     private Date date;
+    
+    private final Text txt = new Text();
     
     /**
      * Direktori dari file yang digunakan untuk menyimpan data dari akun yang sedang digunakan untuk login.
@@ -124,56 +119,28 @@ public class Users extends Database{
      * dari user kedalam object {@code PreparedStatement}. Jika semua data dari user sudah ditambahkan kedalam 
      * object {@code PreparedStatement} maka data dari user tersebut akan ditambahka kedalam <b>Database</b> melalui 
      * method {@code executeUpdate()} yang ada didalam class {@code PreparedStatement}.
-     * <br><br>
-     * Untuk data foto dari user jika foto yang diinputkan <code>null</code> atau foto tersebut tidak exist maka 
-     * data foto dari user akan secara default diset ke <code>NULL</code>. Jika foto dari user exist maka foto 
-     * akan ditambahkan kedalam <b>Database</b> dalam bentuk byte stream / <code>Blob</code>.
      * 
-     * @param idUser ID dari user.
-     * @param noHp nomor HP dari user.
-     * @param email email dari user.
-     * @param foto foto dari user.
-     * @param password password dari user.
-     * @param level level dari user.
+     * @param idUser ID dari user
+     * @param pass password dari user
+     * @param level level dari user
      * 
      * @return <strong>True</strong> jika data berhasil ditambahkan. <br>
      *         <strong>False</strong> jika data tidak berhasil ditambahkan. 
      * 
-     * @throws FileNotFoundException jika terjadi kegagalan saat menkonversi foto kedalam byte stream / Blob.
      * @throws SQLException jika terjadi kegagalan saat menambahkan data kedalam <b>Database</b>.
      * @throws InValidUserDataException jika data dari petugas tidak valid.
      */
-    public final boolean addUser(String idUser, String noHp, String email, File foto, String password, UserLevels level) 
-            throws FileNotFoundException, SQLException, InValidUserDataException
-    {
-        Log.addLog("Menambahkan akun baru dengan ID User '"+idUser +"' ke Database.");
+    public final boolean addUser(String idUser, String pass, UserLevels level) throws SQLException, InValidUserDataException{
+        Log.addLog("Menambahkan user baru dengan ID User '" + idUser + "' dengan level " + level.name());
         PreparedStatement pst;
         // mengecek apakah data yang akan ditambahkan valid atau tidak
-        if(this.validateAddUser(idUser, noHp, email, password)){
+        if(this.validateAddUser(idUser, pass, level)){
             Log.addLog("Data dari '" + idUser + "' dinyatakan valid.");
             // menambahkan data kedalam Database
-            pst = this.conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)");
-            pst.setInt(1, Integer.parseInt(idUser));
-            pst.setString(2, noHp);
-            pst.setString(3, email);
-            pst.setString(5, password);
-            pst.setString(6, level.name());
-            
-            // jika foto yang diinputkan tidak kosong
-            if(foto != null){
-                // jika foto exist maka foto akan dikonversi kedalam bentuk byte stream
-                if(foto.exists()){
-                    Log.addLog("Menkonversi foto menjadi byte stream.");
-                    // mengkonversi file ke byte stream
-                    pst.setBlob(4, new FileManager().fileToBlob(foto));
-                }else{
-                    // jika foto tidak exist maka foto akan diset ke NULL
-                    pst.setString(4, null);
-                }                
-            }else{
-                // jika foto kosong maka foto akan diset ke NULL
-                pst.setString(4, null);
-            }
+            pst = this.conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?)");
+            pst.setString(1, idUser);
+            pst.setString(2, pass);
+            pst.setString(3, level.name());
             
             // mengekusi query
             return pst.executeUpdate() > 0;
@@ -189,53 +156,43 @@ public class Users extends Database{
      * <code>False</code>. Method hanya akan mengembalikan nilai <code>True</code> jika semua data dari 
      * user yang diinputkan valid.
      * 
-     * @param idUser id user yang akan dicek.
-     * @param noHp no hp yang akan dicek.
-     * @param email email yang akan dicek.
-     * @param password password yang akan dicek.
+     * @param idUser ID dari user
+     * @param pass password dari user
+     * @param level level dari user
+     * 
      * @return <strong>True</strong> jika semua data dari user valid. <br>
      *         <strong>False</strong> jika ada salah satu data dari user yang tidak valid.
      */
-    private boolean validateAddUser(String idUser, String noHp, String email, String password){
-        
-        boolean vIdUser, vNoHp, vEmail, vPassword;
-        
-        Log.addLog("Mengecek data dari '" + idUser + "' valid atau tidak.");
-        
+    private boolean validateAddUser(String idUser, String pass, UserLevels level){
+
+        boolean vIdUser, vPassword, vLevel;
+
         // mengecek apakah id user valid atau tidak
-        if(new Text().isNumber(idUser)){
-            if(Validation.isIdUser(idUser)){
-                if(!this.isExistUser(idUser)){
-                    vIdUser = true;
-                }else{
-                    throw new InValidUserDataException("'" + idUser + "' ID User tersebut sudah terpakai.");
-                }
+        if(Validation.isIdUser(idUser)){
+            if(!this.isExistUser(idUser)){
+                vIdUser = true;
             }else{
-                throw new InValidUserDataException("'" + idUser + "' ID User tersebut tidak valid.");
+                throw new InValidUserDataException("'" + idUser + "' ID User tersebut sudah terpakai.");
             }
         }else{
-            throw new InValidUserDataException("ID User harus berupa Integer.");
+            throw new InValidUserDataException("'" + idUser + "' ID User tersebut tidak valid.");
         }
-        
-        // mengecek apakah nomor hp valid atau tidak
-        if(Validation.isNoHp(noHp)){
-            if(!this.isExistNoHp(noHp)){
-                vNoHp = true;
-            }else{
-                throw new InValidUserDataException("'" + noHp + "' Nomor Hp terebut sudah terpakai.");
-            }
-        }else{
-            throw new InValidUserDataException("'" + noHp + "' Nomor Hp terebut tidak valid.");
-        }
-        
+
         // mengecek apakah password valid atau tidak
-        if(Validation.isPassword(password)){
+        if(Validation.isPassword(pass)){
             vPassword = true;
         }else{
-            throw new InValidUserDataException("'" + password + "' Password tersebut tidak valid.");
+            throw new InValidUserDataException("'" + pass + "' Password tersebut tidak valid.");
+        }
+
+        // mengecek apakah user level valid atau tidak
+        if(Validation.isLevel(level)){
+            vLevel = true;
+        }else{
+            throw new InValidUserDataException("'" + level.name() + "' level tersebut tidak valid.");
         }
         
-        return vIdUser && vNoHp && vPassword;
+        return vIdUser && vPassword && vLevel;
     }
     
     /**
@@ -245,35 +202,13 @@ public class Users extends Database{
      * <code>True</code> jika akun dari user berhasil dihapus.
      * 
      * @param idUser id dari user yang ingin dihapus.
+     * 
      * @return <strong>True</strong> jika akun dari user berhasil dihapus. <br>
      *         <strong>Fale</strong> jiak akun dari user tidak berhasil dihapus.
      */
     public final boolean deleteUser(String idUser){
         Log.addLog("Menghapus akun dengan ID User '" + idUser + "'.");
         return this.deleteData(DatabaseTables.USERS.name(), UserData.ID_USER.name(), idUser);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data akun yang sedang digunakan untuk login (login data) 
-     * pada Aplikasi. Login data disimpan pada file <code>login_data.haqi</code> yang ada didalam folder 
-     * Storage. Method membaca data yang ada didalam file <code>login_data.haqi</code> dengan melalui 
-     * class {@code BufferedReader}. 
-     * <br><br>
-     * <br><br>
-     * <b>Contoh Login Data = ID User
-     * 
-     * @return akan mengembalikan data akun yang sedang digunakan untuk login (login data).
-     */
-    private String getLoginData(){        
-        // membaca semua data yang ada didalam file login_data.haqi
-        try(BufferedReader data = new BufferedReader(new FileReader(this.LOGIN_DATA_FILE))){
-            // mengembalikan nilai loginData
-            return data.readLine();
-        }catch(IOException ex){
-            Message.showException(this, "Storage Corrupt!!", ex, true);
-            System.exit(404);
-        }     
-        return null;
     }
     
     /**
@@ -385,72 +320,25 @@ public class Users extends Database{
     }
     
     /**
-     * Digunakan untuk membuat sebuah ID Login baru. Method akan membuat sebuah ID Login dengan menggunakan 
-     * method {@code randomUUID()} yang ada didalam class {@code UUID}. Output dari method tersebut adalah 
-     * sebuah String dengan nilai random. Mehotd akan mengambil delapan karakter pertama dari String tersebut.
+     * Method ini digunakan untuk mendapatkan data akun yang sedang digunakan untuk login (login data) 
+     * pada Aplikasi. Login data disimpan pada file <code>login_data.haqi</code> yang ada didalam folder 
+     * Storage. Method membaca data yang ada didalam file <code>login_data.haqi</code> dengan melalui 
+     * class {@code BufferedReader}. 
      * <br><br>
-     * Setelah ID Login didapatkan method akan mengecek apakah ID Login tersebut sudah exist atau belum. Jika 
-     * ID Login belum exist maka method akan mengembalikan ID Login tersebut dalam bentuk string. Tetapi jika
-     * ID Login sudah exist maka method akan membuat ID Login baru.
      * <br><br>
-     * <b>Contoh ID Login : </b> Zq0P38Dk
+     * <b>Contoh Login Data = ID User
      * 
-     * @return ID Login baru dalam bentuk String.
+     * @return akan mengembalikan data akun yang sedang digunakan untuk login (login data).
      */
-    private String createIdLogin(){
-        Log.addLog("Membuat ID Login baru.");
-        // membuat id login dengan bantuan dari class UUID
-        String idLogin = UUID.randomUUID().toString().substring(0, 8).replaceAll("-", "");
-        
-        // jika id login belum exist maka method akan mengebalikan id login
-        if(!this.isExistIdLogin(idLogin)){
-            return idLogin;
-        }
-        // membuat id login baru jika id login sudah exist
-        return createIdLogin();
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah sebuah ID Login sudah exist atau belum. Pertama-tama method
-     * akan mengecek apakah ID Login yang diinputkan sudah valid atau tidak dengan menggunakan 
-     * method {@code isIdLogin()} yang ada didalam class {@code Validation}. Jika ID Login tidak 
-     * valid maka method akan menghasilkan error {@code InValidUserDataException}. Tetapi jika 
-     * ID Login valid maka method akan mengecek apakah ID Login sudah exist atau belum dengan 
-     * menggunakan method {@code isExistData()} yang ada didalam class {@code Database}.
-     * 
-     * @param IdLogin ID Login yang akan dicek.
-     * @return <strong>True</strong> jika ID Login exist. <br>
-     *         <strong>False</strong> jika ID Login belum exist.
-     */
-    private boolean isExistIdLogin(String IdLogin){
-        // mengecek apakah id login valid atau tidak
-        if(Validation.isIdLogin(IdLogin)){
-//            return this.isExistData(DatabaseTables.LOGIN.name(), UserData.ID_LOGIN.name(), IdLogin);
-            return true;
-        }
-        // akan menghasilkan error jika id login tidak valid
-        throw new InValidUserDataException("'" + IdLogin + "' ID Login tersebut tidak valid");
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan ID Login dari akun yang sedang digunakan untuk Login.
-     * Pertama-tama method akan mengecek apakah user sudah melakukan Login atau belum. Jika user belum 
-     * melakukan Login maka method akan mengembalikan nilai <code>null</code>. 
-     * <br><br>
-     * Tetapi jika user sudah melakukan login method akan mendapatkan ID Login yang berada didalam login data. 
-     * ID Login yang ada didalam login data akan didapatkan melalui method {@code nextToken()} yang ada didalam 
-     * class {@code StringTokenizer()}.
-     * <br><br>
-     * <b>Example : </b> P9dz93ig
-     * 
-     * @return ID Login dari akun yang sedang digunakan untuk Login
-     */
-    private String getCurrentIdLogin(){
-        // mengecek apakah user sudah login atau belum
-        if(this.isLogin()){
-            // mengembalikan data ID Login dari akun yang sedang digunakan untuk Login
-            return new StringTokenizer(getLoginData(), "/").nextToken();
-        }
+    private String getLoginData(){        
+        // membaca semua data yang ada didalam file login_data.haqi
+        try(BufferedReader data = new BufferedReader(new FileReader(this.LOGIN_DATA_FILE))){
+            // mengembalikan nilai loginData
+            return data.readLine();
+        }catch(IOException ex){
+            Message.showException(this, "Storage Corrupt!!", ex, true);
+            System.exit(404);
+        }     
         return null;
     }
     
@@ -472,6 +360,15 @@ public class Users extends Database{
             return this.getLoginData();
         }            
         return null;
+    }
+    
+    /**
+     * Digunakan untuk mendapatkan data dari nama akun yang sedang digunakan untuk login
+     * 
+     * @return nama dari akun
+     */
+    public String getCurrentLoginName(){
+        return this.getData(DatabaseTables.PETUGAS.name(), "nama_petugas", "WHERE id_petugas = '" + this.getCurrentLogin() + "'");
     }
     
     /**
@@ -505,6 +402,24 @@ public class Users extends Database{
     
     /**
      * Method ini digunakan untuk mengecek apakah sebuah ID User sudah exist atau belum didalam <b>Database</b>.
+     * 
+     * @param id ID User yang akan dicek.
+     * @param level level dari user yang akan dicek id-nya
+     * @param primary primary key dari level
+     * @return <strong>True</strong> jika ID User exist. <br>
+     *         <strong>False</strong> jika ID User tidak exist.
+     */
+    protected boolean isExistID(String id, UserLevels level, UserData primary){
+        // mengecek apakah id user yang diinputkan valid atau tidak
+        if(Validation.isIdUser(id)){
+            return super.isExistData(level.name(), primary.name(), id);
+        }
+//         akan menghasilkan error jika id user tidak valid
+        throw new InValidUserDataException("'" +id + "' ID tersebut tidak valid.");
+    }
+    
+    /**
+     * Method ini digunakan untuk mengecek apakah sebuah ID User sudah exist atau belum didalam <b>Database</b>.
      * Pertama-tama method akan mengecek apakah ID User valid atau tidak dengan menggunakan method 
      * {@code isIdUser()} yang ada didalam class {@code Validation}. Jika ID User tidak valid maka method 
      * akan menghasilkan exception {@code InValidUserDataException}.
@@ -518,35 +433,64 @@ public class Users extends Database{
      *         <strong>False</strong> jika ID User tidak exist.
      */
     public final boolean isExistUser(String idUser){
-        // mengecek apakah id user yang diinputkan valid atau tidak
-        if(Validation.isIdUser(idUser)){
-                return this.isExistData(DatabaseTables.USERS.name(), UserData.ID_USER.name(), idUser);
+        return this.isExistID(idUser, UserLevels.USERS, UserData.ID_USER);
+    }
+    
+    protected String getLastID(UserLevels level, UserData primary){
+        try{
+            String query = String.format("SELECT * FROM %s ORDER BY %s DESC LIMIT 0,1", level.name(), primary.name());
+            res = stat.executeQuery(query);
+            if(res.next()){
+                return res.getString(primary.name());
+            }
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi kesalahan\n" + ex.getMessage(), ex, true);
         }
-        // akan menghasilkan error jika id user tidak valid
-        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak valid.");
+        return null;
+    }
+    
+    public String createID(UserLevels level, UserData primary){
+        String lastID = this.getLastID(level, primary), nomor;
+        
+        if(!lastID.equals("")){
+            nomor = lastID.substring(2);
+        }else{
+            nomor = "000";
+        }
+        
+        // mengecek nilai dari nomor adalah number atau tidak
+        if(txt.isNumber(nomor)){
+            // jika id pembayaran belum exist maka id akan 
+            switch(level.name()){
+                case "PETUGAS" : return String.format("PG%03d", Integer.parseInt(nomor)+1); // level admin dan karyawan
+                case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
+                case "PEMBELI" : return String.format("PB%03d", Integer.parseInt(nomor)+1);
+                default : System.out.println("Error!");
+            }
+        }
+        return null;
     }
     
     /**
-     * Method ini digunakan untuk mengecek apakah sebuah Nomor HP sudah exist atau belum didalam <b>Database</b>.
-     * Pertama-tama method akan mengecek apakah Nomor HP valid atau tidak dengan menggunakan method 
-     * {@code isNoHp()} yang ada didalam class {@code Validation}. Jika Nomor HP tidak valid maka method 
-     * akan menghasilkan exception {@code InValidUserDataException}.
-     * <br><br>
-     * Method akan mengecek apakah sebuah Nomor HP sudah exist atau belum didalam <b>Database</b> dengan 
-     * menggunakan method {@code isExistData()} yang ada didalam class {@code Database}. Jika output dari 
-     * method tersebut adalah <code>True</code> maka Nomor HP dinyatakan exist.
+     * Method ini akan mengembalikan data dari user berdasarkan ID User yang diinputkan. Pertama-tama method 
+     * akan mengecek apakah ID User exist atau tidak. Jika ID User tidak exist maka akan menghasilkan exception 
+     * {@code InValidUserDataException}. Tetapi jika ID User exist maka data dari user akan didapatkan dengan 
+     * melalui method {@code getData()} yang ada didalam class {@code Database}.
      * 
-     * @param noHp nomor HP yang akan dicek.
-     * @return <strong>True</strong> jika Nomor HP exist. <br>
-     *         <strong>False</strong> jika Nomor HP tidak exist.
+     * @param idUser id user yang ingin didapatkan datanya
+     * @param level level dari user (tabelnya apa)
+     * @param data data yang akan diambil
+     * @param primary primary key dari tabel
+     * @return data dari user
      */
-    public final boolean isExistNoHp(String noHp){
-        // mengecek apakah no hp valid atau tidak
-        if(Validation.isNoHp(noHp)){
-            return this.isExistData(DatabaseTables.USERS.name(), UserData.NO_HP.name(), noHp);
+    protected String getUserData(String idUser, UserLevels level, UserData data, UserData primary){
+        // mengecek apakah id user exist atau tidak
+        if(this.isExistUser(idUser)){
+            // mendapatkan data dari user
+            return this.getData(level.name(), data.name(), " WHERE "+ primary.name() +" = '" + idUser +"'");
         }
-        // akan menghasilkan error jika no hp tidak valid
-        throw new InValidUserDataException("'" + noHp + "' Nomor HP tersebut tidak valid.");
+        // akan menghasilkan error jika id user tidak ditemukan
+        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");   
     }
     
     /**
@@ -559,15 +503,19 @@ public class Users extends Database{
      * @param data data yang ingin diambil.
      * @return akan mengembalikan data dari user berdasarkan ID User yang diinputkan.
      */
-    private String getUserData(String idUser, UserData data){
-//        Log.addLog("Mendapatkan data " + data + " dari akun dengan ID User '" + idUser + "'.");
+    public String getUserData(String idUser, UserData data){
+        return this.getUserData(idUser, UserLevels.USERS, data, UserData.ID_USER);         
+    }
+    
+    protected boolean setUserData(String idUser, UserLevels level, UserData data, UserData primary, String newValue){
+        Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari akun dengan ID User '" + idUser + "'.");
         // mengecek apakah id user exist atau tidak
         if(this.isExistUser(idUser)){
-            // mendapatkan data dari user
-            return this.getData(DatabaseTables.USERS.name(), data.name(), " WHERE "+ UserData.ID_USER.name() +" = '" + idUser +"'");
+            // mengedit data dari user
+            return super.setData(level.name(), data.name(), primary.name(), idUser, newValue);
         }
         // akan menghasilkan error jika id user tidak ditemukan
-        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");            
+        throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");
     }
     
     /**
@@ -584,7 +532,7 @@ public class Users extends Database{
      * @return <strong>True</strong> jika data berhasil diedit. <br>
      *         <strong>False</strong> jika data tidak berhasil diedit.
      */
-    private boolean setUserData(String idUser, UserData data, String newValue){
+    public boolean setUserData(String idUser, UserData data, String newValue){
         Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari akun dengan ID User '" + idUser + "'.");
         // mengecek apakah id user exist atau tidak
         if(this.isExistUser(idUser)){
@@ -593,103 +541,6 @@ public class Users extends Database{
         }
         // akan menghasilkan error jika id user tidak ditemukan
         throw new InValidUserDataException("'" +idUser + "' ID User tersebut tidak dapat ditemukan.");
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data dari nama user berdasarkan ID User yang diinputakan.
-     * Pertama-tama method akan mengecek apakah user memiliki level Admin atau Petugas. Jika user memiliki 
-     * level Admin atau Petugas maka data dari nama user akan diambil dari tabel petugas yang ada didalam 
-     * <b>Database</b>. Tetpai jika user memiliki level Siswa maka data dari nama user akan diambil dari 
-     * tabel siswa yang ada didalam <b>Database</b>.
-     * 
-     * @param idUser ID User yang dinggin diambil namanya.
-     * @return akan mengembalikan nama dari ID User yang diinputkan.
-     */
-//    private String getNameOfIdUser(String idUser){
-//        String name = "";
-//        // mengecek apakah user memiliki level admin atau petugas
-//        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
-//            // mendapatkan data dari nama user yang ada didalam tabel petugas
-//            name = this.getData(DatabaseTables.PETUGAS.name(), PetugasData.NAMA_PETUGAS.name(), "WHERE " + PetugasData.ID_PETUGAS + " = " + idUser);
-//        }else if(this.isSiswa(idUser)){
-//            // mendapatkan data dari nama user yang ada didalam tabel siswa
-//            name = this.getData(DatabaseTables.SISWA.name(), SiswaData.NAMA_SISWA.name(), "WHERE " + SiswaData.NIS + " = " + idUser);
-//        }
-//        return name;
-//    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data Nomor HP dari user berdasarkan ID User yang diinputkan. 
-     * ID User yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User yang diinputkan ternyata 
-     * tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception {@code InValidUserDataException}. 
-     * Method hanya akan mendapatkan data Nomor HP dari user jika ID User yang diinputkan terdaftar didalam <b>Database</b>.
-     * 
-     * @param idUser ID User yang ingin didapatkan datanya.
-     * @return data Nomor HP dari ID User yang diinputkan.
-     */
-    public String getNoHp(String idUser){
-        return this.getUserData(idUser, UserData.NO_HP);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data Nomor HP dari user berdasarkan ID User dari akun yang sedang 
-     * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-     * Selanjutnya method akan mendapatkan data Nomor HP dari user melalui method {@code getNoHp(String idUser)}.
-     * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-     * 
-     * @return data Nomor HP dari akun yang sedang Login.
-     */
-    public String getNoHp(){
-        return this.getNoHp(getCurrentLogin());
-    }
-    
-    /**
-     * Digunakan untuk mengedit data Nomor HP dari user berdasarkan ID User yang diinputkan. Sebelum mengedit 
-     * data Nomor HP method akan mengecek apakah Nomor HP yang diinputkan valid atau tidak dengan menggunakan 
-     * method {@code idNoHP(String noHp)} yang ada didalam class {@code Validation}. Jika Nomor HP tidak valid
-     * maka method akan menghasilkan exception {@code InValidUserDataException}.
-     * <br><br>
-     * Jika Nomor HP valid maka selanjutnya method akan mengecek apakah Nomor HP sudah terpakai atau belum dengan 
-     * menggunakan method {@code isExistNoHp}. Jika Nomor HP sudah ada yang memakai maka method akan menghasilkan 
-     * exception {@code InValidUserDataException}. 
-     * <br><br>
-     * Tetapi jika Nomor HP belum ada yang memakai maka data Nomor HP dari user akan diedit. 
-     * Jika data dari Nomor HP berhasil diedit maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang ingin diedit datanya.
-     * @param newNoHp data Nomor HP yang baru.
-     * 
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean setNoHp(String idUser, String newNoHp){
-        // mengecek apakah nomor hp valid atau tidak
-        if(Validation.isNoHp(newNoHp)){
-            // mengecek apakah nomor hp sudah dipakai atau belum
-            if(!this.isExistNoHp(newNoHp)){
-                // mengedit data nomor hp dari user
-                return this.setUserData(idUser, UserData.NO_HP, newNoHp);
-            }else{
-                // akan menghasilkan error jika nomor hp sudah dipakai
-                throw new InValidUserDataException("'" + newNoHp + "' Nomor HP tersebut sudah dipakai.");
-            }
-        }
-        // akan menghasilkan error jika nomor hp tidak valid
-        throw new InValidUserDataException("'" + newNoHp + "' Nomor HP tersebut tidak valid.");
-    }
-    
-    /**
-     * Digunakan untuk mengedit data Nomor HP dari user berdasarkan ID User dari akun yang sedang digunakan untuk Login. 
-     * Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}. Selanjutnya method 
-     * akan mengedit data Nomor HP dari user melalui method {@code setNoHp(String idUser, String newNoHp)}. Jika
-     * output dari method tersebut adalah <code>True</code> maka data Nomor HP dari user berhasil diedit.
-     * 
-     * @param newNoHp data Nomor HP yang baru.
-     * @return <strong>True</strong> jika data berhasil diedit. <br>
-     *         <strong>False</strong> jika data tidak berhasil diedit.
-     */
-    public boolean setNoHp(String newNoHp){
-        return this.setNoHp(getCurrentLogin(), newNoHp);
     }
     
     /**
@@ -703,18 +554,6 @@ public class Users extends Database{
      */
     public String getPassword(String idUser){
         return this.getUserData(idUser, UserData.PASSWORD);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan data Password dari user berdasarkan ID User dari akun yang sedang 
-     * digunakan untuk Login. Method akan mendapatkan ID User dengan menggunakan method {@code getCurrentLogin()}.
-     * Selanjutnya method akan mendapatkan data Password dari user melalui method {@code getPassword(String idUser)}.
-     * Jika user belum melakukan login maka method akan mengembalikan nilai <code>null</code>.
-     * 
-     * @return data Password dari akun yang sedang Login.
-     */
-    public String getPassword(){
-        return this.getPassword(getCurrentLogin());
     }
     
     /**
@@ -757,41 +596,6 @@ public class Users extends Database{
     }
     
     /**
-     * Method ini digunakan untuk mendapatkan kekuatan password dari User. Kekuatan dari password akan ditentukan 
-     * berdasarkan panjang karakter dari password. Ada lima level kekuatan password yang ada didalam aplikasi ini 
-     * antara lain.
-     * <br><br>
-     * <ul>
-     *  <li><b>Sangat Lemah : </b> panjang karakter diantara 0 sampai 8.</li>
-     *  <li><b>Lemah : </b> panjang karakter diantara 9 sampai 15.</li>
-     *  <li><b>Medium : </b> panjang karakter diantara 16 sampai 20.</li>
-     *  <li><b>Kuat : </b> panjang karakter diantara 21 sampai 30.</li>
-     *  <li><b>Sangat Kuat : </b> panjang karakter diantara 31 sampai 50.</li>
-     * </ul>
-     * 
-     * @param password password yang akan dicek kekuatanya.
-     * @return kekuatan dari password.
-     */
-    public String getPasswordStrength(String password){
-        int length = password.length();
-        
-        if(length >= 0 && length <= 8){
-            return "Sangat Lemah";
-        }else if(length > 8 && length <= 15){
-            return "Lemah";
-        }else if(length > 15 && length <= 20){
-            return "Sedang";
-        }else if(length > 20 && length <= 30){
-            return "Kuat";
-        }else if(length > 20){
-            return "Sangat Kuat";
-        }
-        
-        return "I Dont Know";
-    }
-        
-    
-    /**
      * Method ini digunakan untuk mendapatkan data Level dari user berdasarkan ID User yang diinputkan. 
      * ID User yang diinputkan harus sudah terdaftar didalam <b>Database</b>. Jika ID User yang diinputkan ternyata 
      * tidak terdaftar didalam <b>Database</b> maka method akan menghasilkan exception {@code InValidUserDataException}. 
@@ -814,6 +618,25 @@ public class Users extends Database{
      */
     public UserLevels getLevel(){
         return this.getLevel(getCurrentLogin());
+    }
+    
+    /**
+     * Digunakan untuk mengedit data Level dari user berdasarkan ID User yang diinputkan. Sebelum mengedit 
+     * data Level method akan mengecek apakah Level yang diinputkan valid atau tidak dengan menggunakan 
+     * method {@code isLevel(String level)} yang ada didalam class {@code Validation}. Jika Level tidak valid
+     * maka method akan menghasilkan exception {@code InValidUserDataException}.
+     * 
+     * @param idUser ID User yang ingin diedit levelnya
+     * @param newLevel data Password yang baru.
+     * @return <strong>True</strong> jika data berhasil diedit. <br>
+     *         <strong>False</strong> jika data tidak berhasil diedit.
+     */
+    public boolean setLevel(String idUser, UserLevels newLevel){
+        if(Validation.isLevel(newLevel)){
+            return this.setUserData(idUser, UserData.LEVEL, newLevel.name());
+        }
+        // akan menghasilkan error jika password tidak valid
+        throw new InValidUserDataException("'" + newLevel + "' Level tersebut tidak valid.");
     }
     
     /**
@@ -843,58 +666,6 @@ public class Users extends Database{
     }
     
     /**
-     * Digunakan untuk mengecek apakah Level dari ID User yang diinputkan memiliki Level <b>PETUGAS</b> atau tidak.
-     * Method akan mendapatkan data Level dari ID User dengan menggunakan method {@code getLevel()}. Jika output 
-     * dari method tersebut adalah <b>PETUGAS</b> maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang akan dicek.
-     * @return <strong>True</strong> jika level dari user adalah <b>PETUGAS</b>. <br>
-     *         <strong>False</strong> otherwise. 
-     */
-    public boolean isPetugas(String idUser){
-        return this.getLevel(idUser).name().equals("PETUGAS");
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah Level dari akun yang sedang digunakan untuk Login apakah memiliki Level
-     * <b>PETUGAS</b> atau tidak. Method akan mendapatkan ID User dari akun yang sedang digunakan untuk Login dengan 
-     * menggunakan method {@code getCurrentLogin()}. Selanjutnya method akan mengecek apakah user memiliki Level 
-     * <b>PETUGAS</b> atau tidak melalui method {@code isPetugas(String idUser)}.
-     * 
-     * @return <strong>True</strong> jika level dari user adalah <b>PETUGAS</b>. <br>
-     *         <strong>False</strong> otherwise. 
-     */
-    public boolean isPetugas(){
-        return this.isPetugas(getCurrentLogin());
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah Level dari ID User yang diinputkan memiliki Level <b>SISWA</b> atau tidak.
-     * Method akan mendapatkan data Level dari ID User dengan menggunakan method {@code getLevel()}. Jika output 
-     * dari method tersebut adalah <b>SISWA</b> maka method akan mengembalikan nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang akan dicek.
-     * @return <strong>True</strong> jika level dari user adalah <b>SISWA</b>. <br>
-     *         <strong>False</strong> otherwise. 
-     */
-    public boolean isSiswa(String idUser){
-        return this.getLevel(idUser).name().equals("SISWA");
-    }
-    
-    /**
-     * Digunakan untuk mengecek apakah Level dari akun yang sedang digunakan untuk Login apakah memiliki Level
-     * <b>SISWA</b> atau tidak. Method akan mendapatkan ID User dari akun yang sedang digunakan untuk Login dengan 
-     * menggunakan method {@code getCurrentLogin()}. Selanjutnya method akan mengecek apakah user memiliki Level 
-     * <b>SISWA</b> atau tidak melalui method {@code isSiswa(String idUser)}.
-     * 
-     * @return <strong>True</strong> jika level dari user adalah <b>SISWA</b>. <br>
-     *         <strong>False</strong> otherwise. 
-     */
-    public boolean isSiswa(){
-        return this.isSiswa(getCurrentLogin());
-    }
-    
-    /**
      * Method ini digunakan untuk mendapatkan total user yang terdaftar di <b>Database</b> aplikasi. Method 
      * akan mendapatkan data total user dengan melalui method {@code getJumlahData()} yang ada didalam 
      * class {@code Database}.
@@ -905,434 +676,15 @@ public class Users extends Database{
         return super.getJumlahData(DatabaseTables.USERS.name());
     }
     
-    /**
-     * Method ini digunakan untuk mendapatkan Nama dari Foto User. Nama dari Foto User dapat berisi ID User dan Nama User.
-     * Nama dari Foto User akan berguna saat proses download foto User sedang berlangsung. Pertama-tama method akan 
-     * mendapatkan Nama dari User. Setelah Nama dari User berhasil didapatkan maka selanjutnya adalah mengabungkan 
-     * ID User dan Nama dari User untuk mendapatkan Nama dari foto user.
-     * <br><br>
-     * <b>Example : </b> 6156_achmad_baihaqi.png
-     * 
-     * @param idUser ID User yang akan didapatkan nama fotonya.
-     * @return nama dari foto user.
-     */
-    @Deprecated
-    private String getNameOfPhoto(String idUser){
-        // mendapatkan nama file dari foto berdasarkan id user
-        String name = "";
-//        String name = this.getNameOfIdUser(idUser);
-        // mengembalikan nama dari file foto
-        return idUser + "_" + name.replaceAll(" ", "_").toLowerCase() + ".png";
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatakan direktori dari Foto User. Foto dari User akan disimpan pada folder cache 
-     * yang ada didalam storage aplikasi. Direktori dari Foto User akan digunakan saat proses mendownload Foto User dari
-     * database. Sebelum mendapatkan direktori dari Foto User method akan mendapatkan Nama dari Foto User terlebih dahulu.
-     * Setelah Nama dari Foto User berhasil didapatkan maka selanjutnya method akan mengabungkan direktori folder cache 
-     * pada aplikasi dengan Nama dari Foto User.
-     * <br><br>
-     * <b>Example : </b> C:\Users\Infinite World\AppData\Local\Punya Haqi\SPP Payment 1.0.0\Cache\pictures\6156_achmad_baihaqi.png
-     * 
-     * @param idUser id user yang akan didapatkan direktori fotonya.
-     * @return direktori dari foto user.
-     */
-    private String getPhotoDir(String idUser){
-        // mendapatkan nama file dari foto
-        String file = this.getNameOfPhoto(idUser);
-        // mendapatkan direktori dari foto
-        return new Storage().getCacheDir() + "pictures\\" + file;
-    }
-    
-    /**
-     * Method ini digunakan untuk mengecek apakah Foto dari User sudah didownlad atau belum. Untuk mengecek apakah 
-     * Foto dari User sudah didownload atau belum method pertama-tama method akan  mendapatakan direktori dari Foto User 
-     * melalui method {@code getPhotoDir()}. Setelah direktori dari Foto User sudah didapatkan maka selanjunya method 
-     * akan mengecek apakah direktori dari Foto User tersebut exist atau tidak dengan menggunakan method {@code exist()} 
-     * yang ada didalam class {@code File}. Jika direktori dari Foto User exist maka method akan mengembalikan 
-     * nilai <code>True</code>.
-     * 
-     * @param idUser ID User yang akan dicek.
-     * @return <strong>True</strong> Jika Foto dari User sudah didownload. <br>
-     *         <strong>False</strong> Jika Foto dari User belum didownload.
-     */
-    private boolean isDownloadedPhoto(String idUser){
-        // mengecek apakah direktori dan file foto exist atau tidak
-        return new File(this.getPhotoDir(idUser)).exists();
-    }
-    
-    /**
-     * Method ini digunakan untuk mendownload Foto User dari Database berdasarkan ID User yang diinputkan dalam bentuk 
-     * object class {@code File}. Foto User akan disimpan didalam folder cache yang ada didalam storage aplikasi dan Nama 
-     * dari Foto User (filename) akan diberinama berdasarkan ID User dan Nama Dari User. Setiap Foto User yang didownload 
-     * melalui method ini akan memiliki format gambar <b>.png</b>.
-     * <br><br>
-     * Sebelum mendownload Foto User method akan mengecek apakah Foto User sebelumnya sudah didownload atau belum. 
-     * Jika Foto User sebelumnya sudah didownload maka method akan mengembalikan direktori dari Foto User yang sudah 
-     * didownload tersebut. Tetapi jika Foto User belum didownload maka method akan membuat sebuah query yang digunakan 
-     * untuk mendapatkan data Foto User yang ada didalam <b>Database</b>.
-     * <br><br>
-     * Setelah query berhasil dibuat maka selanjutnya method akan mengeksekusi query tersebut dengan menggunakan 
-     * method {@code executeQuery()}. Selanjutnya method akan mengecek apakah query yang barusan dieksekusi tersebut
-     * apakah memiliki output atau tidak dengan menggunakan method {@code res()}. Jika query memiliki output maka 
-     * output dari query akan disimpan didalam object dari class {@code Blob}.
-     * <br><br>
-     * Tetapi jika query tidak memiliki output itu bearti User belum menggungah/mengupload sebuah Foto ke dalam <b>Database</b> dan 
-     * object dari class {@code Blob} secara default akan memiliki nilai null. Foto User yang ada didalam <b>Database</b> akan 
-     * disimpan dalam bentuk blob/byte stream. Oleh karena itu method memerlukan class {@code Blob} untuk menyimpan blob/byte 
-     * stream dari Foto User yang ada didalam <b>Database</b> saat mengeksekusi query.
-     * <br><br>
-     * Setelah blob/byte stream dari Foto User yang ada didalam <b>Database</b> berhasil didapatkan dan disimpan didalam 
-     * object {@code Blob} maka selanjutnya method akan mengecek apakah object dari class {@code Blob} tersebut memiliki 
-     * nilai <code>null</code> atau tidak. Jika object dari class {@code Blob} memiliki nilai <code>null</code> maka 
-     * method akan mengembalikan direktori dari default Foto User dalam bentuk object class {@code File}.
-     * <br><br>
-     * Jika object dari class {@code Blob} tidak memiliki nilai <code>null</code> maka selanjutnya method akan mengkonversi 
-     * blob/byte stream tersebut kedalam bentuk sebuah file dengan menggunakan method {@code blobToFile()} yang ada didalam class
-     * {@code FileManager}. Setelah blob/byte stream behasil dikonversi menjadi file foto. Maka selanjutnya method akan 
-     * mengembalikan direktori dari file foto tersebut dalam bentuk object class {@code File}.
-     * 
-     * @param idUser ID User yang akan didownload fotonya.
-     * @return direktori dari foto user dalam bentuk object class {@code File}.
-     * 
-     * @throws SQLException jika terjadi kesalahan saat mendownload foto user.
-     * @throws IOException  jika terjadi kesalahan saat mengkonversi foto.
-     */
-    private File downloadPhoto(String idUser) throws SQLException, IOException{
-        Blob blob = null;
-        String query, file;
-        
-        // mengecek apakah foto sudah terdownload atau belum
-        if(this.isDownloadedPhoto(idUser)){
-            // mengembalikan direktori dari foto jika foto sudah didownload
-            return new File(this.getPhotoDir(idUser));
-        }else{
-            Log.addLog("Mendownload Foto dari ID User '"+ idUser + "'");
-            // membuat query untuk mendapatkan foto user dari database mysql dalam bentuk blob
-            query = String.format(
-                    "SELECT %s FROM %s WHERE %s = %s", 
-                    UserData.FOTO, DatabaseTables.USERS, UserData.ID_USER, idUser
-            );
-            
-            // mengeksekusi query
-            this.res = this.stat.executeQuery(query);
-            // mengecek apakah query memiliki output atau tidak
-            if(this.res.next()){
-                blob = this.res.getBlob(UserData.FOTO.name());
-            }
-            
-            // jika foto kosong maka method akan mengembalikan default foto dari user
-            if(blob == null){
-                // mengembalikan file default foto 
-                return this.getDefaultPhoto();
-            }else{
-                // mengkonversi blob menjadi file
-                file = this.getPhotoDir(idUser);
-                new FileManager().blobToFile(blob, file);
-                
-                Log.addLog("Foto dari '" + idUser + "' berhasil didownload");
-                // mengembalikan file dari foto
-                return new File(file);
-            }
-        }
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan default Foto User. User yang belum mengunggah/mengupload sebuah Foto ke 
-     * <b>Database</b> maka User tersebut akan memakai default Foto dari aplikasi. Default Foto User dari aplikasi 
-     * disimpan pada User yang memiliki ID User '1'. File default Foto User disimpan pada folder cache yang ada dialam 
-     * storage aplikasi.
-     * <br><br>
-     * Untuk mendapatkan default Foto User petama-tama method akan mengecek apakah default Foto User sudah didownload atau belum. 
-     * Jika default Foto User sudah didownload maka method akan mengembalikan direktori dari default Foto User tersebut 
-     * dalam bentuk object dari class {@code File}. Tetapi jika default Foto User belum didownload maka akan didownload 
-     * dengan menggunakan method {@code downloadPhoto()}.
-     * <br><br>
-     * Setelah default Foto User berhasil didownload maka selanjutnya method akan merubah nama file dari default Foto User yang 
-     * sebelumnya '1_default.png' menjadi 'default.png' dengan menggunakan method {@code renameFile()} yang ada didalam 
-     * class {@code FileManager}. Jika default nama file dari Foto User berhasil direname maka selanjutnya method akan 
-     * mengembalikan direktori dari default Foto User dalam bentuk object class {@code File}.
-     * 
-     * @return default Foto User.
-     */
-    private File getDefaultPhoto(){
-        // file default foto
-        File defProfile = new File(new Storage().getCacheDir() + "pictures\\default.png");
-        boolean rename;
-        
-        try{
-            // jika file default foto sudah exist/didownload maka akan mengembalikan niali dari defProfile
-            if(defProfile.exists()){
-                // akan mengembalikan defProfile
-                return defProfile;
-            }else{
-                // mendownload file default foto
-                defProfile = this.downloadPhoto("1");
-                // merename file default foto ke 'default'
-                rename = new FileManager().renameFile(defProfile.toString(), "default");
-                // jika file default foto berhasil direname maka method akan mengembalikan direktori dari foto
-                if(rename){
-                    // mengembalikan direktori dari file default foto
-                    return new File(new Storage().getCacheDir() + "pictures\\default.png");
-                }
-            }
-        }catch(SQLException | IOException ex){
-            Message.showException(this, "Gagal mendapatkan Foto dari User!", ex, true);
-        }
-        return null;
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code File} berdasarkan ID User yang diinputkan. Method akan mendapatkan direktori dari Foto User dengan melalui 
-     * method {@code downloadPhoto()}. Jika terjadi kesalahan/error saat memanggil method {@code downloadPhoto()} maka method 
-     * akan mengembalikan direktori dari default Foto User. Direktori dari default Foto User akan didapatkan melalui 
-     * method {@code getDefaultPhoto()}.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @return Direktori dari Foto User.
-     */
-    private File getPhoto(String idUser){
-        try {
-            return this.downloadPhoto(idUser);
-        } catch (SQLException | IOException ex) {
-            Message.showException(this, "Gagal mendapatkan Foto dari User!", ex, true);
-        }
-        return this.getDefaultPhoto();
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang diinputkan dan dengan ukuran dari Foto User yang telah diubah. Method akan 
-     * mendapatkan direktori dari Foto user dengan menggunakan method {@code getPhoto(String idUser)}. Setelah direktori didapatkan 
-     * maka selanjutnya method akan mengubah ukuran lebar dan tinggi dari Foto berdasarkan lebar dan tinggi yang diinputkan pada 
-     * parameter method. 
-     * <br><br>
-     * Ukuran lebar dan tinggi dari Foto User akan diubah dengan melalui method {@code resizeImage()} yang ada didalam class 
-     * {@code Gambar}. Setelah ukuran lebar dan tinggi dari Foto User berhasil diubah maka method akan mengembalikan direktori
-     * dari Foto User yang telah diubah ukuranya tersebut.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @param width lebar dari Foto User.
-     * @param height tinggi dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(String idUser, int width, int height){
-        return new ImageIcon(Gambar.resizeImage(this.getPhoto(idUser), width, height).toString());
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang sedang digunakan untuk login dan dengan ukuran dari Foto User yang telah diubah. 
-     * Method akan mendapatkan ID User yang sedang digunakan untuk login dengan menggunakan methot {@code getCurrentLogin()}. 
-     * Sedangkan ukuran dari Foto User akan diubah dengan melalui method {@code getPhoto(String idUser, int width, int height)}.
-     * 
-     * @param width lebar dari Foto User.
-     * @param height tinggi dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(int width, int height){
-        return this.getPhoto(this.getCurrentLogin(), width, height);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang diinputkan dan dengan ukuran dari Foto User yang telah diubah. Method akan 
-     * mendapatkan direktori dari Foto user dengan menggunakan method {@code getPhoto(String idUser)}. Setelah direktori didapatkan 
-     * maka selanjutnya method akan mengubah ukuran lebar berdasarkan parameter <code>size</code> pada method.
-     * <br><br>
-     * Parameter <code>size</code> pada method ini adalah sebuah class {@code UserPhotoSize} yang merupakan class untuk 
-     * meyimpan ukuran tinggi dan lebar dari Foto User dalam bentuk <code>enum</code>. Method akan mendapatkan ukuran lebar 
-     * dan tinggi dari enum dengan menggunakan method {@code getWidth()} dan {@code getHeight()} yang ada didalam 
-     * class {@code UserPhotoSize}.
-     * <br><br>
-     * Ukuran lebar dan tinggi dari Foto User akan diubah dengan melalui method {@code resizeImage()} yang ada didalam class 
-     * {@code Gambar}. Setelah ukuran lebar dan tinggi dari Foto User berhasil diubah maka method akan mengembalikan direktori
-     * dari Foto User yang telah diubah ukuranya tersebut.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @param size ukuran dari Foto User.
-     * 
-     * @return Direktori dari Foto User yang telah diubah ukuranya.
-     */
-    public final ImageIcon getPhoto(String idUser, UserPhotoSize size){
-        return this.getPhoto(idUser, UserPhotoSize.getWidth(size), UserPhotoSize.getHeight(size));
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan direktori dari Foto User yang sudah didownload dalam bentuk object class 
-     * {@code ImageIcon} berdasarkan ID User yang sedang digunakan untuk login dan dengan ukuran dari Foto User yang telah diubah. 
-     * Method akan mendapatkan ID User yang sedang digunakan untuk login dengan menggunakan methot {@code getCurrentLogin()}. 
-     * Sedangkan ukuran dari Foto User akan diubah dengan melalui method {@code getPhoto(String idUser, UserPhotoSize size)}.
-     * 
-     * @param size ukuran dari foto user.
-     * @return Direktori dari Foto User yang telah diubah ukuranya. 
-     */
-    public final ImageIcon getPhoto(UserPhotoSize size){
-        return this.getPhoto(this.getCurrentLogin(), size);
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan Foto Profile dari User berdasarkan ID User yang diinputkan. Method akan 
-     * mendapatkan Foto Profile dari User dengan menggunakan method {@code getPhoto()} dengan ukuran yang disesuaikan dengan 
-     * ukuran Foto Profile. Ukuran dari Foto Profile dibagi menjadi dua yaitu <code>FOTO_PROFILE_PETUGAS</code> yang digunakan 
-     * untuk User dengan level <b>ADMIN</b> atau <b>PETUGAS</b>. Dan <code>FOTO_PROFILE_SISWA</code> yang digunakan untuk user dengan 
-     * level <b>SISWA</b>.
-     * <br><br>
-     * Sebelum mendapatkan Foto Profile dari User method akan mengecek apakah user memiliki level <b>ADMIN</b> atau <b>PETUGAS</b>
-     * atau tidak. Jika User memiliki level <b>ADMIN</b> atau <b>PETUGAS</b> maka Foto Profile akan didapatkan dengan melalui 
-     * method {@code getPhoto()} dengan ukuran <code>FOTO_PROFILE_PETUGAS</code>.
-     * <br><br>
-     * Tetapi jika User tidak memiliki level <b>ADMIN</b> atau <b>PETUGAS</b> maka method akan mengecek apakah User tersebut 
-     * memiliki level <b>SISWA</b> atau tidak. Jika User memiliki level <b>SISWA</b> maka Foto Profile akan didapatkan dengan melalui 
-     * method {@code getPhoto()} dengan ukuran <code>FOTO_PROFILE_SISWA</code>.
-     * 
-     * @param idUser ID User yang ingin didapatkan fotonya.
-     * @return Direktori dari Foto Profile User.
-     */
-    public final ImageIcon getPhotoProfile(String idUser){
-        // jika user memiliki level admin atau petugas
-        if(this.isAdmin(idUser) || this.isPetugas(idUser)){
-            // mendapatkan foto profile dari user
-            return this.getPhoto(idUser, UserPhotoSize.FOTO_PROFILE_PETUGAS);
-        }
-        // jika user memiliki level siswa
-        else if(this.isSiswa(idUser)){
-            // mendapatkan foto profile dari user
-            return this.getPhoto(idUser, UserPhotoSize.FOTO_PROFILE_SISWA);
-        }
-        return new ImageIcon(getPhoto(idUser).toString());
-    }
-    
-    /**
-     * Method ini digunakan untuk mendapatkan Foto Profile dari User bedasarkan ID User yang sedang digunakan untuk login 
-     * saat ini dalam bentuk object dari class {@code ImageIcon}. Method akan mendapatkan ID User yang sedang digunakan untuk login 
-     * dengan menggunakan method {@code getCurrentLogin()}. Sedangakan Foto Profile akan didapatkan dengan melalui method 
-     * {@code getPhotoProfile()}.
-     * 
-     * @return Direktori dari Foto Profile User.
-     */
-    public final ImageIcon getPhotoProfile(){
-        return this.getPhotoProfile(getCurrentLogin());
-    }
-    
-    /**
-     * Method ini digunakan untuk mengedit sebuah Foto dari User. Method akan mengedit Foto dari User dengan menggunakan 
-     * class {@code PreparedStatement}. Sebelum mengedit Foto dari User method akan mengecek apakah parameter newImg yang
-     * digunakan untuk menampung file Foto User yang baru apakah parameter tersebut kosong atau tidak. Jika parameter kosong 
-     * maka Foto User akan diset ke default Foto User.
-     * <br><br>
-     * Jika Foto User tidak kosong maka selanjutnya method akan mengkonversi file Foto User yang baru tersebut kedalam bentuk 
-     * blob/byte stream dengan menggunakan method {@code fileToBlob()} yang ada didalam class {@code FileManager()}. Setelah 
-     * file berhasil dikoversi kedalam bentuk blob/byte stream maka selanjutnya method akan mengedit Foto User dengan menggunakan 
-     * method {@code executeUpdate()} yang ada didalam class {@code PreparedStatement}.
-     * <br><br>
-     * Jika proses pengeditan Foto User berhasil maka selanjutnya method akan menghapus cache dari Foto User lama yang ada didalam 
-     * folder cache didalam storage aplikasi. Setelah cache dari Foto User yang lama berhasil dihapus maka proses pengeditan 
-     * Foto User dinyatakan berhasil dan method akan mengembalikan nilai <code>true</code>
-     * 
-     * @param idUser ID User yang ingin diedit fotonya.
-     * @param newImg Foto User yang baru.
-     * 
-     * @return <strong>True</strong> jika proses pengeditan berhasil. <br>
-     *         <strong>False</strong> jika proses pengeditan gagal.
-     */
-    public final boolean setPhoto(String idUser, File newImg){
-        PreparedStatement pst;
-        boolean result;
-        
-        try {
-            // mengedit foto yang ada didalam database
-            pst = super.conn.prepareStatement("UPDATE users SET foto = ? WHERE id_user = " + idUser);
-            // jika file newImg tidak kosong maka foto akan diedit
-            if(newImg != null){
-                // mengkonversi file menjadi blob
-                pst.setBlob(1, new FileManager().fileToBlob(newImg));
-            }else{
-                pst.setString(1, null);
-            }
-            
-            // mengedit foto
-            result = pst.executeUpdate() > 0;
-            
-            // jika foto yang ada didalam database berhasil diedit maka cache foto akan dihapus
-            if(result){
-                // menghapus cache foto
-                this.removeCachePhoto(idUser);
-                // mengembalikan nilai true
-                return true;
-            }
-        } catch (IOException | SQLException ex) {
-            Message.showException(this, "Gagal mengedit Foto dari User!", ex, true);
-        }
-        return false;
-    }
-    
-    /**
-     * Method ini digunakan untuk menghapus sebuah Foto User yang sebelumnya diunggah/diupload ke dalam <b>Database</b>.
-     * Foto User sebenarnya tidak akan benar-benar dihapus melainkan Foto User akan diatur ke default Foto User. 
-     * Method akan menghapus Foto User dengan menggunakan method {@code setPhoto()} dengan paremeter file foto diisi 
-     * dengan nilai <code>null</code>.
-     * 
-     * @param idUser ID User yang ingin dihapus fotonya.
-     * @return <strong>True</strong> jika foto berhasil dihapus. <br>
-     *         <strong>False</strong> jika foto gagal dihapus.
-     */
-    public final boolean removePhoto(String idUser){
-        return this.setPhoto(idUser, null);
-    }
-    
-    /**
-     * Method ini digunakan untuk menghapus cache-cache dari Foto User berdasarkan ID User yang diinputakn. Cache
-     * dari Foto User perlu dihapus saat user mengedit Foto mereka. Jika cache tidak dihapus maka cache dari Foto User yang 
-     * baru tidak akan dibuat dan hal ini akan menyebabkan bug pada aplikasi. Pertama-tama method akan mendapatkan data semua 
-     * file cache yang didalam folder cache\\pictures\\resized pada storage aplikasi dengan menggunakan method 
-     * {@code getListFile()} yang ada didalam class {@code FileManager} untuk dihapus.
-     * <br><br>
-     * Sebelum menghapus file cahce yang ada didalam folder cache\\pictures\\resized method akan menghapus cache file foto 
-     * original yang ada didalam folder cache\\pictures dengan menggunakan method {@code deleteFile()} yang ada didalam class
-     * {@code FileManager()}. Selanjutnya method akan menghapus semua file cache dari foto yang nama filenya diawali dengan 
-     * id user yang diinputkan.
-     * 
-     * @param idUser ID User yang ingin dihapus cachenya.
-     * @throws IOException akan terjadi error jika direktori dari folder cache tidak ditemukan.
-     */
-    private void removeCachePhoto(String idUser) throws IOException{
-        
-        String file;
-        FileManager fm = new FileManager();
-        // mendapatkan semua direktori dari file cache untuk dihapus
-        Object[] dirs = fm.getListFile(new Storage().getCacheDir()+"\\pictures\\resized");
-        
-        // menghapus foto original
-        fm.deleteFile(this.getPhotoDir(idUser));
-        
-        // membaca direktori dari foto resized yang ada didalam array files
-        for(Object o : dirs){
-            // mendapatkan nama dari file
-            file = fm.getNamaFile(o.toString());
-            // jika nama dari file id_user-nya sama dengan id user yg diinputkan maka file akan dihapus
-            if(file.substring(0, file.indexOf("_")).equalsIgnoreCase(idUser)){
-                // menghapus file cache
-                Log.addLog("Menghapus file cache " + file);
-                fm.deleteFile(o.toString());
-            }
-        }
-    }
-    
-    public String getName(String idUser){
-        if(this.getLevel(idUser).name().equalsIgnoreCase("KARYAWAN")){
-            return this.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'");
-        }
-        return null;
-    }
+
     
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        System.out.println(user.getName("KY003"));
+        System.out.println(user.getCurrentLoginName());
+//        System.out.println(Validation.isIdUser("PB286"));
+//        System.out.println(user.getLastID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
+//        System.out.println(user.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
     }
     
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Okt 2022 pada 16.54
+-- Waktu pembuatan: 16 Okt 2022 pada 18.56
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -24,19 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
---
-
-CREATE TABLE `admin` (
-  `id_admin` varchar(5) NOT NULL,
-  `nama_admin` varchar(30) NOT NULL,
-  `no_telp` varchar(15) NOT NULL,
-  `alamat` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `barang`
 --
 
@@ -49,27 +36,27 @@ CREATE TABLE `barang` (
   `harga_jual` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `karyawan`
+-- Dumping data untuk tabel `barang`
 --
 
-CREATE TABLE `karyawan` (
-  `id_karyawan` varchar(5) NOT NULL,
-  `nama_karyawan` varchar(50) NOT NULL,
-  `no_telp` varchar(15) NOT NULL,
-  `alamat` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `karyawan`
---
-
-INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `no_telp`, `alamat`) VALUES
-('KY001', 'Achmad Baihaqi', '085655864624', 'Jombang, Jawa Timur, Indonesia'),
-('KY002', 'Mohammad Ilham Islamy', '085690313826', 'Nganjuk, Jawa Timur, Indonesia'),
-('KY003', 'Amirzan Fikri Prasetyo', '085739499321', 'Jombang, Jawa Timur, Indonesia');
+INSERT INTO `barang` (`id_barang`, `nama_barang`, `jumlah`, `jenis_barang`, `harga_beli`, `harga_jual`) VALUES
+('BG001', 'Sprite', 10, 'MINUMAN', 3000, 4000),
+('BG002', 'Coca Cola', 10, 'MINUMAN', 3000, 4000),
+('BG003', 'Teh Pucuk', 10, 'MINUMAN', 3000, 4000),
+('BG004', 'Aqua 500ml', 10, 'MINUMAN', 4000, 5000),
+('BG005', 'Aqua 1L', 16, 'MINUMAN', 7000, 8000),
+('BG006', 'Indomilk', 20, 'MINUMAN', 2000, 2500),
+('BG007', 'Kertas Folio', 100, 'ATK', 100, 250),
+('BG008', 'Kertas HVS', 500, 'ATK', 100, 250),
+('BG009', 'Pulpen Snowman', 24, 'ATK', 1000, 2000),
+('BG010', 'Spidol Hitam', 20, 'ATK', 2000, 2500),
+('BG011', 'Spidol Merah', 20, 'ATK', 2000, 2500),
+('BG012', 'Spidol Biru', 20, 'ATK', 2000, 2500),
+('BG013', 'Yupi', 50, 'SNACK', 400, 500),
+('BG014', 'Roti', 20, 'SNACK', 1500, 2000),
+('BG015', 'Wafer', 48, 'SNACK', 500, 1000),
+('BG016', 'Oreo', 48, 'SNACK', 1000, 2000);
 
 -- --------------------------------------------------------
 
@@ -643,7 +630,78 @@ INSERT INTO `pembeli` (`id_pembeli`, `nama_pembeli`, `no_telp`, `alamat`) VALUES
 ('PB524', 'Bagus Anton Subekti', '082782460725', 'Nganjuk, Indonesia'),
 ('PB525', 'Dafa Agustia Pratama', '082221632813', 'Nganjuk, Indonesia'),
 ('PB526', 'Daffa Andhika Rizky', '084288407013', 'Kediri, Indonesia'),
-('PB527', 'Danang Dwi Krisnanto', '087608747742', 'Nganjuk, Indonesia');
+('PB527', 'Danang Dwi Krisnanto', '087608747742', 'Nganjuk, Indonesia'),
+('PB001', 'Abdul Fattah Burhanuddin', '087825323132', 'Nganjuk, Indonesia'),
+('PB002', 'Abdulloh Kafabi', '080981734812', 'Nganjuk, Indonesia'),
+('PB003', 'Achmad Romadoni', '083849503086', 'Kediri, Indonesia'),
+('PB004', 'Afif Fitra Nugroho', '082223490056', 'Nganjuk, Indonesia'),
+('PB005', 'Aga Deva Kharisma', '089756124356', 'Nganjuk, Indonesia'),
+('PB006', 'Ahmad Edy Syaputra', '082131788391', 'Kediri, Indonesia'),
+('PB007', 'Ahmad Fauzi Waro', '085893072338', 'Kediri, Indonesia'),
+('PB008', 'Ahmad Riyanto', '085735973607', 'Jombang, Indonesia'),
+('PB009', 'Andi Wijahnu Prasetyo', '085708298074', 'Nganjuk, Indonesia'),
+('PB010', 'Andre Maulana', '082231253269', 'Nganjuk, Indonesia'),
+('PB011', 'Arfan Ardiansyah', '082230816950', 'Kediri, Indonesia'),
+('PB012', 'Asep Habidin Habibi', '085210513845', 'Nganjuk, Indonesia'),
+('PB013', 'Bagas Deo Alfiano', '085648663916', 'Nganjuk, Indonesia'),
+('PB014', 'Bagus Aldian Hidayat', '085245208656', 'Nganjuk, Indonesia'),
+('PB015', 'Bagus Tri Aditya', '081230229048', 'Nganjuk, Indonesia'),
+('PB016', 'Bambang Tri Prasetyo', '081358308462', 'Nganjuk, Indonesia'),
+('PB017', 'Bayu Ilham Samudra', '081217002468', 'Kediri, Indonesia'),
+('PB018', 'Bela Agustiana', '085812116074', 'Kediri, Indonesia'),
+('PB019', 'Dani Ahmad Afandi', '081234558480', 'Nganjuk, Indonesia'),
+('PB020', 'Deni Yuda Mahendra', '081358333984', 'Nganjuk, Indonesia'),
+('PB021', 'Didit Antoni', '087885482782', 'Nganjuk, Indonesia'),
+('PB022', 'Dilla Nurisma', '085796274136', 'Kediri, Indonesia'),
+('PB023', 'Dimas Abimanyu', '089612542416', 'Berau, Indonesia'),
+('PB024', 'Echa Candra Utama', '085706142064', 'Kediri, Indonesia'),
+('PB025', 'Ega Rifky Prayoga', '085230327799', 'Nganjuk, Indonesia'),
+('PB026', 'Eko Agung Santoso', '087721809658', 'Kediri, Indonesia'),
+('PB027', 'Elvira Nanda Julia', '085230646614', 'Nganjuk, Indonesia'),
+('PB028', 'Ervin Tri Yunaiti', '081554983163', 'Kediri, Indonesia'),
+('PB029', 'Faiz Lailli Alqurnia', '082131027123', 'Jombang, Indonesia'),
+('PB030', 'Faizal Dwi Pratama', '085731873871', 'Nganjuk, Indonesia'),
+('PB031', 'Fajar Supriyanto', '083845096810', 'Nganjuk, Indonesia'),
+('PB032', 'Farel Kurniawan', '083850398247', 'Tegal, Indonesia'),
+('PB033', 'Febri Setiawan', '085784055874', 'Nganjuk, Indonesia'),
+('PB034', 'Feby Ayu Dyah Pitaloka', '082244125591', 'Nganjuk, Indonesia'),
+('PB035', 'Firdhaus Aprileo Prasetiyo', '085231816357', 'Nganjuk, Indonesia'),
+('PB036', 'Galih Priyanggara', '085816641250', 'Kediri, Indonesia'),
+('PB037', 'George Walker Cristian Nebangka', '087759275783', 'Nganjuk, Indonesia'),
+('PB038', 'Gilang Nur Fauzi', '089812459087', 'Nganjuk, Indonesia'),
+('PB039', 'Gita Sania Sallsa Billa', '089516516507', 'Nganjuk, Indonesia'),
+('PB040', 'Habib Dwi Febriansyah', '085708307620', 'Nganjuk, Indonesia'),
+('PB041', 'Hendro Wawan Setiyo', '087770612033', 'Jombang, Indonesia'),
+('PB042', 'Ilham Adinata', '085755136624', 'Nganjuk, Indonesia'),
+('PB043', 'Ilham Firmansyah', '089671056706', 'Nganjuk, Indonesia'),
+('PB044', 'Imam Khoiri', '082231537345', 'Nganjuk, Indonesia'),
+('PB045', 'Ine Octa Firmana Putri', '0895381059784', 'Nganjuk, Indonesia'),
+('PB046', 'Iqbal Dwi Irawan', '085792308976', 'Nganjuk, Indonesia'),
+('PB047', 'Kurniawati', '083845886913', 'Nganjuk, Indonesia'),
+('PB048', 'Lucky Rizky Pradana', '087703382480', 'Nganjuk, Indonesia');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `petugas`
+--
+
+CREATE TABLE `petugas` (
+  `id_petugas` varchar(5) NOT NULL,
+  `nama_petugas` varchar(50) NOT NULL,
+  `no_telp` varchar(15) NOT NULL,
+  `alamat` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `petugas`
+--
+
+INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `no_telp`, `alamat`) VALUES
+('PG001', 'Admin', '085790776551', 'Nganjuk, Jawa Timur, Indonesia'),
+('PG002', 'Achmad Baihaqi', '085655864624', 'Jombang, Jawa Timur, Indonesia'),
+('PG003', 'Amirzan Fikri Prasetyo', '085105304100', 'Jombang, Jawa Timur, Indonesia'),
+('PG004', 'Mohammad Ilham Islamy', '085784626830', 'Nganjuk, Jawa Timur, Indonesia');
 
 -- --------------------------------------------------------
 
@@ -657,6 +715,23 @@ CREATE TABLE `supplier` (
   `no_telp` varchar(15) NOT NULL,
   `alamat` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `supplier`
+--
+
+INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `no_telp`, `alamat`) VALUES
+('SP001', 'Amirzan Fikri Prasetyo', '085105304100', 'Jombang, Jawa Timur, Indonesia'),
+('SP002', 'Afrizal Wahyu Alkautsar', '082233671927', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP003', 'Syafrizal Wd Mahendra', '0895807400305', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP004', 'Syamaidzar Adani Syah', '082229657300', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP005', 'Moch. Rifaul Ardiyanto', '085855348099', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP006', 'Septian Yoga Pamungkas', '085806531609', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP007', 'Atilah Lazuardi Azra', '081335315751', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP008', 'Farid Kurniawan', '083851952383', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP009', 'Muhamad Sugeng Cahyono', '085812455631', 'Kediri, Jawa Timur, Indonesia'),
+('SP010', 'Wisudawan Siburian', '081361977793', 'Nganjuk, Jawa Timur, Indonesia'),
+('SP011', 'Wahyu Bagas Prastyo', '081913236990', 'Nganju, Jawa Timur, Indonesia');
 
 -- --------------------------------------------------------
 
@@ -708,9 +783,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `password`, `level`) VALUES
-('KY001', '1234', 'KARYAWAN'),
-('KY002', '1234', 'KARYAWAN'),
-('KY003', '1234', 'KARYAWAN'),
 ('PB001', '12345', 'PEMBELI'),
 ('PB002', '12345', 'PEMBELI'),
 ('PB003', '12345', 'PEMBELI'),
@@ -1237,29 +1309,32 @@ INSERT INTO `users` (`id_user`, `password`, `level`) VALUES
 ('PB524', '12345', 'PEMBELI'),
 ('PB525', '12345', 'PEMBELI'),
 ('PB526', '12345', 'PEMBELI'),
-('PB527', '12345', 'PEMBELI');
+('PB527', '12345', 'PEMBELI'),
+('PG001', '12345678', 'ADMIN'),
+('PG002', '12345', 'ADMIN'),
+('PG003', '12345', 'KARYAWAN'),
+('PG004', '12345', 'KARYAWAN'),
+('SP001', '12345', 'SUPPLIER'),
+('SP002', '12345', 'SUPPLIER'),
+('SP003', '12345', 'SUPPLIER'),
+('SP004', '12345', 'SUPPLIER'),
+('SP005', '12345', 'SUPPLIER'),
+('SP006', '12345', 'SUPPLIER'),
+('SP007', '12345', 'SUPPLIER'),
+('SP008', '12345', 'SUPPLIER'),
+('SP009', '12345', 'SUPPLIER'),
+('SP010', '12345', 'SUPPLIER'),
+('SP011', '12345', 'SUPPLIER');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
---
-ALTER TABLE `admin`
-  ADD KEY `id_admin` (`id_admin`);
-
---
 -- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
-
---
--- Indeks untuk tabel `karyawan`
---
-ALTER TABLE `karyawan`
-  ADD KEY `id_karyawan` (`id_karyawan`);
 
 --
 -- Indeks untuk tabel `laporan_pendapatan`
@@ -1280,6 +1355,12 @@ ALTER TABLE `laporan_pengeluaran`
 --
 ALTER TABLE `pembeli`
   ADD KEY `id_pembeli` (`id_pembeli`);
+
+--
+-- Indeks untuk tabel `petugas`
+--
+ALTER TABLE `petugas`
+  ADD KEY `id_karyawan` (`id_petugas`);
 
 --
 -- Indeks untuk tabel `supplier`
@@ -1315,18 +1396,6 @@ ALTER TABLE `users`
 --
 
 --
--- Ketidakleluasaan untuk tabel `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `karyawan`
---
-ALTER TABLE `karyawan`
-  ADD CONSTRAINT `karyawan_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ketidakleluasaan untuk tabel `laporan_pendapatan`
 --
 ALTER TABLE `laporan_pendapatan`
@@ -1345,6 +1414,18 @@ ALTER TABLE `pembeli`
   ADD CONSTRAINT `pembeli_ibfk_1` FOREIGN KEY (`id_pembeli`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `petugas`
+--
+ALTER TABLE `petugas`
+  ADD CONSTRAINT `petugas_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `supplier`
+--
+ALTER TABLE `supplier`
+  ADD CONSTRAINT `supplier_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ketidakleluasaan untuk tabel `transaksi_beli`
 --
 ALTER TABLE `transaksi_beli`
@@ -1355,7 +1436,7 @@ ALTER TABLE `transaksi_beli`
 -- Ketidakleluasaan untuk tabel `transaksi_jual`
 --
 ALTER TABLE `transaksi_jual`
-  ADD CONSTRAINT `transaksi_jual_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `karyawan` (`id_karyawan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_jual_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_jual_ibfk_2` FOREIGN KEY (`id_pembeli`) REFERENCES `pembeli` (`id_pembeli`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_jual_ibfk_3` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

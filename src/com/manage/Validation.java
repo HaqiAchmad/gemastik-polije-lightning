@@ -1,8 +1,6 @@
 package com.manage;
 
-import com.data.app.Application;
 import com.media.Audio;
-import com.manage.Waktu;
 import javax.swing.JOptionPane;
 
 /**
@@ -63,89 +61,53 @@ public class Validation {
     }
     
     /**
-     * - id petugas harus diantara 1 sampai 999
-     * 
-     * @param id id petugas yang akan dicek
-     * @return 
-     */
-    public static boolean isIdPetugas(int id){
-        if(id < 1000 && id > 1){
-            return true;
-        }else{
-//            Audio.play(Audio.SOUND_WARNING);
-//            JOptionPane.showMessageDialog(null, "ID harus diantara 1-999!", "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-    
-    /**
-     * - nis harus diantara 1000 sampai 99,999
-     * @param nis nis yang akan diecek
-     * @return 
-     */
-    public static boolean isNis(int nis){
-        if(nis >= 1000 && nis < 100000){
-            return true;
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "NIS harus diantara 1000-99999!", "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-    
-    /**
      * id user harus terdiri dari 5 karakter
      * 
-     * @param text
+     * @param idUser
      * @return 
      */
-    public static boolean isIdUser(String text){
-        return text.length() == 5;
-    }
-    
-    /**
-     * - id kelas panjangnya harus kurang dari 10 karakter
-     * 
-     * @param id id kelas yang akan dicek
-     * @return 
-     */
-    public static boolean isIdKelas(String id){
-        if(id.length() < 10){
+    public static boolean isIdUser(String idUser){
+        if(idUser.length() == 5){
             return true;
         }else{
             Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Panjang dari ID Kelas harus diantara 1-9 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "'" + idUser + "' ID tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
     
-    /**
-     * - id spp harus diantara 10-99
-     * 
-     * @param id id spp yang akan dicek
-     * @return 
-     */
-    public static boolean isIdSpp(int id){
-        if(id > 9 && id < 100){
-            return true;
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "ID SPP harus diantara 10-99!", "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-    
-    public static boolean isIdPembayaran(String id){
-        if(id.length() >= 5 && id.length() <= 10){
-            if(containsNumber(id)){
+    public static boolean isIdPetugas(String idKaryawan){
+        if(Validation.isIdUser(idKaryawan)){
+            if(idKaryawan.substring(0, 2).equalsIgnoreCase("PG")){
                 return true;
             }else{
                 Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "ID Pembayaran harus mengandung angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "'" + idKaryawan + "' Kode ID Petugas tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
             }
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Panjang dari ID Pembayaran harus diantara 6-10 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+    
+    public static boolean isIdSupplier(String idSupplier){
+        if(Validation.isIdUser(idSupplier)){
+            if(idSupplier.substring(0, 2).equalsIgnoreCase("SP")){
+                return true;
+            }else{
+                Audio.play(Audio.SOUND_WARNING);
+                JOptionPane.showMessageDialog(null, "'" + idSupplier + "' Kode ID Supplier tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        return false;
+    }
+    
+    public static boolean isIdPembeli(String idPembeli){
+        if(Validation.isIdUser(idPembeli)){
+             if(idPembeli.substring(0, 2).equalsIgnoreCase("PB")){
+                return true;
+            }else{
+                Audio.play(Audio.SOUND_WARNING);
+                JOptionPane.showMessageDialog(null, "'" + idPembeli + "' Kode ID Pembeli tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            }
         }
         return false;
     }
@@ -172,22 +134,6 @@ public class Validation {
         return false;
     }
     
-    /**
-     * - nama kelas harus terdiri dari 2-9 karakter
-     * 
-     * @param kelas nama kelas yang akan dicek
-     * @return 
-     */
-    public static boolean isNamaKelas(String kelas){
-        if(kelas.length() > 1 && kelas.length() <= 9){
-            return true;
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Nama Kelas harus terdiri dari 2-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return true;
-    }
-    
     public static boolean isGender(String gender){
         return gender.equalsIgnoreCase("L") || gender.equalsIgnoreCase("P");
     }
@@ -203,47 +149,6 @@ public class Validation {
      */
     public static boolean isTanggalLahir(String tanggal){
         return new Waktu().isTanggal(tanggal);
-    }
-    
-    /**
-     * - tahun yg diinputkan tidak boleh kurang dari tahun saat ini
-     * - tahun tidak boleh lebih dari 9999
-     * 
-     * @param tahun tahun yang akan dicek
-     * @return 
-     */
-    public static boolean isTahunSpp(int tahun){
-        com.manage.Waktu waktu = new com.manage.Waktu();
-        if(tahun >= waktu.getTahun()){
-            if(tahun < 9999){
-                return true;
-            }else{
-                Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "Tahun tidak boleh lebih dari 9999!", "Pesan", JOptionPane.WARNING_MESSAGE);
-            }
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "'"+tahun+"' Tahun tersebut sudah kadaluarsa!", "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-    
-    /**
-     * nominal spp harus diantara Rp. 50.000 sampai Rp. 1.000.000
-     * 
-     * @param nominal nominal yang akan dicek
-     * @return 
-     */
-    public static boolean isNominalSpp(int nominal){
-        if(nominal >= 50000 && nominal <= 1000000){
-            return true;
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(
-                    null, "Nominal SPP harus diantara Rp. 50.000 sampai Rp. 1.000.000!\nNominal yang anda masukan adalah Rp. " + String.format("%,d!", nominal), 
-                    "Pesan", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
     }
     
     /**
@@ -311,10 +216,10 @@ public class Validation {
      * @return 
      */
     public static boolean isPassword(String password){
-        if(password.length() >= 4 && password.length() <= 50){
+        if(password.length() >= 5 && password.length() <= 50){
             return true;
         }else{
-//            JOptionPane.showMessageDialog(null, "Panjang dari Password harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Panjang dari Password harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
@@ -385,6 +290,15 @@ public class Validation {
         return false;
     }
     
+    public static boolean isLevel(com.users.UserLevels level){
+        switch(level.name()){
+            case "ADMIN" : return true;
+            case "KARYAWAN" : return true;
+            case "SUPPLIER" : return true;
+            case "PEMBELI" : return true;
+            default : return false;
+        }
+    }
     
     public static void main(String[] args) {
         System.out.println(Validation.isIdUser("KY001"));

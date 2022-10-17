@@ -1,7 +1,7 @@
 package com.test;
 
 import com.data.app.Log;
-import com.data.db.Database;
+import com.users.Users;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -16,11 +16,11 @@ import java.util.StringTokenizer;
  */
 public class InputDataPembeli {
     
-    private final Database dbase = new Database();
+    private final Users user = new Users();
     
     public InputDataPembeli(){
         Log.createLog();
-        dbase.startConnection();
+        user.startConnection();
     }
     
     private void writeData(){
@@ -99,9 +99,11 @@ public class InputDataPembeli {
             noHp = data.nextToken();
             alamat = data.nextToken();
             
-            // membuat query mysql untuk menambahkan data
-            queryUsers += String.format("\n('%s','%s','%s'),", idPembeli, pass, level);
-            queryPembeli += String.format("\n('%s', '%s', '%s', '%s'),", idPembeli, namaPembeli, noHp, alamat);
+            if(!this.user.isExistUser(idPembeli)){
+                // membuat query mysql untuk menambahkan data
+                queryUsers += String.format("\n('%s','%s','%s'),", idPembeli, pass, level);
+                queryPembeli += String.format("\n('%s', '%s', '%s', '%s'),", idPembeli, namaPembeli, noHp, alamat);                
+            }
         }
         // menyiapkan query untuk dieksekusi
         queryUsers = queryUsers.substring(0, queryUsers.lastIndexOf(",")).concat(";");
@@ -110,12 +112,13 @@ public class InputDataPembeli {
         System.out.println(queryPembeli);
         
         // mengeksekusi query dan menambahkan data pembeli ke dalam database
-        dbase.addData(queryUsers);
-        dbase.addData(queryPembeli);
+        user.addData(queryUsers);
+        user.addData(queryPembeli);
     }
     
     public static void main(String[] args) {
         // jangan dijalankan lagi jika data pembeli sudah ada di mysql
+        Log.createLog();
         InputDataPembeli input = new InputDataPembeli();
         input.insertToMySQL();
         

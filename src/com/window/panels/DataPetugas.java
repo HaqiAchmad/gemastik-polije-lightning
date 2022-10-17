@@ -1,11 +1,22 @@
 package com.window.panels;
 
-import com.data.db.Database;
+import com.data.db.DatabaseTables;
+import com.manage.Internet;
 import com.manage.Message;
+import com.manage.Text;
+import com.media.Audio;
+import com.media.Gambar;
+import com.sun.glass.events.KeyEvent;
+import com.users.Petugas;
+import com.window.dialogs.InputPetugas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -21,7 +32,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class DataPetugas extends javax.swing.JPanel {
     
-    private final Database dbase = new Database();
+    private final Petugas petugas = new Petugas();
+    
+    private final Internet net = new Internet();
+    
+    private final Text text = new Text();
+    
+    private String idSelected = "", keyword = "", namaPetugas, noTelp, alamat, level;
     
     public DataPetugas() {
         initComponents();
@@ -107,22 +124,22 @@ public class DataPetugas extends javax.swing.JPanel {
 
     private Object[][] getData(){
         try{
-            dbase.startConnection();
+            petugas.startConnection();
             Object[][] obj;
             int rows = 0;
-            String sql = "SELECT id_karyawan, nama_karyawan, no_telp, alamat FROM karyawan", id;
+            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas", id;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[dbase.getJumlahData("karyawan")][4];
+            obj = new Object[petugas.getJumlahData(DatabaseTables.PETUGAS.name())][4];
             // mengeksekusi query
-            dbase.res = dbase.stat.executeQuery(sql);
+            petugas.res = petugas.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
-            while(dbase.res.next()){
+            while(petugas.res.next()){
                 // menyimpan data dari tabel ke object
-                id = dbase.res.getString("id_karyawan");
+                id = petugas.res.getString("id_petugas");
                 obj[rows][0] = id;
-                obj[rows][1] = dbase.res.getString("nama_karyawan");
-                obj[rows][2] = dbase.res.getString("no_telp");
-                obj[rows][3] = dbase.res.getString("alamat");
+                obj[rows][1] = petugas.res.getString("nama_petugas");
+                obj[rows][2] = petugas.res.getString("no_telp");
+                obj[rows][3] = petugas.res.getString("alamat");
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             return obj;
@@ -136,7 +153,7 @@ public class DataPetugas extends javax.swing.JPanel {
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
             new String [] {
-                "ID Karyawan", "Nama Karyawan", "No Telp", "Alamat"
+                "ID Petugas", "Nama Petugas", "No Telp", "Alamat"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -148,6 +165,21 @@ public class DataPetugas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+    }
+    
+    public void showData(){
+        // mendapatkan data
+        this.namaPetugas = petugas.getNama(this.idSelected);
+        this.noTelp = text.toTelephoneCase(petugas.getNoTelp(this.idSelected));
+        this.alamat = petugas.getAlamat(this.idSelected);
+        this.level = text.toCapitalize(petugas.getLevel(this.idSelected).name());
+        
+        // menampilkan data
+        this.valIDPetugas.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
+        this.valNamaPetugas.setText("<html><p>:&nbsp;"+namaPetugas+"</p></html>");
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+        this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+        this.valLevel.setText("<html><p>:&nbsp;"+level+"</p></html>");
     }
     
     @SuppressWarnings("unchecked")
@@ -239,6 +271,17 @@ public class DataPetugas extends javax.swing.JPanel {
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
         valNoTelp.setText(": 085739499321");
+        valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                valNoTelpMouseExited(evt);
+            }
+        });
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
@@ -348,6 +391,16 @@ public class DataPetugas extends javax.swing.JPanel {
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
         tabelData.getTableHeader().setReorderingAllowed(false);
+        tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelDataMouseClicked(evt);
+            }
+        });
+        tabelData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabelDataKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
@@ -358,6 +411,19 @@ public class DataPetugas extends javax.swing.JPanel {
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
         btnAdd.setText("Tambah Data");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -368,11 +434,32 @@ public class DataPetugas extends javax.swing.JPanel {
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -441,8 +528,156 @@ public class DataPetugas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        // TODO add your handling code here:
+        int status;
+        boolean delete;
+
+        // mengecek apakah user memiliki level admin
+        if(petugas.isAdmin()){
+            // mengecek apakah ada data yang dipilih atau tidak
+            if (tabelData.getSelectedRow() > -1) {
+                // membuka confirm dialog untuk menghapus data
+                Audio.play(Audio.SOUND_INFO);
+                status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaPetugas + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                // mengecek pilihan dari petugas
+                switch (status) {
+                    // jika yes maka data akan dihapus
+                    case JOptionPane.YES_OPTION:
+                        // menghapus data petugas
+                        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                        delete = this.petugas.deletePetugas(this.idSelected);
+                        // mengecek apakah data petugas berhasil terhapus atau tidak
+                        if (delete) {
+                            Message.showInformation(this, "Data berhasil dihapus!");
+                            // mengupdate tabel
+                            this.updateTabel();
+                        } else {
+                            Message.showInformation(this, "Data gagal dihapus!");
+                        }
+                        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                        break;
+                }       
+        }else{
+            Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+        }
+        }else{
+            Message.showWarning(this, "Access Denied!\nAnda bukan Admin!");
+        }
     }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // mengecek apakah user memiliki level admin
+        if(petugas.isAdmin()){
+            // membuka window input petugas
+            Audio.play(Audio.SOUND_INFO);
+            InputPetugas tbh = new InputPetugas(null, true, null);
+            tbh.setVisible(true);
+
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            // mengecek apakah petugas jadi menambahkan data atau tidak
+            if(tbh.isUpdated()){
+                // mengupdate tabel
+                this.updateTabel();
+                this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
+            }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }else{
+            Message.showWarning(this, "Access Denied!\nAnda bukan Admin!");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // mengecek apakah user memiliki level admin
+        if(petugas.isAdmin()){
+            // mengecek apakah ada data yang dipilih atau tidak
+            if(tabelData.getSelectedRow() > -1){
+                // membuka window input petugas
+                Audio.play(Audio.SOUND_INFO);
+                InputPetugas tbh = new InputPetugas(null, true, this.idSelected);
+                tbh.setVisible(true);
+
+                this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                // mengecek apakah petugas jadi mengedit data atau tidak
+                if(tbh.isUpdated()){
+                    // mengupdate tabel dan menampilkan ulang data
+                    this.updateTabel();
+                    this.showData();
+                }
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }else{
+                    Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+            }
+        }else{
+            Message.showWarning(this, "Access Denied!\nAnda bukan Admin!");
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
+
+    private void valNoTelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseClicked
+        String nomor = this.noTelp.substring(1).replaceAll(" ", "").replaceAll("-", "");
+        if(net.isConnectInternet()){
+            try {
+                net.openLink("https://wa.me/"+nomor);
+            } catch (IOException | URISyntaxException ex) {
+                Message.showException(this, ex, true);
+            }
+        }else{
+            Message.showWarning(this, "Tidak terhubung ke Internet!", true);
+        }
+    }//GEN-LAST:event_valNoTelpMouseClicked
+
+    private void valNoTelpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseEntered
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(15,98,230);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseEntered
+
+    private void valNoTelpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valNoTelpMouseExited
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+    }//GEN-LAST:event_valNoTelpMouseExited
+
+    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // menampilkan data supplier
+        this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
+        this.showData();
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataMouseClicked
+
+    private void tabelDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelDataKeyPressed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(evt.getKeyCode() == KeyEvent.VK_UP){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() - 1, 0).toString();
+            this.showData();
+        }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() + 1, 0).toString();
+            this.showData();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

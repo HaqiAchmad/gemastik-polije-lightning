@@ -17,6 +17,11 @@ public class TransaksiJual extends javax.swing.JPanel {
     public TransaksiJual() {
         initComponents();
         
+        this.btnAddJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnMinJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnBayar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        this.btnBatal.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        
         this.tabelDataBarang.setRowHeight(29);
         this.tabelDataBarang.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelDataBarang.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
@@ -220,11 +225,37 @@ public class TransaksiJual extends javax.swing.JPanel {
         btnAddJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAddJumlah.setForeground(new java.awt.Color(255, 255, 255));
         btnAddJumlah.setText("+");
+        btnAddJumlah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddJumlahMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddJumlahMouseExited(evt);
+            }
+        });
+        btnAddJumlah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddJumlahActionPerformed(evt);
+            }
+        });
 
         btnMinJumlah.setBackground(new java.awt.Color(220, 41, 41));
         btnMinJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnMinJumlah.setForeground(new java.awt.Color(255, 255, 255));
         btnMinJumlah.setText("-");
+        btnMinJumlah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMinJumlahMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMinJumlahMouseExited(evt);
+            }
+        });
+        btnMinJumlah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinJumlahActionPerformed(evt);
+            }
+        });
 
         lblMetode.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblMetode.setForeground(new java.awt.Color(0, 0, 0));
@@ -251,11 +282,32 @@ public class TransaksiJual extends javax.swing.JPanel {
         btnBayar.setForeground(new java.awt.Color(255, 255, 255));
         btnBayar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-pembayaran-bayar.png"))); // NOI18N
         btnBayar.setText("Bayar");
+        btnBayar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBayarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBayarMouseExited(evt);
+            }
+        });
+        btnBayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBayarActionPerformed(evt);
+            }
+        });
 
         btnBatal.setBackground(new java.awt.Color(220, 41, 41));
         btnBatal.setForeground(new java.awt.Color(255, 255, 255));
         btnBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnBatal.setText("Batal");
+        btnBatal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBatalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBatalMouseExited(evt);
+            }
+        });
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBatalActionPerformed(evt);
@@ -447,7 +499,7 @@ public class TransaksiJual extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void inpCariPembeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariPembeliKeyTyped
@@ -455,6 +507,50 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.keywordPembeli = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
         this.updateTabel();
     }//GEN-LAST:event_inpCariPembeliKeyTyped
+
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        
+    }//GEN-LAST:event_btnBayarActionPerformed
+
+    private void btnAddJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddJumlahActionPerformed
+        
+    }//GEN-LAST:event_btnAddJumlahActionPerformed
+
+    private void btnMinJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinJumlahActionPerformed
+        
+    }//GEN-LAST:event_btnMinJumlahActionPerformed
+
+    private void btnBayarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBayarMouseEntered
+        
+    }//GEN-LAST:event_btnBayarMouseEntered
+
+    private void btnBayarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBayarMouseExited
+        
+    }//GEN-LAST:event_btnBayarMouseExited
+
+    private void btnBatalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalMouseEntered
+        
+    }//GEN-LAST:event_btnBatalMouseEntered
+
+    private void btnBatalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalMouseExited
+        
+    }//GEN-LAST:event_btnBatalMouseExited
+
+    private void btnAddJumlahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddJumlahMouseEntered
+        
+    }//GEN-LAST:event_btnAddJumlahMouseEntered
+
+    private void btnAddJumlahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddJumlahMouseExited
+        
+    }//GEN-LAST:event_btnAddJumlahMouseExited
+
+    private void btnMinJumlahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinJumlahMouseEntered
+        
+    }//GEN-LAST:event_btnMinJumlahMouseEntered
+
+    private void btnMinJumlahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinJumlahMouseExited
+        
+    }//GEN-LAST:event_btnMinJumlahMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
