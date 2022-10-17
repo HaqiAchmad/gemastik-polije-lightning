@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -266,20 +267,8 @@ public class Users extends Database{
      */
     public final boolean login(String idUser, String password) throws IOException, AuthenticationException, SQLException{
         
-        PreparedStatement pst;
-        String idLogin, newLoginData;
-        
-        // mengecek apakah user sudah login atau belum
-//        if(this.isLogin()){
-//            throw new AuthenticationException("Anda sudah login dengan akun '" + this.getCurrentLogin() + "'");
-//        } 
-        
         // mengecek apakah idUser dan password valid atau tidak
         if(this.validateLogin(idUser, password)){
-            // membuat sebuah id login baru 
-//            idLogin = this.createIdLogin();
-            // membuat login data baru
-//            newLoginData = idLogin + "/" + idUser;
             Log.addLog("Melakukan Login dengan ID Login : '" + idUser + "' dan dengan ID User : '"+ idUser +"'");
             
             // menyimpan login data kedalam file
@@ -288,14 +277,6 @@ public class Users extends Database{
             save.flush();
             save.close();
             
-            // menyimpan login data ke dalam tabel login yang ada didalam Database
-//            pst = this.conn.prepareStatement("INSERT INTO login VALUES (?, ?, ?)");
-//            pst.setString(1, idLogin);
-//            pst.setString(2, idUser);
-//            pst.setString(3, new Waktu().getCurrentDateTime());
-            
-            // true jika login data berhasil ditambahkan dan user storage berhasil dibuat
-//            return pst.executeUpdate() > 0 && this.createUserStorage(idUser);
             return true;
         }
         return false;
@@ -387,9 +368,7 @@ public class Users extends Database{
             if(isLogin()){
                 Log.addLog("Melakukan Logout pada Akun dengan ID User : " + this.getCurrentLogin() + "'");
                 // menghapus login data yang ada didalam database
-                BufferedWriter buff = new BufferedWriter(
-                        new FileWriter(
-                                new Storage().getUsersDir()));
+                BufferedWriter buff = new BufferedWriter(new FileWriter(LOGIN_DATA_FILE));
                 buff.write("");
                 buff.flush();
                 return true;
@@ -681,10 +660,12 @@ public class Users extends Database{
     public static void main(String[] args) {
         Log.createLog();
         Users user = new Users();
-        System.out.println(user.getCurrentLoginName());
-//        System.out.println(Validation.isIdUser("PB286"));
-//        System.out.println(user.getLastID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
-//        System.out.println(user.createID(UserLevels.PEMBELI, UserData.ID_PEMBELI));
+        try {
+
+            System.out.println(user.logout());
+        } catch (AuthenticationException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
