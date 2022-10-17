@@ -8,10 +8,13 @@ import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Supplier;
 import com.window.dialogs.InputSupplier;
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +47,44 @@ public class DataSupplier extends javax.swing.JPanel {
         this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnDel.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         
+        JLabel[] values = {
+          this.valIDSupplier, this.valNamaSupplier, this.valNoTelp, this.valAlamat, 
+          this.valBrgSupplier, this.valUang, valLast
+        };
+        
+        for(JLabel lbl : values){
+            lbl.addMouseListener(new java.awt.event.MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    lbl.setForeground(new Color(15,98,230));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    lbl.setForeground(new Color(0,0,0));
+                }
+            });
+        
         this.updateTabel();
+        }
     }
 
     private Object[][] getData(){
