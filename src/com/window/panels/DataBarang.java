@@ -24,29 +24,32 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @author Gemastik Lightning
  */
 public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
+    boolean stateTable[] = {false,false,false}; //status table add, edit, delete
     private String keyword = "";
     String input;
     private DefaultTableModel model = new DefaultTableModel();
     boolean state = false;
     int maxRow = 999;
     final int maxColumn = 6;
+    int inputRow;
+    int inputColumn;
+    boolean editable = false; //kondisi editable table
+    boolean ok = false; //status btn ok
+    boolean Table = false; //state table
     int currentRow; //total baris sekarang
+    Object[][] obj; //data model
     private final Users user = new Users(); //
     /**
      * Creates new form Dashboard
      */
     public DataBarang() {
         initComponents();
-        //this.showLineChart();
+//        this.showLineChart();
         this.updateTabel();
-    }
-    private void delete(){
-        Object obj[][] = getData();
     }
     private Object[][] getData(){
         try{
             Object column[] = {"ID Barang","Nama Barang","Jumlah","Jenis Barang","Harga Beli","Harga Jual"};
-            Object[][] obj;
             int rows = 0;
             String sql = "SELECT id_barang, nama_barang, jumlah, jenis_barang, harga_beli, harga_jual FROM barang " + keyword;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
@@ -65,13 +68,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             currentRow= rows;
-            model.addColumn("ID Barang");
-            model.addColumn("Nama Barang");
-            model.addColumn("Jumlah");
-            model.addColumn("Jenis Barang");
-            model.addColumn("Harga Beli");
-            model.addColumn("Harga Jual");
-            model.addRow(obj);
             return obj;
         }catch(SQLException ex){
             Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
@@ -100,12 +96,11 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
 //        }
 //    }
     private void ubahState(boolean state1){
-        
         if(state1){
             this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
-                null,
+                obj,
                 new String [] {
-                    "ID Barang", "Nama Barang", "Jumlah", "Jneis Barang", "Harga Beli", "Harga Jual"
+                    "ID Barang", "Nama Barang", "Jumlah", "Jenis Barang", "Harga Beli", "Harga Jual"
                 }
             ) {
                 boolean[] canEdit = new boolean [] {
@@ -119,9 +114,9 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             });
             }else{
             this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
-                null,
+                obj,
                 new String [] {
-                    "ID Barang", "Nama Barang", "Jumlah", "Jneis Barang", "Harga Beli", "Harga Jual"
+                    "ID Barang", "Nama Barang", "Jumlah", "Jenis Barang", "Harga Beli", "Harga Jual"
                 }
             ) {
                 boolean[] canEdit = new boolean [] {
@@ -139,9 +134,9 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
             new String [] {
-                "ID Barang", "Nama Barang", "Jumlah", "Jneis Barang", "Harga Beli", "Harga Jual"
+                "ID Barang", "Nama Barang", "Jumlah", "Jenis Barang", "Harga Beli", "Harga Jual"
             }
-        ) {
+        ){
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
@@ -214,7 +209,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         tabelData = new javax.swing.JTable();
         lineBottom = new javax.swing.JSeparator();
         btnAdd = new javax.swing.JButton();
-        btnDel = new javax.swing.JButton();
         lineChart = new javax.swing.JPanel();
         pnlDataBarang = new javax.swing.JPanel();
         lblDataBarang = new javax.swing.JLabel();
@@ -238,7 +232,9 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         valPenghasilan = new javax.swing.JLabel();
         inpCari = new javax.swing.JTextField();
         lblCari = new javax.swing.JLabel();
-        btnEdit = new javax.swing.JButton();
+        btnEdit = new javax.swing.JToggleButton();
+        btnDel = new javax.swing.JToggleButton();
+        btnOk = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
@@ -274,16 +270,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
-            }
-        });
-
-        btnDel.setBackground(new java.awt.Color(220, 41, 41));
-        btnDel.setForeground(new java.awt.Color(255, 255, 255));
-        btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
-        btnDel.setText("Hapus Data");
-        btnDel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDelActionPerformed(evt);
             }
         });
 
@@ -437,11 +423,28 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
-        btnEdit.setMaximumSize(new java.awt.Dimension(116, 25));
-        btnEdit.setMinimumSize(new java.awt.Dimension(116, 25));
+        btnEdit.setMaximumSize(new java.awt.Dimension(109, 25));
+        btnEdit.setMinimumSize(new java.awt.Dimension(109, 25));
+        btnEdit.setPreferredSize(new java.awt.Dimension(109, 25));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDel.setBackground(new java.awt.Color(220, 41, 41));
+        btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
+        btnDel.setText("Hapus Data ");
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelActionPerformed(evt);
+            }
+        });
+
+        btnOk.setText("OK");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
             }
         });
 
@@ -455,11 +458,13 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDel)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnOk)
+                        .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -468,7 +473,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                             .addComponent(pnlDataBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 23, Short.MAX_VALUE)
                                 .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,40 +489,38 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlDataBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lineChart, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                        .addComponent(lineChart, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(inpCari)
                             .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnDel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnOk, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
         
-
-    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        ubahState(true);
-        tabel("delete");
-        ubahState(false);
-    }//GEN-LAST:event_btnDelActionPerformed
-    private void tabel(String input){
+    //String format
+// contoh query edit UPDATE pembukuan.barang1 SET evt)  nama_barang = 'susu' WHERE id_barang = 'BG002'
+    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
         //get data from table
         String sql = "";
         String baris = "";
         String row = "";
         String stat = "";
         Object data[][] = new Object[maxRow][maxColumn];
-        int inputRow = tabelData.getSelectedRow();
-        int inputColumn = tabelData.getSelectedColumn();
+        inputRow = tabelData.getSelectedRow();
+        inputColumn = tabelData.getSelectedColumn();
         if(inputRow<10){
             row = "BG00"+inputRow;
         }else if((10<inputRow)&&(inputRow<100)){
@@ -553,6 +556,8 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         }
         String inputData = (String)tabelData.getValueAt(inputRow, inputColumn);
         if(input.equals("add")){
+//            model.addRow();
+            model.insertRow(currentRow, new Object[]{"","","","","",""});
             int roow = maxRow+1;
             String roow1 = "BG00"+roow;
             switch(inputColumn){
@@ -579,51 +584,109 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             stat = "menambah";
         }else if(input.equals("delete")){
             int sisa = maxRow - inputRow;
+            System.out.println(inputRow);
             String ID;
-            model.removeRow(inputRow);
-            for(int i=0;i<sisa;i++){
-                if()
-                model.setValueAt("", i+sisa,0);
-            }
-            if(inputRow <= maxRow){
-//                for(int i=0;i<sisa;i++){
-//                    //
-//                }
+            if(Table){
+//                model.removeRow(inputRow);
+                System.out.println("remove");
+                for(int i=sisa;i<currentRow;i++){
+                    if(i<10){
+                        model.setValueAt("BG00"+(i-1), i,0);
+                        if(i==10){
+                            model.setValueAt("BG00"+(i-1), i,0);
+                        }
+                    }else if((i>=10)&&(i<100)){
+                        model.setValueAt("BG0"+(i-1), i,0);
+                        if(i==100){
+                            model.setValueAt("BG0"+(i-1), i,0);
+                        }
+                    }else if((i>=100)&&(i<1000)){
+                        model.setValueAt("BG"+(i-1), i,0);
+                        if(i==1000){
+                        model.setValueAt("BG"+(i-1), i,0);
+                        }
+                    }/*else if((i>=1000)&&(i<10000)){
+                        model.setValueAt("BG001", i,0);
+                    }else if((i>=10000)&&(i<100000)){
+                        model.setValueAt("BG001", i,0);
+                    }*/
+                }
+                System.out.println("Tabel dihapus");
             }
             sql = "DELETE barang WHERE id_barang = '"+row+"'";
             stat = "menghapus";
+            System.out.println("");
         }else if(input.equals("edit")){
             sql = "UPDATE barang SET "+ baris +" = '"+ inputData +"' WHERE id_barang = '" + row + "'";
             stat = "mengedit";
-        }
+        }/*
         try {
             user.res = user.stat.executeQuery(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DataBarang.class.getName()).log(Level.SEVERE, null, ex);
             Message.showException(this, "Terjadi kesalahan saat "+stat+" data dari database\n" + ex.getMessage(), ex, true);
-        }
-    }
-    //String format
-// contoh query edit UPDATE pembukuan.barang1 SET evt)  nama_barang = 'susu' WHERE id_barang = 'BG002'
-    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
+        }*/
+        Table = false;
     }//GEN-LAST:event_tabelDataMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         ubahState(true);
-        tabel("add");
+        System.out.println("editable table");
+        System.out.println("add");
+        input = "add";
         ubahState(false);
+        System.out.println("non editable table");
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        if(btnDel.isSelected()){
+            btnDel.setText("Simpan perubahan");
+            System.out.println("Mode edit");
+            stateTable[2] = true;
+            ubahState(true);
+            input = "delete";
+        }else{
+            btnDel.setText("Hapus Data");
+            stateTable[2] = false;
+            System.out.println("Mode normal");
+            ubahState(false);
+        }
+    }//GEN-LAST:event_btnDelActionPerformed
+
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        ubahState(true);
-        tabel("edit");
-        ubahState(false);
+        if(btnEdit.isSelected()){
+            btnEdit.setText("Simpan perubahan");
+            System.out.println("Mode edit");
+            stateTable[1] = true;
+            ubahState(true);
+            input = "edit";
+        }else{
+            btnDel.setText("Hapus Data");
+            System.out.println("Mode normal");
+            stateTable[1] = false;
+            ubahState(false);
+        }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        if(!Table){
+            if(stateTable[0]){
+                //
+            }else if(stateTable[1]){
+                //
+            }else if(stateTable[2]){
+                System.out.println("menghapus data");
+                model.removeRow(0);
+                Table = true;
+            }
+        }
+    }//GEN-LAST:event_btnOkActionPerformed
 //UPDATE pembukuan.barang1 SET nama_barang = 'susu' WHERE id_barang = 'BG002'
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDel;
-    private javax.swing.JButton btnEdit;
+    private javax.swing.JToggleButton btnDel;
+    private javax.swing.JToggleButton btnEdit;
+    private javax.swing.JButton btnOk;
     private javax.swing.JTextField inpCari;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCari;

@@ -47,7 +47,7 @@ public class Database {
                                 DB_NAME = "gemastik",
                                 URL = "jdbc:mysql://localhost/" + DB_NAME,
                                 USER = "root",
-                                PASS = "Amirzanfikri_03052013";
+                                PASS = "";
     
     public static final String FOTO_PROFILE = "foto_profile", PETUGAS = "petugas", USERS = "users", SISWA = "siswa",
                                PEMBAYARAN = "pembayaran", KELAS = "kelas", SPP = "spp", LOGIN = "login";
