@@ -44,7 +44,7 @@ public class Database {
      * Attribute yang digunakan untuk menhubungkan Aplikasi ke <B>Database MySQL</B>
      */
     private static final String DRIVER = "com.mysql.jdbc.Driver",
-                                DB_NAME = "gemastik",
+                                DB_NAME = "gemastikbackup",
                                 URL = "jdbc:mysql://localhost/" + DB_NAME,
                                 USER = "root",
                                 PASS = "";
