@@ -540,22 +540,6 @@ public class DataPembeli extends javax.swing.JPanel {
         this.updateTabel();
     }//GEN-LAST:event_inpCariKeyTyped
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // membuka window input pembeli
-        Audio.play(Audio.SOUND_INFO);
-        InputPembeli tbh = new InputPembeli(null, true, null);
-        tbh.setVisible(true);
-        
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // mengecek apakah user jadi menambahkan data atau tidak
-        if(tbh.isUpdated()){
-            // mengupdate tabel
-            this.updateTabel();
-            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
-        }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_btnAddActionPerformed
-
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // mengecek apakah ada data yang dipilih atau tidak
         if(tabelData.getSelectedRow() > -1){
@@ -576,14 +560,6 @@ public class DataPembeli extends javax.swing.JPanel {
                 Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
             }  
     }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
-        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));        
-    }//GEN-LAST:event_btnAddMouseEntered
-
-    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
-        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));        
-    }//GEN-LAST:event_btnAddMouseExited
 
     private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
         this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
@@ -647,6 +623,30 @@ public class DataPembeli extends javax.swing.JPanel {
     private void inpCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inpCariActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inpCariActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // membuka window input pembeli
+        Audio.play(Audio.SOUND_INFO);
+        InputPembeli tbh = new InputPembeli(null, true, null);
+        tbh.setVisible(true);
+
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mengecek apakah user jadi menambahkan data atau tidak
+        if(tbh.isUpdated()){
+            // mengupdate tabel
+            this.updateTabel();
+            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

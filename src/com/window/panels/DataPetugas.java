@@ -167,7 +167,7 @@ public class DataPetugas extends javax.swing.JPanel {
             petugas.startConnection();
             Object[][] obj;
             int rows = 0;
-            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas", id;
+            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas " + keyword, id;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
             obj = new Object[petugas.getJumlahData(DatabaseTables.PETUGAS.name())][4];
             // mengeksekusi query
@@ -446,6 +446,11 @@ public class DataPetugas extends javax.swing.JPanel {
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -718,6 +723,12 @@ public class DataPetugas extends javax.swing.JPanel {
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_petugas LIKE '%"+key+"%' OR nama_petugas LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
