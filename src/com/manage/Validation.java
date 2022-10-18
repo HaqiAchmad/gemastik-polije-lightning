@@ -111,6 +111,17 @@ public class Validation {
         }
         return false;
     }
+    public static boolean isIdBarang(String idBarang){
+        if(Validation.isIdUser(idBarang)){
+             if(idBarang.substring(0, 2).equalsIgnoreCase("PB")){
+                return true;
+            }else{
+                Audio.play(Audio.SOUND_WARNING);
+                JOptionPane.showMessageDialog(null, "'" + idBarang + "' Kode ID Barang tersebut tidak valid!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        return false;
+    }
     
     /**
      *  - nama harus terdiri dari 6-50 karakter
@@ -230,12 +241,48 @@ public class Validation {
      * @param tempat nama tempat yang akan dicek
      * @return 
      */
-    public static boolean isNamaTempat(String tempat){
-        if(tempat.length() >= 5 && tempat.length() <= 50){
+    public static boolean isNamaBarang(String namaBarang){
+        if(namaBarang.length() >= 5 && namaBarang.length() <= 50){
             return true;
         }else{
             Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Panjang dari Nama Tempat harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Panjang dari Nama Barang harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+    public static boolean isJenisBarang(String jenis){
+        if(jenis == "MAKANAN" || jenis == "ATK" || jenis == "SNACK"){
+            return true;
+        }else{
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "jenis dari Barang harus MAKANAN, SNACK, ATK!", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+    public static boolean isJumlahBarang(int jumlah){
+        if(jumlah >=0){
+            return true;
+        }else{
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Jumlah dari Barang harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+    public static boolean isHargaBeli(int hargaBeli){
+        if(hargaBeli >=0){
+            return true;
+        }else{
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Jumlah dari Barang harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+    public static boolean isHargaJual(int hargaJual, int hargaBeli){
+        if(hargaJual >=0 && hargaJual >= hargaBeli){
+            return true;
+        }else{
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Jumlah dari Barang harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }

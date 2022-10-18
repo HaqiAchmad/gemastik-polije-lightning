@@ -1,13 +1,36 @@
 package com.window.panels;
 
+import com.manage.Message;
+import com.manage.Waktu;
+import java.awt.Font;
+import java.sql.SQLException;
+
 /**
  *
  * @author Gemastik Lightning
  */
 public class TransaksiBeli extends javax.swing.JPanel {
-
+    private final Waktu waktu = new Waktu();
+    private String time;
     public TransaksiBeli() {
         initComponents();
+        // mengupdate waktu
+        new Thread(new Runnable(){
+            
+            @Override
+            public void run(){
+                try{
+                    while(isVisible()){
+//                        System.out.println("update");
+                        tanggalLabel.setText(waktu.getUpdateWaktu() + "  ");
+                        time = waktu.getUpdateWaktu();
+                        Thread.sleep(100);
+                    }
+                }catch(InterruptedException ex){
+                    Message.showException(this, "Terjadi Kesalahan Saat Mengupdate Tanggal!\n" + ex.getMessage(), ex, true);
+                }
+            }
+        }).start();
         
         this.btnAddJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnMinJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -23,7 +46,50 @@ public class TransaksiBeli extends javax.swing.JPanel {
         this.tabelDataSupplier.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
         
     }
-
+//    private Object[][] getData(){
+//        try{
+//            Object[][] obj;
+//            int rows = 0;
+//            String sql = "SELECT id_pembeli, nama_pembeli, no_telp, alamat FROM pembeli " + keyword;
+//            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+//            obj = new Object[pembeli.getJumlahData("pembeli", keyword)][4];
+//            // mengeksekusi query
+//            pembeli.res = pembeli.stat.executeQuery(sql);
+//            // mendapatkan semua data yang ada didalam tabel
+//            while(pembeli.res.next()){
+//                // menyimpan data dari tabel ke object
+//                obj[rows][0] = pembeli.res.getString("id_pembeli");
+//                obj[rows][1] = pembeli.res.getString("nama_pembeli");
+//                obj[rows][2] = pembeli.res.getString("no_telp");
+//                obj[rows][3] = pembeli.res.getString("alamat");
+//                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+//            }
+//            return obj;
+//        }catch(SQLException ex){
+//            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+//        }
+//        return null;
+//    }
+    
+//    private void update(){
+//    }
+    
+//    private void showData(){
+//        // mendapatkan data
+//        this.namaPembeli = pembeli.getNama(this.idSelected);
+//        this.noTelp = text.toTelephoneCase(pembeli.getNoTelp(this.idSelected));
+//        this.alamat = pembeli.getAlamat(this.idSelected);
+//        
+//        // menampilkan data
+//        this.valIDPembeli.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
+//        this.valNamaPembeli.setText("<html><p>:&nbsp;"+namaPembeli+"</p></html>");
+//        this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
+//        this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+//        
+//        // menampilkan chart
+//        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaPembeli, new Font("Ebrima", 1, 18), 15, 20, 60, 0);
+//    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,26 +101,26 @@ public class TransaksiBeli extends javax.swing.JPanel {
         pnlTransaksi = new javax.swing.JPanel();
         lblTransaksiBeli = new javax.swing.JLabel();
         lblIDTransaksi = new javax.swing.JLabel();
-        inpID = new javax.swing.JTextField();
         lblNamaKaryawan = new javax.swing.JLabel();
-        inpNamaKaryawan = new javax.swing.JTextField();
-        inpNamaSupplier = new javax.swing.JTextField();
         lblNamaSupplier = new javax.swing.JLabel();
         lblJumlah = new javax.swing.JLabel();
         inpJumlah = new javax.swing.JTextField();
         lblNamaBarang = new javax.swing.JLabel();
-        inpNamaBarang = new javax.swing.JTextField();
         lblTotalHarga = new javax.swing.JLabel();
-        inpTotalHarga = new javax.swing.JTextField();
         btnAddJumlah = new javax.swing.JButton();
         btnMinJumlah = new javax.swing.JButton();
         lblMetode = new javax.swing.JLabel();
         lblTanggal = new javax.swing.JLabel();
-        inpTanggal = new javax.swing.JTextField();
         inpMetode = new javax.swing.JComboBox();
         lineBottom = new javax.swing.JSeparator();
         btnBeli = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        idLabel = new javax.swing.JLabel();
+        namaLabel = new javax.swing.JLabel();
+        nama1Label = new javax.swing.JLabel();
+        nama2Label = new javax.swing.JLabel();
+        totalLabel = new javax.swing.JLabel();
+        tanggalLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelDataBarang = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -94,24 +160,9 @@ public class TransaksiBeli extends javax.swing.JPanel {
         lblIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
         lblIDTransaksi.setText("ID Transaksi");
 
-        inpID.setBackground(new java.awt.Color(255, 255, 255));
-        inpID.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpID.setForeground(new java.awt.Color(0, 0, 0));
-        inpID.setText("TR00001");
-
         lblNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaKaryawan.setText("Nama Karyawan");
-
-        inpNamaKaryawan.setBackground(new java.awt.Color(255, 255, 255));
-        inpNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaKaryawan.setText("Mohammad Ilham Islamy");
-
-        inpNamaSupplier.setBackground(new java.awt.Color(255, 255, 255));
-        inpNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaSupplier.setText("Achmad Baihaqi");
 
         lblNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
@@ -130,19 +181,9 @@ public class TransaksiBeli extends javax.swing.JPanel {
         lblNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaBarang.setText("Nama Barang");
 
-        inpNamaBarang.setBackground(new java.awt.Color(255, 255, 255));
-        inpNamaBarang.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaBarang.setText("Aqua 1 L");
-
         lblTotalHarga.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblTotalHarga.setForeground(new java.awt.Color(0, 0, 0));
         lblTotalHarga.setText("Total Harga");
-
-        inpTotalHarga.setBackground(new java.awt.Color(255, 255, 255));
-        inpTotalHarga.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpTotalHarga.setForeground(new java.awt.Color(0, 0, 0));
-        inpTotalHarga.setText("Rp. 36.000.00");
 
         btnAddJumlah.setBackground(new java.awt.Color(34, 119, 237));
         btnAddJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -188,11 +229,6 @@ public class TransaksiBeli extends javax.swing.JPanel {
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));
         lblTanggal.setText("Tanggal");
 
-        inpTanggal.setBackground(new java.awt.Color(255, 255, 255));
-        inpTanggal.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
-        inpTanggal.setForeground(new java.awt.Color(0, 0, 0));
-        inpTanggal.setText("05 Oktober 2022 | 17:05:20");
-
         inpMetode.setBackground(new java.awt.Color(255, 255, 255));
         inpMetode.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpMetode.setForeground(new java.awt.Color(0, 0, 0));
@@ -237,6 +273,18 @@ public class TransaksiBeli extends javax.swing.JPanel {
             }
         });
 
+        idLabel.setText("jLabel1");
+
+        namaLabel.setText("jLabel2");
+
+        nama1Label.setText("jLabel3");
+
+        nama2Label.setText("jLabel4");
+
+        totalLabel.setText("jLabel5");
+
+        tanggalLabel.setText("jLabel6");
+
         javax.swing.GroupLayout pnlTransaksiLayout = new javax.swing.GroupLayout(pnlTransaksi);
         pnlTransaksi.setLayout(pnlTransaksiLayout);
         pnlTransaksiLayout.setHorizontalGroup(
@@ -258,15 +306,15 @@ public class TransaksiBeli extends javax.swing.JPanel {
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblIDTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpID, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(idLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblNamaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpNamaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(namaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblNamaSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpNamaSupplier))
+                                        .addComponent(nama1Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -278,11 +326,11 @@ public class TransaksiBeli extends javax.swing.JPanel {
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpNamaBarang))
+                                        .addComponent(nama2Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblMetode, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -290,7 +338,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(tanggalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(0, 10, Short.MAX_VALUE))
                             .addComponent(lineBottom))
                         .addContainerGap())))
@@ -301,20 +349,20 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 .addComponent(lblTransaksiBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpID, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(lblIDTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblIDTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpNamaKaryawan)
-                    .addComponent(lblNamaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNamaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpNamaSupplier)
-                    .addComponent(lblNamaSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNamaSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nama1Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpNamaBarang)
-                    .addComponent(lblNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNamaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(nama2Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -324,16 +372,16 @@ public class TransaksiBeli extends javax.swing.JPanel {
                     .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpTotalHarga)
-                    .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblMetode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(inpMetode, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inpTanggal)
-                    .addComponent(lblTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(tanggalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -425,15 +473,15 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblCariSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                        .addComponent(lblCariSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inpCariSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inpCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -443,7 +491,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 141, Short.MAX_VALUE))
+                        .addGap(0, 129, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(inpCariBarang)
@@ -514,16 +562,11 @@ public class TransaksiBeli extends javax.swing.JPanel {
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnBeli;
     private javax.swing.JButton btnMinJumlah;
+    private javax.swing.JLabel idLabel;
     private javax.swing.JTextField inpCariBarang;
     private javax.swing.JTextField inpCariSupplier;
-    private javax.swing.JTextField inpID;
     private javax.swing.JTextField inpJumlah;
     private javax.swing.JComboBox inpMetode;
-    private javax.swing.JTextField inpNamaBarang;
-    private javax.swing.JTextField inpNamaKaryawan;
-    private javax.swing.JTextField inpNamaSupplier;
-    private javax.swing.JTextField inpTanggal;
-    private javax.swing.JTextField inpTotalHarga;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCariBarang;
@@ -538,8 +581,13 @@ public class TransaksiBeli extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotalHarga;
     private javax.swing.JLabel lblTransaksiBeli;
     private javax.swing.JSeparator lineBottom;
+    private javax.swing.JLabel nama1Label;
+    private javax.swing.JLabel nama2Label;
+    private javax.swing.JLabel namaLabel;
     private javax.swing.JPanel pnlTransaksi;
     private javax.swing.JTable tabelDataBarang;
     private javax.swing.JTable tabelDataSupplier;
+    private javax.swing.JLabel tanggalLabel;
+    private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
 }

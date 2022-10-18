@@ -30,7 +30,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblCariSupplier" pref="177" max="32767" attributes="0"/>
+                      <Component id="lblCariSupplier" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="inpCariSupplier" min="-2" pref="237" max="-2" attributes="0"/>
                   </Group>
@@ -39,8 +39,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="inpCariBarang" min="-2" pref="237" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" pref="426" max="32767" attributes="0"/>
-                  <Component id="jScrollPane3" pref="426" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -53,7 +53,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="pnlTransaksi" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="141" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="129" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -162,17 +162,17 @@
                                       <Group type="102" attributes="0">
                                           <Component id="lblIDTransaksi" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpID" min="-2" pref="107" max="-2" attributes="0"/>
+                                          <Component id="idLabel" pref="322" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblNamaKaryawan" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpNamaKaryawan" min="-2" pref="322" max="-2" attributes="0"/>
+                                          <Component id="namaLabel" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblNamaSupplier" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpNamaSupplier" max="32767" attributes="0"/>
+                                          <Component id="nama1Label" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblJumlah" min="-2" pref="133" max="-2" attributes="0"/>
@@ -186,12 +186,12 @@
                                       <Group type="102" attributes="0">
                                           <Component id="lblNamaBarang" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpNamaBarang" max="32767" attributes="0"/>
+                                          <Component id="nama2Label" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblTotalHarga" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpTotalHarga" min="-2" pref="173" max="-2" attributes="0"/>
+                                          <Component id="totalLabel" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblMetode" min="-2" pref="133" max="-2" attributes="0"/>
@@ -201,7 +201,7 @@
                                       <Group type="102" attributes="0">
                                           <Component id="lblTanggal" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpTanggal" min="-2" pref="263" max="-2" attributes="0"/>
+                                          <Component id="tanggalLabel" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
@@ -220,23 +220,23 @@
                   <Component id="lblTransaksiBeli" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpID" pref="35" max="32767" attributes="0"/>
-                      <Component id="lblIDTransaksi" max="32767" attributes="0"/>
+                      <Component id="lblIDTransaksi" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="idLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpNamaKaryawan" max="32767" attributes="0"/>
                       <Component id="lblNamaKaryawan" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="namaLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpNamaSupplier" max="32767" attributes="0"/>
                       <Component id="lblNamaSupplier" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="nama1Label" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpNamaBarang" max="32767" attributes="0"/>
-                      <Component id="lblNamaBarang" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="lblNamaBarang" pref="35" max="32767" attributes="0"/>
+                      <Component id="nama2Label" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -249,8 +249,8 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpTotalHarga" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblTotalHarga" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="lblTotalHarga" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="totalLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -259,8 +259,8 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="inpTanggal" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblTanggal" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="lblTanggal" pref="35" max="32767" attributes="0"/>
+                      <Component id="tanggalLabel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="lineBottom" min="-2" pref="10" max="-2" attributes="0"/>
@@ -301,20 +301,6 @@
             <Property name="text" type="java.lang.String" value="ID Transaksi"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="inpID">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="TR00001"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="lblNamaKaryawan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -324,34 +310,6 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nama Karyawan"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="inpNamaKaryawan">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Mohammad Ilham Islamy"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="inpNamaSupplier">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Achmad Baihaqi"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNamaSupplier">
@@ -401,20 +359,6 @@
             <Property name="text" type="java.lang.String" value="Nama Barang"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="inpNamaBarang">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Aqua 1 L"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="lblTotalHarga">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -424,20 +368,6 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Total Harga"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="inpTotalHarga">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Rp. 36.000.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddJumlah">
@@ -498,20 +428,6 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Tanggal"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="inpTanggal">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="05 Oktober 2022 | 17:05:20"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="inpMetode">
@@ -581,6 +497,36 @@
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnBatalMouseExited"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBatalActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="idLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel1"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="namaLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel2"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="nama1Label">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="nama2Label">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="totalLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel5"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="tanggalLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel6"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
