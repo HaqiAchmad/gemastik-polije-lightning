@@ -431,7 +431,7 @@ public class Users extends Database{
     public String createID(UserLevels level, UserData primary){
         String lastID = this.getLastID(level, primary), nomor;
         
-        if(!lastID.equals("")){
+        if(lastID != null){
             nomor = lastID.substring(2);
         }else{
             nomor = "000";
@@ -439,7 +439,7 @@ public class Users extends Database{
         
         // mengecek nilai dari nomor adalah number atau tidak
         if(txt.isNumber(nomor)){
-            // jika id pembayaran belum exist maka id akan 
+            // jika id user belum exist maka id akan 
             switch(level.name()){
                 case "PETUGAS" : return String.format("PG%03d", Integer.parseInt(nomor)+1); // level admin dan karyawan
                 case "SUPPLIER" : return String.format("SP%03d", Integer.parseInt(nomor)+1);
