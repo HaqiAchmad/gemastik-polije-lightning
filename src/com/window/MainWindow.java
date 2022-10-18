@@ -13,7 +13,6 @@ import com.window.panels.LaporanJual;
 import com.window.panels.TransaksiBeli;
 import com.window.panels.TransaksiJual;
 import com.window.test.Dashboard;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
