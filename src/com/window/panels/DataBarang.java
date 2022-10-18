@@ -1,28 +1,23 @@
 package com.window.panels;
 
-import com.manage.Chart;
 import com.manage.Internet;
 import com.manage.Message;
 import com.manage.Text;
 import com.media.Audio;
+import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
-import com.users.Barang;
-import com.users.Users;
+import com.manage.Barang;
+import com.manage.Chart;
 import com.window.dialogs.InputBarang;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.event.ItemEvent;
+
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -35,25 +30,22 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author Gemastik Lightning
  */
-public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
-    private final Barang Barang = new Barang();
+public class DataBarang extends javax.swing.JPanel {
     
-//    private final Chart chart = new Chart();
+    private final Barang barang = new Barang();
     
-    private final Internet net = new Internet();
+    private final Chart chart = new Chart();
     
     private final Text text = new Text();
 
-    private String idSelected = "", keyword = "", namaBarang, jenis, stok;
-    private final Users user = new Users(); //
+    private String idSelected = "", keyword = "", namaBarang, jenis, stok, hargaBeli, hargaJual;
+    
     /**
      * Creates new form Dashboard
      */
     public DataBarang() {
         initComponents();
 //        this.showPieChart();
-        
-//        this.chart.showPieChart(this.pieChart, "Produk yang dibeli Achmad Baihaqi", new Font("Ebrima", 1, 20), 15, 20, 60, 0);
         
         this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -104,38 +96,38 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
     }
     private void showData(){
         // mendapatkan data
-        this.namaBarang = Barang.getNama(this.idSelected);
-//        this. = text.toTelephoneCase(pembeli.getNoTelp(this.idSelected));
-//        this.alamat = pembeli.getAlamat(this.idSelected);
+        this.namaBarang = text.toCapitalize(barang.getNamaBarang(this.idSelected));
+        this.jenis = text.toCapitalize(barang.getJenis(this.idSelected));
+        this.stok = barang.getStok(this.idSelected);
+        this.hargaBeli = text.toMoneyCase(barang.getHargaBeli(this.idSelected));
+        this.hargaJual = text.toMoneyCase(barang.getHargaJual(this.idSelected));
         
         // menampilkan data
         this.valIDBarang.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
         this.valNamaBarang.setText("<html><p>:&nbsp;"+namaBarang+"</p></html>");
         this.valJenis.setText("<html><p>:&nbsp;"+jenis+"</p></html>");
-        this.valStok.setText("<html><p>:&nbsp;"+stok+"</p></html>");
-        
-        // menampilkan chart
-//        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaBarang, new Font("Ebrima", 1, 18), 15, 20, 60, 0);
+        this.valStok.setText("<html><p>:&nbsp;"+stok+" Stok</p></html>");
+        this.valHargaJual.setText("<html><p>:&nbsp;"+hargaJual+"</p></html>");
+        this.valHargaBeli.setText("<html><p>:&nbsp;"+hargaBeli+"</p></html>");
     }
     private Object[][] getData(){
         try{
             Object obj[][];
-            Object column[] = {"ID Barang","Nama Barang","Jumlah","Jenis Barang","Harga Beli","Harga Jual"};
             int rows = 0;
-            String sql = "SELECT id_barang, nama_barang, jumlah, jenis_barang, harga_beli, harga_jual FROM barang " + keyword;
+            String sql = "SELECT id_barang, nama_barang, jenis_barang, stok, harga_beli, harga_jual FROM barang " + keyword;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
-            obj = new Object[user.getJumlahData("barang", keyword)][6];
+            obj = new Object[barang.getJumlahData("barang", keyword)][6];
             // mengeksekusi query
-            user.res = user.stat.executeQuery(sql);
+            barang.res = barang.stat.executeQuery(sql);
             // mendapatkan semua data yang ada didalam tabel
-            while(user.res.next()){
+            while(barang.res.next()){
                 // menyimpan data dari tabel ke object
-                obj[rows][0] = user.res.getString("id_barang");
-                obj[rows][1] = user.res.getString("nama_barang");
-                obj[rows][2] = user.res.getString("jumlah");
-                obj[rows][3] = user.res.getString("jenis_barang");
-                obj[rows][4] = user.res.getString("harga_beli");
-                obj[rows][5] = user.res.getString("harga_jual");
+                obj[rows][0] = barang.res.getString("id_barang");
+                obj[rows][1] = barang.res.getString("nama_barang");
+                obj[rows][2] = text.toCapitalize(barang.res.getString("jenis_barang"));
+                obj[rows][3] = barang.res.getString("stok");
+                obj[rows][4] = text.toMoneyCase(barang.res.getString("harga_beli"));
+                obj[rows][5] = text.toMoneyCase(barang.res.getString("harga_jual"));
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
             }
             return obj;
@@ -148,16 +140,15 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
             new String [] {
-                "ID Barang", "Nama Barang", "Jumlah", "Jenis Barang", "Harga Beli", "Harga Jual"
+                "ID Barang", "Nama Barang", "Jenis Barang", "Stok", "Harga Beli", "Harga Jual"
             }
         ){
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-//                return true;
             }
         });
     }
@@ -200,7 +191,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelData = new javax.swing.JTable();
         lineBottom = new javax.swing.JSeparator();
-        btnAdd = new javax.swing.JButton();
         lineChart = new javax.swing.JPanel();
         pnlDataBarang = new javax.swing.JPanel();
         lblDataBarang = new javax.swing.JLabel();
@@ -226,12 +216,13 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         lblCari = new javax.swing.JLabel();
         btnEdit = new javax.swing.JToggleButton();
         btnDel = new javax.swing.JToggleButton();
-        btnOk = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
 
         tabelData.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        tabelData.setForeground(new java.awt.Color(0, 0, 0));
         tabelData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -243,8 +234,10 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                 "ID Barang", "Nama Barang", "Jenis", "Stok"
             }
         ));
+        tabelData.setGridColor(new java.awt.Color(0, 0, 0));
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
+        tabelData.getTableHeader().setReorderingAllowed(false);
         tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelDataMouseClicked(evt);
@@ -260,16 +253,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         lineBottom.setBackground(new java.awt.Color(0, 0, 0));
         lineBottom.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnAdd.setBackground(new java.awt.Color(41, 180, 50));
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
-        btnAdd.setText("Tambah Data");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
-
         lineChart.setBackground(new java.awt.Color(255, 255, 255));
         lineChart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lineChart.setLayout(new java.awt.BorderLayout());
@@ -284,57 +267,75 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         lblDataBarang.setOpaque(true);
 
         lblIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblIDBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblIDBarang.setText("ID Bahan");
 
         lblNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblNamaBarang.setText("Nama Barang");
 
         lblJenisBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblJenisBarang.setForeground(new java.awt.Color(0, 0, 0));
         lblJenisBarang.setText("Jenis Barang");
 
         lblStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblStok.setForeground(new java.awt.Color(0, 0, 0));
         lblStok.setText("Stok");
 
         lblHrgBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblHrgBeli.setForeground(new java.awt.Color(0, 0, 0));
         lblHrgBeli.setText("Harga Beli");
 
         lblHrgJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblHrgJual.setForeground(new java.awt.Color(0, 0, 0));
         lblHrgJual.setText("Harga Jual");
 
         lblPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPjln.setForeground(new java.awt.Color(0, 0, 0));
         lblPjln.setText("Total Penjualan");
 
         valIDBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valIDBarang.setForeground(new java.awt.Color(0, 0, 0));
         valIDBarang.setText(": BG0001");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         valNamaBarang.setText(": Ichi Ocha Jasmine Tea");
 
         valJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valJenis.setForeground(new java.awt.Color(0, 0, 0));
         valJenis.setText(": Minuman");
 
         valStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valStok.setForeground(new java.awt.Color(0, 0, 0));
         valStok.setText(": 3 Stok");
 
         valHargaBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaBeli.setForeground(new java.awt.Color(0, 0, 0));
         valHargaBeli.setText(": Rp. 3.000");
 
         valHargaJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valHargaJual.setForeground(new java.awt.Color(0, 0, 0));
         valHargaJual.setText(": Rp. 3.500");
 
         valPjln.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPjln.setForeground(new java.awt.Color(0, 0, 0));
         valPjln.setText(": 45 Penjualan");
 
         lblPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
         lblPjlnMinggu.setText("Penjualan Minggu Ini");
 
         valPjlnMinggu.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPjlnMinggu.setForeground(new java.awt.Color(0, 0, 0));
         valPjlnMinggu.setText(": 3 Penjualan");
 
         lblPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
         lblPenghasilan.setText("Penghasilah Didapat");
 
         valPenghasilan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valPenghasilan.setForeground(new java.awt.Color(0, 0, 0));
         valPenghasilan.setText(": Rp. 157.500");
 
         javax.swing.GroupLayout pnlDataBarangLayout = new javax.swing.GroupLayout(pnlDataBarang);
@@ -411,18 +412,32 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         );
 
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
-        lblCari.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
         lblCari.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCari.setText("Cari Barang :");
+        lblCari.setText("Cari ID / Nama Barang");
 
         btnEdit.setBackground(new java.awt.Color(34, 119, 237));
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-edit.png"))); // NOI18N
         btnEdit.setText("Edit Data");
         btnEdit.setMaximumSize(new java.awt.Dimension(109, 25));
         btnEdit.setMinimumSize(new java.awt.Dimension(109, 25));
         btnEdit.setPreferredSize(new java.awt.Dimension(109, 25));
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -430,18 +445,38 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         });
 
         btnDel.setBackground(new java.awt.Color(220, 41, 41));
+        btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-hapus.png"))); // NOI18N
         btnDel.setText("Hapus Data ");
+        btnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelMouseExited(evt);
+            }
+        });
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
             }
         });
 
-        btnOk.setText("OK");
-        btnOk.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setBackground(new java.awt.Color(41, 180, 50));
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-data-tambah.png"))); // NOI18N
+        btnAdd.setText("Tambah Data");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOkActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -455,13 +490,11 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     .addComponent(lineBottom)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnOk)
-                        .addGap(21, 21, 21))
+                        .addGap(21, 566, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -470,10 +503,9 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                             .addComponent(pnlDataBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 23, Short.MAX_VALUE)
-                                .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inpCari, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
@@ -486,29 +518,25 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlDataBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lineChart, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
+                        .addComponent(lineChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(inpCari)
                             .addComponent(lblCari, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)))
+                .addGap(12, 12, 12)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnDel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnOk, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btnEdit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
         
-    //String format
-// contoh query edit UPDATE pembukuan.barang1 SET evt)  nama_barang = 'susu' WHERE id_barang = 'BG002'
+
     private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // menampilkan data pembeli
@@ -516,22 +544,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         this.showData();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataMouseClicked
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // membuka window input pembeli
-        Audio.play(Audio.SOUND_INFO);
-        InputBarang tbh = new InputBarang(null, true, null);
-        tbh.setVisible(true);
-        
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // mengecek apakah user jadi menambahkan data atau tidak
-//        if(tbh.isUpdated()){
-            // mengupdate tabel
-            this.updateTabel();
-            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
-//        }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         int status;
@@ -541,13 +553,13 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             // membuka confirm dialog untuk menghapus data
             Audio.play(Audio.SOUND_INFO);
             status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.namaBarang + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
-            // mengecek pilihan dari user
+            // mengecek pilihan dari barang
             switch(status){
                 // jika yes maka data akan dihapus
                 case JOptionPane.YES_OPTION : 
                     // menghapus data pembeli
                     this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                    delete = this.Barang.deleteBarang(this.idSelected);
+                    delete = this.barang.deleteBarang(this.idSelected);
                     // mengecek apakah data pembeli berhasil terhapus atau tidak
                     if(delete){
                         Message.showInformation(this, "Data berhasil dihapus!");
@@ -573,7 +585,7 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
             tbh.setVisible(true);
 
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            // mengecek apakah user jadi mengedit data atau tidak
+            // mengecek apakah barang jadi mengedit data atau tidak
             if(tbh.isUpdated()){
                 // mengupdate tabel dan menampilkan ulang data
                 this.updateTabel();
@@ -584,10 +596,6 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
                 Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
             }
     }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-//        }
-    }//GEN-LAST:event_btnOkActionPerformed
 
     private void tablDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablDataKeyPressed
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -600,12 +608,57 @@ public class DataBarang extends javax.swing.JPanel /*implements ItemListener*/{
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tablDataKeyPressed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah.png"));
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // membuka window input pembeli
+        Audio.play(Audio.SOUND_INFO);
+        InputBarang tbh = new InputBarang(null, true, null);
+        tbh.setVisible(true);
+
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mengecek apakah barang jadi menambahkan data atau tidak
+        if(tbh.isUpdated()){
+            // mengupdate tabel
+            this.updateTabel();
+            this.tabelData.setRowSelectionInterval(this.tabelData.getRowCount()-1, this.tabelData.getRowCount()-1);
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit-entered.png"));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        this.btnEdit.setIcon(Gambar.getIcon("ic-data-edit.png"));
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseEntered
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus-entered.png"));
+    }//GEN-LAST:event_btnDelMouseEntered
+
+    private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
+        this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
+    }//GEN-LAST:event_btnDelMouseExited
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_barang LIKE '%"+key+"%' OR nama_barang LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
 //UPDATE pembukuan.barang1 SET nama_barang = 'susu' WHERE id_barang = 'BG002'
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JToggleButton btnDel;
     private javax.swing.JToggleButton btnEdit;
-    private javax.swing.JButton btnOk;
     private javax.swing.JTextField inpCari;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCari;
