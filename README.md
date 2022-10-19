@@ -48,8 +48,8 @@ Project Lomba Pagelaran Mahasiswa Nasional Bidang Teknologi Informasi dan Komuni
 ![Dashboard Petugas](images/main/dashboard.png)
 
 ## Default Akun
- - username : KY001
- - password : 1234
+ - username : PG002
+ - password : 12345
 
 ## Contributor
  - <a href="https://github.com/HaqiAchmad">Achmad Baihaqi</a>
