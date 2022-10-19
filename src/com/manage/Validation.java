@@ -278,44 +278,66 @@ public class Validation {
         return false;
     }
     public static boolean isJumlahBarang(String jumlah){
-        if(isNumber(jumlah)){
-            if(Integer.parseInt(jumlah) >=0){
-                return true;
+        
+        if(jumlah == null || jumlah.equals("")){
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Stok barang tidak boleh kosong!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else{
+            if(isNumber(jumlah)){
+                if(Integer.parseInt(jumlah) >= 0){
+                    return true;
+                }else{
+                    Audio.play(Audio.SOUND_WARNING);
+                    JOptionPane.showMessageDialog(null, "Stok barang harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+                }            
             }else{
                 Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "Jumlah dari Barang harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
-            }            
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Jumlah barang harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Stok barang harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            }
         }
         return false;
     }
     public static boolean isHargaBeli(String hargaBeli){
-        if(isNumber(hargaBeli)){
-            if(Integer.parseInt(hargaBeli) > 0){
-                return true;
+        
+        if(hargaBeli == null || hargaBeli.equals("")){
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Harga beli tidak boleh kosong!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else{
+            if(isNumber(hargaBeli)){
+                if(Integer.parseInt(hargaBeli) >= 0){
+                    return true;
+                }else{
+                    Audio.play(Audio.SOUND_WARNING);
+                    JOptionPane.showMessageDialog(null, "Harga beli harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+                }            
             }else{
                 Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "Harga beli harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Harga beli harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
             }            
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Harga beli harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
+        
         return false;
     }
     public static boolean isHargaJual(String hargaJual, String hargaBeli){
-        if(isNumber(hargaJual) && isNumber(hargaBeli)){
-            if(Integer.parseInt(hargaJual) >= Integer.parseInt(hargaBeli)){
-                return true;
+        
+        if(hargaJual == null || hargaJual.equals("")){
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Harga jual tidak boleh kosong!", "Pesan", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else{
+            if(isNumber(hargaJual) && isNumber(hargaBeli)){
+                if(Integer.parseInt(hargaJual) >= Integer.parseInt(hargaBeli)){
+                    return true;
+                }else{
+                    Audio.play(Audio.SOUND_WARNING);
+                    JOptionPane.showMessageDialog(null, "Harga jual harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+                }            
             }else{
                 Audio.play(Audio.SOUND_WARNING);
-                JOptionPane.showMessageDialog(null, "Harga jual harus minimal 0", "Pesan", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Harga jual harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
             }            
-        }else{
-            Audio.play(Audio.SOUND_WARNING);
-            JOptionPane.showMessageDialog(null, "Harga jual harus berupa angka!", "Pesan", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
