@@ -31,7 +31,7 @@ public class TransaksiJual extends Database{
     }
     
     public boolean isExistID(String id){
-        // mengecek apakah id user yang diinputkan valid atau tidak
+        // mengecek apakah id transaksi yang diinputkan valid atau tidak
         if(Validation.isIdTransaksi(id)){
             return super.isExistData(this.table, TRJ.ID_TR_JUAL.name(), id);
         }
@@ -66,7 +66,6 @@ public class TransaksiJual extends Database{
             // jika id pembayaran belum exist maka id akan 
             return String.format("TRJ%04d", Integer.parseInt(nomor)+1); 
         }
-        
         return null;
     }
     
@@ -77,7 +76,7 @@ public class TransaksiJual extends Database{
             return this.getData(this.table, data.name(), " WHERE "+ TRJ.ID_TR_JUAL.name() +" = '" + idTrj +"'");
         }
         // akan menghasilkan error jika id transaksi tidak ditemukan
-        throw new InValidUserDataException("'" +idTrj + "' ID User tersebut tidak dapat ditemukan.");   
+        throw new InValidUserDataException("'" +idTrj + "' ID Transaksi Jual tersebut tidak dapat ditemukan.");   
     }
     
     public boolean addTransaksiJual(String namaTrJual, String idPetugas, String idPembeli, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
@@ -140,7 +139,7 @@ public class TransaksiJual extends Database{
         if(Validation.isIdBarang(idBarang)){
             vIdBarang = true;
         }else{
-            throw new InValidUserDataException("'" + idBarang + "' tersebut tidak valid.");
+            throw new InValidUserDataException("'" + idBarang + "' ID barang tersebut tidak valid.");
         }
         
         // mengecek apakah jumlah barang valid atau tidak
@@ -218,7 +217,7 @@ public class TransaksiJual extends Database{
             return super.setData(this.table, data.name(), TRJ.ID_TR_JUAL.name(), idTrj, newValue);
         }
         // akan menghasilkan error jika id transaksi tidak ditemukan
-        throw new InValidUserDataException("'" + idTrj + "' ID Transaksi tersebut tidak dapat ditemukan.");
+        throw new InValidUserDataException("'" + idTrj + "' ID Transaksi Jual tersebut tidak dapat ditemukan.");
     }
     
     public boolean setNamaTransaksi(String idTrj, String newValue){
