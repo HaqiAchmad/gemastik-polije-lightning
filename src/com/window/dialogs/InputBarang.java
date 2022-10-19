@@ -58,7 +58,7 @@ public class InputBarang extends javax.swing.JDialog {
             
             // menampilkan data-data pembeli ke input text
             this.inpNama.setText(this.nama);
-            this.inpJumlah.setText(this.stok);
+            this.inpStok.setText(this.stok);
             this.inpHargaBeli.setText(this.hargaBeli);
             this.inpHargaJual.setText(this.hargaJual);
             // menampilkan data jenis
@@ -95,7 +95,7 @@ public class InputBarang extends javax.swing.JDialog {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // mendapatkan data dari textfield
         this.nama = this.inpNama.getText();
-        this.stok = this.inpJumlah.getText();
+        this.stok = this.inpStok.getText();
         this.hargaBeli = this.inpHargaBeli.getText();
         this.hargaJual = this.inpHargaJual.getText();
         // mendapatkan data jenis
@@ -118,11 +118,11 @@ public class InputBarang extends javax.swing.JDialog {
                 this.barang.closeConnection();
                 this.dispose();
             }
-            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));    
             
         }else{
             Message.showWarning(null, "Silahkan pilih jenis barang terlebih dahulu!");
         }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));    
     }
     
     /**
@@ -135,7 +135,7 @@ public class InputBarang extends javax.swing.JDialog {
         
         // mendapakan data dari textfield
         this.newNama = this.inpNama.getText();
-        this.newStok = this.inpJumlah.getText();
+        this.newStok = this.inpStok.getText();
         this.newHargaBeli = this.inpHargaBeli.getText();
         this.newHargaJual = this.inpHargaJual.getText();
         // mendapatkan data jenis
@@ -166,11 +166,10 @@ public class InputBarang extends javax.swing.JDialog {
                     this.dispose();
                 }
             }
-            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }else{
             Message.showWarning(null, "Silahkan jenis barang terlebih dahulu!");
         }
-
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     @SuppressWarnings("unchecked")
@@ -191,7 +190,7 @@ public class InputBarang extends javax.swing.JDialog {
         btnSimpan = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         inpHargaJual = new javax.swing.JTextField();
-        inpJumlah = new javax.swing.JTextField();
+        inpStok = new javax.swing.JTextField();
         lblJumlah = new javax.swing.JLabel();
         lblHargaJual = new javax.swing.JLabel();
         inpJenis = new javax.swing.JComboBox();
@@ -332,20 +331,20 @@ public class InputBarang extends javax.swing.JDialog {
             }
         });
 
-        inpJumlah.setBackground(new java.awt.Color(255, 255, 255));
-        inpJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpJumlah.setForeground(new java.awt.Color(0, 0, 0));
-        inpJumlah.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpJumlah.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpJumlah.setCaretColor(new java.awt.Color(213, 8, 8));
-        inpJumlah.setMaximumSize(new java.awt.Dimension(305, 21));
-        inpJumlah.setMinimumSize(new java.awt.Dimension(305, 21));
-        inpJumlah.setPreferredSize(new java.awt.Dimension(305, 21));
+        inpStok.setBackground(new java.awt.Color(255, 255, 255));
+        inpStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpStok.setForeground(new java.awt.Color(0, 0, 0));
+        inpStok.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpStok.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpStok.setCaretColor(new java.awt.Color(213, 8, 8));
+        inpStok.setMaximumSize(new java.awt.Dimension(305, 21));
+        inpStok.setMinimumSize(new java.awt.Dimension(305, 21));
+        inpStok.setPreferredSize(new java.awt.Dimension(305, 21));
 
         lblJumlah.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblJumlah.setForeground(new java.awt.Color(28, 115, 196));
         lblJumlah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblJumlah.setText("Jumlah");
+        lblJumlah.setText("Stok Barang");
         lblJumlah.setMaximumSize(new java.awt.Dimension(305, 17));
         lblJumlah.setMinimumSize(new java.awt.Dimension(305, 17));
         lblJumlah.setPreferredSize(new java.awt.Dimension(305, 17));
@@ -385,7 +384,7 @@ public class InputBarang extends javax.swing.JDialog {
                             .addGroup(pnlMainLayout.createSequentialGroup()
                                 .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(inpJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inpStok, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlMainLayout.createSequentialGroup()
                                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblJenis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -424,7 +423,7 @@ public class InputBarang extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inpJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inpStok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNama)
@@ -498,7 +497,7 @@ public class InputBarang extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void inpIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inpIdMouseClicked
-        Message.showWarning(this, "ID Pembeli tidak bisa diedit!");
+        Message.showWarning(this, "ID Barang tidak bisa diedit!");
     }//GEN-LAST:event_inpIdMouseClicked
 
     private void inpHargaJualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inpHargaJualActionPerformed
@@ -544,8 +543,8 @@ public class InputBarang extends javax.swing.JDialog {
     private javax.swing.JTextField inpHargaJual;
     private javax.swing.JTextField inpId;
     private javax.swing.JComboBox inpJenis;
-    private javax.swing.JTextField inpJumlah;
     private javax.swing.JTextField inpNama;
+    private javax.swing.JTextField inpStok;
     private javax.swing.JLabel lblHargaBeli;
     private javax.swing.JLabel lblHargaJual;
     private javax.swing.JLabel lblId;

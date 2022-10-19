@@ -64,7 +64,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="inpId" min="-2" pref="306" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="inpJumlah" min="-2" pref="305" max="-2" attributes="0"/>
+                                  <Component id="inpStok" min="-2" pref="305" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -117,7 +117,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="inpId" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="inpJumlah" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="inpStok" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -429,7 +429,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inpHargaJualActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="inpJumlah">
+        <Component class="javax.swing.JTextField" name="inpStok">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -469,7 +469,7 @@
               <Color blue="c4" green="73" red="1c" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Jumlah"/>
+            <Property name="text" type="java.lang.String" value="Stok Barang"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[305, 17]"/>
             </Property>
