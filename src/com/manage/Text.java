@@ -348,7 +348,7 @@ public class Text {
         
         int tahun, bulan, hari;
         // mengecek apakah tanggal valid atau tidak
-        if(Validation.isTanggalLahir(yymmdd)){
+        if(Validation.isTanggal(yymmdd)){
             // mendapatkan data dari tanggal 
             StringTokenizer token = new StringTokenizer(yymmdd, "-");
             tahun = Integer.parseInt(token.nextToken());
@@ -402,7 +402,7 @@ public class Text {
      */
     public String toDateOfBirthCase(String tempat, String tgl){
         // mengecek apakah tanggal dan nama tempat valid atau tidak
-        if(Validation.isNamaTempat(tempat) && Validation.isTanggalLahir(tgl)){
+        if(Validation.isNamaTempat(tempat) && Validation.isTanggal(tgl)){
             // mengubah menjadi ttl case
             return String.format("%s, %s", this.toCapitalize(tempat), this.toDateCase(tgl));
         }
