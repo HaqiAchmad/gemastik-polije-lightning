@@ -29,7 +29,7 @@ public class TransaksiBeli extends Database{
         super.startConnection();
     }
     
-    public boolean isExistID(String id){
+    public boolean isExistIDTransaksi(String id){
         // mengecek apakah id transaksi yang diinputkan valid atau tidak
         if(Validation.isIdTransaksi(id)){
             return super.isExistData(this.table, TRB.ID_TR_BELI.name(), id);
@@ -38,7 +38,7 @@ public class TransaksiBeli extends Database{
         throw new InValidUserDataException("'" +id + "' ID tersebut tidak valid.");
     }
     
-    protected String getLastID(){
+    protected String getLastIDTransaksi(){
         try{
             String query = String.format("SELECT * FROM %s ORDER BY %s DESC LIMIT 0,1", this.table, TRB.ID_TR_BELI.name());
             res = stat.executeQuery(query);
@@ -51,8 +51,8 @@ public class TransaksiBeli extends Database{
         return null;
     }
     
-    public String createID(){
-        String lastID = this.getLastID(), nomor;
+    public String createIDTransaksi(){
+        String lastID = this.getLastIDTransaksi(), nomor;
         
         if(!lastID.equals("")){
             nomor = lastID.substring(3);
@@ -68,26 +68,20 @@ public class TransaksiBeli extends Database{
         return null;
     }
     
-    private String getData(String idTrj, TRB data){
-        // mengecek apakah id transaksi exist atau tidak
-        if(this.isExistID(idTrj)){
-            // mendapatkan data dari transaksi jual
-            return this.getData(this.table, data.name(), " WHERE "+ TRB.ID_TR_BELI.name() +" = '" + idTrj +"'");
-        }
-        // akan menghasilkan error jika id transaksi tidak ditemukan
-        throw new InValidUserDataException("'" +idTrj + "' ID Transaksi Beli tersebut tidak dapat ditemukan.");   
+    public String createIDLaporan(){
+        return this.createIDTransaksi().replace("TRB", "LPG");
     }
     
     public boolean addTransaksiJual(String namaTrJual, String idPetugas, String idSupplier, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
         PreparedStatement pst;
-        String idTrj = this.createID();
+        String idTrb = this.createIDTransaksi(), idLaporan = this.createIDLaporan();
         try {
             // validasi data sebelum ditambahkan
-            if(this.validateAddTransaksiJual(idTrj, namaTrJual, idPetugas, idSupplier, idBarang, jmlBrg, metodeByr, ttlHarga, tanggal)){
-                Log.addLog(String.format("Menambahkan data transaksi dengan ID Transaksi '%s' ", idTrj));
+            if(this.validateAddTransaksiJual(idTrb, namaTrJual, idPetugas, idSupplier, idBarang, jmlBrg, metodeByr, ttlHarga, tanggal)){
+                Log.addLog(String.format("Menambahkan data transaksi dengan ID Transaksi '%s' ", idTrb));
                 // menambahkan data kedalam Database
                 pst = this.conn.prepareStatement("INSERT INTO transaksi_beli VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                pst.setString(1, idTrj);
+                pst.setString(1, idTrb);
                 pst.setString(2, namaTrJual);
                 pst.setString(3, idPetugas);
                 pst.setString(4, idSupplier);
@@ -98,7 +92,10 @@ public class TransaksiBeli extends Database{
                 pst.setString(9, tanggal);
                 
                 // mengekusi query
-                return pst.executeUpdate() > 0;
+                if(pst.executeUpdate() > 0){
+                    // menambahkan laporan pendapatan
+                    return this.addLaporanPengeluaran(idLaporan, namaTrJual, idTrb, tanggal, ttlHarga);
+                }
             }
         } catch (SQLException | InValidUserDataException ex) {
             System.out.println("Error Message : " + ex.getMessage());
@@ -106,7 +103,21 @@ public class TransaksiBeli extends Database{
         return false;
     }
     
-    private boolean addToLaporan(){
+    private boolean addLaporanPengeluaran(String idLaporan, String namaLaporan, String idTrj, String tanggal, String ttlHarga){
+        PreparedStatement pst;
+        try{
+            Log.addLog(String.format("Menambahkan data laporan pendapatan dengan ID Transaksi '%s' ", idTrj));
+            pst = this.conn.prepareStatement("INSERT INTO laporan_pengeluaran VALUES (?, ?, ?, ?, ?)");
+            pst.setString(1, idLaporan);
+            pst.setString(2, namaLaporan);
+            pst.setString(3, idTrj);
+            pst.setString(4, tanggal);
+            pst.setInt(5, Integer.parseInt(ttlHarga));
+            
+            return pst.executeUpdate() > 0;
+        }catch(SQLException ex){
+            System.out.println("Error Message : " + ex.getMessage());
+        }
         return false;
     }
     
@@ -176,6 +187,16 @@ public class TransaksiBeli extends Database{
         return super.deleteData(this.table, TRB.ID_TR_BELI.name(), idTrj);
     }
     
+    private String getData(String idTrj, TRB data){
+        // mengecek apakah id transaksi exist atau tidak
+        if(this.isExistIDTransaksi(idTrj)){
+            // mendapatkan data dari transaksi jual
+            return this.getData(this.table, data.name(), " WHERE "+ TRB.ID_TR_BELI.name() +" = '" + idTrj +"'");
+        }
+        // akan menghasilkan error jika id transaksi tidak ditemukan
+        throw new InValidUserDataException("'" +idTrj + "' ID Transaksi Beli tersebut tidak dapat ditemukan.");   
+    }
+    
     public String getNamaTransaksi(String idTrj){
         return this.getData(idTrj, TRB.NAMA_TR_BELI);
     }
@@ -211,7 +232,7 @@ public class TransaksiBeli extends Database{
     private boolean setData(String idTrj, TRB data, String newValue){
         Log.addLog("Mengedit data '" + data.name().toLowerCase() + "' dari transaksi beli dengan ID Transaksi '" + idTrj + "'.");
         // mengecek apakah id transaksi exist atau tidak
-        if(this.isExistID(idTrj)){
+        if(this.isExistIDTransaksi(idTrj)){
             // mengedit data dari transaksi
             return super.setData(this.table, data.name(), TRB.ID_TR_BELI.name(), idTrj, newValue);
         }
