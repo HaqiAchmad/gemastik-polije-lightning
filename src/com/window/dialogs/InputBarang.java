@@ -3,7 +3,6 @@ package com.window.dialogs;
 import com.manage.Message;
 import com.media.Gambar;
 import com.users.Barang;
-import com.users.Pembeli;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -30,7 +29,7 @@ public class InputBarang extends javax.swing.JDialog {
      * Creates new form TambahPembeli
      * @param parent
      * @param modal
-     * @param idPembeli
+     * @param idBarang
      */
     public InputBarang(Frame parent, boolean modal, String idBarang) {
         super(parent, modal);

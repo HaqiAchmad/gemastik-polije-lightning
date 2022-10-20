@@ -241,6 +241,15 @@ public class Validation {
      * @param tempat nama tempat yang akan dicek
      * @return 
      */
+    public static boolean isNamaTempat(String tempat){
+        if(tempat.length() >= 5 && tempat.length() <= 50){
+            return true;
+        }else{
+            Audio.play(Audio.SOUND_WARNING);
+            JOptionPane.showMessageDialog(null, "Panjang dari Nama Tempat harus diantara 5-50 karakter!", "Pesan", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
     public static boolean isNamaBarang(String namaBarang){
         if(namaBarang.length() >= 5 && namaBarang.length() <= 50){
             return true;
