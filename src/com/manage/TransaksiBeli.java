@@ -72,12 +72,12 @@ public class TransaksiBeli extends Database{
         return this.createIDTransaksi().replace("TRB", "LPG");
     }
     
-    public boolean addTransaksiJual(String namaTrJual, String idPetugas, String idSupplier, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
+    public boolean addTransaksiBeli(String namaTrJual, String idPetugas, String idSupplier, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
         PreparedStatement pst;
         String idTrb = this.createIDTransaksi(), idLaporan = this.createIDLaporan();
         try {
             // validasi data sebelum ditambahkan
-            if(this.validateAddTransaksiJual(idTrb, namaTrJual, idPetugas, idSupplier, idBarang, jmlBrg, metodeByr, ttlHarga, tanggal)){
+            if(this.validateAddTransaksiBeli(idTrb, namaTrJual, idPetugas, idSupplier, idBarang, jmlBrg, metodeByr, ttlHarga, tanggal)){
                 Log.addLog(String.format("Menambahkan data transaksi dengan ID Transaksi '%s' ", idTrb));
                 // menambahkan data kedalam Database
                 pst = this.conn.prepareStatement("INSERT INTO transaksi_beli VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -91,13 +91,16 @@ public class TransaksiBeli extends Database{
                 pst.setInt(8, Integer.parseInt(ttlHarga));
                 pst.setString(9, tanggal);
                 
+                return pst.executeUpdate() > 0;
+                
                 // mengekusi query
-                if(pst.executeUpdate() > 0){
-                    // menambahkan laporan pendapatan
-                    return this.addLaporanPengeluaran(idLaporan, namaTrJual, idTrb, tanggal, ttlHarga);
-                }
+//                if(pst.executeUpdate() > 0){
+//                    // menambahkan laporan pendapatan
+//                    return this.addLaporanPengeluaran(idLaporan, namaTrJual, idTrb, tanggal, ttlHarga);
+//                }
             }
         } catch (SQLException | InValidUserDataException ex) {
+            ex.printStackTrace();
             System.out.println("Error Message : " + ex.getMessage());
         }
         return false;
@@ -121,7 +124,7 @@ public class TransaksiBeli extends Database{
         return false;
     }
     
-    public boolean validateAddTransaksiJual(String idTrj, String namaTrJual, String idPetugas, String idSupplier, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
+    public boolean validateAddTransaksiBeli(String idTrj, String namaTrJual, String idPetugas, String idSupplier, String idBarang, String jmlBrg, String metodeByr, String ttlHarga, String tanggal){
         boolean vIdTrj, vNamaTrJual = true, vIdPetugas, vIdSupplier, vIdBarang, vJmlBrg, vMetodeByr, vTtlHarga, vTanggal;
         
         // mengecek id transaksi valid atau tidak
@@ -183,7 +186,7 @@ public class TransaksiBeli extends Database{
         return vIdTrj && vNamaTrJual && vIdPetugas && vIdSupplier && vIdBarang && vJmlBrg && vMetodeByr && vTtlHarga && vTanggal;
     }
     
-    public boolean deleteTransaksiJual(String idTrj){
+    public boolean deleteTransaksiBeli(String idTrj){
         return super.deleteData(this.table, TRB.ID_TR_BELI.name(), idTrj);
     }
     
@@ -302,12 +305,12 @@ public class TransaksiBeli extends Database{
 //        System.out.println(tr.setTanggal(idTrj, "2022-03-05"));
         
 //        System.out.println(
-//                tr.validateAddTransaksiJual("TRB0001", "Test", "PG001", "SP009", "BG003", "1", "E-WALLET", "10", "2022-08-19")
+//                tr.validateAddTransaksiBeli("TRB0001", "Test", "PG001", "SP009", "BG003", "1", "E-WALLET", "10", "2022-08-19")
 //        );
         
-//        boolean isSuccess = tr.addTransaksiJual("sok tau", "PG004", "PB123", "BG011", "9", "E-WALLET", "15000", "2022-10-20");
-//        System.out.println(isSuccess);
-//        System.out.println(tr.deleteTransaksiJual("TRJ0005"));
-//        System.out.println(tr.deleteTransaksiJual("TRJ0007"));
+        boolean isSuccess = tr.addTransaksiBeli("sok tau", "PG004", "SP123", "BG011", "9", "E-WALLET", "15000", "2022-10-20");
+        System.out.println(isSuccess);
+//        System.out.println(tr.deleteTransaksiBeli("TRJ0005"));
+//        System.out.println(tr.deleteTransaksiBeli("TRJ0007"));
     }
 }

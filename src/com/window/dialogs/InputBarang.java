@@ -2,11 +2,7 @@ package com.window.dialogs;
 
 import com.manage.Message;
 import com.media.Gambar;
-<<<<<<< HEAD
-import com.users.Barang;
-=======
 import com.manage.Barang;
->>>>>>> 0f16e6ceaf9a7ed3d156b4d84be9546cf2594128
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;

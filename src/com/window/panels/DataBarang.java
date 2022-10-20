@@ -110,6 +110,7 @@ public class DataBarang extends javax.swing.JPanel {
         this.valHargaJual.setText("<html><p>:&nbsp;"+hargaJual+"</p></html>");
         this.valHargaBeli.setText("<html><p>:&nbsp;"+hargaBeli+"</p></html>");
     }
+    
     private Object[][] getData(){
         try{
             Object obj[][];
@@ -136,6 +137,7 @@ public class DataBarang extends javax.swing.JPanel {
         }
         return null;
     }
+    
     private void updateTabel(){
         this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
             getData(),
@@ -152,6 +154,7 @@ public class DataBarang extends javax.swing.JPanel {
             }
         });
     }
+    
     public void showLineChart(){
         //create dataset for the graph
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
