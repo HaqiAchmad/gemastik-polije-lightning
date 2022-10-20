@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Okt 2022 pada 18.56
+-- Waktu pembuatan: 19 Okt 2022 pada 19.03
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gemastik`
+-- Database: `gemastik_lightning`
 --
 
 -- --------------------------------------------------------
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `barang` (
   `id_barang` varchar(6) NOT NULL,
   `nama_barang` varchar(30) NOT NULL,
-  `jumlah` int(5) NOT NULL,
-  `jenis_barang` enum('SNACK','MINUMAN','ATK') NOT NULL,
+  `jenis_barang` enum('SNACK','MAKANAN','MINUMAN','ATK') DEFAULT NULL,
+  `stok` int(5) DEFAULT NULL,
   `harga_beli` int(11) NOT NULL,
   `harga_jual` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -40,23 +40,24 @@ CREATE TABLE `barang` (
 -- Dumping data untuk tabel `barang`
 --
 
-INSERT INTO `barang` (`id_barang`, `nama_barang`, `jumlah`, `jenis_barang`, `harga_beli`, `harga_jual`) VALUES
-('BG001', 'Sprite', 10, 'MINUMAN', 3000, 4000),
-('BG002', 'Coca Cola', 10, 'MINUMAN', 3000, 4000),
-('BG003', 'Teh Pucuk', 10, 'MINUMAN', 3000, 4000),
-('BG004', 'Aqua 500ml', 10, 'MINUMAN', 4000, 5000),
-('BG005', 'Aqua 1L', 16, 'MINUMAN', 7000, 8000),
-('BG006', 'Indomilk', 20, 'MINUMAN', 2000, 2500),
-('BG007', 'Kertas Folio', 100, 'ATK', 100, 250),
-('BG008', 'Kertas HVS', 500, 'ATK', 100, 250),
-('BG009', 'Pulpen Snowman', 24, 'ATK', 1000, 2000),
-('BG010', 'Spidol Hitam', 20, 'ATK', 2000, 2500),
-('BG011', 'Spidol Merah', 20, 'ATK', 2000, 2500),
-('BG012', 'Spidol Biru', 20, 'ATK', 2000, 2500),
-('BG013', 'Yupi', 50, 'SNACK', 400, 500),
-('BG014', 'Roti', 20, 'SNACK', 1500, 2000),
-('BG015', 'Wafer', 48, 'SNACK', 500, 1000),
-('BG016', 'Oreo', 48, 'SNACK', 1000, 2000);
+INSERT INTO `barang` (`id_barang`, `nama_barang`, `jenis_barang`, `stok`, `harga_beli`, `harga_jual`) VALUES
+('BG001', 'Sprite', 'MINUMAN', 10, 3000, 4000),
+('BG002', 'Coca Cola', 'MINUMAN', 10, 3000, 4000),
+('BG003', 'Teh Pucuk', 'MINUMAN', 10, 3000, 4000),
+('BG004', 'Aqua 500ml', 'MINUMAN', 10, 4000, 5000),
+('BG005', 'Aqua 1L', 'MINUMAN', 16, 7000, 8000),
+('BG006', 'Indomilk', 'MINUMAN', 20, 2000, 2500),
+('BG007', 'Kertas Folio', 'ATK', 100, 100, 250),
+('BG008', 'Kertas HVS', 'ATK', 500, 100, 250),
+('BG009', 'Pulpen Snowman', 'ATK', 24, 1000, 2000),
+('BG010', 'Spidol Hitam', 'ATK', 20, 2000, 2500),
+('BG011', 'Spidol Merah', 'ATK', 20, 2000, 2500),
+('BG012', 'Spidol Biru', 'ATK', 20, 2000, 2500),
+('BG013', 'Yupi', 'SNACK', 50, 400, 500),
+('BG014', 'Roti', 'SNACK', 20, 1500, 2000),
+('BG015', 'Wafer', 'SNACK', 48, 500, 1000),
+('BG016', 'Oreo', 'SNACK', 48, 1000, 2000),
+('BG017', 'Indomie Goreng', 'MAKANAN', 200, 2500, 3500);
 
 -- --------------------------------------------------------
 
@@ -71,6 +72,13 @@ CREATE TABLE `laporan_pendapatan` (
   `tanggal` date NOT NULL,
   `total_harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `laporan_pendapatan`
+--
+
+INSERT INTO `laporan_pendapatan` (`id_laporan_pdptn`, `nama_laporan_pdptn`, `id_tr_jual`, `tanggal`, `total_harga`) VALUES
+('LPD0004', 'sok tau', 'TRJ0004', '2022-10-20', 15000);
 
 -- --------------------------------------------------------
 
@@ -742,12 +750,22 @@ INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `no_telp`, `alamat`) VAL
 CREATE TABLE `transaksi_beli` (
   `id_tr_beli` varchar(7) NOT NULL,
   `nama_tr_beli` varchar(30) NOT NULL,
+  `id_petugas` varchar(5) NOT NULL,
   `id_supplier` varchar(5) NOT NULL,
   `id_barang` varchar(6) NOT NULL,
-  `jumlah_barang` int(5) NOT NULL,
-  `jenis_barang` enum('SNACK','MINUMAN','ATK') NOT NULL,
-  `total_harga` int(11) NOT NULL
+  `jumlah_brg` int(5) NOT NULL,
+  `metode_byr` enum('CASH','E-WALLET') NOT NULL,
+  `total_hrg` int(11) NOT NULL,
+  `tanggal` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `transaksi_beli`
+--
+
+INSERT INTO `transaksi_beli` (`id_tr_beli`, `nama_tr_beli`, `id_petugas`, `id_supplier`, `id_barang`, `jumlah_brg`, `metode_byr`, `total_hrg`, `tanggal`) VALUES
+('TRB0001', 'TB Test', '', 'SP005', 'BG003', 5, '', 25000, '2022-10-18'),
+('TRB0002', 'Beli 67 dunks', 'PG001', 'SP004', 'BG015', 67, 'E-WALLET', 160000, '2022-03-05');
 
 -- --------------------------------------------------------
 
@@ -758,13 +776,24 @@ CREATE TABLE `transaksi_beli` (
 CREATE TABLE `transaksi_jual` (
   `id_tr_jual` varchar(7) NOT NULL,
   `nama_tr_jual` varchar(30) NOT NULL,
+  `id_petugas` varchar(5) DEFAULT NULL,
   `id_pembeli` varchar(5) NOT NULL,
-  `id_karyawan` varchar(5) NOT NULL,
   `id_barang` varchar(6) NOT NULL,
-  `jumlah_barang` int(5) NOT NULL,
-  `jenis_barang` enum('SNACK','MINUMAN','ATK') NOT NULL,
-  `total_harga` int(11) NOT NULL
+  `jumlah_brg` int(5) NOT NULL,
+  `metode_byr` enum('CASH','E-WALLET') NOT NULL,
+  `total_hrg` int(11) NOT NULL,
+  `tanggal` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `transaksi_jual`
+--
+
+INSERT INTO `transaksi_jual` (`id_tr_jual`, `nama_tr_jual`, `id_petugas`, `id_pembeli`, `id_barang`, `jumlah_brg`, `metode_byr`, `total_hrg`, `tanggal`) VALUES
+('TRJ0001', 'TR Test', 'PG003', 'PB289', 'BG004', 2, 'CASH', 50000, '2022-10-18'),
+('TRJ0002', 'Beli 1 dunks', 'PG003', 'PB289', 'BG001', 10, 'CASH', 120000, '2022-10-15'),
+('TRJ0003', 'TR Test Add', 'PG002', 'PB390', 'BG001', 4, 'CASH', 90000, '2022-10-19'),
+('TRJ0004', 'sok tau', 'PG004', 'PB123', 'BG011', 9, 'E-WALLET', 15000, '2022-10-20');
 
 -- --------------------------------------------------------
 
@@ -1374,7 +1403,8 @@ ALTER TABLE `supplier`
 ALTER TABLE `transaksi_beli`
   ADD PRIMARY KEY (`id_tr_beli`),
   ADD KEY `id_supplier` (`id_supplier`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_petugas` (`id_petugas`);
 
 --
 -- Indeks untuk tabel `transaksi_jual`
@@ -1383,7 +1413,7 @@ ALTER TABLE `transaksi_jual`
   ADD PRIMARY KEY (`id_tr_jual`),
   ADD KEY `id_pembeli` (`id_pembeli`),
   ADD KEY `id_barang` (`id_barang`),
-  ADD KEY `id_karyawan` (`id_karyawan`);
+  ADD KEY `id_karyawan` (`id_petugas`);
 
 --
 -- Indeks untuk tabel `users`
@@ -1430,13 +1460,14 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `transaksi_beli`
   ADD CONSTRAINT `transaksi_beli_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_beli_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaksi_beli_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ts_idpetugas` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `transaksi_jual`
 --
 ALTER TABLE `transaksi_jual`
-  ADD CONSTRAINT `transaksi_jual_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_jual_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_jual_ibfk_2` FOREIGN KEY (`id_pembeli`) REFERENCES `pembeli` (`id_pembeli`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_jual_ibfk_3` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

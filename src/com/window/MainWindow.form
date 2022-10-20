@@ -254,7 +254,7 @@
                       <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-home.png"/>
+                      <Image iconType="3" name="/resources/image/icons/ic-window-sidemenu-home-dark.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Dashboard"/>
                     <Property name="iconTextGap" type="int" value="7"/>

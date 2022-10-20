@@ -19,10 +19,4 @@ public enum UserData {
     NAMA_PEMBELI,
     NO_TELP,
     ALAMAT,
-    ID_BARANG,
-    NAMA_BARANG,
-    JENIS,
-    JUMLAH,
-    HARGA_BELI,
-    HARGA_JUAL
 }

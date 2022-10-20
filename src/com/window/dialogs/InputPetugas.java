@@ -121,10 +121,10 @@ public class InputPetugas extends javax.swing.JDialog {
                 this.petugas.closeConnection();
                 this.dispose();
             }
-            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));            
         }else{
             Message.showWarning(null, "Silahkan pilih level Petugas terlebih dahulu!");
         }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));         
 }
     
     /**
@@ -169,11 +169,10 @@ public class InputPetugas extends javax.swing.JDialog {
                     this.dispose();
                 }
             }
-            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         } else {
             Message.showWarning(null, "Silahkan pilih level Petugas terlebih dahulu!");
         }
-
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     @SuppressWarnings("unchecked")

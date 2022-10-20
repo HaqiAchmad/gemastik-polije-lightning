@@ -21,7 +21,6 @@ import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -77,6 +76,9 @@ public class MainWindow extends javax.swing.JFrame {
                 btn.setOpaque(false);
                 btn.setBackground(new Color(0,0,0,0));
                 btn.setForeground(new Color(255,255,255));
+                if(Gambar.isDarkIcon(btn.getIcon().toString())){
+                    btn.setIcon(Gambar.getWhiteIcon(btn.getIcon().toString()));                    
+                }
             }
             
         }
@@ -107,7 +109,8 @@ public class MainWindow extends javax.swing.JFrame {
                     if(btn != activated){
                         btn.setOpaque(true);
                         btn.setForeground(new Color(0,0,0));
-                        btn.setBackground(new Color(96,167,231));                        
+                        btn.setBackground(new Color(96,167,231));
+                        btn.setIcon(Gambar.getDarkIcon(btn.getIcon().toString()));
                     }
                 }
 
@@ -116,13 +119,14 @@ public class MainWindow extends javax.swing.JFrame {
                     if(btn != activated){
                         btn.setOpaque(false);
                         btn.setForeground(new Color(255,255,255));
-                        btn.setBackground(new Color(0,0,0,0));                        
+                        btn.setBackground(new Color(0,0,0,0));
+                        btn.setIcon(Gambar.getWhiteIcon(btn.getIcon().toString()));
                     }
                 }
             });
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -195,7 +199,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnDashboard.setBackground(new java.awt.Color(166, 203, 227));
         btnDashboard.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnDashboard.setForeground(new java.awt.Color(0, 0, 0));
-        btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-home.png"))); // NOI18N
+        btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/image/icons/ic-window-sidemenu-home-dark.png"))); // NOI18N
         btnDashboard.setText("Dashboard");
         btnDashboard.setIconTextGap(7);
         btnDashboard.setOpaque(true);

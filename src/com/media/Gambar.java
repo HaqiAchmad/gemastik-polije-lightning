@@ -127,4 +127,42 @@ public class Gambar {
         return null;
     }
     
+    public static boolean isDarkIcon(String icon){
+        return icon.substring(icon.lastIndexOf("-")+1, icon.lastIndexOf(".")).contains("dark");
+    }
+    
+    public static ImageIcon getDarkIcon(String icon){
+        FileManager fm = new FileManager();
+        String file = fm.getNamaFile(icon),
+               format = fm.getFormatFile(icon);
+        
+        file = file.substring(0, file.lastIndexOf(".")) + "-dark";
+        
+        return new ImageIcon(Gambar.DIREKTORY_ICONS + file + format);
+    }
+    
+    public static ImageIcon getWhiteIcon(String icon){
+        FileManager fm = new FileManager();
+        String file = fm.getNamaFile(icon),
+               format = fm.getFormatFile(icon);
+        
+        file = file.substring(0, file.lastIndexOf("-"));
+        
+        return new ImageIcon(Gambar.DIREKTORY_ICONS + file + format);
+    }
+    
+    public static void main(String[] args) {
+        
+//        System.out.println(Gambar.getDarkIcon("resources/icons/ic-window-sidemenu-logout.png"));
+//        System.out.println(Gambar.getDarkIcon("icons/ic-window-sidemenu-logout.png"));
+//        System.out.println(Gambar.getWhiteIcon("src\\resources\\image\\icons\\ic-window-sidemenu-supplier-dark.png"));
+        System.out.println(Gambar.isDarkIcon("src\\resources\\image\\icons\\ic-window-sidemenu-supplier-dark.png"));
+        
+//        File f = new File("Gemastik_Lightning.jar");
+//        System.out.println(f.isFile());
+//        FileManager fm = new FileManager();
+//        System.out.println(fm.getNamaFile(f.getName()));
+        
+    }
+    
 }

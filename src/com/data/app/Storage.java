@@ -299,7 +299,7 @@ public final class Storage {
      * @return direktori storage users.
      */
     public String getUsersDir(){
-        return this.getDirectory() + "Users\\";
+        return this.getDirectory() + "Users\\login_data.haqi";
     }
     
     /**
@@ -319,10 +319,7 @@ public final class Storage {
     public static void main(String[] args) {
         
         Storage str = new Storage();
-        System.setProperty("os.name", "Macos");
-        System.out.println(System.getProperty("os.name"));
-        System.out.println(str.getDirectory());
-        
+
     }
     
 }

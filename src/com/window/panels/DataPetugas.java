@@ -13,9 +13,11 @@ import com.window.dialogs.InputPetugas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
@@ -51,6 +53,44 @@ public class DataPetugas extends javax.swing.JPanel {
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        JLabel[] values = {
+          this.valIDPetugas, this.valNamaPetugas, this.valNoTelp, this.valAlamat, 
+          this.valTotalTrJual, this.valTotalTrBeli, this.valLastTr, this.valLevel
+        };
+        
+        for(JLabel lbl : values){
+            lbl.addMouseListener(new java.awt.event.MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    lbl.setForeground(new Color(15,98,230));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    lbl.setForeground(new Color(0,0,0));
+                }
+            });
+        }
+        
         
         this.updateTabel();
         
@@ -127,7 +167,7 @@ public class DataPetugas extends javax.swing.JPanel {
             petugas.startConnection();
             Object[][] obj;
             int rows = 0;
-            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas", id;
+            String sql = "SELECT id_petugas, nama_petugas, no_telp, alamat FROM petugas " + keyword, id;
             // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
             obj = new Object[petugas.getJumlahData(DatabaseTables.PETUGAS.name())][4];
             // mengeksekusi query
@@ -406,6 +446,11 @@ public class DataPetugas extends javax.swing.JPanel {
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(41, 180, 50));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -678,6 +723,12 @@ public class DataPetugas extends javax.swing.JPanel {
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_petugas LIKE '%"+key+"%' OR nama_petugas LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,7 @@ import com.error.AuthenticationException;
 import com.manage.Message;
 import com.media.Audio;
 import com.media.Gambar;
+import com.users.UserLevels;
 import com.users.Users;
 import com.window.MainWindow;
 
@@ -319,6 +320,7 @@ public class LoginWindow extends javax.swing.JFrame {
             // mendapatkan input
             idUser = this.inpUsername.getText();
             password = this.inpPassword.getText();
+            
             // melakukan login
             boolean login = user.login(idUser, password);
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -327,8 +329,9 @@ public class LoginWindow extends javax.swing.JFrame {
             if(login){
                 // jika user login dengan level akun admin atau petugas
                 Audio.play(Audio.SOUND_INFO);
-                JOptionPane.showMessageDialog(this, "Login Berhasil!\n\nSelamat datang " + user.getData("karyawan", "nama_karyawan", "WHERE id_karyawan = '" + idUser + "'"));
+                JOptionPane.showMessageDialog(this, "Login Berhasil!\n\nSelamat datang " + user.getData(UserLevels.PETUGAS.name(), "nama_petugas", "WHERE id_petugas = '" + this.idUser + "'"));
                 
+                // membuka window dashboard
                 java.awt.EventQueue.invokeLater(new Runnable(){
                     @Override
                     public void run(){
@@ -336,37 +339,9 @@ public class LoginWindow extends javax.swing.JFrame {
                     }
                 });
                 
-//                if(user.isAdmin() || user.isPetugas()){
-//                    // membuka window DashboardPetugas
-//                    java.awt.EventQueue.invokeLater(new Runnable(){
-//                        
-//                        @Override
-//                        public void run(){
-//                            new com.window.petugas.DashboardPetugas().setVisible(true);
-//                        }
-//                    });
-//                    
-//                    // menutup window LoginWindow
-//                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//                    dispose();
-//                }
-//                // jika user login dengan level akun siswa
-//                else if(user.isSiswa()){
-//                    // membuka window DashboardSiswa
-//                    java.awt.EventQueue.invokeLater(new Runnable(){
-//                        
-//                        @Override
-//                        public void run(){
-//                            new com.window.siswa.DashboardSiswa().setVisible(true);
-//                        }
-//                    });
-//                    
-//                    // menutup window LoginWindow
-//                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//                    dispose();
-//                }else{
-//                    Message.showWarning(this, "Level akun Anda tidak valid!", true);
-//                }
+                // menutup koneksi dan window
+                user.closeConnection();
+                this.dispose();
             }else{
                 this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 // mereset textfield jika login gagal

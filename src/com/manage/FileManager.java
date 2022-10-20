@@ -280,10 +280,10 @@ public class FileManager {
      * @return nama dari file yang diinputkan.
      */
     public String getNamaFile(String file) {
-        if(new File(file).isFile()){
+//        if(new File(file).isFile()){
             return new File(file).getName();
-        }
-        return null;
+//        }
+//        return null;
     }
 
     /**
@@ -299,10 +299,10 @@ public class FileManager {
      * @return format dari file.
      */
     public String getFormatFile(String file) {
-        if(new File(file).isFile()) {
+//        if(new File(file).isFile()) {
             return file.substring(file.lastIndexOf("."));
-        }
-        return null;
+//        }
+//        return null;
     }
 
     /**

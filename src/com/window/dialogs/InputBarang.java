@@ -2,14 +2,18 @@ package com.window.dialogs;
 
 import com.manage.Message;
 import com.media.Gambar;
+<<<<<<< HEAD
 import com.users.Barang;
+=======
+import com.manage.Barang;
+>>>>>>> 0f16e6ceaf9a7ed3d156b4d84be9546cf2594128
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
 
 /**
  *
- * @author Achmad Baihaqi
+ * @author Amirzan
  */
 public class InputBarang extends javax.swing.JDialog {
 
@@ -21,8 +25,7 @@ public class InputBarang extends javax.swing.JDialog {
     
     private final String idBarang;
     
-    private String nama, jenis,          newNama, newJenis;
-    private int jumlah, hargaBeli, hargaJual, newJumlah, newHargaBeli, newHargaJual;
+    private String nama, jenis, newNama, newJenis, stok, hargaBeli, hargaJual, newStok, newHargaBeli, newHargaJual;
     private boolean isUpdated = false;
     
     /**
@@ -51,18 +54,24 @@ public class InputBarang extends javax.swing.JDialog {
             this.btnSimpan.setText("Simpan");
 
             // mendapatkan data-data barang
-            this.nama = this.barang.getNama(this.idBarang);
+            this.nama = this.barang.getNamaBarang(this.idBarang);
             this.jenis = this.barang.getJenis(this.idBarang);
-            this.jumlah = Integer.parseInt(this.barang.getJumlah(this.idBarang));
-            this.hargaBeli = Integer.parseInt(this.barang.getHargaBeli(this.idBarang));
-            this.hargaJual = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+            this.stok = this.barang.getStok(this.idBarang);
+            this.hargaBeli = this.barang.getHargaBeli(this.idBarang);
+            this.hargaJual = this.barang.getHargaJual(this.idBarang);
             
             // menampilkan data-data pembeli ke input text
             this.inpNama.setText(this.nama);
-            this.inpJenis.setText(this.jenis);
-            this.inpJumlah.setText(Integer.toString(this.jumlah));
-            this.inpHargaBeli.setText(Integer.toString(this.hargaBeli));
-            this.inpHargaJual.setText(Integer.toString(this.hargaJual));
+            this.inpStok.setText(this.stok);
+            this.inpHargaBeli.setText(this.hargaBeli);
+            this.inpHargaJual.setText(this.hargaJual);
+            // menampilkan data jenis
+            switch(jenis){
+                case "MAKANAN" : this.inpJenis.setSelectedIndex(1); break;
+                case "MINUMAN" : this.inpJenis.setSelectedIndex(2); break;
+                case "SNACK" : this.inpJenis.setSelectedIndex(3); break;
+                case "ATK" : this.inpJenis.setSelectedIndex(4); break;
+            }
         }
 
         this.setLocationRelativeTo(null);
@@ -83,29 +92,41 @@ public class InputBarang extends javax.swing.JDialog {
     }
     
     /**
-     * Digunakan untuk menambahkan data pembeli ke Database.
+     * Digunakan untuk menambahkan data barang ke Database.
      * 
      */
     private void addData(){
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // mendapatkan data dari textfield
         this.nama = this.inpNama.getText();
-        this.jenis = this.inpJenis.getText();
-        this.jumlah = Integer.parseInt(this.inpJumlah.getText());
-        this.hargaBeli = Integer.parseInt(this.inpHargaBeli.getText());
-        this.hargaJual = Integer.parseInt(this.inpHargaJual.getText());
-        
-        // menambahkan data pembeli ke database
-        boolean save = this.barang.addBarang(nama, jenis, jumlah, hargaBeli, hargaJual);
-        
-        // mengecek data berhasil disimpan atau belum
-        if(save){
-            Message.showInformation(this, "Data berhasil disimpan!");
-            this.isUpdated = true;
-            this.barang.closeConnection();
-            this.dispose();
+        this.stok = this.inpStok.getText();
+        this.hargaBeli = this.inpHargaBeli.getText();
+        this.hargaJual = this.inpHargaJual.getText();
+        // mendapatkan data jenis
+        switch(this.inpJenis.getSelectedIndex()){
+            case 0 : jenis = null; break;
+            case 1 : jenis = "MAKANAN"; break;
+            case 2 : jenis = "MINUMAN"; break;
+            case 3 : jenis = "SNACK"; break;
+            case 4 : jenis = "ATK"; break;
         }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        
+        if(jenis != null){
+            // menambahkan data pembeli ke database
+            boolean save = this.barang.addBarang(this.nama, this.jenis, this.stok, this.hargaBeli, this.hargaJual);
+
+            // mengecek data berhasil disimpan atau belum
+            if(save){
+                Message.showInformation(this, "Data berhasil disimpan!");
+                this.isUpdated = true;
+                this.barang.closeConnection();
+                this.dispose();
+            }
+            
+        }else{
+            Message.showWarning(null, "Silahkan pilih jenis barang terlebih dahulu!");
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));    
     }
     
     /**
@@ -118,27 +139,39 @@ public class InputBarang extends javax.swing.JDialog {
         
         // mendapakan data dari textfield
         this.newNama = this.inpNama.getText();
-        this.newJenis = this.inpJenis.getText();
-        this.newJumlah = Integer.parseInt(this.inpJumlah.getText());
-        this.newHargaBeli = Integer.parseInt(this.inpHargaBeli.getText());
-        this.newHargaJual = Integer.parseInt(this.inpHargaJual.getText());
+        this.newStok = this.inpStok.getText();
+        this.newHargaBeli = this.inpHargaBeli.getText();
+        this.newHargaJual = this.inpHargaJual.getText();
+        // mendapatkan data jenis
+        switch(this.inpJenis.getSelectedIndex()){
+            case 0 : newJenis = null; break;
+            case 1 : newJenis = "MAKANAN"; break;
+            case 2 : newJenis = "MINUMAN"; break;
+            case 3 : newJenis = "SNACK"; break;
+            case 4 : newJenis = "ATK"; break;
+        }
         
-        // validasi data
-        if(this.barang.validateAddBarang(this.idBarang, this.newNama, this.newJenis, this.newJumlah, this.newHargaBeli, this.newHargaJual)){
-            // mengedit data
-            eNama = this.barang.setNama(this.idBarang, this.newNama);
-            eJenis = this.barang.setJenis(this.idBarang, this.newJenis);
-            eJumlah = this.barang.setJumlah(this.idBarang, Integer.toString(this.newJumlah));
-            eHargaBeli = this.barang.setHargaBeli(this.idBarang, Integer.toString(this.newHargaBeli));
-            eHargaJual = this.barang.setHargaJual(this.idBarang, Integer.toString(this.newHargaJual));
-            
-            // mengecek apa data berhasil disave atau tidak
-            if(eNama && eJenis && eJumlah && eHargaBeli && eHargaJual){
-                Message.showInformation(this, "Data berhasil diedit!");
-                this.isUpdated = true;
-                this.barang.closeConnection();
-                this.dispose();
+        if(newJenis != null){
+            // validasi data
+            if(this.barang.validateAddBarang(this.idBarang, this.newNama, this.newJenis, this.newStok, this.newHargaBeli, this.newHargaJual)){
+                // mengedit data
+                eNama = this.barang.setNamaBarang(this.idBarang, this.newNama);
+                eJenis = this.barang.setJenis(this.idBarang, this.newJenis);
+                eJumlah = this.barang.setStok(this.idBarang, this.newStok);
+                eHargaBeli = this.barang.setHargaBeli(this.idBarang, this.newHargaBeli);
+                eHargaJual = this.barang.setHargaJual(this.idBarang, this.newHargaJual);
+
+                // mengecek apa data berhasil disave atau tidak
+                if(eNama && eJenis && eJumlah && eHargaBeli && eHargaJual){
+                    // menutup dialog
+                    Message.showInformation(this, "Data berhasil diedit!");
+                    this.isUpdated = true;
+                    this.barang.closeConnection();
+                    this.dispose();
+                }
             }
+        }else{
+            Message.showWarning(null, "Silahkan jenis barang terlebih dahulu!");
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
@@ -154,7 +187,6 @@ public class InputBarang extends javax.swing.JDialog {
         lblNama = new javax.swing.JLabel();
         inpNama = new javax.swing.JTextField();
         lblJenis = new javax.swing.JLabel();
-        inpJenis = new javax.swing.JTextField();
         lineTop = new javax.swing.JSeparator();
         lblHargaBeli = new javax.swing.JLabel();
         inpHargaBeli = new javax.swing.JTextField();
@@ -162,9 +194,10 @@ public class InputBarang extends javax.swing.JDialog {
         btnSimpan = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         inpHargaJual = new javax.swing.JTextField();
-        inpJumlah = new javax.swing.JTextField();
+        inpStok = new javax.swing.JTextField();
         lblJumlah = new javax.swing.JLabel();
         lblHargaJual = new javax.swing.JLabel();
+        inpJenis = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -187,7 +220,7 @@ public class InputBarang extends javax.swing.JDialog {
         inpId.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpId.setForeground(new java.awt.Color(0, 0, 0));
         inpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpId.setText("PB587");
+        inpId.setText("BG001");
         inpId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         inpId.setCaretColor(new java.awt.Color(230, 11, 11));
         inpId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -220,21 +253,6 @@ public class InputBarang extends javax.swing.JDialog {
         lblJenis.setForeground(new java.awt.Color(28, 115, 196));
         lblJenis.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblJenis.setText("Jenis Barang");
-
-        inpJenis.setBackground(new java.awt.Color(255, 255, 255));
-        inpJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpJenis.setForeground(new java.awt.Color(0, 0, 0));
-        inpJenis.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpJenis.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpJenis.setCaretColor(new java.awt.Color(213, 8, 8));
-        inpJenis.setMaximumSize(new java.awt.Dimension(305, 21));
-        inpJenis.setMinimumSize(new java.awt.Dimension(305, 21));
-        inpJenis.setPreferredSize(new java.awt.Dimension(305, 21));
-        inpJenis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inpJenisActionPerformed(evt);
-            }
-        });
 
         lineTop.setBackground(new java.awt.Color(0, 36, 252));
         lineTop.setForeground(new java.awt.Color(0, 36, 252));
@@ -317,20 +335,20 @@ public class InputBarang extends javax.swing.JDialog {
             }
         });
 
-        inpJumlah.setBackground(new java.awt.Color(255, 255, 255));
-        inpJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        inpJumlah.setForeground(new java.awt.Color(0, 0, 0));
-        inpJumlah.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inpJumlah.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        inpJumlah.setCaretColor(new java.awt.Color(213, 8, 8));
-        inpJumlah.setMaximumSize(new java.awt.Dimension(305, 21));
-        inpJumlah.setMinimumSize(new java.awt.Dimension(305, 21));
-        inpJumlah.setPreferredSize(new java.awt.Dimension(305, 21));
+        inpStok.setBackground(new java.awt.Color(255, 255, 255));
+        inpStok.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpStok.setForeground(new java.awt.Color(0, 0, 0));
+        inpStok.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inpStok.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inpStok.setCaretColor(new java.awt.Color(213, 8, 8));
+        inpStok.setMaximumSize(new java.awt.Dimension(305, 21));
+        inpStok.setMinimumSize(new java.awt.Dimension(305, 21));
+        inpStok.setPreferredSize(new java.awt.Dimension(305, 21));
 
         lblJumlah.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblJumlah.setForeground(new java.awt.Color(28, 115, 196));
         lblJumlah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblJumlah.setText("Jumlah");
+        lblJumlah.setText("Stok Barang");
         lblJumlah.setMaximumSize(new java.awt.Dimension(305, 17));
         lblJumlah.setMinimumSize(new java.awt.Dimension(305, 17));
         lblJumlah.setPreferredSize(new java.awt.Dimension(305, 17));
@@ -343,6 +361,11 @@ public class InputBarang extends javax.swing.JDialog {
         lblHargaJual.setMinimumSize(new java.awt.Dimension(305, 17));
         lblHargaJual.setPreferredSize(new java.awt.Dimension(305, 17));
 
+        inpJenis.setBackground(new java.awt.Color(255, 255, 255));
+        inpJenis.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        inpJenis.setForeground(new java.awt.Color(0, 0, 0));
+        inpJenis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "                           Pilih Jenis", "                            Makanan", "                            Minuman", "                              Snack", "                                ATK" }));
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
@@ -352,47 +375,44 @@ public class InputBarang extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlMainLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(pnlMainLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(inpNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(pnlMainLayout.createSequentialGroup()
-                                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(inpNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lblNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblHargaBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(inpHargaBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(pnlMainLayout.createSequentialGroup()
-                                            .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(inpJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(pnlMainLayout.createSequentialGroup()
-                                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(lblJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(inpJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(inpHargaJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblHargaJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(pnlMainLayout.createSequentialGroup()
-                                        .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(lblHargaBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inpHargaBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(inpStok, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblJenis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(inpJenis, 0, 305, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inpHargaJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblHargaJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                                .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27))
                     .addGroup(pnlMainLayout.createSequentialGroup()
                         .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lineTop, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lineBottom))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,11 +423,11 @@ public class InputBarang extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inpId, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inpJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inpStok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNama)
@@ -421,26 +441,23 @@ public class InputBarang extends javax.swing.JDialog {
                     .addComponent(lblJenis)
                     .addComponent(lblHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inpJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inpHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(101, 101, 101)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(inpHargaJual, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(inpJenis))
+                .addGap(26, 26, 26)
                 .addComponent(lineBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 20, Short.MAX_VALUE))
+                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,16 +501,12 @@ public class InputBarang extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void inpIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inpIdMouseClicked
-        Message.showWarning(this, "ID Pembeli tidak bisa diedit!");
+        Message.showWarning(this, "ID Barang tidak bisa diedit!");
     }//GEN-LAST:event_inpIdMouseClicked
 
     private void inpHargaJualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inpHargaJualActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inpHargaJualActionPerformed
-
-    private void inpJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inpJenisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inpJenisActionPerformed
 
     private void inpHargaBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inpHargaBeliActionPerformed
         // TODO add your handling code here:
@@ -533,9 +546,9 @@ public class InputBarang extends javax.swing.JDialog {
     private javax.swing.JTextField inpHargaBeli;
     private javax.swing.JTextField inpHargaJual;
     private javax.swing.JTextField inpId;
-    private javax.swing.JTextField inpJenis;
-    private javax.swing.JTextField inpJumlah;
+    private javax.swing.JComboBox inpJenis;
     private javax.swing.JTextField inpNama;
+    private javax.swing.JTextField inpStok;
     private javax.swing.JLabel lblHargaBeli;
     private javax.swing.JLabel lblHargaJual;
     private javax.swing.JLabel lblId;
