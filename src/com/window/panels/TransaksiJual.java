@@ -3,9 +3,11 @@ package com.window.panels;
 import com.manage.Barang;
 import com.manage.Message;
 import com.manage.Text;
+import com.manage.Validation;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Pembeli;
+import com.users.Users;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -16,16 +18,27 @@ import java.sql.SQLException;
  */
 public class TransaksiJual extends javax.swing.JPanel {
 
+    private final Users user = new Users();
+    
     private final Pembeli pembeli = new Pembeli();
     
     private final Barang barang = new Barang();
+    
+    private final com.manage.TransaksiJual trj = new com.manage.TransaksiJual();
     
     private final Text text = new Text();
     
     private String keywordPembeli = "", keywordBarang = "", idSelectedPembeli, idSelectedBarang;
     
+    private String idTr, namaPetugas, namaPembeli, namaBarang, idPetugas, idPembeli, idBarang, metodeBayar, tanggal;
+    
+    private int jumlah = 1, totalHarga = 0, stok = 0;
+    
     public TransaksiJual() {
         initComponents();
+        
+        this.idTr = this.trj.createIDTransaksi();
+        this.namaPetugas = this.user.getCurrentLoginName();
         
         this.btnAddJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnMinJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -39,6 +52,9 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.tabelDataPembeli.setRowHeight(29);
         this.tabelDataPembeli.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelDataPembeli.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        this.inpID.setText("<html><p>:&nbsp;"+this.trj.createIDTransaksi()+"</p></html>");
+        this.inpNamaPetugas.setText("<html><p>:&nbsp;"+this.namaPetugas+"</p></html>");
         
         this.updateTabelPembeli();
         this.updateTabelBarang();
@@ -101,7 +117,7 @@ public class TransaksiJual extends javax.swing.JPanel {
                 // menyimpan data dari tabel ke object
                 obj[rows][0] = barang.res.getString("id_barang");
                 obj[rows][1] = barang.res.getString("nama_barang");
-                obj[rows][2] = barang.res.getString("jenis_barang");
+                obj[rows][2] = text.toCapitalize(barang.res.getString("jenis_barang"));
                 obj[rows][3] = barang.res.getString("stok");
                 obj[rows][4] = text.toMoneyCase(barang.res.getString("harga_jual"));
                 rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
@@ -130,6 +146,48 @@ public class TransaksiJual extends javax.swing.JPanel {
         });
     }
 
+    private void getData(){
+        
+        this.idPetugas = this.user.getCurrentLogin();
+        if(this.tabelDataPembeli.getSelectedRow() > - 1){
+            this.idPembeli = this.tabelDataPembeli.getValueAt(this.tabelDataPembeli.getSelectedRow(), 0).toString();
+            this.namaPembeli = this.pembeli.getNama(this.idPembeli);
+        }else{
+            this.idPembeli = "";
+            this.namaPembeli = "";
+        }
+        if(this.tabelDataBarang.getSelectedRow() > - 1){
+            this.idBarang = this.tabelDataBarang.getValueAt(this.tabelDataBarang.getSelectedRow(), 0).toString();
+            this.namaBarang = this.barang.getNamaBarang(this.idBarang);
+            this.totalHarga = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+        }else{
+            this.idBarang = "";
+            this.namaBarang = "";
+        }
+        this.namaPetugas = this.user.getCurrentLoginName();
+    }
+    
+    private void showData(){
+        this.getData();
+        this.inpNamaPetugas.setText("<html><p>:&nbsp;"+this.namaPetugas+"</p></html>");
+        this.inpNamaPembeli.setText("<html><p>:&nbsp;"+this.namaPembeli+"</p></html>");
+        this.inpNamaBarang.setText("<html><p>:&nbsp;"+this.namaBarang+"</p></html>");
+        this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");
+    }
+    
+    private void addDelimInInput(){
+        // mendapatkan input dari textfield
+        String input = inpJumlah.getText();
+        // mengecek apakah input merupakan sebuah number atau tidak
+        if(text.isNumber(input)){
+            input = text.removeDelim(input);
+            this.inpJumlah.setText(text.addDelim(Long.parseLong(input)));
+        }else if(!input.equals("") && !text.isNumber(input)){
+            Message.showInformation(this, "Input harus berupa angka!");
+            this.inpJumlah.setText("");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -143,7 +201,7 @@ public class TransaksiJual extends javax.swing.JPanel {
         pnlTransaksi = new javax.swing.JPanel();
         lblTransaksi = new javax.swing.JLabel();
         lblIDTransaksi = new javax.swing.JLabel();
-        lblNamaKaryawan = new javax.swing.JLabel();
+        lblNamaPetugas = new javax.swing.JLabel();
         lblNamaPembeli = new javax.swing.JLabel();
         lblJumlah = new javax.swing.JLabel();
         inpJumlah = new javax.swing.JTextField();
@@ -158,7 +216,7 @@ public class TransaksiJual extends javax.swing.JPanel {
         btnBayar = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
         inpID = new javax.swing.JLabel();
-        inpNamaKaryawan = new javax.swing.JLabel();
+        inpNamaPetugas = new javax.swing.JLabel();
         inpNamaPembeli = new javax.swing.JLabel();
         inpNamaBarang = new javax.swing.JLabel();
         inpTotalHarga = new javax.swing.JLabel();
@@ -192,6 +250,9 @@ public class TransaksiJual extends javax.swing.JPanel {
         inpCariPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariPembeli.setForeground(new java.awt.Color(0, 0, 0));
         inpCariPembeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariPembeliKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inpCariPembeliKeyTyped(evt);
             }
@@ -240,9 +301,9 @@ public class TransaksiJual extends javax.swing.JPanel {
         lblIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
         lblIDTransaksi.setText("ID Transaksi");
 
-        lblNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        lblNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
-        lblNamaKaryawan.setText("Nama Karyawan");
+        lblNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lblNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
+        lblNamaPetugas.setText("Nama Karyawan");
 
         lblNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
@@ -256,6 +317,14 @@ public class TransaksiJual extends javax.swing.JPanel {
         inpJumlah.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpJumlah.setForeground(new java.awt.Color(0, 0, 0));
         inpJumlah.setText("1");
+        inpJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpJumlahKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpJumlahKeyTyped(evt);
+            }
+        });
 
         lblNamaBarang.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
@@ -355,23 +424,23 @@ public class TransaksiJual extends javax.swing.JPanel {
 
         inpID.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpID.setForeground(new java.awt.Color(0, 0, 0));
-        inpID.setText(": TRJ0001");
+        inpID.setText(":");
 
-        inpNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        inpNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaKaryawan.setText(": Ilham");
+        inpNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        inpNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
+        inpNamaPetugas.setText(":");
 
         inpNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaPembeli.setText(": Achmad Baihaqi");
+        inpNamaPembeli.setText(":");
 
         inpNamaBarang.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
-        inpNamaBarang.setText(": Nabati Wafer");
+        inpNamaBarang.setText(":");
 
         inpTotalHarga.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpTotalHarga.setForeground(new java.awt.Color(0, 0, 0));
-        inpTotalHarga.setText(": Rp. 50.000.00");
+        inpTotalHarga.setText(":");
 
         inpTanggal.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         inpTanggal.setForeground(new java.awt.Color(0, 0, 0));
@@ -400,13 +469,13 @@ public class TransaksiJual extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addComponent(inpID, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
-                                        .addComponent(lblNamaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblNamaPetugas, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpNamaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(inpNamaPetugas, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblNamaPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(inpNamaPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+                                        .addComponent(inpNamaPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(pnlTransaksiLayout.createSequentialGroup()
                                         .addComponent(lblJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -445,8 +514,8 @@ public class TransaksiJual extends javax.swing.JPanel {
                     .addComponent(inpID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNamaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(inpNamaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNamaPetugas, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(inpNamaPetugas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblNamaPembeli, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
@@ -586,11 +655,34 @@ public class TransaksiJual extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnAddJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddJumlahActionPerformed
-        
+        if(Validation.isNumber(this.inpJumlah.getText())){
+            this.stok = Integer.parseInt(this.barang.getStok(this.idBarang));
+            this.jumlah = Integer.parseInt(inpJumlah.getText());
+            this.jumlah++;
+            if(jumlah <= stok){
+                this.totalHarga = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+                this.totalHarga *= jumlah;
+                this.inpJumlah.setText("" + jumlah);
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");                
+            }else{
+                Message.showWarning(this, "Jumlah produk melebihi stok!");
+            }
+        }
     }//GEN-LAST:event_btnAddJumlahActionPerformed
 
     private void btnMinJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinJumlahActionPerformed
-        
+        if(Validation.isNumber(this.inpJumlah.getText())){
+            this.jumlah = Integer.parseInt(inpJumlah.getText());
+            jumlah--;
+            if(jumlah >= 1){
+                this.totalHarga = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+                this.totalHarga *= jumlah;
+                this.inpJumlah.setText("" + jumlah);
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");                
+            }else{
+                Message.showWarning(this, "Jumlah produk harus minimal 1!");
+            }
+        }
     }//GEN-LAST:event_btnMinJumlahActionPerformed
 
     private void btnBayarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBayarMouseEntered
@@ -629,7 +721,7 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // menampilkan data pembeli
         this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow(), 0).toString();
-//        this.showData();
+        this.showData();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataBarangMouseClicked
 
@@ -637,10 +729,10 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if(evt.getKeyCode() == KeyEvent.VK_UP){
             this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow() - 1, 0).toString();
-//            this.showData();
+            this.showData();
         }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
             this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow() + 1, 0).toString();
-//            this.showData();
+            this.showData();
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataBarangKeyPressed
@@ -649,7 +741,7 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // menampilkan data pembeli
         this.idSelectedPembeli = this.tabelDataPembeli.getValueAt(tabelDataPembeli.getSelectedRow(), 0).toString();
-//        this.showData();
+        this.showData();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataPembeliMouseClicked
 
@@ -657,10 +749,10 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if(evt.getKeyCode() == KeyEvent.VK_UP){
             this.idSelectedPembeli = this.tabelDataPembeli.getValueAt(tabelDataPembeli.getSelectedRow() - 1, 0).toString();
-//            this.showData();
+            this.showData();
         }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
             this.idSelectedPembeli = this.tabelDataPembeli.getValueAt(tabelDataPembeli.getSelectedRow() + 1, 0).toString();
-//            this.showData();
+            this.showData();
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataPembeliKeyPressed
@@ -670,6 +762,50 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.keywordBarang = "WHERE id_barang LIKE '%"+key+"%' OR nama_barang LIKE '%"+key+"%'";
         this.updateTabelBarang();
     }//GEN-LAST:event_inpCariBarangKeyTyped
+
+    private void inpJumlahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpJumlahKeyTyped
+        String jml = this.inpJumlah.getText();
+        if(text.isNumber(jml)){
+            this.stok = Integer.parseInt(this.barang.getStok(this.idBarang));
+            this.jumlah = Integer.parseInt(inpJumlah.getText());
+            if(jumlah <= stok){
+                this.totalHarga = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+                this.totalHarga *= jumlah;
+                this.inpJumlah.setText("" + jumlah);
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");                
+            }else{
+                Message.showWarning(this, "Jumlah produk melebihi stok!");
+            }
+        }else{
+            this.inpJumlah.setText("1");
+            Message.showWarning(this, "Jumlah barang harus berupa angka!");
+        }
+    }//GEN-LAST:event_inpJumlahKeyTyped
+
+    private void inpJumlahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpJumlahKeyReleased
+        String jml = this.inpJumlah.getText();
+        if(text.isNumber(jml)){
+            this.stok = Integer.parseInt(this.barang.getStok(this.idBarang));
+            this.jumlah = Integer.parseInt(inpJumlah.getText());
+            if(jumlah <= stok){
+                this.totalHarga = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+                this.totalHarga *= jumlah;
+                this.inpJumlah.setText("" + jumlah);
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");                
+            }else{
+                Message.showWarning(this, "Jumlah produk melebihi stok!");
+            }
+        }else{
+            this.inpJumlah.setText("1");
+            Message.showWarning(this, "Jumlah barang harus berupa angka!");
+        }
+    }//GEN-LAST:event_inpJumlahKeyReleased
+
+    private void inpCariPembeliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariPembeliKeyReleased
+        String key = this.inpCariPembeli.getText();
+        this.keywordPembeli = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
+        this.updateTabelPembeli();
+    }//GEN-LAST:event_inpCariPembeliKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -683,8 +819,8 @@ public class TransaksiJual extends javax.swing.JPanel {
     private javax.swing.JTextField inpJumlah;
     private javax.swing.JComboBox inpMetode;
     private javax.swing.JLabel inpNamaBarang;
-    private javax.swing.JLabel inpNamaKaryawan;
     private javax.swing.JLabel inpNamaPembeli;
+    private javax.swing.JLabel inpNamaPetugas;
     private javax.swing.JLabel inpTanggal;
     private javax.swing.JLabel inpTotalHarga;
     private javax.swing.JScrollPane jScrollPane2;
@@ -695,8 +831,8 @@ public class TransaksiJual extends javax.swing.JPanel {
     private javax.swing.JLabel lblJumlah;
     private javax.swing.JLabel lblMetode;
     private javax.swing.JLabel lblNamaBarang;
-    private javax.swing.JLabel lblNamaKaryawan;
     private javax.swing.JLabel lblNamaPembeli;
+    private javax.swing.JLabel lblNamaPetugas;
     private javax.swing.JLabel lblTanggal;
     private javax.swing.JLabel lblTotalHarga;
     private javax.swing.JLabel lblTransaksi;

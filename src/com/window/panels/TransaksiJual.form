@@ -130,6 +130,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpCariPembeliKeyReleased"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpCariPembeliKeyTyped"/>
       </Events>
     </Component>
@@ -216,14 +217,14 @@
                                           <Component id="inpID" min="-2" pref="139" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="lblNamaKaryawan" min="-2" pref="133" max="-2" attributes="0"/>
+                                          <Component id="lblNamaPetugas" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpNamaKaryawan" max="32767" attributes="0"/>
+                                          <Component id="inpNamaPetugas" pref="322" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblNamaPembeli" min="-2" pref="133" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="inpNamaPembeli" pref="322" max="32767" attributes="0"/>
+                                          <Component id="inpNamaPembeli" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblJumlah" min="-2" pref="133" max="-2" attributes="0"/>
@@ -276,8 +277,8 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="lblNamaKaryawan" pref="35" max="32767" attributes="0"/>
-                      <Component id="inpNamaKaryawan" max="32767" attributes="0"/>
+                      <Component id="lblNamaPetugas" pref="35" max="32767" attributes="0"/>
+                      <Component id="inpNamaPetugas" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -352,7 +353,7 @@
             <Property name="text" type="java.lang.String" value="ID Transaksi"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblNamaKaryawan">
+        <Component class="javax.swing.JLabel" name="lblNamaPetugas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="16" style="1"/>
@@ -398,6 +399,10 @@
             </Property>
             <Property name="text" type="java.lang.String" value="1"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpJumlahKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpJumlahKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNamaBarang">
           <Properties>
@@ -557,10 +562,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": TRJ0001"/>
+            <Property name="text" type="java.lang.String" value=":"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="inpNamaKaryawan">
+        <Component class="javax.swing.JLabel" name="inpNamaPetugas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="16" style="1"/>
@@ -568,7 +573,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Ilham"/>
+            <Property name="text" type="java.lang.String" value=":"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="inpNamaPembeli">
@@ -579,7 +584,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Achmad Baihaqi"/>
+            <Property name="text" type="java.lang.String" value=":"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="inpNamaBarang">
@@ -590,7 +595,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Nabati Wafer"/>
+            <Property name="text" type="java.lang.String" value=":"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="inpTotalHarga">
@@ -601,7 +606,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=": Rp. 50.000.00"/>
+            <Property name="text" type="java.lang.String" value=":"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="inpTanggal">
