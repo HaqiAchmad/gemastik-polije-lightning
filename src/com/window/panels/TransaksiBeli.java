@@ -9,6 +9,7 @@ import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Supplier;
 import com.users.Users;
+import com.window.dialogs.KonfirmasiPembayaran;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -184,7 +185,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
             this.idSupplier = this.idSelectedSupplier;
             this.namaSupplier = this.supplier.getNama(this.idSupplier);
             
-            // menampilkan data pembeli
+            // menampilkan data barang
             this.inpNamaSupplier.setText("<html><p>:&nbsp;"+this.namaSupplier+"</p></html>");
         }
     }
@@ -206,6 +207,14 @@ public class TransaksiBeli extends javax.swing.JPanel {
             this.inpJumlah.setText(Integer.toString(this.jumlah));
             this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");
         }
+    }
+    
+    private void resetInput(){
+        this.inpNamaSupplier.setText("<html><p>:&nbsp;</p></html>");
+        this.inpNamaBarang.setText("<html><p>:&nbsp;</p></html>");
+        this.inpJumlah.setText("1");
+        this.inpMetode.setSelectedIndex(0);
+        this.inpTotalHarga.setText("<html><p>:&nbsp;</p></html>");
     }
     
     @SuppressWarnings("unchecked")
@@ -686,11 +695,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
                 this.updateTabelBarang();
 
                 // mereset input
-                this.inpNamaSupplier.setText("<html><p>:&nbsp;</p></html>");
-                this.inpNamaBarang.setText("<html><p>:&nbsp;</p></html>");
-                this.inpJumlah.setText("1");
-                this.inpMetode.setSelectedIndex(0);
-                this.inpTotalHarga.setText("<html><p>:&nbsp;</p></html>");
+                this.resetInput();
                 break;
             }
         }
@@ -705,6 +710,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
             // mendapatkan data supplier
             this.idSupplier = this.tabelDataSupplier.getValueAt(this.tabelDataSupplier.getSelectedRow(), 0).toString();
             this.namaSupplier = this.supplier.getNama(this.idSupplier);
+            System.out.println("ID SUPPLIER : " + this.idSupplier);
         }else{
             Message.showWarning(this, "Tidak ada data supplier yang dipilih!");
             return;
@@ -729,17 +735,21 @@ public class TransaksiBeli extends javax.swing.JPanel {
             return;
         }
         
-        System.out.println("");
-        System.out.println("ID Transaksi : " + this.idTr);
-        System.out.println("Nama Transaksi : " + this.namaTr);
-        System.out.println("ID Petugas : " + this.idPetugas);
-        System.out.println("ID Supplier : " + this.idSupplier);
-        System.out.println("ID Barang : " + this.idBarang);
-        System.out.println("Jumlah : " + this.jumlah);
-        System.out.println("Metode Bayar : " + this.metodeBayar);
-        System.out.println("Total Harga : " + this.totalHarga);
-        System.out.println("Tanggal : " + this.tglNow);
-        System.out.println("");
+        // membuka window konfirmasi pembayaran
+        Audio.play(Audio.SOUND_INFO);
+        KonfirmasiPembayaran konfirmasi = new KonfirmasiPembayaran(null, true, KonfirmasiPembayaran.OPSI_BELI);
+        konfirmasi.putValueBeli(namaTr, idPetugas, idSupplier, idBarang, Integer.toString(this.jumlah), metodeBayar, Integer.toString(this.totalHarga), this.waktu.getCurrentDate());
+        konfirmasi.setVisible(true);
+        
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // mengecek apakah transaksi jadi menambahkan data atau tidak
+        if(konfirmasi.isUpdated()){
+            // mengupdate tabel
+            this.updateTabelSupplier();
+            this.updateTabelBarang();
+            this.resetInput();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnBeliActionPerformed
 
     private void btnAddJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddJumlahActionPerformed
@@ -815,7 +825,7 @@ public class TransaksiBeli extends javax.swing.JPanel {
 
     private void tabelDataBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataBarangMouseClicked
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // menampilkan data pembeli
+        // menampilkan data barang
         this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow(), 0).toString();
         this.showDataBarang();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -825,10 +835,10 @@ public class TransaksiBeli extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if(evt.getKeyCode() == KeyEvent.VK_UP){
             this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow() - 1, 0).toString();
-//            this.showDataBarang();
+            this.showDataBarang();
         }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
             this.idSelectedBarang = this.tabelDataBarang.getValueAt(tabelDataBarang.getSelectedRow() + 1, 0).toString();
-//            this.showDataBarang();
+            this.showDataBarang();
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataBarangKeyPressed
