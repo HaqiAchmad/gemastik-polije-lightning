@@ -1,6 +1,5 @@
 package com.window.panels;
 
-import com.manage.Internet;
 import com.manage.Message;
 import com.manage.Text;
 import com.media.Audio;
@@ -45,7 +44,6 @@ public class DataBarang extends javax.swing.JPanel {
      */
     public DataBarang() {
         initComponents();
-//        this.showPieChart();
         
         this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -91,6 +89,8 @@ public class DataBarang extends javax.swing.JPanel {
                 }
             });
         }
+        
+        this.showLineChart();
         
         this.updateTabel();
     }
