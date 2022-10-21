@@ -219,4 +219,10 @@ public class Waktu {
                 this.getNamaHari(), tanggal, this.getNamaBulan(bulan), tahun, jam, menit, detik
         );
     }
+    
+    public String getUpdateTime(){
+        return String.format("%02d %s %d %02d:%02d:%02d", 
+                tanggal, this.getNamaBulan(bulan), tahun, jam, menit, detik
+        );
+    }
 }
