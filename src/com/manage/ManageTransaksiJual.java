@@ -222,7 +222,7 @@ public class ManageTransaksiJual extends Database{
         return this.getData(idTrj, TRJ.METODE_BYR);
     }
     
-    public String getTotalBarang(String idTrj){
+    public String getTotalHarga(String idTrj){
         return this.getData(idTrj, TRJ.TOTAL_HRG);
     }
     
@@ -265,7 +265,7 @@ public class ManageTransaksiJual extends Database{
         return this.setData(idTrj, TRJ.METODE_BYR, newValue);
     }
     
-    public boolean setTotalBarang(String idTrj, String newValue){
+    public boolean setTotalHarga(String idTrj, String newValue){
         return this.setData(idTrj, TRJ.TOTAL_HRG, newValue);
     }
     

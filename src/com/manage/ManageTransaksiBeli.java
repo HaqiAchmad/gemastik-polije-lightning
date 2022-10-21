@@ -221,7 +221,7 @@ public class ManageTransaksiBeli extends Database{
         return this.getData(idTrj, TRB.METODE_BYR);
     }
     
-    public String getTotalBarang(String idTrj){
+    public String getTotalHarga(String idTrj){
         return this.getData(idTrj, TRB.TOTAL_HRG);
     }
     
@@ -264,7 +264,7 @@ public class ManageTransaksiBeli extends Database{
         return this.setData(idTrj, TRB.METODE_BYR, newValue);
     }
     
-    public boolean setTotalBarang(String idTrj, String newValue){
+    public boolean setTotalHarga(String idTrj, String newValue){
         return this.setData(idTrj, TRB.TOTAL_HRG, newValue);
     }
     
