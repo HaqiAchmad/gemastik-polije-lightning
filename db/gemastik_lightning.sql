@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Okt 2022 pada 19.03
+-- Waktu pembuatan: 21 Okt 2022 pada 09.19
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -764,8 +764,8 @@ CREATE TABLE `transaksi_beli` (
 --
 
 INSERT INTO `transaksi_beli` (`id_tr_beli`, `nama_tr_beli`, `id_petugas`, `id_supplier`, `id_barang`, `jumlah_brg`, `metode_byr`, `total_hrg`, `tanggal`) VALUES
-('TRB0001', 'TB Test', '', 'SP005', 'BG003', 5, '', 25000, '2022-10-18'),
-('TRB0002', 'Beli 67 dunks', 'PG001', 'SP004', 'BG015', 67, 'E-WALLET', 160000, '2022-03-05');
+('TRB0001', 'TRB Test', 'PG003', 'SP005', 'BG014', 5, 'CASH', 25000, '2022-10-21'),
+('TRB0002', 'TRB Test 2', 'PG002', 'SP001', 'BG006', 12, 'E-WALLET', 12000, '2022-10-21');
 
 -- --------------------------------------------------------
 
@@ -1461,7 +1461,7 @@ ALTER TABLE `supplier`
 ALTER TABLE `transaksi_beli`
   ADD CONSTRAINT `transaksi_beli_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_beli_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ts_idpetugas` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaksi_beli_ibfk_3` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `transaksi_jual`
