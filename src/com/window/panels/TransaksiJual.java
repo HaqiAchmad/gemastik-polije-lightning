@@ -254,6 +254,9 @@ public class TransaksiJual extends javax.swing.JPanel {
         inpCariBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCariBarang.setForeground(new java.awt.Color(0, 0, 0));
         inpCariBarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariBarangKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inpCariBarangKeyTyped(evt);
             }
@@ -321,7 +324,7 @@ public class TransaksiJual extends javax.swing.JPanel {
 
         lblNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
-        lblNamaPetugas.setText("Nama Karyawan");
+        lblNamaPetugas.setText("Nama Petugas");
 
         lblNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lblNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
@@ -749,7 +752,7 @@ public class TransaksiJual extends javax.swing.JPanel {
                 
                 // menampilkan data jumlah dan total harga
                 this.inpJumlah.setText(Integer.toString(this.jumlah));
-                this.inpTotalHarga.setText(text.toMoneyCase(Integer.toString(this.totalHarga)));
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");
             }else{
                 Message.showWarning(this, String.format("Jumlah barang tidak boleh melebihi stok barang!"));
             }
@@ -771,7 +774,7 @@ public class TransaksiJual extends javax.swing.JPanel {
                 
                 // menampilkan data jumlah dan total harga
                 this.inpJumlah.setText(Integer.toString(this.jumlah));
-                this.inpTotalHarga.setText(text.toMoneyCase(Integer.toString(this.totalHarga)));
+                this.inpTotalHarga.setText("<html><p>:&nbsp;"+text.toMoneyCase(Integer.toString(this.totalHarga))+"</p></html>");
             }else{
                 Message.showWarning(this, String.format("Jumlah barang tidak boleh kurang dari 1!", jumlah, stok));
             }
@@ -914,6 +917,12 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.keywordPembeli = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
         this.updateTabelPembeli();
     }//GEN-LAST:event_inpCariPembeliKeyReleased
+
+    private void inpCariBarangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariBarangKeyReleased
+        String key = this.inpCariBarang.getText();
+        this.keywordBarang = "WHERE id_barang LIKE '%"+key+"%' OR nama_barang LIKE '%"+key+"%'";
+        this.updateTabelBarang();
+    }//GEN-LAST:event_inpCariBarangKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

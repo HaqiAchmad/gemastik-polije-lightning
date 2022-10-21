@@ -102,6 +102,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpCariBarangKeyReleased"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inpCariBarangKeyTyped"/>
       </Events>
     </Component>
@@ -361,7 +362,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Nama Karyawan"/>
+            <Property name="text" type="java.lang.String" value="Nama Petugas"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNamaPembeli">
