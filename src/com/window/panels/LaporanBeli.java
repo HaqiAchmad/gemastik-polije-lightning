@@ -1,8 +1,22 @@
 package com.window.panels;
 
+import com.manage.Barang;
+import com.manage.ManageTransaksiBeli;
+import com.manage.Message;
+import com.manage.Text;
+import com.manage.Waktu;
+import com.media.Audio;
 import com.media.Gambar;
+import com.sun.glass.events.KeyEvent;
+import com.users.Pembeli;
+import com.users.Petugas;
+import com.users.Supplier;
+import com.window.dialogs.CetakLaporan;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,6 +37,20 @@ import org.jfree.data.statistics.HistogramDataset;
  */
 public class LaporanBeli extends javax.swing.JPanel {
 
+    private final ManageTransaksiBeli trb = new ManageTransaksiBeli();
+    
+    private final Petugas petugas = new Petugas();
+    
+    private final Supplier supplier = new Supplier();
+    
+    private final Barang barang = new Barang();
+    
+    private final Text text = new Text();
+    
+    private final Waktu waktu = new Waktu();
+    
+    private String idSelected = "", keyword = "", idTr, idPd, idBg, namaSupplier, namaPetugas, namaBarang, jenis, jumlah, totalHrg, tanggal;
+    
     /**
      * Creates new form Dashboard
      */
@@ -39,6 +67,8 @@ public class LaporanBeli extends javax.swing.JPanel {
         
         this.showLineChart1();
         this.showLineChart2();
+        
+        this.updateTabel();
     }
     
     public void showPieChart(){
@@ -51,7 +81,7 @@ public class LaporanBeli extends javax.swing.JPanel {
       barDataset.setValue( "ATK" , new Double( 10 ) );  
       
       //create chart
-      JFreeChart piechart = ChartFactory.createPieChart("Penjualan Seminggu Terakhir",barDataset, false,true,false);//explain
+      JFreeChart piechart = ChartFactory.createPieChart("Penbelian Seminggu Terakhir",barDataset, false,true,false);//explain
       
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
@@ -181,8 +211,74 @@ public class LaporanBeli extends javax.swing.JPanel {
 //        chartPane.removeAll();
 //        chartPane.add(barpChartPanel, BorderLayout.CENTER);
 //        chartPane.validate();
-//        
+    }
+    
+    private Object[][] getData(){
+        try{
+            Object obj[][];
+            int rows = 0;
+            String sql = "SELECT id_tr_beli, id_barang, jumlah_brg, total_hrg, tanggal FROM transaksi_beli " + keyword + " ORDER BY id_tr_beli DESC";
+            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+            obj = new Object[trb.getJumlahData("transaksi_beli", keyword)][5];
+            // mengeksekusi query
+            trb.res = trb.stat.executeQuery(sql);
+            // mendapatkan semua data yang ada didalam tabel
+            while(trb.res.next()){
+                // menyimpan data dari tabel ke object
+                obj[rows][0] = trb.res.getString("id_tr_beli").replace("TRB", "LPG");
+                obj[rows][1] = barang.getNamaBarang(trb.res.getString("id_barang"));
+                obj[rows][2] = trb.res.getString("jumlah_brg");
+                obj[rows][3] = text.toMoneyCase(trb.res.getString("total_hrg"));
+                obj[rows][4] = text.toDateCase(trb.res.getString("tanggal"));
+                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+            }
+            return obj;
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    private void updateTabel(){
+        this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
+            getData(),
+            new String [] {
+                "ID Pendapatan", "Nama Barang", "Jumlah Barang", "Total Pendapatan", "Tanggal"
+            }
+        ){
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+    
+    private void showData(){
+        // mendapatkan data-data
+        this.idTr = this.tabelData.getValueAt(this.tabelData.getSelectedRow(), 0).toString().replace("LPG", "TRB");
+        this.idPd = this.idTr.replace("TRB", "LPG");
+        this.namaSupplier = this.supplier.getNama(this.trb.getIdSupplier(this.idTr));
+        this.namaPetugas = this.petugas.getNama(this.trb.getIdPetugas(this.idTr));
+        this.namaBarang = this.barang.getNamaBarang(this.trb.getIdBarang(this.idTr));
+        this.jenis = text.toCapitalize(this.barang.getJenis(this.trb.getIdBarang(this.idTr)));
+        this.jumlah = Integer.toString(this.trb.getJumlahBarang(this.idTr));
+        this.totalHrg = text.toMoneyCase(this.trb.getTotalHarga(this.idTr));
+        this.tanggal = this.text.toDateCase(this.trb.getTanggal(this.idTr));
         
+        // menampilkan data-data
+        this.valIDTransaksi.setText("<html><p>:&nbsp;"+this.idTr+"</p></html>");
+        this.valIDPengeluaran.setText("<html><p>:&nbsp;"+this.idPd+"</p></html>");
+        this.valNamaSupplier.setText("<html><p>:&nbsp;"+this.namaSupplier+"</p></html>");
+        this.valNamaKaryawan.setText("<html><p>:&nbsp;"+this.namaPetugas+"</p></html>");
+        this.valNamaBarang.setText("<html><p>:&nbsp;"+this.namaBarang+"</p></html>");
+        this.valJumlahBrg.setText("<html><p>:&nbsp;"+this.jumlah+"</p></html>");
+        this.valJenisBrg.setText("<html><p>:&nbsp;"+this.jenis+"</p></html>");
+        this.valHarga.setText("<html><p>:&nbsp;"+this.totalHrg+"</p></html>");
+        this.valTanggal.setText("<html><p>:&nbsp;"+this.tanggal+"</p></html>");
     }
 
     @SuppressWarnings("unchecked")
@@ -207,7 +303,7 @@ public class LaporanBeli extends javax.swing.JPanel {
         valIDTransaksi = new javax.swing.JLabel();
         valNamaSupplier = new javax.swing.JLabel();
         valNamaKaryawan = new javax.swing.JLabel();
-        valNamaBrg = new javax.swing.JLabel();
+        valNamaBarang = new javax.swing.JLabel();
         valJenisBrg = new javax.swing.JLabel();
         valJumlahBrg = new javax.swing.JLabel();
         valHarga = new javax.swing.JLabel();
@@ -261,11 +357,29 @@ public class LaporanBeli extends javax.swing.JPanel {
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
         tabelData.getTableHeader().setReorderingAllowed(false);
+        tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelDataMouseClicked(evt);
+            }
+        });
+        tabelData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabelDataKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -329,9 +443,9 @@ public class LaporanBeli extends javax.swing.JPanel {
         valNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
         valNamaKaryawan.setText(": Amirzan F");
 
-        valNamaBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        valNamaBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaBrg.setText(": Sprite");
+        valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
+        valNamaBarang.setText(": Sprite");
 
         valJenisBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJenisBrg.setForeground(new java.awt.Color(0, 0, 0));
@@ -376,7 +490,7 @@ public class LaporanBeli extends javax.swing.JPanel {
                     .addComponent(valIDTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valNamaSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valNamaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(valNamaBrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(valNamaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valJenisBrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valJumlahBrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valHarga, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -406,7 +520,7 @@ public class LaporanBeli extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaBrg)
-                    .addComponent(valNamaBrg))
+                    .addComponent(valNamaBarang))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDataPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblJenisBrg)
@@ -544,15 +658,44 @@ public class LaporanBeli extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        
+        int status;
+        boolean delete;
+        // mengecek apakah ada data yang dipilih atau tidak
+        if(tabelData.getSelectedRow() > -1){
+            // membuka confirm dialog untuk menghapus data
+            Audio.play(Audio.SOUND_INFO);
+            status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.idTr + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
+            // mengecek pilihan dari barang
+            switch(status){
+                // jika yes maka data akan dihapus
+                case JOptionPane.YES_OPTION : 
+                    // menghapus data pembeli
+                    this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                    delete = this.trb.deleteTransaksiBeli(this.idTr);
+                    // mengecek apakah data pembeli berhasil terhapus atau tidak
+                    if(delete){
+                        Message.showInformation(this, "Data berhasil dihapus!");
+                        // mengupdate tabel
+                        this.updateTabel();
+                    }else{
+                        Message.showInformation(this, "Data gagal dihapus!");
+                    }
+                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    break;
+            }            
+        }else{
+            Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+        }
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        
+        Audio.play(Audio.SOUND_INFO);
+        CetakLaporan cetak = new CetakLaporan(null, true);
+        cetak.setVisible(true);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+        Message.showInformation(this, "Sedang tidak tersedia untuk saat ini!");
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPrintMouseEntered
@@ -578,6 +721,38 @@ public class LaporanBeli extends javax.swing.JPanel {
     private void btnDelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelMouseExited
         this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
     }//GEN-LAST:event_btnDelMouseExited
+
+    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // menampilkan data pembeli
+        this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
+        this.showData();
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataMouseClicked
+
+    private void tabelDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelDataKeyPressed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(evt.getKeyCode() == KeyEvent.VK_UP){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() - 1, 0).toString();
+            this.showData();
+        }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() + 1, 0).toString();
+            this.showData();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_tr_beli LIKE '%"+key+"%' OR id_barang LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
+
+    private void inpCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyReleased
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_tr_beli LIKE '%"+key+"%' OR id_barang LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -608,7 +783,7 @@ public class LaporanBeli extends javax.swing.JPanel {
     private javax.swing.JLabel valIDTransaksi;
     private javax.swing.JLabel valJenisBrg;
     private javax.swing.JLabel valJumlahBrg;
-    private javax.swing.JLabel valNamaBrg;
+    private javax.swing.JLabel valNamaBarang;
     private javax.swing.JLabel valNamaKaryawan;
     private javax.swing.JLabel valNamaSupplier;
     private javax.swing.JLabel valTanggal;
