@@ -1,8 +1,21 @@
 package com.window.panels;
 
+import com.manage.Barang;
+import com.manage.ManageTransaksiJual;
+import com.manage.Message;
+import com.manage.Text;
+import com.manage.Waktu;
+import com.media.Audio;
 import com.media.Gambar;
+import com.sun.glass.events.KeyEvent;
+import com.users.Pembeli;
+import com.users.Petugas;
+import com.window.dialogs.CetakLaporan;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,6 +32,20 @@ import org.jfree.data.general.DefaultPieDataset;
  * @author Gemastik Lightning
  */
 public class LaporanJual extends javax.swing.JPanel {
+    
+    private final ManageTransaksiJual trj = new ManageTransaksiJual();
+    
+    private final Petugas petugas = new Petugas();
+    
+    private final Pembeli pembeli = new Pembeli();
+    
+    private final Barang barang = new Barang();
+    
+    private final Text text = new Text();
+    
+    private final Waktu waktu = new Waktu();
+    
+    private String idSelected = "", keyword = "", idTr, idPd, idBg, namaPembeli, namaPetugas, namaBarang, jenis, jumlah, totalHrg, tanggal;
 
     public LaporanJual() {
         initComponents();
@@ -33,6 +60,8 @@ public class LaporanJual extends javax.swing.JPanel {
         
         this.showLineChart1();
         this.showPieChart();
+        
+        this.updateTabel();
     }
     
     public void showPieChart(){
@@ -106,6 +135,74 @@ public class LaporanJual extends javax.swing.JPanel {
         tabGrafikPendapatan.validate();
     }
     
+    private Object[][] getData(){
+        try{
+            Object obj[][];
+            int rows = 0;
+            String sql = "SELECT id_tr_jual, id_barang, jumlah_brg, total_hrg, tanggal FROM transaksi_jual " + keyword + " ORDER BY id_tr_jual DESC";
+            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+            obj = new Object[trj.getJumlahData("transaksi_jual", keyword)][5];
+            // mengeksekusi query
+            trj.res = trj.stat.executeQuery(sql);
+            // mendapatkan semua data yang ada didalam tabel
+            while(trj.res.next()){
+                // menyimpan data dari tabel ke object
+                obj[rows][0] = trj.res.getString("id_tr_jual").replace("TRJ", "LPD");
+                obj[rows][1] = barang.getNamaBarang(trj.res.getString("id_barang"));
+                obj[rows][2] = trj.res.getString("jumlah_brg");
+                obj[rows][3] = text.toMoneyCase(trj.res.getString("total_hrg"));
+                obj[rows][4] = text.toDateCase(trj.res.getString("tanggal"));
+                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+            }
+            return obj;
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    private void updateTabel(){
+        this.tabelData.setModel(new javax.swing.table.DefaultTableModel(
+            getData(),
+            new String [] {
+                "ID Pendapatan", "Nama Barang", "Jumlah Barang", "Total Pendapatan", "Tanggal"
+            }
+        ){
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+    
+    private void showData(){
+        // mendapatkan data-data
+        this.idTr = this.tabelData.getValueAt(this.tabelData.getSelectedRow(), 0).toString().replace("LPD", "TRJ");
+        this.idPd = this.idTr.replace("TRJ", "LPD");
+        this.namaPembeli = this.pembeli.getNama(this.trj.getIdPembeli(this.idTr));
+        this.namaPetugas = this.petugas.getNama(this.trj.getIdPetugas(this.idTr));
+        this.namaBarang = this.barang.getNamaBarang(this.trj.getIdBarang(this.idTr));
+        this.jenis = text.toCapitalize(this.barang.getJenis(this.trj.getIdBarang(this.idTr)));
+        this.jumlah = Integer.toString(this.trj.getJumlahBarang(this.idTr));
+        this.totalHrg = text.toMoneyCase(this.trj.getTotalHarga(this.idTr));
+        this.tanggal = this.text.toDateCase(this.trj.getTanggal(this.idTr));
+        
+        // menampilkan data-data
+        this.valIDTransaksi.setText("<html><p>:&nbsp;"+this.idTr+"</p></html>");
+        this.valIDPendapatan.setText("<html><p>:&nbsp;"+this.idPd+"</p></html>");
+        this.valNamaPembeli.setText("<html><p>:&nbsp;"+this.namaPembeli+"</p></html>");
+        this.valNamaKaryawan.setText("<html><p>:&nbsp;"+this.namaPetugas+"</p></html>");
+        this.valNamaBarang.setText("<html><p>:&nbsp;"+this.namaBarang+"</p></html>");
+        this.valJumlah.setText("<html><p>:&nbsp;"+this.jumlah+"</p></html>");
+        this.valJenisBarang.setText("<html><p>:&nbsp;"+this.jenis+"</p></html>");
+        this.valTotalHarga.setText("<html><p>:&nbsp;"+this.totalHrg+"</p></html>");
+        this.valTanggal.setText("<html><p>:&nbsp;"+this.tanggal+"</p></html>");
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,19 +236,8 @@ public class LaporanJual extends javax.swing.JPanel {
         lblTanggal = new javax.swing.JLabel();
         valTanggal = new javax.swing.JLabel();
         tabPendapatan = new javax.swing.JTabbedPane();
-        tabDataPendapatan = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        tabGrafikPendapatan = new javax.swing.JPanel();
         paneProduk = new javax.swing.JPanel();
+        tabGrafikPendapatan = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(957, 650));
@@ -193,11 +279,29 @@ public class LaporanJual extends javax.swing.JPanel {
         tabelData.setSelectionBackground(new java.awt.Color(26, 164, 250));
         tabelData.setSelectionForeground(new java.awt.Color(250, 246, 246));
         tabelData.getTableHeader().setReorderingAllowed(false);
+        tabelData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelDataMouseClicked(evt);
+            }
+        });
+        tabelData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabelDataKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelData);
 
         inpCari.setBackground(new java.awt.Color(255, 255, 255));
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.setForeground(new java.awt.Color(0, 0, 0));
+        inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inpCariKeyTyped(evt);
+            }
+        });
 
         lblCari.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         lblCari.setForeground(new java.awt.Color(237, 12, 12));
@@ -415,113 +519,14 @@ public class LaporanJual extends javax.swing.JPanel {
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
-        tabDataPendapatan.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Total Barang Dijual");
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText(": Value");
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText(": Value");
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Barang Dijual Bulan ");
-
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Total Pendapatan");
-
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText(": Value");
-
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Pendapatan Bulan Ini");
-
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText(": Value");
-
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Produk Favorite");
-
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText(": Value");
-
-        javax.swing.GroupLayout tabDataPendapatanLayout = new javax.swing.GroupLayout(tabDataPendapatan);
-        tabDataPendapatan.setLayout(tabDataPendapatanLayout);
-        tabDataPendapatanLayout.setHorizontalGroup(
-            tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
-                    .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
-                    .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        tabDataPendapatanLayout.setVerticalGroup(
-            tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabDataPendapatanLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addGap(15, 15, 15)
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(tabDataPendapatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
-
-        tabPendapatan.addTab("Data Pendapatan", tabDataPendapatan);
-
-        tabGrafikPendapatan.setBackground(new java.awt.Color(255, 255, 255));
-        tabGrafikPendapatan.setLayout(new java.awt.BorderLayout());
-        tabPendapatan.addTab("Grafik Pendapatan", tabGrafikPendapatan);
-
         paneProduk.setBackground(new java.awt.Color(255, 255, 255));
         paneProduk.setForeground(new java.awt.Color(255, 102, 51));
         paneProduk.setLayout(new java.awt.BorderLayout());
         tabPendapatan.addTab("Produk Terlaris", paneProduk);
+
+        tabGrafikPendapatan.setBackground(new java.awt.Color(255, 255, 255));
+        tabGrafikPendapatan.setLayout(new java.awt.BorderLayout());
+        tabPendapatan.addTab("Grafik Pendapatan", tabGrafikPendapatan);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -578,15 +583,44 @@ public class LaporanJual extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        
+        int status;
+        boolean delete;
+        // mengecek apakah ada data yang dipilih atau tidak
+        if(tabelData.getSelectedRow() > -1){
+            // membuka confirm dialog untuk menghapus data
+            Audio.play(Audio.SOUND_INFO);
+            status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus '" + this.idTr + "' ?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
+            // mengecek pilihan dari barang
+            switch(status){
+                // jika yes maka data akan dihapus
+                case JOptionPane.YES_OPTION : 
+                    // menghapus data pembeli
+                    this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                    delete = this.trj.deleteTransaksiJual(this.idTr);
+                    // mengecek apakah data pembeli berhasil terhapus atau tidak
+                    if(delete){
+                        Message.showInformation(this, "Data berhasil dihapus!");
+                        // mengupdate tabel
+                        this.updateTabel();
+                    }else{
+                        Message.showInformation(this, "Data gagal dihapus!");
+                    }
+                    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    break;
+            }            
+        }else{
+            Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
+        }
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        
+        Audio.play(Audio.SOUND_INFO);
+        CetakLaporan cetak = new CetakLaporan(null, true);
+        cetak.setVisible(true);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+        Message.showInformation(this, "Sedang tidak tersedia untuk saat ini!");
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPrintMouseEntered
@@ -613,22 +647,44 @@ public class LaporanJual extends javax.swing.JPanel {
         this.btnDel.setIcon(Gambar.getIcon("ic-data-hapus.png"));
     }//GEN-LAST:event_btnDelMouseExited
 
+    private void tabelDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDataMouseClicked
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        // menampilkan data pembeli
+        this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
+        this.showData();
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataMouseClicked
+
+    private void tabelDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelDataKeyPressed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(evt.getKeyCode() == KeyEvent.VK_UP){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() - 1, 0).toString();
+            this.showData();
+        }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+            this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() + 1, 0).toString();
+            this.showData();
+        }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_tabelDataKeyPressed
+
+    private void inpCariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyTyped
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_tr_jual LIKE '%"+key+"%' OR id_barang LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyTyped
+
+    private void inpCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyReleased
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_tr_jual LIKE '%"+key+"%' OR id_barang LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnPrint;
     private javax.swing.JTextField inpCari;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblCari;
@@ -644,7 +700,6 @@ public class LaporanJual extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotalHarga;
     private javax.swing.JPanel paneProduk;
     private javax.swing.JPanel pnlDataPendapatan;
-    private javax.swing.JPanel tabDataPendapatan;
     private javax.swing.JPanel tabGrafikPendapatan;
     private javax.swing.JTabbedPane tabPendapatan;
     private javax.swing.JTable tabelData;
