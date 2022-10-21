@@ -3,8 +3,8 @@ package com.window.panels;
 import com.manage.Barang;
 import com.manage.Message;
 import com.manage.Text;
-import com.manage.Validation;
 import com.manage.Waktu;
+import com.media.Audio;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.users.Pembeli;
@@ -12,6 +12,7 @@ import com.users.Users;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,7 +34,7 @@ public class TransaksiJual extends javax.swing.JPanel {
     
     private String keywordPembeli = "", keywordBarang = "", idSelectedPembeli, idSelectedBarang;
     
-    private String idTr, namaPetugas, namaPembeli, namaBarang, idPetugas, idPembeli, idBarang, metodeBayar, tanggal;
+    private String idTr, namaTr, namaPembeli, namaBarang, idPetugas, idPembeli, idBarang, metodeBayar, tglNow;
     
     private int jumlah = 1, hargaJual, totalHarga = 0, stok = 0;
     
@@ -41,9 +42,10 @@ public class TransaksiJual extends javax.swing.JPanel {
         initComponents();
         
         this.idTr = this.trj.createIDTransaksi();
-        this.namaPetugas = this.user.getCurrentLoginName();
         
         this.inpJumlah.setEditable(false);
+        this.inpID.setText("<html><p>:&nbsp;"+this.trj.createIDTransaksi()+"</p></html>");
+        this.inpNamaPetugas.setText("<html><p>:&nbsp;"+this.user.getCurrentLoginName()+"</p></html>");
         
         this.btnAddJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnMinJumlah.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -53,13 +55,9 @@ public class TransaksiJual extends javax.swing.JPanel {
         this.tabelDataBarang.setRowHeight(29);
         this.tabelDataBarang.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelDataBarang.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
-
         this.tabelDataPembeli.setRowHeight(29);
         this.tabelDataPembeli.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelDataPembeli.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
-        
-        this.inpID.setText("<html><p>:&nbsp;"+this.trj.createIDTransaksi()+"</p></html>");
-        this.inpNamaPetugas.setText("<html><p>:&nbsp;"+this.namaPetugas+"</p></html>");
         
         this.updateTabelPembeli();
         this.updateTabelBarang();
@@ -71,8 +69,8 @@ public class TransaksiJual extends javax.swing.JPanel {
             public void run(){
                 try{
                     while(isVisible()){
-//                        System.out.println("update");
-                        inpTanggal.setText("<html><p>:&nbsp;"+waktu.getUpdateWaktu()+"</p></html>");
+                        tglNow = waktu.getUpdateTime();
+                        inpTanggal.setText("<html><p>:&nbsp;"+tglNow+"</p></html>");
                         Thread.sleep(100);
                     }
                 }catch(InterruptedException ex){
@@ -663,7 +661,27 @@ public class TransaksiJual extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        int status;
+        Audio.play(Audio.SOUND_INFO);
+        status = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin membatalkan transaksi?", "Confirm", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
         
+        switch(status){
+            case JOptionPane.YES_OPTION : {
+                // mereset tabel
+                this.updateTabelPembeli();
+                this.updateTabelBarang();
+
+                // mereset input
+                this.inpNamaPembeli.setText("<html><p>:&nbsp;</p></html>");
+                this.inpNamaBarang.setText("<html><p>:&nbsp;</p></html>");
+                this.inpJumlah.setText("1");
+                this.inpMetode.setSelectedIndex(0);
+                this.inpTotalHarga.setText("<html><p>:&nbsp;</p></html>");
+                break;
+            }
+        }
+        
+
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void inpCariPembeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariPembeliKeyTyped
@@ -673,7 +691,49 @@ public class TransaksiJual extends javax.swing.JPanel {
     }//GEN-LAST:event_inpCariPembeliKeyTyped
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        this.idTr = this.trj.createIDTransaksi();
+        this.idPetugas = this.user.getCurrentLogin();
         
+        // cek apakah user sudah memilih pembeli
+        if(this.tabelDataPembeli.getSelectedRow() > -1){
+            // mendapatkan data pembeli
+            this.idPembeli = this.tabelDataPembeli.getValueAt(this.tabelDataPembeli.getSelectedRow(), 0).toString();
+            this.namaPembeli = this.pembeli.getNama(this.idPembeli);
+        }else{
+            Message.showWarning(this, "Tidak ada data pembeli yang dipilih!");
+            return;
+        }
+        
+        // cek apakah user sudah memilih data barang
+        if(this.tabelDataBarang.getSelectedRow() > -1){
+            // mendapatkan data barang
+            this.idBarang = this.tabelDataBarang.getValueAt(this.tabelDataBarang.getSelectedRow(), 0).toString();
+            this.namaBarang = this.barang.getNamaBarang(this.idBarang);
+            this.jumlah = Integer.parseInt(this.inpJumlah.getText());
+            this.hargaJual = Integer.parseInt(this.barang.getHargaJual(this.idBarang));
+            this.totalHarga = hargaJual * jumlah;
+            switch(this.inpMetode.getSelectedIndex()){
+                case 1 : this.metodeBayar = "CASH"; break;
+                case 2 : this.metodeBayar = "E-WALLET"; break;
+                default : Message.showWarning(this, "Silahkan pilih metode pembayaran terlebih dahulu!"); return;
+            }
+            this.namaTr = String.format("%s membeli %s sebanyak %s dengan total harga %s", this.namaPembeli, this.namaBarang, this.jumlah, text.toMoneyCase(""+this.totalHarga));
+        }else{
+            Message.showWarning(this, "Tidak ada data barang yang dipilih!");
+            return;
+        }
+        
+        System.out.println("");
+        System.out.println("ID Transaksi : " + this.idTr);
+        System.out.println("Nama Transaksi : " + this.namaTr);
+        System.out.println("ID Petugas : " + this.idPetugas);
+        System.out.println("ID Pembeli : " + this.idPembeli);
+        System.out.println("ID Barang : " + this.idBarang);
+        System.out.println("Jumlah : " + this.jumlah);
+        System.out.println("Metode Bayar : " + this.metodeBayar);
+        System.out.println("Total Harga : " + this.totalHarga);
+        System.out.println("Tanggal : " + this.tglNow);
+        System.out.println("");
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnAddJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddJumlahActionPerformed
