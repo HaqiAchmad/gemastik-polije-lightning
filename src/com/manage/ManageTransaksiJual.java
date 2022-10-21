@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Achmad Baihaqi
  */
-public class TransaksiJual extends Database{
+public class ManageTransaksiJual extends Database{
     
     private enum TRJ{
         ID_TR_JUAL, NAMA_TR_JUAl, ID_PETUGAS, ID_PEMBELI, ID_BARANG, 
@@ -26,7 +26,7 @@ public class TransaksiJual extends Database{
     
     private final String table = DatabaseTables.TRANSAKSI_JUAL.name();
     
-    public TransaksiJual(){
+    public ManageTransaksiJual(){
         super.startConnection();
     }
     
@@ -284,7 +284,7 @@ public class TransaksiJual extends Database{
     public static void main(String[] args) {
         
         Log.createLog();
-        TransaksiJual tr = new TransaksiJual();
+        ManageTransaksiJual tr = new ManageTransaksiJual();
 //        System.out.println(tr.isExistID("TRJ0002"));
 //        System.out.println(tr.getLastID());
 //        System.out.println(tr.createID());
