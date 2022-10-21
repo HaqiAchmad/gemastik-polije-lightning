@@ -73,7 +73,6 @@ public class KonfirmasiPembayaran extends javax.swing.JDialog {
         this.namaTr = namaTrBeli;
         this.idPetugas = idPetugas;
         this.idSupplier = idSupplier;
-        System.out.println("PUT BELI : " + this.idSupplier);
         this.namaSupplier = this.supplier.getNama(this.idSupplier);
         this.idBarang = idBarang;
         this.namaBarang = this.barang.getNamaBarang(idBarang);
