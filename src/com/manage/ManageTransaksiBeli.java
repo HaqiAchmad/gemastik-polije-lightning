@@ -90,17 +90,14 @@ public class ManageTransaksiBeli extends Database{
                 pst.setString(7, metodeByr);
                 pst.setInt(8, Integer.parseInt(ttlHarga));
                 pst.setString(9, tanggal);
-                
-                return pst.executeUpdate() > 0;
-                
+  
                 // mengekusi query
-//                if(pst.executeUpdate() > 0){
-//                    // menambahkan laporan pendapatan
-//                    return this.addLaporanPengeluaran(idLaporan, namaTrJual, idTrb, tanggal, ttlHarga);
-//                }
+                if(pst.executeUpdate() > 0){
+                    // menambahkan laporan pendapatan
+                    return this.addLaporanPengeluaran(idLaporan, namaTrJual, idTrb, tanggal, ttlHarga);
+                }
             }
         } catch (SQLException | InValidUserDataException ex) {
-            ex.printStackTrace();
             System.out.println("Error Message : " + ex.getMessage());
         }
         return false;
