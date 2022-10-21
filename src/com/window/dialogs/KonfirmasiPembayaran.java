@@ -27,7 +27,7 @@ public class KonfirmasiPembayaran extends javax.swing.JDialog {
     
     private final Text text = new Text();
     
-    private static final int OPSI_JUAL = 1, OPSI_BELI = 2;
+    public static final int OPSI_JUAL = 1, OPSI_BELI = 2;
     
     private int opsi, stok;
     
@@ -73,7 +73,8 @@ public class KonfirmasiPembayaran extends javax.swing.JDialog {
         this.namaTr = namaTrBeli;
         this.idPetugas = idPetugas;
         this.idSupplier = idSupplier;
-        this.namaSupplier = this.supplier.getNama(idSupplier);
+        System.out.println("PUT BELI : " + this.idSupplier);
+        this.namaSupplier = this.supplier.getNama(this.idSupplier);
         this.idBarang = idBarang;
         this.namaBarang = this.barang.getNamaBarang(idBarang);
         this.jumlah = jmlBrg;
@@ -364,7 +365,26 @@ public class KonfirmasiPembayaran extends javax.swing.JDialog {
                 break;
             }
             case OPSI_BELI : {
-                
+                System.out.println("ID SUUUUPPPPPLIEER : " + this.idSupplier);
+                save = this.trb.addTransaksiBeli(
+                        namaTr, 
+                        idPetugas, 
+                        this.idSupplier, 
+                        idBarang, 
+                        jumlah, 
+                        metodeBayar, 
+                        totalHarga, 
+                        tgl);
+                if(save){
+                    Message.showInformation(this, "Transaksi berhasil!");
+                    this.isUpdated = true;
+                    // mengurangi stok dari barang
+                    this.stok = Integer.parseInt(this.barang.getStok(this.idBarang)) + Integer.parseInt(this.jumlah);
+                    this.barang.setStok(this.idBarang, Integer.toString(stok));
+                    // menutup koneksi dan window
+                    this.closeConn();
+                    this.dispose();
+                }
                 break;
             }
         }
