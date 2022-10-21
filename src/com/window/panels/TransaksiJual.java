@@ -26,7 +26,7 @@ public class TransaksiJual extends javax.swing.JPanel {
     
     private final Barang barang = new Barang();
     
-    private final com.manage.TransaksiJual trj = new com.manage.TransaksiJual();
+    private final com.manage.ManageTransaksiJual trj = new com.manage.ManageTransaksiJual();
     
     private final Text text = new Text();
     
@@ -683,8 +683,6 @@ public class TransaksiJual extends javax.swing.JPanel {
                 break;
             }
         }
-        
-
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void inpCariPembeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariPembeliKeyTyped
