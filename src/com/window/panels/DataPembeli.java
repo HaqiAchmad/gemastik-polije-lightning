@@ -46,7 +46,7 @@ public class DataPembeli extends javax.swing.JPanel {
         initComponents();
 //        this.showPieChart();
         
-        this.chart.showPieChart(this.pieChart, "Produk yang dibeli Achmad Baihaqi", new Font("Ebrima", 1, 20), 15, 20, 60, 0);
+//        this.chart.showPieChart(this.pieChart, "Produk yang dibeli Achmad Baihaqi", new Font("Ebrima", 1, 20), 15, 20, 60, 0);
         
         this.btnAdd.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         this.btnEdit.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -270,15 +270,15 @@ public class DataPembeli extends javax.swing.JPanel {
 
         valIDPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPembeli.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPembeli.setText(": PB289");
+        valIDPembeli.setText(":");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaPembeli.setText(": Achmad Baihaqi");
+        valNamaPembeli.setText(":");
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
-        valNoTelp.setText(": 085655864624");
+        valNoTelp.setText(":");
         valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 valNoTelpMouseClicked(evt);
@@ -293,23 +293,23 @@ public class DataPembeli extends javax.swing.JPanel {
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
-        valAlamat.setText(": Jombang, Jawa Timur, Indonesia");
+        valAlamat.setText(":");
 
         valFavorite.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valFavorite.setForeground(new java.awt.Color(0, 0, 0));
-        valFavorite.setText(": Teh Pucuk");
+        valFavorite.setText(":");
 
         valPembelian.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valPembelian.setForeground(new java.awt.Color(0, 0, 0));
-        valPembelian.setText(": 19 Pembelian");
+        valPembelian.setText(":");
 
         valUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valUang.setForeground(new java.awt.Color(0, 0, 0));
-        valUang.setText(": Rp. 95.000");
+        valUang.setText(":");
 
         valLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLast.setForeground(new java.awt.Color(0, 0, 0));
-        valLast.setText(": 07 Oktober 2022");
+        valLast.setText(":");
 
         javax.swing.GroupLayout pnlDataPembeliLayout = new javax.swing.GroupLayout(pnlDataPembeli);
         pnlDataPembeli.setLayout(pnlDataPembeliLayout);

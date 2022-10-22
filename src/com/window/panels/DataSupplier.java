@@ -362,15 +362,15 @@ public class DataSupplier extends javax.swing.JPanel {
 
         valIDSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valIDSupplier.setText(": SP001");
+        valIDSupplier.setText(":");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaSupplier.setText(": Achmad Baihaqi");
+        valNamaSupplier.setText(":");
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
-        valNoTelp.setText(": 085655864624");
+        valNoTelp.setText(":");
         valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 valNoTelpMouseClicked(evt);
@@ -385,19 +385,19 @@ public class DataSupplier extends javax.swing.JPanel {
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
-        valAlamat.setText(": Jombang, Jawa Timur, Indonesia");
+        valAlamat.setText(":");
 
         valBrgSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valBrgSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valBrgSupplier.setText(": 341 Barang");
+        valBrgSupplier.setText(":");
 
         valUang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valUang.setForeground(new java.awt.Color(0, 0, 0));
-        valUang.setText(": Rp. 1.390.000");
+        valUang.setText(":");
 
         valLast.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLast.setForeground(new java.awt.Color(0, 0, 0));
-        valLast.setText(": 07 Oktober 2022");
+        valLast.setText(":");
 
         javax.swing.GroupLayout valDataSupplierLayout = new javax.swing.GroupLayout(valDataSupplier);
         valDataSupplier.setLayout(valDataSupplierLayout);

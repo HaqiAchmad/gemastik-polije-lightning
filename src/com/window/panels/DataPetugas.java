@@ -308,15 +308,15 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valIDPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPetugas.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPetugas.setText(": KY003");
+        valIDPetugas.setText(":");
 
         valNamaPetugas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPetugas.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaPetugas.setText(": Amirzan Fikiri Prasetyo");
+        valNamaPetugas.setText(":");
 
         valNoTelp.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNoTelp.setForeground(new java.awt.Color(0, 0, 0));
-        valNoTelp.setText(": 085739499321");
+        valNoTelp.setText(":");
         valNoTelp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 valNoTelpMouseClicked(evt);
@@ -331,23 +331,23 @@ public class DataPetugas extends javax.swing.JPanel {
 
         valAlamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valAlamat.setForeground(new java.awt.Color(0, 0, 0));
-        valAlamat.setText(": Jombang, Jawa Timur, Indonesia");
+        valAlamat.setText(":");
 
         valTotalTrJual.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTotalTrJual.setForeground(new java.awt.Color(0, 0, 0));
-        valTotalTrJual.setText(": 465  Transaksi");
+        valTotalTrJual.setText(":");
 
         valTotalTrBeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTotalTrBeli.setForeground(new java.awt.Color(0, 0, 0));
-        valTotalTrBeli.setText(": 134 Transaksi");
+        valTotalTrBeli.setText(":");
 
         valLastTr.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLastTr.setForeground(new java.awt.Color(0, 0, 0));
-        valLastTr.setText(": Selasa, 11 Oktober 2022");
+        valLastTr.setText(":");
 
         valLevel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valLevel.setForeground(new java.awt.Color(0, 0, 0));
-        valLevel.setText(": Karyawan");
+        valLevel.setText(":");
 
         javax.swing.GroupLayout pnlDataPetugasLayout = new javax.swing.GroupLayout(pnlDataPetugas);
         pnlDataPetugas.setLayout(pnlDataPetugasLayout);

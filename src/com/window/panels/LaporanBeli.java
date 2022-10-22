@@ -467,35 +467,35 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valIDPengeluaran.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPengeluaran.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPengeluaran.setText(": PG0005");
+        valIDPengeluaran.setText(":");
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
-        valIDTransaksi.setText(": TR0005");
+        valIDTransaksi.setText(":");
 
         valNamaSupplier.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaSupplier.setText(": Ilham Islamy");
+        valNamaSupplier.setText(":");
 
         valNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaKaryawan.setText(": Amirzan F");
+        valNamaKaryawan.setText(":");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaBarang.setText(": Sprite");
+        valNamaBarang.setText(":");
 
         valJenisBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJenisBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valJenisBrg.setText(": Minuman");
+        valJenisBrg.setText(":");
 
         valJumlahBrg.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJumlahBrg.setForeground(new java.awt.Color(0, 0, 0));
-        valJumlahBrg.setText(": 15");
+        valJumlahBrg.setText(":");
 
         valHarga.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valHarga.setForeground(new java.awt.Color(0, 0, 0));
-        valHarga.setText(": Rp. 48.000.00");
+        valHarga.setText(":");
 
         lblTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));
@@ -503,7 +503,7 @@ public class LaporanBeli extends javax.swing.JPanel {
 
         valTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTanggal.setForeground(new java.awt.Color(0, 0, 0));
-        valTanggal.setText(": Minggu, 02 Oktober 2022");
+        valTanggal.setText(":");
 
         javax.swing.GroupLayout pnlDataPengeluaranLayout = new javax.swing.GroupLayout(pnlDataPengeluaran);
         pnlDataPengeluaran.setLayout(pnlDataPengeluaranLayout);

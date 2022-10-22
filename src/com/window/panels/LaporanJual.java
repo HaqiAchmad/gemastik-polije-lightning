@@ -447,35 +447,35 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valIDPendapatan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDPendapatan.setForeground(new java.awt.Color(0, 0, 0));
-        valIDPendapatan.setText(": PD0002");
+        valIDPendapatan.setText(":");
 
         valIDTransaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valIDTransaksi.setForeground(new java.awt.Color(0, 0, 0));
-        valIDTransaksi.setText(": TR0002");
+        valIDTransaksi.setText(":");
 
         valNamaPembeli.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaPembeli.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaPembeli.setText(": Ilham Islamy");
+        valNamaPembeli.setText(":");
 
         valNamaKaryawan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaKaryawan.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaKaryawan.setText(": Amirzan F");
+        valNamaKaryawan.setText(":");
 
         valNamaBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
-        valNamaBarang.setText(": Teh Pucuk");
+        valNamaBarang.setText(":");
 
         valJenisBarang.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJenisBarang.setForeground(new java.awt.Color(0, 0, 0));
-        valJenisBarang.setText(": Minuman");
+        valJenisBarang.setText(":");
 
         valJumlah.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valJumlah.setForeground(new java.awt.Color(0, 0, 0));
-        valJumlah.setText(": 2");
+        valJumlah.setText(":");
 
         valTotalHarga.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTotalHarga.setForeground(new java.awt.Color(0, 0, 0));
-        valTotalHarga.setText(": Rp. 10.000.00");
+        valTotalHarga.setText(":");
 
         lblTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTanggal.setForeground(new java.awt.Color(0, 0, 0));
@@ -483,7 +483,7 @@ public class LaporanJual extends javax.swing.JPanel {
 
         valTanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         valTanggal.setForeground(new java.awt.Color(0, 0, 0));
-        valTanggal.setText(": Sabtu, 01 Oktober 2022");
+        valTanggal.setText(":");
 
         javax.swing.GroupLayout pnlDataPendapatanLayout = new javax.swing.GroupLayout(pnlDataPendapatan);
         pnlDataPendapatan.setLayout(pnlDataPendapatanLayout);
