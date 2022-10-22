@@ -1,5 +1,7 @@
 package com.window.panels;
 
+import com.data.db.DatabaseTables;
+import com.manage.Barang;
 import com.manage.Internet;
 import com.manage.Message;
 import com.manage.Text;
@@ -25,11 +27,13 @@ public class DataSupplier extends javax.swing.JPanel {
     
     private final Supplier supplier = new Supplier();
     
+    private final Barang barang = new Barang();
+    
     private final Internet net = new Internet();
     
     private final Text text = new Text();
     
-    private String idSelected = "", keyword = "", namaSupplier, noTelp, alamat;
+    private String idSelected = "", keyword = "", namaSupplier, noTelp, alamat, ttBrg, ttlUang, last;
     
     
     public DataSupplier() {
@@ -84,6 +88,7 @@ public class DataSupplier extends javax.swing.JPanel {
             });
         
         this.updateTabel();
+        this.updateTabelHistori();
         }
     }
 
@@ -130,17 +135,66 @@ public class DataSupplier extends javax.swing.JPanel {
         });
     }
     
+    private Object[][] getDataHistori(){
+        try{
+            Object[][] obj;
+            int rows = 0;
+            String sql = "SELECT id_tr_beli, id_barang, jumlah_brg, total_hrg FROM transaksi_beli where id_supplier = '"+this.idSelected+"'";
+            // mendefinisikan object berdasarkan total rows dan cols yang ada didalam tabel
+            obj = new Object[supplier.getJumlahData("transaksi_beli", "where id_supplier = '"+this.idSelected+"'")][4];
+            // mengeksekusi query
+            supplier.res = supplier.stat.executeQuery(sql);
+            // mendapatkan semua data yang ada didalam tabel
+            while(supplier.res.next()){
+                // menyimpan data dari tabel ke object
+                obj[rows][0] = supplier.res.getString("id_tr_beli");
+                obj[rows][1] = barang.getNamaBarang(supplier.res.getString("id_barang"));
+                obj[rows][2] = supplier.res.getString("jumlah_brg");
+                obj[rows][3] = text.toMoneyCase(supplier.res.getString("total_hrg"));
+                rows++; // rows akan bertambah 1 setiap selesai membaca 1 row pada tabel
+            }
+            return obj;
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi kesalahan saat mengambil data dari database\n" + ex.getMessage(), ex, true);
+        }
+        return null;
+    }
+    
+    private void updateTabelHistori(){
+        this.tabelHistori.setModel(new javax.swing.table.DefaultTableModel(
+            getDataHistori(),
+            new String [] {
+                "ID Penggeluaran", "Nama Barang", "Jumlah", "Total Harga"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+    
     public void showData(){
         // mendapatkan data
         this.namaSupplier = supplier.getNama(this.idSelected);
         this.noTelp = text.toTelephoneCase(supplier.getNoTelp(this.idSelected));
         this.alamat = supplier.getAlamat(this.idSelected);
+        this.ttBrg = ""+this.supplier.getJumlahData(DatabaseTables.TRANSAKSI_BELI.name(), String.format("WHERE id_supplier='%s'", this.idSelected));
+        this.ttlUang = text.toMoneyCase(""+this.supplier.sumData(DatabaseTables.TRANSAKSI_BELI.name(), "total_hrg", String.format("where id_supplier = '%s'", this.idSelected)));
+        this.last = this.text.toDateCase(this.supplier.getData(DatabaseTables.TRANSAKSI_BELI.name(), "tanggal", "WHERE id_supplier = '" + this.idSelected + "'  ORDER BY tanggal DESC"));
         
         // menampilkan data
         this.valIDSupplier.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
         this.valNamaSupplier.setText("<html><p>:&nbsp;"+namaSupplier+"</p></html>");
         this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
         this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+        this.valBrgSupplier.setText("<html><p>:&nbsp;"+ttBrg+" Barang</p></html>");
+        this.valUang.setText("<html><p>:&nbsp;"+ttlUang+"</p></html>");
+        this.valLast.setText("<html><p>:&nbsp;"+last+"</p></html>");
     }
     
     @SuppressWarnings("unchecked")
@@ -202,6 +256,9 @@ public class DataSupplier extends javax.swing.JPanel {
 
         inpCari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inpCariKeyTyped(evt);
             }
@@ -594,6 +651,7 @@ public class DataSupplier extends javax.swing.JPanel {
         // menampilkan data supplier
         this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow(), 0).toString();
         this.showData();
+        this.updateTabelHistori();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataMouseClicked
 
@@ -602,9 +660,11 @@ public class DataSupplier extends javax.swing.JPanel {
         if(evt.getKeyCode() == KeyEvent.VK_UP){
             this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() - 1, 0).toString();
             this.showData();
+            this.updateTabelHistori();
         }else if(evt.getKeyCode() == KeyEvent.VK_DOWN){
             this.idSelected = this.tabelData.getValueAt(tabelData.getSelectedRow() + 1, 0).toString();
             this.showData();
+            this.updateTabelHistori();
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_tabelDataKeyPressed
@@ -638,6 +698,12 @@ public class DataSupplier extends javax.swing.JPanel {
         this.keyword = "WHERE id_supplier LIKE '%"+key+"%' OR nama_supplier LIKE '%"+key+"%'";
         this.updateTabel();
     }//GEN-LAST:event_inpCariKeyTyped
+
+    private void inpCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyReleased
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_supplier LIKE '%"+key+"%' OR nama_supplier LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
