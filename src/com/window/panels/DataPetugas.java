@@ -40,7 +40,7 @@ public class DataPetugas extends javax.swing.JPanel {
     
     private final Text text = new Text();
     
-    private String idSelected = "", keyword = "", namaPetugas, noTelp, alamat, level;
+    private String idSelected = "", keyword = "", namaPetugas, noTelp, alamat, level, ttlTrBeli, ttlTrJual, last;
     
     public DataPetugas() {
         initComponents();
@@ -213,6 +213,9 @@ public class DataPetugas extends javax.swing.JPanel {
         this.noTelp = text.toTelephoneCase(petugas.getNoTelp(this.idSelected));
         this.alamat = petugas.getAlamat(this.idSelected);
         this.level = text.toCapitalize(petugas.getLevel(this.idSelected).name());
+        this.ttlTrBeli = ""+this.petugas.getJumlahData(DatabaseTables.TRANSAKSI_BELI.name(), "WHERE id_petugas = '" + this.idSelected + "'");
+        this.ttlTrJual = ""+this.petugas.getJumlahData(DatabaseTables.TRANSAKSI_JUAL.name(), "WHERE id_petugas = '" + this.idSelected + "'");
+        this.last = this.text.toDateCase(this.petugas.getData(DatabaseTables.TRANSAKSI_JUAL.name(), "tanggal", "WHERE id_petugas = '" + this.idSelected + "' ORDER BY tanggal DESC"));
         
         // menampilkan data
         this.valIDPetugas.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
@@ -220,6 +223,9 @@ public class DataPetugas extends javax.swing.JPanel {
         this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
         this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
         this.valLevel.setText("<html><p>:&nbsp;"+level+"</p></html>");
+        this.valTotalTrBeli.setText("<html><p>:&nbsp;"+ttlTrBeli+" Transaksi</p></html>");
+        this.valTotalTrJual.setText("<html><p>:&nbsp;"+ttlTrJual+" Transaksi</p></html>");
+        this.valLastTr.setText("<html><p>:&nbsp;"+last+"</p></html>");
     }
     
     @SuppressWarnings("unchecked")
@@ -648,13 +654,13 @@ public class DataPetugas extends javax.swing.JPanel {
                     this.updateTabel();
                     this.showData();
                 }
-                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }else{
                     Message.showWarning(this, "Tidak ada data yang dipilih!!", true);
             }
         }else{
             Message.showWarning(this, "Access Denied!\nAnda bukan Admin!");
         }
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
