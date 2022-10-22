@@ -147,6 +147,19 @@ public class Database {
         return this.getJumlahData(tabel, "");
     }
     
+    public int sumData(String tabel, String field, String kondisi){
+        try{
+            String query = "SELECT SUM("+field+") AS total FROM " + tabel + " " + kondisi;
+            res = stat.executeQuery(query);
+            if(res.next()){
+                return res.getInt("total");
+            }
+        }catch(SQLException ex){
+            Message.showException(this, "Terjadi Kesalahan!\n\nError message : "+ex.getMessage(), ex, true);
+        }
+        return -1;
+    }
+    
     public boolean isExistData(String tabel, String field, String data){
         try{
             String query = "SELECT * FROM " + tabel + " WHERE " + field + " = '" + data + "'";
