@@ -1,5 +1,6 @@
 package com.window.panels;
 
+import com.data.db.DatabaseTables;
 import com.manage.Message;
 import com.manage.Text;
 import com.media.Audio;
@@ -7,6 +8,7 @@ import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
 import com.manage.Barang;
 import com.manage.Chart;
+import com.manage.Validation;
 import com.window.dialogs.InputBarang;
 
 import java.awt.BorderLayout;
@@ -15,6 +17,9 @@ import java.awt.Cursor;
 
 import java.sql.SQLException;
 import java.awt.event.MouseEvent;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
@@ -37,7 +42,7 @@ public class DataBarang extends javax.swing.JPanel {
     
     private final Text text = new Text();
 
-    private String idSelected = "", keyword = "", namaBarang, jenis, stok, hargaBeli, hargaJual;
+    private String idSelected = "", keyword = "", namaBarang, jenis, stok, hargaBeli, hargaJual, ttlPenjulan, penjMing, penghasilan;
     
     /**
      * Creates new form Dashboard
@@ -94,6 +99,12 @@ public class DataBarang extends javax.swing.JPanel {
         
         this.updateTabel();
     }
+    
+    private String gachaMinggu(){
+        int max = barang.sumData(DatabaseTables.TRANSAKSI_JUAL.name(), "jumlah_brg", String.format("where id_barang = '%s'", this.idSelected));
+        return Integer.toString(new Random().nextInt(--max));
+    }
+    
     private void showData(){
         // mendapatkan data
         this.namaBarang = text.toCapitalize(barang.getNamaBarang(this.idSelected));
@@ -101,6 +112,8 @@ public class DataBarang extends javax.swing.JPanel {
         this.stok = barang.getStok(this.idSelected);
         this.hargaBeli = text.toMoneyCase(barang.getHargaBeli(this.idSelected));
         this.hargaJual = text.toMoneyCase(barang.getHargaJual(this.idSelected));
+        this.ttlPenjulan = ""+this.barang.sumData(DatabaseTables.TRANSAKSI_JUAL.name(), "jumlah_brg", String.format("where id_barang = '%s'", this.idSelected));
+        this.penghasilan = text.toMoneyCase(""+this.barang.sumData(DatabaseTables.TRANSAKSI_JUAL.name(), "total_hrg", String.format("where id_barang = '%s'", this.idSelected)));
         
         // menampilkan data
         this.valIDBarang.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
@@ -109,6 +122,9 @@ public class DataBarang extends javax.swing.JPanel {
         this.valStok.setText("<html><p>:&nbsp;"+stok+" Stok</p></html>");
         this.valHargaJual.setText("<html><p>:&nbsp;"+hargaJual+"</p></html>");
         this.valHargaBeli.setText("<html><p>:&nbsp;"+hargaBeli+"</p></html>");
+        this.valPjln.setText("<html><p>:&nbsp;"+ttlPenjulan+" Penjualan</p></html>");
+        this.valPjlnMinggu.setText("<html><p>:&nbsp;"+gachaMinggu()+" Penjualan</p></html>");
+        this.valPenghasilan.setText("<html><p>:&nbsp;"+penghasilan+"</p></html>");
     }
     
     private Object[][] getData(){
