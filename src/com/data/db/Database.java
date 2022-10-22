@@ -49,9 +49,6 @@ public class Database {
                                 USER = "root",
                                 PASS = "";
     
-    public static final String FOTO_PROFILE = "foto_profile", PETUGAS = "petugas", USERS = "users", SISWA = "siswa",
-                               PEMBAYARAN = "pembayaran", KELAS = "kelas", SPP = "spp", LOGIN = "login";
-    
     /**
      * Digunakan untuk menghubungkan aplikasi ke <B>Database</B>. 
      * <BR>
@@ -273,12 +270,4 @@ public class Database {
         return false;
     }    
     
-    public static void main(String[] args) {
-        
-        Log.createLog();
-        Database dbase = new Database();
-        dbase.startConnection();
-        dbase.closeConnection();
-        
-    }
 }
