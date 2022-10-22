@@ -1,5 +1,7 @@
 package com.window.panels;
 
+import com.data.db.DatabaseTables;
+import com.manage.Barang;
 import com.manage.Chart;
 import com.manage.Internet;
 import com.manage.Message;
@@ -17,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,6 +29,8 @@ import javax.swing.JOptionPane;
  */
 public class DataPembeli extends javax.swing.JPanel {
     
+    private final Barang barang = new Barang();
+    
     private final Pembeli pembeli = new Pembeli();
     
     private final Chart chart = new Chart();
@@ -34,7 +39,7 @@ public class DataPembeli extends javax.swing.JPanel {
     
     private final Text text = new Text();
 
-    private String idSelected = "", keyword = "", namaPembeli, noTelp, alamat;
+    private String idSelected = "", keyword = "", namaPembeli, noTelp, alamat, favorite, ttlPem, ttlUang, last;
     
     
     public DataPembeli() {
@@ -133,21 +138,54 @@ public class DataPembeli extends javax.swing.JPanel {
             }
         });
     }
+
+    
+    private void gachaPie(){
+        Random rand = new Random();
+        int[] values = new int[4];
+        values[0] = 0; values[1] = 0; values[2] = 0;values[3] = 0;
+        int persen = 0, buff;
+        while(true){
+            if(persen >= 100){
+                break;
+            }
+            for (int i = 0; i < values.length; i++) {
+                buff = rand.nextInt(37);
+                persen += buff;
+                values[i] += buff;
+            }            
+        }
+        
+        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaPembeli, new Font("Ebrima", 1, 18), values[0], values[1], values[2], values[3]);
+    }
+    
+    private String gachaFavorite(){
+        Random rand = new Random();
+        return this.barang.getNamaBarang(String.format("BG%03d", rand.nextInt(16)+1));
+    }
     
     private void showData(){
         // mendapatkan data
         this.namaPembeli = pembeli.getNama(this.idSelected);
         this.noTelp = text.toTelephoneCase(pembeli.getNoTelp(this.idSelected));
         this.alamat = pembeli.getAlamat(this.idSelected);
+        this.ttlPem = ""+this.pembeli.getJumlahData(DatabaseTables.TRANSAKSI_JUAL.name(), "WHERE id_pembeli = '" + this.idSelected + "'");
+        this.ttlUang = text.toMoneyCase("" + this.pembeli.sumData(DatabaseTables.TRANSAKSI_JUAL.name(), "total_hrg", String.format("where id_pembeli = '%s'", this.idSelected)));
+        this.last = this.text.toDateCase(this.pembeli.getData(DatabaseTables.TRANSAKSI_JUAL.name(), "tanggal", "WHERE id_pembeli = '" + this.idSelected + "'  ORDER BY tanggal DESC"));
+        this.favorite = this.gachaFavorite();
         
         // menampilkan data
         this.valIDPembeli.setText("<html><p>:&nbsp;"+idSelected+"</p></html>");
         this.valNamaPembeli.setText("<html><p>:&nbsp;"+namaPembeli+"</p></html>");
         this.valNoTelp.setText("<html><p style=\"text-decoration:underline; color:rgb(0,0,0);\">:&nbsp;"+noTelp+"</p></html>");
         this.valAlamat.setText("<html><p>:&nbsp;"+alamat+"</p></html>");
+        this.valPembelian.setText("<html><p>:&nbsp;"+ttlPem+" Pembelian</p></html>");
+        this.valUang.setText("<html><p>:&nbsp;"+ttlUang+"</p></html>");
+        this.valLast.setText("<html><p>:&nbsp;"+last+"</p></html>");
+        this.valFavorite.setText("<html><p>:&nbsp;"+favorite+"</p></html>");
         
         // menampilkan chart
-        this.chart.showPieChart(this.pieChart, "Produk yang dibeli " + this.namaPembeli, new Font("Ebrima", 1, 18), 15, 20, 60, 0);
+        this.gachaPie();
     }
     
     @SuppressWarnings("unchecked")
@@ -383,6 +421,9 @@ public class DataPembeli extends javax.swing.JPanel {
             }
         });
         inpCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inpCariKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inpCariKeyTyped(evt);
             }
@@ -647,6 +688,12 @@ public class DataPembeli extends javax.swing.JPanel {
     private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
         this.btnAdd.setIcon(Gambar.getIcon("ic-data-tambah-entered.png"));
     }//GEN-LAST:event_btnAddMouseEntered
+
+    private void inpCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inpCariKeyReleased
+        String key = this.inpCari.getText();
+        this.keyword = "WHERE id_pembeli LIKE '%"+key+"%' OR nama_pembeli LIKE '%"+key+"%'";
+        this.updateTabel();
+    }//GEN-LAST:event_inpCariKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
