@@ -8,14 +8,15 @@ import com.manage.Waktu;
 import com.media.Audio;
 import com.media.Gambar;
 import com.sun.glass.events.KeyEvent;
-import com.users.Pembeli;
 import com.users.Petugas;
 import com.users.Supplier;
 import com.window.dialogs.CetakLaporan;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
@@ -64,6 +65,43 @@ public class LaporanBeli extends javax.swing.JPanel {
         this.tabelData.setRowHeight(29);
         this.tabelData.getTableHeader().setBackground(new java.awt.Color(255,255,255));
         this.tabelData.getTableHeader().setForeground(new java.awt.Color(0, 0, 0));
+        
+        JLabel[] lbls = new JLabel[]{
+            this.valIDPengeluaran, this.valIDTransaksi, this.valNamaBarang, this.valNamaKaryawan, this.valNamaSupplier, 
+            this.valJenisBrg, this.valJumlahBrg, this.valTanggal, this.valHarga
+        };
+        
+        for(JLabel lbl : lbls){
+            lbl.addMouseListener(new java.awt.event.MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    lbl.setForeground(new Color(15,98,230));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    lbl.setForeground(new Color(0,0,0));
+                }
+            });
+        }
         
         this.showLineChart1();
         this.showLineChart2();
